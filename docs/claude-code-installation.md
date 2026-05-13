@@ -2,7 +2,9 @@
 
 Claude Code is the primary installation path for this repository.
 
-This is not an official Anthropic plugin. It is a filesystem-based skill pack made of plain folders that contain `SKILL.md` files.
+This is not an official Anthropic plugin.
+
+It is a filesystem-based skill pack made of plain folders that contain `SKILL.md` files.
 
 Claude Code can use filesystem-based skills from these locations:
 
@@ -83,4 +85,4 @@ After installation, invoke skills directly:
 
 Claude may also invoke skills automatically when their descriptions match the task.
 
-Use the workflow artifacts such as `SPEC.md`, `PLAN.md`, `VERIFY.md`, and `HANDOFF.md` to keep project context durable.
+Use workflow artifacts such as `SPEC.md`, `PLAN.md`, `VERIFY.md`, and `HANDOFF.md` to keep project context durable.
