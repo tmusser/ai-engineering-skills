@@ -12,6 +12,24 @@ It helps an agent move from unclear request to usable result without losing the 
 
 This is not a generic prompt collection. It is not a heavyweight product process, a replacement for engineering judgment, or a framework for managing large teams. It is meant for small projects where fast progress still needs evidence, limits, and handoff notes.
 
+## Quickstart
+
+In a target project, install these as repo-scoped Codex skills:
+
+```bash
+mkdir -p .agents/skills docs/ai-workflow
+cp -R /path/to/ai-engineering-skills/skills/* .agents/skills/
+cp -R /path/to/ai-engineering-skills/templates/* docs/ai-workflow/
+```
+
+Then ask Codex:
+
+```text
+Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop before implementation.
+```
+
+Use `docs/ai-workflow/` for durable project state, or copy the templates to the project root if that is easier for the repo.
+
 ## Core workflow
 
 Use the full path when a project may change behavior, data, user decisions, or scheduled work:
@@ -89,7 +107,7 @@ Use mini ceremony for small local helpers, one-off analysis, isolated refactors,
 
 ## How to install/use with coding agents
 
-Copy the `skills/` directory into an agent skill location or reference these files directly in your agent instructions. Start new projects by copying the templates from `templates/` into the project root. Ask the agent to run the relevant skill by name and to update the matching durable artifact.
+For Codex repo-scoped usage, copy each skill directory into `.agents/skills/` in the target project. Start new projects by copying the templates from `templates/` into `docs/ai-workflow/` or the project root. Ask the agent to run the relevant skill by name and to update the matching durable artifact.
 
 For this repository, future agents should read `AGENTS.md` before editing.
 

@@ -1,3 +1,8 @@
+---
+name: grill-with-docs-lite
+description: Clarify ambiguous AI-engineering project ideas before specs or code by challenging vague terms, naming assumptions, and updating durable context.
+---
+
 # Grill With Docs Lite
 
 ## Purpose

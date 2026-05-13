@@ -1,3 +1,8 @@
+---
+name: thin-plan
+description: Convert a mini-spec into 3-7 vertical implementation slices that each produce observable behavior and can be verified independently.
+---
+
 # Thin Plan
 
 ## Purpose

@@ -22,6 +22,7 @@ REQUIRED_FILES = [
     "examples/small-dashboard-poc.md",
     "examples/agent-worker-poc.md",
     "examples/ml-model-poc.md",
+    ".github/workflows/validate.yml",
     "scripts/validate_repo.py",
 ]
 
@@ -50,6 +51,22 @@ REQUIRED_HEADINGS = [
 ]
 
 
+def parse_frontmatter(text: str) -> dict[str, str] | None:
+    if not text.startswith("---\n"):
+        return None
+    end = text.find("\n---\n", 4)
+    if end == -1:
+        return None
+
+    metadata: dict[str, str] = {}
+    for line in text[4:end].splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        metadata[key.strip()] = value.strip()
+    return metadata
+
+
 def main() -> int:
     errors = []
 
@@ -63,6 +80,14 @@ def main() -> int:
             errors.append(f"missing skill file: skills/{skill}/SKILL.md")
             continue
         text = skill_file.read_text(encoding="utf-8")
+        metadata = parse_frontmatter(text)
+        if metadata is None:
+            errors.append(f"skills/{skill}/SKILL.md missing YAML frontmatter")
+        else:
+            if metadata.get("name") != skill:
+                errors.append(f"skills/{skill}/SKILL.md frontmatter name must be: {skill}")
+            if not metadata.get("description"):
+                errors.append(f"skills/{skill}/SKILL.md frontmatter missing description")
         for heading in REQUIRED_HEADINGS:
             if heading not in text:
                 errors.append(f"skills/{skill}/SKILL.md missing heading: {heading}")

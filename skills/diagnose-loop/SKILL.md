@@ -1,3 +1,8 @@
+---
+name: diagnose-loop
+description: Debug failures systematically by reproducing the issue, listing hypotheses, applying the smallest fix, and rerunning verification.
+---
+
 # Diagnose Loop
 
 ## Purpose

@@ -1,3 +1,8 @@
+---
+name: build-one
+description: Implement exactly one planned slice, run the relevant verification, summarize the result, and stop before starting another task.
+---
+
 # Build One
 
 ## Purpose

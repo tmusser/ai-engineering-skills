@@ -1,3 +1,8 @@
+---
+name: handoff
+description: Compress project context into HANDOFF.md so the next agent session can continue without dragging a long chat history forward.
+---
+
 # Handoff
 
 ## Purpose

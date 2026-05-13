@@ -1,3 +1,8 @@
+---
+name: mini-spec
+description: Create a compact SPEC.md for fast solo AI-engineering projects when the goal is clear enough to define behavior, constraints, and verification.
+---
+
 # Mini Spec
 
 ## Purpose
