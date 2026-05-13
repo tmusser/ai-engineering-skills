@@ -1,6 +1,6 @@
 ---
 name: verify-contract
-description: Record proof that a task works by capturing commands run, pass/fail results, changed files, artifacts, risks, and the next safest task.
+description: Record proof that a task works with commands, results, files, and risks.
 ---
 
 # Verify Contract
@@ -11,7 +11,8 @@ Record proof that a task actually works.
 
 ## When to use
 
-Use after implementation, testing, bug fixes, data runs, screenshots, or manual smoke checks.
+Use after implementation, testing, bug fixes, data runs, screenshots, or manual
+smoke checks.
 
 ## Inputs
 

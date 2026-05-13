@@ -1,6 +1,6 @@
 ---
 name: bug-capture
-description: Preserve discovered bugs in BUGS.md with reproduction steps, expected behavior, affected files, hypothesis, status, and verification.
+description: Preserve discovered bugs in BUGS.md with reproduction and verification.
 ---
 
 # Bug Capture

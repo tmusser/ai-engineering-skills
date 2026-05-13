@@ -1,6 +1,6 @@
 ---
 name: mini-spec
-description: Create a compact SPEC.md for fast solo AI-engineering projects when the goal is clear enough to define behavior, constraints, and verification.
+description: Create a compact SPEC.md once behavior, constraints, and verification can be named.
 ---
 
 # Mini Spec
@@ -11,7 +11,8 @@ Create a small durable `SPEC.md` for fast solo projects.
 
 ## When to use
 
-Use after the project goal is clear enough to define behavior, constraints, and verification.
+Use after the project goal is clear enough to define behavior, constraints, and
+verification.
 
 ## Inputs
 
@@ -29,7 +30,7 @@ Use after the project goal is clear enough to define behavior, constraints, and 
 5. List commands needed to build, test, run, or inspect.
 6. Sketch the expected project structure.
 7. Define a verification demo.
-8. Keep the spec under 100 lines unless the risk justifies more.
+8. Keep the spec under 100 lines unless risk justifies more.
 
 ## Outputs
 

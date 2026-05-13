@@ -6,8 +6,10 @@ Build a dashboard that shows weekly qualified leads by channel for the last eigh
 
 ## Workflow
 
-1. Use `grill-with-docs-lite` to define "qualified lead", channel attribution, refresh cadence, and the exact eight-week date window.
-2. Use `mini-spec` to write acceptance criteria: KPI total, weekly grain, channel filter, empty-state behavior, and export path.
+1. Use `grill-with-docs-lite` to define "qualified lead", channel attribution,
+   refresh cadence, and the exact eight-week date window.
+2. Use `mini-spec` to write acceptance criteria: KPI total, weekly grain,
+   channel filter, empty-state behavior, and export path.
 3. Use `thin-plan` to create slices: fixture data, KPI table, trend chart, filters, verification.
 4. Use `scope-freeze` to allow only dashboard code, fixture files, and tests.
 5. Use `build-one` to render the KPI table from a fixture before connecting live data.

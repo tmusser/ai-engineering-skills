@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-from pathlib import Path
 import sys
+from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW_FILE = ".github/workflows/validate.yml"
 
 REQUIRED_FILES = [
     "README.md",
@@ -22,11 +23,11 @@ REQUIRED_FILES = [
     "examples/small-dashboard-poc.md",
     "examples/agent-worker-poc.md",
     "examples/ml-model-poc.md",
-    ".github/workflows/validate.yml",
+    WORKFLOW_FILE,
     "scripts/validate_repo.py",
 ]
 
-SKILLS = [
+REQUIRED_SKILLS = [
     "grill-with-docs-lite",
     "mini-spec",
     "thin-plan",
@@ -51,53 +52,83 @@ REQUIRED_HEADINGS = [
 ]
 
 
-def parse_frontmatter(text: str) -> dict[str, str] | None:
-    if not text.startswith("---\n"):
-        return None
-    end = text.find("\n---\n", 4)
-    if end == -1:
-        return None
+def read_text(rel_path: str) -> str:
+    return (ROOT / rel_path).read_text(encoding="utf-8")
+
+
+def parse_frontmatter(lines: list[str]) -> tuple[dict[str, str], list[str]]:
+    errors: list[str] = []
+
+    if not lines or lines[0] != "---":
+        return {}, ["frontmatter must start with --- on line 1"]
+
+    try:
+        end_index = lines[1:].index("---") + 1
+    except ValueError:
+        return {}, ["frontmatter must end with --- on its own line"]
 
     metadata: dict[str, str] = {}
-    for line in text[4:end].splitlines():
-        if ":" not in line:
+    for line_number, line in enumerate(lines[1:end_index], start=2):
+        if not line.strip():
             continue
+        if ":" not in line:
+            errors.append(f"frontmatter line {line_number} is not key: value")
+            continue
+
         key, value = line.split(":", 1)
-        metadata[key.strip()] = value.strip()
-    return metadata
+        key = key.strip()
+        value = value.strip()
+        if not key or not value:
+            errors.append(f"frontmatter line {line_number} must include key and value")
+            continue
+        metadata[key] = value
+
+    return metadata, errors
 
 
 def main() -> int:
-    errors = []
+    errors: list[str] = []
 
     for rel in REQUIRED_FILES:
         if not (ROOT / rel).is_file():
             errors.append(f"missing file: {rel}")
 
-    for skill in SKILLS:
-        skill_file = ROOT / "skills" / skill / "SKILL.md"
+    if not (ROOT / WORKFLOW_FILE).is_file():
+        errors.append(f"missing workflow file: {WORKFLOW_FILE}")
+
+    for skill in REQUIRED_SKILLS:
+        skill_dir = ROOT / "skills" / skill
+        skill_file = skill_dir / "SKILL.md"
+
+        if not skill_dir.is_dir():
+            errors.append(f"missing skill directory: skills/{skill}")
+            continue
+
         if not skill_file.is_file():
             errors.append(f"missing skill file: skills/{skill}/SKILL.md")
             continue
+
         text = skill_file.read_text(encoding="utf-8")
-        metadata = parse_frontmatter(text)
-        if metadata is None:
-            errors.append(f"skills/{skill}/SKILL.md missing YAML frontmatter")
-        else:
-            if metadata.get("name") != skill:
-                errors.append(f"skills/{skill}/SKILL.md frontmatter name must be: {skill}")
-            if not metadata.get("description"):
-                errors.append(f"skills/{skill}/SKILL.md frontmatter missing description")
+        lines = text.splitlines()
+        metadata, frontmatter_errors = parse_frontmatter(lines)
+
+        for error in frontmatter_errors:
+            errors.append(f"skills/{skill}/SKILL.md {error}")
+
+        if metadata.get("name") != skill:
+            errors.append(f"skills/{skill}/SKILL.md frontmatter name must be: {skill}")
+
+        if not metadata.get("description"):
+            errors.append(f"skills/{skill}/SKILL.md frontmatter missing description")
+
         for heading in REQUIRED_HEADINGS:
-            if heading not in text:
+            if heading not in lines:
                 errors.append(f"skills/{skill}/SKILL.md missing heading: {heading}")
 
-    license_text = (ROOT / "LICENSE").read_text(encoding="utf-8") if (ROOT / "LICENSE").exists() else ""
-    if "MIT License" not in license_text:
+    if (ROOT / "LICENSE").is_file() and "MIT License" not in read_text("LICENSE"):
         errors.append("LICENSE does not contain MIT License")
 
-    readme_text = (ROOT / "README.md").read_text(encoding="utf-8") if (ROOT / "README.md").exists() else ""
-    if "bounded scope" not in readme_text:
+    if (ROOT / "README.md").is_file() and "bounded scope" not in read_text("README.md"):
         errors.append("README.md does not contain phrase: bounded scope")
 
     if errors:
@@ -107,7 +138,7 @@ def main() -> int:
         return 1
 
     print("Validation passed.")
-    print(f"Checked {len(REQUIRED_FILES)} required files and {len(SKILLS)} skills.")
+    print(f"Checked {len(REQUIRED_FILES)} required files and {len(REQUIRED_SKILLS)} skills.")
     return 0
 
 

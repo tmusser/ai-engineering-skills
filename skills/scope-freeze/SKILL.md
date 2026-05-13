@@ -1,6 +1,6 @@
 ---
 name: scope-freeze
-description: Limit an agent's blast radius before implementation by defining allowed files, commands, forbidden operations, and stop conditions.
+description: Limit implementation blast radius before editing files.
 ---
 
 # Scope Freeze
@@ -11,7 +11,8 @@ Limit the agent's blast radius before implementation.
 
 ## When to use
 
-Use immediately before editing files or running commands that can change project state.
+Use immediately before editing files or running commands that can change project
+state.
 
 ## Inputs
 

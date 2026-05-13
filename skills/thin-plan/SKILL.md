@@ -1,6 +1,6 @@
 ---
 name: thin-plan
-description: Convert a mini-spec into 3-7 vertical implementation slices that each produce observable behavior and can be verified independently.
+description: Convert a mini-spec into 3-7 observable vertical slices.
 ---
 
 # Thin Plan
@@ -11,7 +11,7 @@ Convert the mini-spec into 3-7 vertical implementation slices.
 
 ## When to use
 
-Use when `SPEC.md` exists and implementation needs a short, ordered path.
+Use when `SPEC.md` exists and implementation needs a short ordered path.
 
 ## Inputs
 

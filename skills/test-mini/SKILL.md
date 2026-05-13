@@ -1,6 +1,6 @@
 ---
 name: test-mini
-description: Add focused deterministic checks, fixtures, or smoke paths for ML workflows, agents, dashboards, data transforms, and scheduled jobs.
+description: Add focused deterministic checks, fixtures, or smoke paths.
 ---
 
 # Test Mini
@@ -11,7 +11,9 @@ Protect against silent wrongness without adding heavy test ceremony.
 
 ## When to use
 
-Use for ML model workflows, agents, dashboards, data transformations, metric calculations, scheduled jobs, and any behavior that can appear to run while being wrong.
+Use for ML model workflows, agents, dashboards, data transformations, metric
+calculations, scheduled jobs, and any behavior that can appear to run while
+being wrong.
 
 ## Inputs
 

@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Compress project context into HANDOFF.md so the next agent session can continue without dragging a long chat history forward.
+description: Compress project context into HANDOFF.md for the next session.
 ---
 
 # Handoff
@@ -11,7 +11,8 @@ Compress context so the next session can continue cleanly.
 
 ## When to use
 
-Use at the end of a session, before changing agents, or before pausing a project.
+Use at the end of a session, before changing agents, or before pausing a
+project.
 
 ## Inputs
 
