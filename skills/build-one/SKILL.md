@@ -1,6 +1,6 @@
 ---
 name: build-one
-description: Implement exactly one planned slice, verify it, summarize, and stop.
+description: Implement exactly one planned slice after scope is frozen, then run relevant verification, summarize changed files, and stop.
 ---
 
 # Build One

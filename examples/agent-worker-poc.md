@@ -2,8 +2,7 @@
 
 ## Scenario
 
-Build an autonomous worker that reads a Monday board or ticket board, drafts a
-branch/PR for one approved task type, and stops for human review.
+Build an autonomous worker that reads a Monday board or ticket board, drafts a branch/PR for one approved task type, and stops for human review.
 
 ## Workflow
 

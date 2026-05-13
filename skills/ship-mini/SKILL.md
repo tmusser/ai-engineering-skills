@@ -1,6 +1,6 @@
 ---
 name: ship-mini
-description: Run a lightweight GO or NO-GO gate before using project outputs.
+description: Run a lightweight GO or NO-GO gate before using small dashboards, ML workflows, agent workflows, scheduled jobs, or decision-impacting outputs.
 ---
 
 # Ship Mini
@@ -11,8 +11,7 @@ Decide whether a small project, dashboard, ML workflow, or agent workflow is saf
 
 ## When to use
 
-Use before user-facing release, scheduled runs, autonomous agent execution,
-decision-impacting analysis, or sharing outputs with others.
+Use before user-facing release, scheduled runs, autonomous agent execution, decision-impacting analysis, or sharing outputs with others.
 
 ## Inputs
 

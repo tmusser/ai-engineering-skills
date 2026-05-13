@@ -1,6 +1,6 @@
 ---
 name: grill-with-docs-lite
-description: Clarify vague AI-engineering project ideas before specs or code.
+description: Clarify ambiguous AI-engineering project ideas before specs or code by challenging vague terms, identifying assumptions, and updating durable context.
 ---
 
 # Grill With Docs Lite
@@ -11,8 +11,7 @@ Clarify an ambiguous project idea before writing specs or code.
 
 ## When to use
 
-Use when the request contains vague terms, missing domain language, unclear
-success criteria, unknown constraints, or hidden assumptions.
+Use when the request contains vague terms, missing domain language, unclear success criteria, unknown constraints, or hidden assumptions.
 
 ## Inputs
 

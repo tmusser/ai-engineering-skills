@@ -1,6 +1,6 @@
 ---
 name: diagnose-loop
-description: Debug a failure by reproducing it before applying the smallest fix.
+description: Debug failures systematically by freezing feature work, reproducing the issue, testing hypotheses, applying the smallest fix, and rerunning verification.
 ---
 
 # Diagnose Loop
@@ -11,8 +11,7 @@ Debug failures systematically.
 
 ## When to use
 
-Use when a command fails, behavior is wrong, a test regresses, or output does
-not match the spec.
+Use when a command fails, behavior is wrong, a test regresses, or output does not match the spec.
 
 ## Inputs
 

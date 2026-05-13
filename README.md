@@ -1,25 +1,16 @@
 # AI Engineering Skills
 
-A compact workflow for shipping small AI-assisted projects with bounded scope,
-durable context, reproducible verification, and fast handoff.
+A compact workflow for shipping small AI-assisted software projects with bounded scope, durable context, reproducible verification, and fast handoff.
 
 ## What this repo is
 
-This repo is a small skill system for solo AI engineers, data scientists, and
-technical builders using coding agents to ship focused tools, ML workflows,
-agent workflows, dashboards, notebooks, and automation projects.
+This repo is a small skill system for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
 
-It helps an agent move from unclear request to usable result without losing the
-thread. The system favors semantic clarity before implementation, mini-specs,
-vertical slices, one-task implementation loops, blast-radius control,
-deterministic verification, bug diagnosis, and context compression.
+It helps an agent move from unclear request to usable result without losing the thread. The system favors semantic clarity before implementation, mini-specs, vertical slices, one-task implementation loops, blast-radius control, deterministic verification, bug diagnosis, and context compression.
 
 ## What this repo is not
 
-This is not a generic prompt collection. It is not a heavyweight product
-process, a replacement for engineering judgment, or a framework for managing
-large teams. It is meant for small projects where fast progress still needs
-evidence, limits, and handoff notes.
+This is not a generic prompt collection. It is not a heavyweight product process, a replacement for engineering judgment, or a framework for managing large teams. It is meant for small projects where fast progress still needs evidence, limits, and handoff notes.
 
 ## Quickstart
 
@@ -37,13 +28,11 @@ Then ask Codex:
 Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop before implementation.
 ```
 
-Use `docs/ai-workflow/` for durable project state, or copy the templates to the
-project root if that is easier for the repo.
+Use `docs/ai-workflow/` for durable project state, or copy the templates to the project root if that is easier for the repo.
 
 ## Core workflow
 
-Use the full path when a project may change behavior, data, user decisions, or
-scheduled work:
+Use the full path when a project may change behavior, data, user decisions, or scheduled work:
 
 1. `grill-with-docs-lite`
 2. `mini-spec`
@@ -62,8 +51,7 @@ Emergency/debug workflow:
 3. `verify-contract`
 4. `handoff`
 
-Prefer one working vertical slice over a broad partial system. Stop after one
-task. Prove the behavior. Record the command output.
+Prefer one working vertical slice over a broad partial system. Stop after one task. Prove the behavior. Record the command output.
 
 ## Skill routing table
 
@@ -109,26 +97,17 @@ ML workflow POC:
 
 ## Recommended daily loop
 
-Start by reading `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, and
-`HANDOFF.md` if they exist. Pick one task. Freeze the scope. Build the smallest
-useful change. Run the relevant checks. Update `VERIFY.md`, then update
-`HANDOFF.md` before ending the session.
+Start by reading `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, and `HANDOFF.md` if they exist. Pick one task. Freeze the scope. Build the smallest useful change. Run the relevant checks. Update `VERIFY.md`, then update `HANDOFF.md` before ending the session.
 
 ## Full ceremony vs mini ceremony
 
-Use full ceremony when work is user-facing, scheduled, autonomous,
-decision-impacting, data-sensitive, or hard to inspect manually.
+Use full ceremony when work is user-facing, scheduled, autonomous, decision-impacting, data-sensitive, or hard to inspect manually.
 
-Use mini ceremony for small local helpers, one-off analysis, isolated refactors,
-or throwaway experiments. Even then, keep a short spec, one vertical task, and a
-verification note.
+Use mini ceremony for small local helpers, one-off analysis, isolated refactors, or throwaway experiments. Even then, keep a short spec, one vertical task, and a verification note.
 
 ## How to install/use with coding agents
 
-For Codex repo-scoped usage, copy each skill directory into `.agents/skills/` in
-the target project. Start new projects by copying the templates from
-`templates/` into `docs/ai-workflow/` or the project root. Ask the agent to run
-the relevant skill by name and to update the matching durable artifact.
+For Codex repo-scoped usage, copy each skill directory into `.agents/skills/` in the target project. Start new projects by copying the templates from `templates/` into `docs/ai-workflow/` or the project root. Ask the agent to run the relevant skill by name and to update the matching durable artifact.
 
 For this repository, future agents should read `AGENTS.md` before editing.
 
@@ -136,5 +115,4 @@ For this repository, future agents should read `AGENTS.md` before editing.
 
 This repository is MIT licensed. See `LICENSE`.
 
-This project is independently written and acknowledges inspiration from Addy
-Osmani's `agent-skills` and Matt Pocock's `skills`. See `ACKNOWLEDGMENTS.md`.
+This project is independently written and acknowledges inspiration from Addy Osmani's `agent-skills` and Matt Pocock's `skills`. See `ACKNOWLEDGMENTS.md`.

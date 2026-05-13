@@ -1,6 +1,6 @@
 ---
 name: bug-capture
-description: Preserve discovered bugs in BUGS.md with reproduction and verification.
+description: Preserve discovered bugs as durable BUGS.md entries with reproduction steps, expected behavior, hypothesis, status, verification, and resolution.
 ---
 
 # Bug Capture
@@ -34,16 +34,7 @@ Use when a bug is found, whether or not it is fixed in the current session.
 
 ## Outputs
 
-- `BUGS.md` entry with:
-- Bug title
-- Observed behavior
-- Expected behavior
-- Reproduction steps
-- Affected files
-- Hypothesis
-- Status
-- Verification command
-- Resolution if fixed
+- `BUGS.md` entry with bug title, observed behavior, expected behavior, reproduction steps, affected files, hypothesis, status, verification command, and resolution if fixed
 
 ## Stop conditions
 
