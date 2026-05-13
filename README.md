@@ -99,6 +99,44 @@ To install manually:
 3. Copy templates from `templates/` into your project when you want durable state files.
 4. Invoke the skill by name or reference the `SKILL.md` directly.
 
+## Slash-style usage
+
+### Claude Code
+
+Installed Claude Code skills are invoked directly with `/skill-name`.
+
+Available Claude Code slash commands:
+
+```text
+/grill-with-docs-lite
+/mini-spec
+/thin-plan
+/scope-freeze
+/build-one
+/test-mini
+/diagnose-loop
+/bug-capture
+/verify-contract
+/ship-mini
+/handoff
+```
+
+The skill folder name becomes the slash command name.
+
+### Codex
+
+Codex skills should be invoked with `$skill-name` or selected through `/skills`.
+
+Examples:
+
+```text
+$mini-spec
+$thin-plan
+$scope-freeze
+```
+
+Do not use `/skill-name` for Codex unless your Codex environment has its own command mapping.
+
 ## Core workflow
 
 Use the full path when a project may change behavior, data, user decisions, or scheduled work:

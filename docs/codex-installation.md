@@ -21,3 +21,27 @@ Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop
 Use `docs/ai-workflow/` or the project root for durable artifacts such as `SPEC.md`, `PLAN.md`, `VERIFY.md`, and `HANDOFF.md`.
 
 If your Codex environment uses a different skill location, copy the folders from `skills/` there instead.
+
+## Invocation
+
+Codex skills should be invoked with `$skill-name` or selected through `/skills`.
+
+Examples:
+
+```text
+$grill-with-docs-lite
+$mini-spec
+$thin-plan
+$scope-freeze
+$build-one
+$test-mini
+$diagnose-loop
+$bug-capture
+$verify-contract
+$ship-mini
+$handoff
+```
+
+Use `/skills` when you want to browse or select installed skills interactively.
+
+Do not assume Claude Code slash commands such as `/mini-spec` work in Codex. Codex uses its own skill invocation conventions.

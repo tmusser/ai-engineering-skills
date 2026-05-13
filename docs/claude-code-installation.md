@@ -86,3 +86,37 @@ After installation, invoke skills directly:
 Claude may also invoke skills automatically when their descriptions match the task.
 
 Use workflow artifacts such as `SPEC.md`, `PLAN.md`, `VERIFY.md`, and `HANDOFF.md` to keep project context durable.
+
+## Invocation
+
+The skill folder name becomes the Claude Code slash command.
+
+For example, this folder:
+
+```text
+skills/mini-spec/
+```
+
+is invoked as:
+
+```text
+/mini-spec
+```
+
+Available slash commands:
+
+```text
+/grill-with-docs-lite
+/mini-spec
+/thin-plan
+/scope-freeze
+/build-one
+/test-mini
+/diagnose-loop
+/bug-capture
+/verify-contract
+/ship-mini
+/handoff
+```
+
+Claude may also invoke an installed skill automatically when the skill description matches the task.

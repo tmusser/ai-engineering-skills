@@ -69,6 +69,7 @@ REQUIRED_README_PHRASES = [
     "bounded scope",
     "Claude Code",
     "Codex",
+    "Slash-style usage",
 ]
 
 
@@ -204,6 +205,19 @@ def check_license(errors: list[str]) -> None:
         errors.append("LICENSE does not contain MIT License")
 
 
+def check_docs(errors: list[str]) -> None:
+    """Check required documentation signals."""
+    docs_to_check = [
+        "docs/claude-code-installation.md",
+        "docs/codex-installation.md",
+    ]
+
+    for relative_path in docs_to_check:
+        path = repo_path(relative_path)
+        if path.is_file() and "/mini-spec" not in read_text(relative_path):
+            errors.append(f"{relative_path} does not mention /mini-spec")
+
+
 def check_python_compiles(relative_path: str, errors: list[str]) -> None:
     """Check that a Python file compiles."""
     path = repo_path(relative_path)
@@ -230,6 +244,7 @@ def main() -> int:
     check_required_files(errors)
     check_skills(errors)
     check_readme(errors)
+    check_docs(errors)
     check_license(errors)
     check_python_scripts(errors)
 

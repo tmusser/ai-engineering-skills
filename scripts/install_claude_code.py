@@ -127,6 +127,11 @@ def print_summary(skill_target: Path, installed: list[str]) -> None:
     for skill_name in installed:
         print(f"- {skill_name}")
 
+    print("Claude Code slash commands:")
+
+    for skill_name in installed:
+        print(f"/{skill_name}")
+
 
 def main() -> int:
     args = parse_args()
