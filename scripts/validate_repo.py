@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import py_compile
 import sys
 from pathlib import Path
 
@@ -31,6 +32,15 @@ REQUIRED_FILES = [
     "scripts/validate_repo.py",
 ]
 
+REQUIRED_DOCS = [
+    "docs/claude-code-installation.md",
+    "docs/codex-installation.md",
+]
+
+REQUIRED_SCRIPTS = [
+    "scripts/install_claude_code.py",
+]
+
 REQUIRED_SKILLS = [
     "grill-with-docs-lite",
     "mini-spec",
@@ -55,6 +65,12 @@ REQUIRED_HEADINGS = [
     "## Anti-patterns",
 ]
 
+REQUIRED_README_PHRASES = [
+    "bounded scope",
+    "Claude Code",
+    "Codex",
+]
+
 
 def repo_path(relative_path: str) -> Path:
     """Return an absolute path inside the repository."""
@@ -66,11 +82,24 @@ def read_text(relative_path: str) -> str:
     return repo_path(relative_path).read_text(encoding="utf-8")
 
 
+def check_file_exists(relative_path: str, errors: list[str]) -> None:
+    """Check that a required file exists."""
+    if not repo_path(relative_path).is_file():
+        errors.append(f"missing file: {relative_path}")
+
+
 def check_required_files(errors: list[str]) -> None:
-    """Check that all required top-level artifacts exist."""
+    """Check required repository files, docs, scripts, and workflow."""
     for relative_path in REQUIRED_FILES:
-        if not repo_path(relative_path).is_file():
-            errors.append(f"missing file: {relative_path}")
+        check_file_exists(relative_path, errors)
+
+    for relative_path in REQUIRED_DOCS:
+        check_file_exists(relative_path, errors)
+
+    for relative_path in REQUIRED_SCRIPTS:
+        check_file_exists(relative_path, errors)
+
+    check_file_exists(WORKFLOW_FILE, errors)
 
 
 def parse_frontmatter(lines: list[str]) -> tuple[dict[str, str], list[str]]:
@@ -116,7 +145,7 @@ def parse_frontmatter(lines: list[str]) -> tuple[dict[str, str], list[str]]:
 
 
 def check_skill(skill_name: str, errors: list[str]) -> None:
-    """Check one skill directory and SKILL.md contract."""
+    """Check one skill directory and its SKILL.md contract."""
     skill_dir = repo_path(f"skills/{skill_name}")
     skill_file = skill_dir / "SKILL.md"
 
@@ -148,29 +177,50 @@ def check_skill(skill_name: str, errors: list[str]) -> None:
 
 
 def check_skills(errors: list[str]) -> None:
-    """Check all required skills."""
+    """Check all required skill directories."""
     for skill_name in REQUIRED_SKILLS:
         check_skill(skill_name, errors)
+
+
+def check_readme(errors: list[str]) -> None:
+    """Check README positioning requirements."""
+    readme_path = repo_path("README.md")
+
+    if not readme_path.is_file():
+        return
+
+    readme = read_text("README.md")
+
+    for phrase in REQUIRED_README_PHRASES:
+        if phrase not in readme:
+            errors.append(f"README.md does not contain phrase: {phrase}")
 
 
 def check_license(errors: list[str]) -> None:
     """Check that the license declares MIT."""
     license_path = repo_path("LICENSE")
+
     if license_path.is_file() and "MIT License" not in read_text("LICENSE"):
         errors.append("LICENSE does not contain MIT License")
 
 
-def check_readme(errors: list[str]) -> None:
-    """Check that the README contains the core positioning phrase."""
-    readme_path = repo_path("README.md")
-    if readme_path.is_file() and "bounded scope" not in read_text("README.md"):
-        errors.append("README.md does not contain phrase: bounded scope")
+def check_python_compiles(relative_path: str, errors: list[str]) -> None:
+    """Check that a Python file compiles."""
+    path = repo_path(relative_path)
+
+    if not path.is_file():
+        return
+
+    try:
+        py_compile.compile(str(path), doraise=True)
+    except py_compile.PyCompileError as exc:
+        errors.append(f"{relative_path} does not compile: {exc.msg}")
 
 
-def check_workflow(errors: list[str]) -> None:
-    """Check that the GitHub Actions workflow exists."""
-    if not repo_path(WORKFLOW_FILE).is_file():
-        errors.append(f"missing workflow file: {WORKFLOW_FILE}")
+def check_python_scripts(errors: list[str]) -> None:
+    """Check Python script syntax."""
+    check_python_compiles("scripts/validate_repo.py", errors)
+    check_python_compiles("scripts/install_claude_code.py", errors)
 
 
 def main() -> int:
@@ -181,7 +231,7 @@ def main() -> int:
     check_skills(errors)
     check_readme(errors)
     check_license(errors)
-    check_workflow(errors)
+    check_python_scripts(errors)
 
     if errors:
         print("Validation failed:")
@@ -191,6 +241,8 @@ def main() -> int:
 
     print("Validation passed.")
     print(f"Checked {len(REQUIRED_FILES)} required files.")
+    print(f"Checked {len(REQUIRED_DOCS)} required docs.")
+    print(f"Checked {len(REQUIRED_SCRIPTS)} required scripts.")
     print(f"Checked {len(REQUIRED_SKILLS)} required skills.")
     return 0
 

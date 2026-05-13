@@ -2,7 +2,7 @@
 
 ## Scenario
 
-Build an autonomous worker that reads a Monday board or ticket board, drafts a branch/PR for one approved task type, and stops for human review.
+Build an autonomous worker that reads a Monday board or ticket board, drafts a branch or PR for one approved task type, and stops for human review.
 
 ## Workflow
 
@@ -19,5 +19,5 @@ Build an autonomous worker that reads a Monday board or ticket board, drafts a b
 
 - Fixture ticket includes title, body, labels, repo path, and acceptance criteria.
 - Verification command produces the same plan for the same fixture.
-- Branch/PR output is disabled until the ship gate says GO.
+- Branch and PR output are disabled until the ship gate says GO.
 - Ship gate records allowed boards, allowed repos, write permissions, rollback, and owner notification.

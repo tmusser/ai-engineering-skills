@@ -26,5 +26,11 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Compile validator
+        run: python -m py_compile scripts/validate_repo.py
+
+      - name: Compile Claude Code installer
+        run: python -m py_compile scripts/install_claude_code.py
+
       - name: Validate repo structure
         run: python scripts/validate_repo.py

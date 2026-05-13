@@ -22,6 +22,7 @@
 
 - Run:
 - Test:
+- Build:
 - Verify:
 
 ## Project structure

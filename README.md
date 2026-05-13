@@ -4,17 +4,75 @@ A compact workflow for shipping small AI-assisted software projects with bounded
 
 ## What this repo is
 
-This repo is a small skill system for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
+This repo is a portable skill pack for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
 
-It helps an agent move from unclear request to usable result without losing the thread. The system favors semantic clarity before implementation, mini-specs, vertical slices, one-task implementation loops, blast-radius control, deterministic verification, bug diagnosis, and context compression.
+It is designed for small projects where speed still needs evidence, limits, and handoff notes.
+
+It emphasizes:
+
+- Semantic clarity before implementation
+- Mini-specs instead of bloated specs
+- Vertical-slice planning
+- One-task implementation loops
+- Blast-radius control
+- Deterministic verification
+- Bug diagnosis instead of random fixing
+- Handoff and context compression
+- Lightweight ship gates for ML, agent, and dashboard workflows
 
 ## What this repo is not
 
-This is not a generic prompt collection. It is not a heavyweight product process, a replacement for engineering judgment, or a framework for managing large teams. It is meant for small projects where fast progress still needs evidence, limits, and handoff notes.
+This is not a generic prompt collection.
 
-## Quickstart
+It is not a heavyweight product process.
 
-In a target project, install these as repo-scoped Codex skills:
+It is not a replacement for engineering judgment.
+
+It is not tied to one AI coding tool.
+
+Claude Code is the primary installation path. Codex is supported. Manual install is always available because skills are plain folders with `SKILL.md` files.
+
+## Installation
+
+### Claude Code
+
+Install for your personal Claude Code environment:
+
+```bash
+python scripts/install_claude_code.py --target user
+```
+
+Use this when you want these skills available across all Claude Code projects.
+
+Install into a specific project:
+
+```bash
+python scripts/install_claude_code.py --target project --project-path /path/to/project
+```
+
+Use this when you want the skills versioned with a specific repo for team or project-scoped usage.
+
+After installation, invoke skills with slash commands such as:
+
+```text
+/mini-spec
+/thin-plan
+/scope-freeze
+/build-one
+/test-mini
+/diagnose-loop
+/handoff
+```
+
+Claude may also invoke skills automatically when their descriptions match the task.
+
+See `docs/claude-code-installation.md` for details.
+
+### Codex
+
+For Codex repo-scoped usage, copy each skill directory into the appropriate Codex skills directory for your environment, such as `.agents/skills/` when using repo-scoped skills.
+
+Example:
 
 ```bash
 mkdir -p .agents/skills docs/ai-workflow
@@ -28,7 +86,18 @@ Then ask Codex:
 Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop before implementation.
 ```
 
-Use `docs/ai-workflow/` for durable project state, or copy the templates to the project root if that is easier for the repo.
+See `docs/codex-installation.md` for details.
+
+### Manual
+
+Each skill is just a folder with a `SKILL.md` file.
+
+To install manually:
+
+1. Copy the skill folders you want from `skills/`.
+2. Place them in the skill directory used by your AI coding tool.
+3. Copy templates from `templates/` into your project when you want durable state files.
+4. Invoke the skill by name or reference the `SKILL.md` directly.
 
 ## Core workflow
 
@@ -51,7 +120,13 @@ Emergency/debug workflow:
 3. `verify-contract`
 4. `handoff`
 
-Prefer one working vertical slice over a broad partial system. Stop after one task. Prove the behavior. Record the command output.
+Prefer one working vertical slice over a broad partial system.
+
+Stop after one task.
+
+Prove the behavior.
+
+Record the command output.
 
 ## Skill routing table
 
@@ -97,19 +172,25 @@ ML workflow POC:
 
 ## Recommended daily loop
 
-Start by reading `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, and `HANDOFF.md` if they exist. Pick one task. Freeze the scope. Build the smallest useful change. Run the relevant checks. Update `VERIFY.md`, then update `HANDOFF.md` before ending the session.
+Start by reading `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, and `HANDOFF.md` if they exist.
+
+Pick one task.
+
+Freeze the scope.
+
+Build the smallest useful change.
+
+Run the relevant checks.
+
+Update `VERIFY.md`, then update `HANDOFF.md` before ending the session.
 
 ## Full ceremony vs mini ceremony
 
 Use full ceremony when work is user-facing, scheduled, autonomous, decision-impacting, data-sensitive, or hard to inspect manually.
 
-Use mini ceremony for small local helpers, one-off analysis, isolated refactors, or throwaway experiments. Even then, keep a short spec, one vertical task, and a verification note.
+Use mini ceremony for small local helpers, one-off analysis, isolated refactors, or throwaway experiments.
 
-## How to install/use with coding agents
-
-For Codex repo-scoped usage, copy each skill directory into `.agents/skills/` in the target project. Start new projects by copying the templates from `templates/` into `docs/ai-workflow/` or the project root. Ask the agent to run the relevant skill by name and to update the matching durable artifact.
-
-For this repository, future agents should read `AGENTS.md` before editing.
+Even then, keep a short spec, one vertical task, and a verification note.
 
 ## License and acknowledgments
 

@@ -11,7 +11,7 @@ Clarify an ambiguous project idea before writing specs or code.
 
 ## When to use
 
-Use when the request contains vague terms, missing domain language, unclear success criteria, unknown constraints, or hidden assumptions.
+Use when a request contains vague terms, missing domain language, unclear success criteria, unknown constraints, or hidden assumptions.
 
 ## Inputs
 

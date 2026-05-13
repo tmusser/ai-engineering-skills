@@ -11,37 +11,43 @@ Create a small but durable `SPEC.md` for fast solo projects.
 
 ## When to use
 
-Use after the project goal is clear enough to define behavior, constraints, and verification.
+Use when a project or feature is clear enough to define, but too important to implement from a vague chat request.
 
 ## Inputs
 
 - Clarified request
-- `CONTEXT.md`
-- Existing project files
-- Known commands and constraints
+- `CONTEXT.md` if available
+- Constraints
+- Known commands
+- Acceptance criteria or desired behavior
 
 ## Workflow
 
-1. Write the objective in one or two sentences.
-2. Name the user or use case.
-3. Define acceptance criteria as observable outcomes.
-4. Record non-goals and constraints.
-5. List commands needed to build, test, run, or inspect.
-6. Sketch the expected project structure.
-7. Define a verification demo.
-8. Keep the spec under 100 lines unless the risk justifies more.
+1. State the objective.
+2. Identify the user or use case.
+3. Define observable acceptance criteria.
+4. Record non-goals.
+5. Record constraints.
+6. List run, test, build, and verification commands.
+7. Sketch project structure.
+8. Define the smallest verification demo.
+9. Record open questions.
 
 ## Outputs
 
-- `SPEC.md` with Objective, User / use case, Acceptance criteria, Non-goals, Constraints, Commands, Project structure, Verification demo, and Open questions
+- `SPEC.md`
+- Explicit acceptance criteria
+- Explicit non-goals
+- Verification demo
 
 ## Stop conditions
 
-- The spec is clear enough to plan 3-7 vertical slices.
-- A missing decision would change the project shape.
+- The spec is under 100 lines unless risk justifies more.
+- The next implementation slice is clear.
+- Unresolved questions are recorded instead of hidden.
 
 ## Anti-patterns
 
 - Turning a small POC into a full product requirements document.
-- Writing acceptance criteria that cannot be verified.
-- Hiding important constraints in chat history.
+- Adding speculative future features.
+- Writing vague acceptance criteria that cannot be verified.
