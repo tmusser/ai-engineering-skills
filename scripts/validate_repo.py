@@ -31,8 +31,13 @@ REQUIRED_FILES = [
     "examples/small-dashboard-poc.md",
     "examples/agent-worker-poc.md",
     "examples/ml-model-poc.md",
+    "demo/README.md",
+    "demo/sample-data/customers.csv",
+    "demo/demo-script.md",
+    "demo/demo.tape",
     WORKFLOW_FILE,
     "install.sh",
+    "scripts/render_demo.sh",
     "scripts/validate_repo.py",
 ]
 
@@ -80,6 +85,7 @@ REQUIRED_README_PHRASES = [
     "Why this exists",
     "anti-patterns",
     "Demo",
+    "demo/demo.tape",
 ]
 
 

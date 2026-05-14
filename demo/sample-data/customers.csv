@@ -1,0 +1,6 @@
+customer_id,name,plan,signup_date,last_active_date,monthly_spend
+1001,Avery Lee,Starter,2026-01-03,2026-05-01,19
+1002,Jordan Kim,Team,2026-01-15,2026-05-08,49
+1003,Sam Rivera,Starter,2026-02-02,,19
+1004,Taylor Chen,Enterprise,2026-02-20,2026-05-10,199
+1005,Morgan Patel,Team,2026-03-11,2026-04-28,

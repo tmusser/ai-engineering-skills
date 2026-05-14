@@ -24,19 +24,23 @@ It does not try to replace judgment. It gives the human and agent a shared set o
 
 ## Demo
 
-A 60–90 second terminal demo is planned. It will show:
+A sanitized terminal demo can be rendered from `demo/demo.tape` using VHS. It uses fake data and simulated agent output.
 
-1. Installing the skills into Claude Code.
-2. Running `/mini-spec` on a small project idea.
-3. Running `/thin-plan` to create vertical slices.
-4. Running `/scope-freeze` before implementation.
-5. Running `/build-one` for one bounded change.
-6. Running `/handoff` to preserve context for the next session.
+It shows:
 
-Until then, the fastest way to try the repo is:
+1. Installing or local setup.
+2. Claude Code slash commands available.
+3. Running `/mini-spec` on a small project idea.
+4. Running `/thin-plan` to create vertical slices.
+5. Running `/scope-freeze` before implementation.
+6. Running `/build-one` for one bounded change.
+7. Running `/verify-contract` to record proof.
+8. Running `/handoff` to preserve context for the next session.
+
+Render it with:
 
 ```bash
-./install.sh
+scripts/render_demo.sh
 ```
 
 ## Try it now
