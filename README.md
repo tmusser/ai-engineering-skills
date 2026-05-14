@@ -328,4 +328,4 @@ Even then, keep a short spec, one vertical task, and a verification note.
 
 This repository is MIT licensed. See `LICENSE`.
 
-This project is independently written and acknowledges inspiration from Addy Osmani's `agent-skills` and Matt Pocock's `skills`. See `ACKNOWLEDGMENTS.md`.
+This project is independently written and acknowledges inspiration from Addy Osmani's `agent-skills`, Matt Pocock's `skills`, and GitHub's `spec-kit`. See `ACKNOWLEDGMENTS.md`.
