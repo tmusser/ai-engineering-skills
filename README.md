@@ -39,6 +39,20 @@ Until then, the fastest way to try the repo is:
 ./install.sh
 ```
 
+## Try it now
+
+```bash
+git clone https://github.com/tmusser/ai-engineering-skills.git
+cd ai-engineering-skills
+./install.sh
+```
+
+Then open Claude Code in a project and run:
+
+```text
+/mini-spec
+```
+
 ## What this repo is
 
 This repo is a portable skill pack for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
