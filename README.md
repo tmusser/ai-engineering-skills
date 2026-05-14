@@ -22,6 +22,23 @@ Handoff state disappears between sessions.
 
 It does not try to replace judgment. It gives the human and agent a shared set of boundaries, checks, and artifacts.
 
+## Demo
+
+A 60–90 second terminal demo is planned. It will show:
+
+1. Installing the skills into Claude Code.
+2. Running `/mini-spec` on a small project idea.
+3. Running `/thin-plan` to create vertical slices.
+4. Running `/scope-freeze` before implementation.
+5. Running `/build-one` for one bounded change.
+6. Running `/handoff` to preserve context for the next session.
+
+Until then, the fastest way to try the repo is:
+
+```bash
+./install.sh
+```
+
 ## What this repo is
 
 This repo is a portable skill pack for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
@@ -293,10 +310,6 @@ Use full ceremony when work is user-facing, scheduled, autonomous, decision-impa
 Use mini ceremony for small local helpers, one-off analysis, isolated refactors, or throwaway experiments.
 
 Even then, keep a short spec, one vertical task, and a verification note.
-
-## Demo
-
-A 60-90 second terminal demo is planned. It will show installing the skills, running `/mini-spec`, `/thin-plan`, `/scope-freeze`, `/build-one`, and `/handoff` in Claude Code.
 
 ## License and acknowledgments
 
