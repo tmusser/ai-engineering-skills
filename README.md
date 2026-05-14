@@ -34,6 +34,40 @@ Handoff state disappears between sessions.
 
 It does not try to replace judgment. It gives the human and agent a shared set of boundaries, checks, and artifacts.
 
+## Skill map
+
+```mermaid
+flowchart TD
+  A["Clarify<br/>grill-with-docs-lite<br/>constitution-lite"] --> B["Specify<br/>mini-spec<br/>checklist-mini"]
+  B --> C["Plan<br/>thin-plan<br/>analyze-mini"]
+  C --> D["Constrain<br/>scope-freeze"]
+  D --> E["Build<br/>build-one"]
+  E --> F["Verify<br/>test-mini<br/>verify-contract"]
+  F --> G["Ship<br/>ship-mini"]
+  G --> H["Handoff<br/>handoff"]
+  I["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
+  I --> F
+```
+
+## The failure mode this avoids
+
+```mermaid
+flowchart TD
+  A["Vague request"] --> B["Many edits"]
+  B --> C["Weak verification"]
+  C --> D["Long context"]
+  D --> E["Lost saliency"]
+  E --> F["Buggy / bloated output"]
+
+  G["Clarified request"] --> H["mini-spec"]
+  H --> I["One vertical slice"]
+  I --> J["scope-freeze"]
+  J --> K["build-one"]
+  K --> L["verify-contract"]
+  L --> M["handoff"]
+  M --> N["fresh context"]
+```
+
 ## Demo
 
 ![ai-engineering-skills terminal demo](assets/demo.gif)

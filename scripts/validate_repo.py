@@ -90,6 +90,9 @@ REQUIRED_README_PHRASES = [
     "demo/demo.tape",
     "assets/demo.gif",
     "Workflow recipes",
+    "Skill map",
+    "The failure mode this avoids",
+    "```mermaid",
 ]
 
 
