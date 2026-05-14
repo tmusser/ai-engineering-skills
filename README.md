@@ -4,6 +4,18 @@ A compact workflow for shipping small AI-assisted software projects with bounded
 
 Build with AI like a disciplined team of two: one human setting direction, one agent executing inside clear boundaries.
 
+```mermaid
+flowchart LR
+  A[Pick one vertical slice] --> B[Scope freeze]
+  B --> C[Build one]
+  C --> D[Test mini]
+  D --> E[Verify contract]
+  E --> F[Handoff]
+  F --> G[Fresh context]
+  G --> H[Confirm next task + verification]
+  H --> A
+```
+
 ## Why this exists
 
 AI coding agents are powerful, but sessions often fail for predictable reasons.
@@ -256,6 +268,10 @@ Stop after one task.
 Prove the behavior.
 
 Record the command output.
+
+## Workflow recipes
+
+Use the smallest route that fits the task. See `docs/recipes.md` for visual workflows covering small projects, bugfixes, ML/dashboard work, agent workers, and fresh-context development.
 
 ## Skill routing table
 

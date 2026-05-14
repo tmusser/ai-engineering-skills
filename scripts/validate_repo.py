@@ -45,6 +45,7 @@ REQUIRED_FILES = [
 REQUIRED_DOCS = [
     "docs/claude-code-installation.md",
     "docs/codex-installation.md",
+    "docs/recipes.md",
 ]
 
 REQUIRED_SCRIPTS = [
@@ -88,6 +89,7 @@ REQUIRED_README_PHRASES = [
     "Demo",
     "demo/demo.tape",
     "assets/demo.gif",
+    "Workflow recipes",
 ]
 
 
@@ -234,6 +236,14 @@ def check_docs(errors: list[str]) -> None:
         path = repo_path(relative_path)
         if path.is_file() and "/mini-spec" not in read_text(relative_path):
             errors.append(f"{relative_path} does not mention /mini-spec")
+
+    recipes_path = repo_path("docs/recipes.md")
+    if recipes_path.is_file():
+        recipes = read_text("docs/recipes.md")
+        if "Fresh-context development loop" not in recipes:
+            errors.append("docs/recipes.md does not mention Fresh-context development loop")
+        if "```mermaid" not in recipes:
+            errors.append("docs/recipes.md does not contain a Mermaid code block")
 
 
 def check_python_compiles(relative_path: str, errors: list[str]) -> None:
