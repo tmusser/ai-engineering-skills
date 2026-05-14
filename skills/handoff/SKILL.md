@@ -32,18 +32,22 @@ Use at the end of a session, before changing agents, or before pausing a project
 1. Read existing artifacts before writing the handoff.
 2. Avoid summarizing the whole conversation.
 3. Prefer file pointers over copied code.
-4. State the current goal in 1-2 sentences.
-5. Record current status.
-6. List completed slices with verification result.
-7. List changed files with one-line purpose.
-8. Record commands that work.
-9. Record known failing commands.
-10. Record important decisions already made.
-11. Record open decisions.
-12. Record traps / do-not-change notes.
-13. Name exactly one next recommended task.
-14. Include the exact next verification command or smoke path.
-15. Keep `HANDOFF.md` under 120 lines unless complexity justifies more.
+4. Include a short "For the next agent" block near the top.
+5. In that block, instruct the next agent to read `SPEC.md`, `PLAN.md`, `TODO.md`, `VERIFY.md`, and the changed files listed in the handoff.
+6. In that block, instruct the next agent to confirm the current phase and goal, next recommended task, and verification command or smoke path.
+7. In that block, instruct the next agent to state assumptions before proceeding.
+8. State the current goal in 1-2 sentences.
+9. Record current status.
+10. List completed slices with verification result.
+11. List changed files with one-line purpose.
+12. Record commands that work.
+13. Record known failing commands.
+14. Record important decisions already made.
+15. Record open decisions.
+16. Record traps / do-not-change notes.
+17. Name exactly one next recommended task.
+18. Include the exact next verification command or smoke path.
+19. Keep `HANDOFF.md` under 120 lines unless complexity justifies more.
 
 ## Outputs
 
