@@ -2,6 +2,26 @@
 
 A compact workflow for shipping small AI-assisted software projects with bounded scope, durable context, reproducible verification, and fast handoff.
 
+Build with AI like a disciplined team of two: one human setting direction, one agent executing inside clear boundaries.
+
+## Why this exists
+
+AI coding agents are powerful, but sessions often fail for predictable reasons.
+
+Users restart from scratch.
+
+They re-explain context.
+
+Scope expands quietly.
+
+Weak verification gets accepted.
+
+Handoff state disappears between sessions.
+
+`ai-engineering-skills` gives the agent durable working context and a lightweight operating loop.
+
+It does not try to replace judgment. It gives the human and agent a shared set of boundaries, checks, and artifacts.
+
 ## What this repo is
 
 This repo is a portable skill pack for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
@@ -39,12 +59,30 @@ Claude Code is the primary installation path. Codex is supported. Manual install
 Install for your personal Claude Code environment:
 
 ```bash
+./install.sh
+```
+
+Equivalent explicit command:
+
+```bash
+./install.sh --claude-user
+```
+
+Direct Python installer:
+
+```bash
 python scripts/install_claude_code.py --target user
 ```
 
 Use this when you want these skills available across all Claude Code projects.
 
 Install into a specific project:
+
+```bash
+./install.sh --claude-project /path/to/project
+```
+
+Direct Python installer:
 
 ```bash
 python scripts/install_claude_code.py --target project --project-path /path/to/project
@@ -137,19 +175,42 @@ $scope-freeze
 
 Do not use `/skill-name` for Codex unless your Codex environment has its own command mapping.
 
+## Why every skill includes anti-patterns
+
+Common agent failures are predictable:
+
+- Implementing before clarifying
+- Expanding scope
+- Touching unrelated files
+- Debugging without reproducing
+- Mistaking execution for correctness
+- Losing context between sessions
+
+Each skill includes anti-patterns as explicit guardrails.
+
+The goal is not extra ceremony. The goal is to stop known failure modes before they consume the session.
+
 ## Core workflow
+
+Optional gates:
+
+- Use `constitution-lite` before repeated project work.
+- Use `checklist-mini` after `mini-spec`.
+- Use `analyze-mini` before `build-one`.
 
 Use the full path when a project may change behavior, data, user decisions, or scheduled work:
 
 1. `grill-with-docs-lite`
 2. `mini-spec`
-3. `thin-plan`
-4. `scope-freeze`
-5. `build-one`
-6. `test-mini`
-7. `verify-contract`
-8. `ship-mini` if user-facing, scheduled, autonomous, or decision-impacting
-9. `handoff`
+3. Optional: `checklist-mini`
+4. `thin-plan`
+5. `scope-freeze`
+6. Optional: `analyze-mini`
+7. `build-one`
+8. `test-mini`
+9. `verify-contract`
+10. `ship-mini` if user-facing, scheduled, autonomous, or decision-impacting
+11. `handoff`
 
 Emergency/debug workflow:
 
@@ -171,9 +232,12 @@ Record the command output.
 | Need | Skill |
 | --- | --- |
 | Clarify vague goals, terms, assumptions, or non-goals | `grill-with-docs-lite` |
+| Set compact project rules before repeated agent work | `constitution-lite` |
 | Turn a clarified request into a small durable spec | `mini-spec` |
+| Validate a mini-spec before planning | `checklist-mini` |
 | Break work into 3-7 observable slices | `thin-plan` |
 | Limit files, commands, and blast radius before coding | `scope-freeze` |
+| Check artifact consistency before implementation | `analyze-mini` |
 | Implement exactly one planned slice | `build-one` |
 | Add focused tests, fixtures, smoke checks, or demos | `test-mini` |
 | Debug a failure without random edits | `diagnose-loop` |
@@ -229,6 +293,10 @@ Use full ceremony when work is user-facing, scheduled, autonomous, decision-impa
 Use mini ceremony for small local helpers, one-off analysis, isolated refactors, or throwaway experiments.
 
 Even then, keep a short spec, one vertical task, and a verification note.
+
+## Demo
+
+A 60-90 second terminal demo is planned. It will show installing the skills, running `/mini-spec`, `/thin-plan`, `/scope-freeze`, `/build-one`, and `/handoff` in Claude Code.
 
 ## License and acknowledgments
 

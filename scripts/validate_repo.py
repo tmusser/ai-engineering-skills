@@ -17,9 +17,12 @@ REQUIRED_FILES = [
     "ACKNOWLEDGMENTS.md",
     "AGENTS.md",
     "templates/CONTEXT.md",
+    "templates/CONSTITUTION.md",
     "templates/SPEC.md",
+    "templates/CHECKLIST.md",
     "templates/PLAN.md",
     "templates/TODO.md",
+    "templates/ANALYZE.md",
     "templates/BUGS.md",
     "templates/DECISIONS.md",
     "templates/VERIFY.md",
@@ -29,6 +32,7 @@ REQUIRED_FILES = [
     "examples/agent-worker-poc.md",
     "examples/ml-model-poc.md",
     WORKFLOW_FILE,
+    "install.sh",
     "scripts/validate_repo.py",
 ]
 
@@ -43,9 +47,12 @@ REQUIRED_SCRIPTS = [
 
 REQUIRED_SKILLS = [
     "grill-with-docs-lite",
+    "constitution-lite",
     "mini-spec",
+    "checklist-mini",
     "thin-plan",
     "scope-freeze",
+    "analyze-mini",
     "build-one",
     "test-mini",
     "diagnose-loop",
@@ -70,6 +77,9 @@ REQUIRED_README_PHRASES = [
     "Claude Code",
     "Codex",
     "Slash-style usage",
+    "Why this exists",
+    "anti-patterns",
+    "Demo",
 ]
 
 
