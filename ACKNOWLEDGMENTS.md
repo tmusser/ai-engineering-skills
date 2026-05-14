@@ -8,6 +8,6 @@ This project is inspired by:
 
 `ai-engineering-skills` is independently written and MIT licensed.
 
-In particular, `constitution-lite` and related lightweight spec-governance ideas are influenced by the broader spec-driven development patterns popularized by Spec Kit, adapted here for smaller AI-engineering workflows.
+In particular, `constitution-lite` and related lightweight spec-governance ideas are influenced by broader spec-driven development patterns, including GitHub's Spec Kit, adapted here for smaller AI-engineering workflows.
 
 Inspiration does not imply endorsement by the authors or maintainers of those projects.

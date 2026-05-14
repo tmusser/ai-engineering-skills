@@ -260,7 +260,7 @@ Record the command output.
 ## Skill routing table
 
 | Need | Skill |
-| --- | --- |
+|---|---|
 | Clarify vague goals, terms, assumptions, or non-goals | `grill-with-docs-lite` |
 | Set compact project rules before repeated agent work | `constitution-lite` |
 | Turn a clarified request into a small durable spec | `mini-spec` |
