@@ -22,6 +22,10 @@
 
 - 
 
+## Important decisions
+
+- 
+
 ## Open decisions
 
 - 
@@ -31,5 +35,9 @@
 - 
 
 ## Next recommended task
+
+- 
+
+## Next verification command
 
 - 

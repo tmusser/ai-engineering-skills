@@ -226,6 +226,8 @@ Optional gates:
 - Use `checklist-mini` after `mini-spec`.
 - Use `analyze-mini` before `build-one`.
 
+The optional `constitution-lite`, `checklist-mini`, and `analyze-mini` gates are inspired by broader spec-driven development patterns, including GitHub's Spec Kit, but adapted for smaller AI-engineering projects.
+
 Use the full path when a project may change behavior, data, user decisions, or scheduled work:
 
 1. `grill-with-docs-lite`
