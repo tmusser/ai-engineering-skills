@@ -1,9 +1,9 @@
-Output demo/ai-engineering-skills-demo.gif
+Output assets/demo.gif
 
 Set Shell "bash"
-Set FontSize 18
-Set Width 1100
-Set Height 720
+Set FontSize 15
+Set Width 920
+Set Height 620
 Set TypingSpeed 20ms
 
 Type "clear"
@@ -82,7 +82,7 @@ Type "    f.write('# CSV Summary\\n\\n')"
 Enter
 Type "    f.write(f'- Rows: {len(rows)}\\n')"
 Enter
-Type "    f.write(f'- Columns: {\", \".join(fields)}\\n')"
+Type "    f.write('- Columns: ' + ', '.join(fields) + '\\n')"
 Enter
 Type "    f.write('- Missing values: ' + ', '.join(f'{k}={v}' for k, v in missing.items()) + '\\n')"
 Enter

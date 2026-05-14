@@ -18,7 +18,7 @@ fi
 vhs demo/demo.tape
 
 cat <<'EOF'
-Rendered demo/ai-engineering-skills-demo.gif.
+Rendered assets/demo.gif.
 
 Review the GIF before committing it.
 Do not commit generated GIFs unless intentionally adding a release asset.

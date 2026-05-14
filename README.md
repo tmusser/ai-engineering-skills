@@ -24,18 +24,11 @@ It does not try to replace judgment. It gives the human and agent a shared set o
 
 ## Demo
 
-A sanitized terminal demo can be rendered from `demo/demo.tape` using VHS. It uses fake data and simulated agent output.
+![ai-engineering-skills terminal demo](assets/demo.gif)
 
-It shows:
+This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → verify-contract → handoff cycle using fake data and simulated agent output.
 
-1. Installing or local setup.
-2. Claude Code slash commands available.
-3. Running `/mini-spec` on a small project idea.
-4. Running `/thin-plan` to create vertical slices.
-5. Running `/scope-freeze` before implementation.
-6. Running `/build-one` for one bounded change.
-7. Running `/verify-contract` to record proof.
-8. Running `/handoff` to preserve context for the next session.
+The demo is generated from `demo/demo.tape` using VHS, so it is reproducible and does not require private data, API keys, or a real Claude Code session.
 
 Render it with:
 

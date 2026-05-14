@@ -35,6 +35,7 @@ REQUIRED_FILES = [
     "demo/sample-data/customers.csv",
     "demo/demo-script.md",
     "demo/demo.tape",
+    "assets/demo.gif",
     WORKFLOW_FILE,
     "install.sh",
     "scripts/render_demo.sh",
@@ -86,6 +87,7 @@ REQUIRED_README_PHRASES = [
     "anti-patterns",
     "Demo",
     "demo/demo.tape",
+    "assets/demo.gif",
 ]
 
 
