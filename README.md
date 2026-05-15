@@ -454,6 +454,8 @@ mini-spec → optional thin-plan → scope-freeze → build-one → test-mini �
 
 Use `handoff` if another session will continue.
 
+Analytical deliverables such as sizing memos or scenario tables often fit Level 2: use spec/checklist/plan/build/test, then add heavier gates only if the artifact becomes durable, reused, or multi-session.
+
 ### Level 3 — Full
 
 Use when work is user-facing, scheduled, autonomous, decision-impacting, data-sensitive, hard to inspect manually, or likely to span multiple slices.

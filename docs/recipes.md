@@ -25,14 +25,38 @@ flowchart TD
   D --> E
 ```
 
+## Analytical deliverable / scenario memo
+
+Use for opportunity sizing, scenario analysis, stakeholder memos, SQL → CSV → Python → Markdown analysis, or a transcript or meeting request that needs a structured deliverable.
+
+```text
+grill-with-docs-lite
+→ mini-spec
+→ checklist-mini
+→ thin-plan
+→ build-one × slices
+→ test-mini
+```
+
+Optional gates:
+
+- Use `scope-freeze` if working inside an existing repo with shared modules, configs, or broad blast radius.
+- Use `verify-contract` if the proof needs to become a durable audit artifact.
+- Use `ship-mini` if the output will be committed, reused, scheduled, automated, published, or treated as a source of truth.
+- Use `handoff` only if another session or agent will continue.
+
+Deterministic checks can include SQL row and count sanity checks, exact arithmetic checks, banned-word or framing checks, scenario table assertions, and methodology bridge checks between different metric definitions.
+
 ## When to skip steps
 
 - Skip `mini-spec` when the change is mechanical, single-purpose, and unambiguous.
 - Skip `thin-plan` when there is only one slice.
-- Inline `scope-freeze` when the change touches one file and has one obvious verification command.
+- Skip `scope-freeze` when the workspace is already isolated and the blast radius is obvious.
+- Use test-mini for correctness checks; use verify-contract when the verification evidence itself needs to be durable.
 - Skip `test-mini` only when no behavior changed or when a runnable test is not practical; use a smoke path instead.
+- Use `ship-mini` when the output becomes a committed, shared, scheduled, automated, published, or source-of-truth artifact.
 - Skip `ship-mini` only when the output is not user-facing, scheduled, autonomous, decision-impacting, or data-sensitive.
-- Skip `handoff` when the task is complete and no future session needs to continue.
+- Use `handoff` for continuation, not completion.
 - Do not skip `verify-contract` when behavior changed.
 
 ## Spike / scratchpad

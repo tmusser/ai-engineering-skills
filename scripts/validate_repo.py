@@ -94,6 +94,7 @@ REQUIRED_README_PHRASES = [
     "Skill map",
     "The failure mode this avoids",
     "Ceremony ladder",
+    "Analytical deliverables",
     "```mermaid",
     "--codex-user",
     "scripts/install_codex.py",
@@ -251,6 +252,10 @@ def check_docs(errors: list[str]) -> None:
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():
         recipes = read_text("docs/recipes.md")
+        if "Analytical deliverable" not in recipes:
+            errors.append("docs/recipes.md does not mention Analytical deliverable")
+        if "Use test-mini for correctness checks" not in recipes:
+            errors.append("docs/recipes.md does not mention Use test-mini for correctness checks")
         if "Level 0 — Patch" not in recipes:
             errors.append("docs/recipes.md does not mention Level 0 — Patch")
         if "Fresh-context development loop" not in recipes:
