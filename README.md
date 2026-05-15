@@ -124,9 +124,17 @@ It is not a replacement for engineering judgment.
 
 It is not tied to one AI coding tool.
 
-Claude Code is the primary installation path. Codex is supported. Manual install is always available because skills are plain folders with `SKILL.md` files.
+Claude Code and Codex are peer targets. Manual install is always available because skills are plain folders with `SKILL.md` files.
 
 ## Installation
+
+This repo is portable by design.
+
+Claude Code gets direct slash commands like `/mini-spec`.
+
+Codex gets first-class skill installation through `.agents/skills`, explicit `$skill-name` invocation, `/skills` discovery, and `AGENTS.md` project guidance.
+
+Same workflow. Native invocation style for each tool.
 
 ### Claude Code
 
@@ -182,17 +190,50 @@ See `docs/claude-code-installation.md` for details.
 
 ### Codex
 
-For Codex repo-scoped usage, copy each skill directory into the appropriate Codex skills directory for your environment, such as `.agents/skills/` when using repo-scoped skills.
-
-Example:
+Install for your personal Codex environment:
 
 ```bash
-mkdir -p .agents/skills docs/ai-workflow
-cp -R /path/to/ai-engineering-skills/skills/* .agents/skills/
-cp -R /path/to/ai-engineering-skills/templates/* docs/ai-workflow/
+./install.sh --codex-user
 ```
 
-Then ask Codex:
+Direct Python installer:
+
+```bash
+python scripts/install_codex.py --target user
+```
+
+Use this when you want these skills available across Codex projects.
+
+Install into a specific project:
+
+```bash
+./install.sh --codex-project /path/to/project
+```
+
+Direct Python installer:
+
+```bash
+python scripts/install_codex.py --target project --project-path /path/to/project
+```
+
+Use this when you want the skills versioned with a specific repo for team or project-scoped usage.
+
+After installation, invoke skills with `$skill-name` or select them through `/skills`.
+
+Examples:
+
+```text
+$mini-spec
+$thin-plan
+$scope-freeze
+$build-one
+$verify-contract
+$handoff
+```
+
+Codex may also invoke skills automatically when their descriptions match the task.
+
+You can also ask Codex explicitly:
 
 ```text
 Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop before implementation.

@@ -7,11 +7,15 @@ Usage:
   ./install.sh
   ./install.sh --claude-user
   ./install.sh --claude-project /path/to/project
+  ./install.sh --codex-user
+  ./install.sh --codex-project /path/to/project
   ./install.sh --help
 
 Options:
   --claude-user              Install Claude Code skills to ~/.claude/skills/.
   --claude-project PATH      Install Claude Code skills to PATH/.claude/skills/.
+  --codex-user               Install Codex skills to ~/.agents/skills/.
+  --codex-project PATH       Install Codex skills to PATH/.agents/skills/.
   --help                     Show this help message.
 
 Default:
@@ -47,6 +51,15 @@ install_claude_project() {
   print_slash_commands
 }
 
+install_codex_user() {
+  python scripts/install_codex.py --target user
+}
+
+install_codex_project() {
+  project_path="$1"
+  python scripts/install_codex.py --target project --project-path "$project_path"
+}
+
 case "${1:-}" in
   "")
     install_claude_user
@@ -60,6 +73,16 @@ case "${1:-}" in
       exit 1
     fi
     install_claude_project "$2"
+    ;;
+  --codex-user)
+    install_codex_user
+    ;;
+  --codex-project)
+    if [ "$#" -ne 2 ]; then
+      echo "error: --codex-project requires a project path" >&2
+      exit 1
+    fi
+    install_codex_project "$2"
     ;;
   --help|-h)
     print_help

@@ -32,5 +32,11 @@ jobs:
       - name: Compile Claude Code installer
         run: python -m py_compile scripts/install_claude_code.py
 
+      - name: Compile Codex installer
+        run: python -m py_compile scripts/install_codex.py
+
       - name: Validate repo structure
         run: python scripts/validate_repo.py
+
+      - name: Check install wrapper help
+        run: bash install.sh --help

@@ -1,26 +1,56 @@
 # Codex Installation
 
-Codex is supported, but this repository is not Codex-only.
+Codex is a first-class target for this repo.
 
-Each skill is a plain folder with a `SKILL.md` file. Use the skills by copying or referencing them in the appropriate Codex skill directory for your environment.
+Each skill is a plain folder with a `SKILL.md` file. Codex can use these skills from a user-level skill directory or from a repo-scoped skill directory.
 
-For repo-scoped usage, a common pattern is:
+## Install Modes
+
+### User Install
+
+Install skills for use across Codex projects:
 
 ```bash
-mkdir -p .agents/skills docs/ai-workflow
-cp -R /path/to/ai-engineering-skills/skills/* .agents/skills/
-cp -R /path/to/ai-engineering-skills/templates/* docs/ai-workflow/
+python scripts/install_codex.py --target user
 ```
 
-Then ask Codex:
+This copies each folder under `skills/` into:
 
 ```text
-Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop before implementation.
+~/.agents/skills/
 ```
 
-Use `docs/ai-workflow/` or the project root for durable artifacts such as `SPEC.md`, `PLAN.md`, `VERIFY.md`, and `HANDOFF.md`.
+### Project Install
 
-If your Codex environment uses a different skill location, copy the folders from `skills/` there instead.
+Install skills into a specific project:
+
+```bash
+python scripts/install_codex.py --target project --project-path /path/to/project
+```
+
+This copies each folder under `skills/` into:
+
+```text
+<project>/.agents/skills/
+```
+
+Use project install when you want the workflow versioned with a repo and shared by a team.
+
+## Templates
+
+Templates are not installed by default.
+
+To copy templates during install:
+
+```bash
+python scripts/install_codex.py --target user --include-templates
+python scripts/install_codex.py --target project --project-path /path/to/project --include-templates
+```
+
+Template destinations:
+
+- User install: `~/.agents/ai-engineering-skills/templates/`
+- Project install: `<project>/docs/ai-engineering-skills/templates/`
 
 ## Invocation
 
@@ -29,19 +59,28 @@ Codex skills should be invoked with `$skill-name` or selected through `/skills`.
 Examples:
 
 ```text
-$grill-with-docs-lite
 $mini-spec
 $thin-plan
 $scope-freeze
 $build-one
-$test-mini
-$diagnose-loop
-$bug-capture
 $verify-contract
-$ship-mini
 $handoff
 ```
 
 Use `/skills` when you want to browse or select installed skills interactively.
 
+Codex can also invoke skills implicitly when the task matches the skill description.
+
 Do not assume Claude Code slash commands such as `/mini-spec` work in Codex. Codex uses its own skill invocation conventions.
+
+## Project Guidance
+
+A project `AGENTS.md` pairs well with these skills.
+
+Use it to state local rules, validation commands, ownership boundaries, and any tool-specific guidance the agent should read before acting.
+
+Then ask Codex with explicit skill names:
+
+```text
+Use $grill-with-docs-lite, then $mini-spec and $thin-plan for this project. Stop before implementation.
+```

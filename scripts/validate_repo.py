@@ -50,6 +50,7 @@ REQUIRED_DOCS = [
 
 REQUIRED_SCRIPTS = [
     "scripts/install_claude_code.py",
+    "scripts/install_codex.py",
 ]
 
 REQUIRED_SKILLS = [
@@ -93,6 +94,8 @@ REQUIRED_README_PHRASES = [
     "Skill map",
     "The failure mode this avoids",
     "```mermaid",
+    "--codex-user",
+    "scripts/install_codex.py",
 ]
 
 
@@ -240,6 +243,10 @@ def check_docs(errors: list[str]) -> None:
         if path.is_file() and "/mini-spec" not in read_text(relative_path):
             errors.append(f"{relative_path} does not mention /mini-spec")
 
+    codex_path = repo_path("docs/codex-installation.md")
+    if codex_path.is_file() and "$mini-spec" not in read_text("docs/codex-installation.md"):
+        errors.append("docs/codex-installation.md does not mention $mini-spec")
+
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():
         recipes = read_text("docs/recipes.md")
@@ -266,6 +273,7 @@ def check_python_scripts(errors: list[str]) -> None:
     """Check Python script syntax."""
     check_python_compiles("scripts/validate_repo.py", errors)
     check_python_compiles("scripts/install_claude_code.py", errors)
+    check_python_compiles("scripts/install_codex.py", errors)
 
 
 def main() -> int:
