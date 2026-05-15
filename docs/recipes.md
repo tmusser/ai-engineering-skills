@@ -29,6 +29,36 @@ flowchart TD
 
 Use for opportunity sizing, scenario analysis, stakeholder memos, SQL → CSV → Python → Markdown analysis, or a transcript or meeting request that needs a structured deliverable.
 
+```mermaid
+flowchart TD
+  A["Private request or transcript<br/>(not committed)"] --> B["grill-with-docs-lite"]
+  B --> C["CONTEXT.md<br/>distilled requirements"]
+  C --> D["mini-spec"]
+  D --> E["SPEC.md<br/>formula, assumptions, acceptance criteria"]
+  E --> F["checklist-mini"]
+  F --> G{"Ready with<br/>documented assumptions?"}
+  G -- "No" --> H["Resolve blockers<br/>or mark NEEDS CLARIFICATION"]
+  H --> D
+  G -- "Yes" --> I["thin-plan"]
+  I --> J["Vertical slices<br/>inputs → scenario table → narrative → deliverable"]
+  J --> K["build-one × slices"]
+  K --> L["test-mini"]
+  L --> M["Deterministic checks<br/>SQL sanity, math assertions,<br/>framing/banned-word checks"]
+  M --> N["Stakeholder-ready<br/>scenario memo or table"]
+
+  N --> O{"Does proof need to<br/>be durable?"}
+  O -- "Yes" --> P["verify-contract"]
+  O -- "No" --> Q{"Will it become<br/>source-of-truth?"}
+
+  P --> Q
+  Q -- "Yes" --> R["ship-mini"]
+  Q -- "No" --> S{"Will another session<br/>continue?"}
+
+  R --> S
+  S -- "Yes" --> T["handoff"]
+  S -- "No" --> U["Done"]
+```
+
 ```text
 grill-with-docs-lite
 → mini-spec
