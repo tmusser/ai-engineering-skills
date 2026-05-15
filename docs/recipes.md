@@ -2,6 +2,48 @@
 
 Use the smallest workflow that fits the task. These recipes show common routes through the skills.
 
+## Level 0 — Patch
+
+Use for tiny reversible edits that only need one sanity check.
+
+```mermaid
+flowchart TD
+  A[Tiny reversible edit] --> B[Run one sanity check]
+  B --> C[Record verification in commit message]
+```
+
+## Level 1 — Micro behavior change
+
+Use for small bounded behavior changes that still fit in one slice.
+
+```mermaid
+flowchart TD
+  A[Inline scope-freeze] --> B[Build one]
+  B --> C{Behavior changed?}
+  C -- Yes --> D[Test mini]
+  C -- No --> E[Verify contract]
+  D --> E
+```
+
+## When to skip steps
+
+- Skip `mini-spec` when the change is mechanical, single-purpose, and unambiguous.
+- Skip `thin-plan` when there is only one slice.
+- Inline `scope-freeze` when the change touches one file and has one obvious verification command.
+- Skip `test-mini` only when no behavior changed or when a runnable test is not practical; use a smoke path instead.
+- Skip `ship-mini` only when the output is not user-facing, scheduled, autonomous, decision-impacting, or data-sensitive.
+- Skip `handoff` when the task is complete and no future session needs to continue.
+- Do not skip `verify-contract` when behavior changed.
+
+## Spike / scratchpad
+
+Use a spike to test an idea quickly.
+
+- Do not create `SPEC.md` or `PLAN.md`.
+- Keep it in one scratch file when possible.
+- Use fake or toy data.
+- When the spike grows beyond its boundary, stop and promote it to Level 2 by creating `mini-spec`, `verify-contract`, and `handoff` artifacts.
+
 ## Default small-project flow
 
 Use when a small project needs enough structure to ship safely.
@@ -88,11 +130,3 @@ flowchart TD
 ```
 
 Define autonomy level, allowed tools, forbidden actions, rollback, and logs.
-
-## When to skip steps
-
-- Skip `constitution-lite` for one-off work.
-- Skip `grill-with-docs-lite` when the goal is already clear.
-- Skip `ship-mini` only when the output is not user-facing, scheduled, autonomous, or decision-impacting.
-- Do not skip `verify-contract` if you changed behavior.
-- Use `handoff` whenever context is getting long or another session will continue.

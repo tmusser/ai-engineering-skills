@@ -407,13 +407,62 @@ Run the relevant checks.
 
 Update `VERIFY.md`, then update `HANDOFF.md` before ending the session.
 
-## Full ceremony vs mini ceremony
+## Ceremony ladder
 
-Use full ceremony when work is user-facing, scheduled, autonomous, decision-impacting, data-sensitive, or hard to inspect manually.
+Use the smallest workflow that still feels safe.
 
-Use mini ceremony for small local helpers, one-off analysis, isolated refactors, or throwaway experiments.
+### Level 0 — Patch
 
-Even then, keep a short spec, one vertical task, and a verification note.
+Use for trivial, reversible changes such as typos, comments, formatting, or a tiny single-file edit.
+
+Workflow:
+
+```text
+edit → run one sanity check → record verification in the commit message
+```
+
+No workflow artifacts required.
+
+Commit footer example:
+
+```text
+Verify: pytest -q tests/test_parser.py
+Result: PASS
+```
+
+### Level 1 — Micro
+
+Use for small bounded behavior changes, usually 1-3 files.
+
+Workflow:
+
+```text
+inline scope-freeze → build-one → verify-contract
+```
+
+Use `test-mini` if behavior changed and a fast check exists.
+
+### Level 2 — Mini
+
+Use for small vertical slices that benefit from explicit acceptance criteria or non-goals.
+
+Workflow:
+
+```text
+mini-spec → optional thin-plan → scope-freeze → build-one → test-mini → verify-contract
+```
+
+Use `handoff` if another session will continue.
+
+### Level 3 — Full
+
+Use when work is user-facing, scheduled, autonomous, decision-impacting, data-sensitive, hard to inspect manually, or likely to span multiple slices.
+
+Workflow:
+
+```text
+grill-with-docs-lite → mini-spec → checklist-mini → thin-plan → scope-freeze → analyze-mini → build-one → test-mini → verify-contract → ship-mini → handoff
+```
 
 ## License and acknowledgments
 

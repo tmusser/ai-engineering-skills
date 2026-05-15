@@ -93,6 +93,7 @@ REQUIRED_README_PHRASES = [
     "Workflow recipes",
     "Skill map",
     "The failure mode this avoids",
+    "Ceremony ladder",
     "```mermaid",
     "--codex-user",
     "scripts/install_codex.py",
@@ -250,8 +251,12 @@ def check_docs(errors: list[str]) -> None:
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():
         recipes = read_text("docs/recipes.md")
+        if "Level 0 — Patch" not in recipes:
+            errors.append("docs/recipes.md does not mention Level 0 — Patch")
         if "Fresh-context development loop" not in recipes:
             errors.append("docs/recipes.md does not mention Fresh-context development loop")
+        if "Spike / scratchpad" not in recipes:
+            errors.append("docs/recipes.md does not mention Spike / scratchpad")
         if "```mermaid" not in recipes:
             errors.append("docs/recipes.md does not contain a Mermaid code block")
 
