@@ -1,6 +1,6 @@
 ---
 name: analyze-mini
-description: Check consistency across CONTEXT.md, SPEC.md, PLAN.md, TODO.md, and scope-freeze notes before implementation begins.
+description: Check consistency across `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, and scope-freeze notes.
 ---
 
 # Analyze Mini
@@ -39,11 +39,11 @@ Use after planning and scope-freeze, before `build-one`, when a small project ha
 - Acceptance-criteria-to-task map
 - Verification gaps
 - Scope compatibility notes
-- Complexity justification notes
+- Complexity notes
 
 ## Stop conditions
 
-- The selected task is consistent with the durable artifacts.
+- The selected task is consistent with the artifacts.
 - A contradiction or missing command blocks implementation.
 
 ## Anti-patterns

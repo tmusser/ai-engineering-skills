@@ -1,6 +1,6 @@
 ---
 name: constitution-lite
-description: Create a small set of project rules before repeated AI-agent work so principles, autonomy limits, and forbidden patterns stay durable.
+description: Create a small set of project rules before repeated agent work.
 ---
 
 # Constitution Lite

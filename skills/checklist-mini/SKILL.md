@@ -1,6 +1,6 @@
 ---
 name: checklist-mini
-description: Validate a mini-spec before planning by checking ambiguity, observability, measurable success, non-goals, verification, scope, and speculative features.
+description: Validate a mini-spec before planning.
 ---
 
 # Checklist Mini

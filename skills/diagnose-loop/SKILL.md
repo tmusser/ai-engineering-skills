@@ -1,6 +1,6 @@
 ---
 name: diagnose-loop
-description: Debug failures systematically by freezing feature work, reproducing the issue, testing hypotheses, applying the smallest fix, and rerunning verification.
+description: Debug failures systematically.
 ---
 
 # Diagnose Loop

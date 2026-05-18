@@ -1,13 +1,13 @@
 ---
 name: bug-capture
-description: Preserve discovered bugs as durable BUGS.md entries with reproduction steps, expected behavior, hypothesis, status, verification, and resolution.
+description: Preserve discovered bugs as BUGS.md entries.
 ---
 
 # Bug Capture
 
 ## Purpose
 
-Preserve discovered bugs as durable artifacts.
+Preserve discovered bugs as artifacts.
 
 ## When to use
 

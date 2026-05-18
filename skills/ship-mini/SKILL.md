@@ -1,13 +1,13 @@
 ---
 name: ship-mini
-description: Run a lightweight GO or NO-GO gate before using small dashboards, ML workflows, agent workflows, scheduled jobs, or decision-impacting outputs.
+description: Run a lightweight GO or NO-GO gate before use.
 ---
 
 # Ship Mini
 
 ## Purpose
 
-Decide whether a small project, dashboard, ML workflow, or agent workflow is safe to use.
+Decide whether a small project, dashboard, ML workflow, or agent workflow is ready to use.
 
 ## When to use
 

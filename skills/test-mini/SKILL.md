@@ -1,13 +1,13 @@
 ---
 name: test-mini
-description: Add focused deterministic tests, fixtures, golden examples, or smoke checks for workflows that can run while still being wrong.
+description: Add focused deterministic tests, fixtures, or smoke checks.
 ---
 
 # Test Mini
 
 ## Purpose
 
-Protect against silent wrongness without adding heavy test ceremony.
+Protect against wrong behavior without heavy tests.
 
 ## When to use
 

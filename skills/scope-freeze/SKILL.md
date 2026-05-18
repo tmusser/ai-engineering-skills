@@ -1,6 +1,6 @@
 ---
 name: scope-freeze
-description: Limit an agent's blast radius before implementation by defining allowed files, read-only areas, forbidden operations, commands, and stop conditions.
+description: Limit an agent's blast radius before implementation.
 ---
 
 # Scope Freeze

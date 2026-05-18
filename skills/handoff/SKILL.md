@@ -1,13 +1,13 @@
 ---
 name: handoff
-description: Compress project context into HANDOFF.md so the next agent session can continue without dragging a long chat history forward.
+description: Compress project context into HANDOFF.md for the next agent session.
 ---
 
 # Handoff
 
 ## Purpose
 
-Compress context so the next session can continue cleanly.
+Compress context for the next session.
 
 A handoff is not a transcript. It is a launchpad for the next safe action.
 
@@ -64,6 +64,6 @@ Use at the end of a session, before changing agents, or before pausing a project
 
 ## Anti-patterns
 
-- Dragging a huge chat history forward instead of creating durable state.
+- Dragging a huge chat history forward instead of creating state.
 - Writing vague status like "mostly done".
 - Omitting known failures.

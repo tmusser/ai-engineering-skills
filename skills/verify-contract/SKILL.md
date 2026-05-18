@@ -1,6 +1,6 @@
 ---
 name: verify-contract
-description: Record proof that a task works by capturing commands, pass/fail results, changed files, artifacts, risks, and the next safest task.
+description: Record proof that a task works.
 ---
 
 # Verify Contract

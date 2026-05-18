@@ -1,6 +1,6 @@
 ---
 name: thin-plan
-description: Convert a mini-spec into 3-7 vertical implementation slices when a small project needs observable, independently verified progress.
+description: Convert a mini-spec into 3-7 vertical implementation slices.
 ---
 
 # Thin Plan

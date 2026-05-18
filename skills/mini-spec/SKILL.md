@@ -1,17 +1,17 @@
 ---
 name: mini-spec
-description: Create a compact SPEC.md for fast solo AI-engineering projects when the goal is clear enough to define behavior, constraints, and verification without full PRD ceremony.
+description: Create a compact SPEC.md for small AI-engineering projects.
 ---
 
 # Mini Spec
 
 ## Purpose
 
-Create a small but durable `SPEC.md` for fast solo projects.
+Create a small `SPEC.md` for a project.
 
 ## When to use
 
-Use when a project or feature is clear enough to define, but too important to implement from a vague chat request.
+Use when a project or feature is clear enough to define before implementation.
 
 ## Inputs
 
