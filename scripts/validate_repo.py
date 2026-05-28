@@ -28,9 +28,11 @@ REQUIRED_FILES = [
     "templates/VERIFY.md",
     "templates/SHIP.md",
     "templates/HANDOFF.md",
+    "templates/STAKEHOLDER_ASKS.md",
     "examples/small-dashboard-poc.md",
     "examples/agent-worker-poc.md",
     "examples/ml-model-poc.md",
+    "examples/cross-functional-infrastructure-coordination.md",
     "demo/README.md",
     "demo/sample-data/customers.csv",
     "demo/demo-script.md",
@@ -91,6 +93,7 @@ REQUIRED_README_PHRASES = [
     "demo/demo.tape",
     "assets/demo.gif",
     "Workflow recipes",
+    "Cross-functional infrastructure coordination",
     "Skill map",
     "The failure mode this avoids",
     "Ceremony ladder",
@@ -252,6 +255,10 @@ def check_docs(errors: list[str]) -> None:
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():
         recipes = read_text("docs/recipes.md")
+        if "Cross-functional infrastructure coordination" not in recipes:
+            errors.append(
+                "docs/recipes.md does not mention Cross-functional infrastructure coordination"
+            )
         if "Analytical deliverable" not in recipes:
             errors.append("docs/recipes.md does not mention Analytical deliverable")
         if "Use test-mini for correctness checks" not in recipes:

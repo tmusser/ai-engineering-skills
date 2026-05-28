@@ -25,6 +25,49 @@ flowchart TD
   D --> E
 ```
 
+## Cross-functional infrastructure coordination
+
+Use when a project spans multiple teams, external owners, tickets, meetings, credentials, platform details, or unresolved technical access questions.
+
+```text
+grill-with-docs-lite
+→ external context lookup
+→ CONTEXT.md
+→ TODO.md
+→ stakeholder ask files
+→ verification scripts
+→ private context packs
+```
+
+```mermaid
+flowchart TD
+  A["Meeting transcript<br/>or brain dump"] --> B["grill-with-docs-lite"]
+  B --> C["CONTEXT.md<br/>project source of truth"]
+
+  C --> D["External context lookup"]
+  D --> D1["Drive / docs"]
+  D --> D2["Slack / chat history"]
+  D --> D3["Jira / tickets"]
+  D --> D4["Vendor docs / WebFetch"]
+
+  D1 --> E["Distilled facts"]
+  D2 --> E
+  D3 --> E
+  D4 --> E
+
+  E --> F["TODO.md<br/>daily driver"]
+  E --> G["stakeholder/asks.md<br/>accountability"]
+  E --> H[".local/context/warehouse-context.md<br/>private technical context"]
+  E --> I["verify_feature.py<br/>smoke test"]
+
+  F --> J["Manager-ready status"]
+  G --> J
+  H --> J
+  I --> J
+```
+
+Use `.local/` for private technical context and keep it gitignored.
+
 ## Analytical deliverable / scenario memo
 
 Use for opportunity sizing, scenario analysis, stakeholder memos, SQL → CSV → Python → Markdown analysis, or a transcript or meeting request that needs a structured deliverable.

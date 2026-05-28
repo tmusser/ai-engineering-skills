@@ -393,6 +393,13 @@ ML workflow POC:
 4. Record model artifact/version and data freshness.
 5. Use `ship-mini` before scheduling or using outputs for decisions.
 
+Cross-functional infrastructure coordination:
+
+1. Use `grill-with-docs-lite` to turn a meeting transcript or brain dump into a clear request.
+2. Track stakeholder asks in files, keep private technical context in `.local/context/`, and use verification scripts for access or workflow checks.
+3. Keep `CONTEXT.md` and `TODO.md` current so the next session can pick up cleanly.
+4. Cross-functional infrastructure coordination — using `grill-with-docs-lite`, stakeholder ask files, private context packs, and verification scripts to manage a messy multi-team project.
+
 ## Recommended daily loop
 
 Start by reading `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, and `HANDOFF.md` if they exist.
