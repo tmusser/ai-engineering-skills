@@ -64,6 +64,7 @@ $thin-plan
 $scope-freeze
 $build-one
 $verify-contract
+$lean-mode
 $handoff
 ```
 

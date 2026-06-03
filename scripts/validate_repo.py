@@ -58,6 +58,7 @@ REQUIRED_SCRIPTS = [
 REQUIRED_SKILLS = [
     "grill-with-docs-lite",
     "constitution-lite",
+    "lean-mode",
     "mini-spec",
     "checklist-mini",
     "thin-plan",
@@ -98,6 +99,8 @@ REQUIRED_README_PHRASES = [
     "The failure mode this avoids",
     "Ceremony ladder",
     "Analytical deliverables",
+    "lean-mode",
+    "communication density",
     "```mermaid",
     "--codex-user",
     "scripts/install_codex.py",
@@ -207,6 +210,13 @@ def check_skill(skill_name: str, errors: list[str]) -> None:
         if heading not in lines:
             errors.append(f"skills/{skill_name}/SKILL.md missing heading: {heading}")
 
+    if skill_name == "lean-mode":
+        skill_text = "\n".join(lines)
+        if "Compress prose, not meaning" not in skill_text:
+            errors.append("skills/lean-mode/SKILL.md missing phrase: Compress prose, not meaning")
+        if "Always preserve" not in skill_text:
+            errors.append("skills/lean-mode/SKILL.md missing phrase: Always preserve")
+
 
 def check_skills(errors: list[str]) -> None:
     """Check all required skill directories."""
@@ -248,9 +258,15 @@ def check_docs(errors: list[str]) -> None:
         if path.is_file() and "/mini-spec" not in read_text(relative_path):
             errors.append(f"{relative_path} does not mention /mini-spec")
 
+    claude_path = repo_path("docs/claude-code-installation.md")
+    if claude_path.is_file() and "/lean-mode" not in read_text("docs/claude-code-installation.md"):
+        errors.append("docs/claude-code-installation.md does not mention /lean-mode")
+
     codex_path = repo_path("docs/codex-installation.md")
     if codex_path.is_file() and "$mini-spec" not in read_text("docs/codex-installation.md"):
         errors.append("docs/codex-installation.md does not mention $mini-spec")
+    if codex_path.is_file() and "$lean-mode" not in read_text("docs/codex-installation.md"):
+        errors.append("docs/codex-installation.md does not mention $lean-mode")
 
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():

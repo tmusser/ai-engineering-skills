@@ -132,6 +132,10 @@ Deterministic checks can include SQL row and count sanity checks, exact arithmet
 - Use `handoff` for continuation, not completion.
 - Do not skip `verify-contract` when behavior changed.
 
+## Communication density
+
+Use `lean-mode` to keep routine interactions short. Do not use it to compress away assumptions, risks, verification, or unresolved questions.
+
 ## Spike / scratchpad
 
 Use a spike to test an idea quickly.

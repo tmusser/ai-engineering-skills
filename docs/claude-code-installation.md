@@ -80,6 +80,7 @@ After installation, invoke skills directly:
 /build-one
 /test-mini
 /diagnose-loop
+/lean-mode
 /handoff
 ```
 
@@ -116,6 +117,7 @@ Available slash commands:
 /bug-capture
 /verify-contract
 /ship-mini
+/lean-mode
 /handoff
 ```
 

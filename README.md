@@ -94,6 +94,7 @@ Then open Claude Code in a project and run:
 
 ```text
 /mini-spec
+/lean-mode
 ```
 
 ## What this repo is
@@ -125,6 +126,10 @@ It is not a replacement for engineering judgment.
 It is not tied to one AI coding tool.
 
 Claude Code and Codex are peer targets. Manual install is always available because skills are plain folders with `SKILL.md` files.
+
+`grill-with-docs-lite` is adapted from Matt Pocock's grill skill, but here it feeds durable context files and a readiness judgment for AI-engineering work.
+
+`lean-mode` is optional. It changes communication density, not the project workflow. Use it when token budget matters, then switch back to full reasoning when ambiguity, safety, or trade-offs require more explanation.
 
 ## Installation
 
@@ -181,6 +186,7 @@ After installation, invoke skills with slash commands such as:
 /build-one
 /test-mini
 /diagnose-loop
+/lean-mode
 /handoff
 ```
 
@@ -228,6 +234,7 @@ $thin-plan
 $scope-freeze
 $build-one
 $verify-contract
+$lean-mode
 $handoff
 ```
 
@@ -366,6 +373,8 @@ Use the smallest route that fits the task. See `docs/recipes.md` for visual work
 | Record proof that work passed | `verify-contract` |
 | Decide GO / NO-GO for use | `ship-mini` |
 | Compress context for the next session | `handoff` |
+| Reduce routine response length while preserving commands, risks, verification, and next actions | `lean-mode` |
+| Reduce routine response length while preserving commands, risks, verification, and next actions | `lean-mode` |
 
 ## Example workflows
 

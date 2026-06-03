@@ -19,6 +19,7 @@ EXAMPLE_COMMANDS = [
     "scope-freeze",
     "build-one",
     "verify-contract",
+    "lean-mode",
     "handoff",
 ]
 
