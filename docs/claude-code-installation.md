@@ -81,6 +81,7 @@ After installation, invoke skills directly:
 /test-mini
 /diagnose-loop
 /lean-mode
+/context-check
 /handoff
 ```
 

@@ -279,6 +279,7 @@ Available Claude Code slash commands:
 /build-one
 /test-mini
 /diagnose-loop
+/lean-mode
 /bug-capture
 /verify-contract
 /ship-mini

@@ -3,8 +3,8 @@
 ## Workflow defaults
 
 Default modes:
-- lean-mode:
-- context-check:
+- lean-mode: on | off
+- context-check: passive | explicit-only | off
 
 Default loop:
 -

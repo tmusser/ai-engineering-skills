@@ -2,7 +2,7 @@
 
 ## Resume packet
 
-Read first:
+Read first if present:
 - `HANDOFF.md`
 - `CONTEXT.md`
 - `SPEC.md`
@@ -16,8 +16,8 @@ Resume command:
 ## Workflow state
 
 Active modes:
-- lean-mode:
-- context-check:
+- lean-mode: on | off
+- context-check: passive | explicit-only | off
 
 Current phase:
 -

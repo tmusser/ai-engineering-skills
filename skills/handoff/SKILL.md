@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Compress project context into HANDOFF.md for the next agent session.
+description: Compress project context into HANDOFF.md with workflow state, active modes, next gate, verification, current hypothesis, fresh context, and fork guidance for the next agent session.
 ---
 
 # Handoff
@@ -43,7 +43,7 @@ Use at the end of a session, before changing agents, or before pausing a project
 5. Write a `Resume command` that a fresh agent can follow without reading the full transcript.
 6. Avoid summarizing the whole conversation.
 7. Prefer file pointers over copied code.
-8. Include a short "For the next agent" block near the top.
+8. Include a short `Resume packet` block near the top.
 9. In that block, instruct the next agent to read `SPEC.md`, `PLAN.md`, `TODO.md`, `VERIFY.md`, and the changed files listed in the handoff.
 10. In that block, require a `Workflow state` section with active modes, current phase, current loop, next gate, context risk, and active hypothesis.
 11. In that block, instruct the next agent to confirm the current phase and goal, next recommended task, and verification command or smoke path.
