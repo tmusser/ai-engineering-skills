@@ -26,6 +26,8 @@ Preserve the MIT license and acknowledgments.
 
 Do not add generated marketing fluff.
 
+When editing handoff behavior, preserve `Workflow state`: active modes, current phase, current loop, next gate, context risk, and active hypothesis. Do not expand handoff into a transcript summary.
+
 ## Quality standards
 
 Every skill must include YAML frontmatter:

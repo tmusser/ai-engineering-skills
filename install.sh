@@ -36,6 +36,7 @@ Installed Claude Code slash commands:
 /bug-capture
 /verify-contract
 /ship-mini
+/context-check
 /handoff
 EOF
 }

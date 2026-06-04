@@ -136,6 +136,8 @@ Deterministic checks can include SQL row and count sanity checks, exact arithmet
 
 Use `lean-mode` to keep routine interactions short. Do not use it to compress away assumptions, risks, verification, or unresolved questions.
 
+Use `context-check` as a passive guardrail when threads get long, facts repeat, or handoff, fork, or restart is being considered. It recommends continue, freeze scope, update durable state, fork, handoff, or restart.
+
 ## Spike / scratchpad
 
 Use a spike to test an idea quickly.
@@ -198,6 +200,18 @@ flowchart TD
   H --> I["Next slice"]
   I --> B
 ```
+
+## Context pressure check
+
+Use when the thread is getting sticky, facts are being restated, active modes may be lost, or debugging has multiple hypotheses.
+
+```text
+context-check
+→ update durable state if needed
+→ handoff or fork only when risk is medium/high
+```
+
+Do not run this as ceremony. Use it only when context starts to distort execution.
 
 ## ML / dashboard workflow
 

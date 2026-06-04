@@ -131,6 +131,8 @@ Claude Code and Codex are peer targets. Manual install is always available becau
 
 `lean-mode` is optional. It changes communication density, not the project workflow. Use it when token budget matters, then switch back to full reasoning when ambiguity, safety, or trade-offs require more explanation.
 
+`context-check` is an optional passive guardrail. It watches for drift, compaction pressure, and active-mode loss, then recommends the smallest corrective action.
+
 ## Installation
 
 This repo is portable by design.
@@ -187,6 +189,7 @@ After installation, invoke skills with slash commands such as:
 /test-mini
 /diagnose-loop
 /lean-mode
+/context-check
 /handoff
 ```
 
@@ -235,6 +238,7 @@ $scope-freeze
 $build-one
 $verify-contract
 $lean-mode
+$context-check
 $handoff
 ```
 
@@ -278,6 +282,7 @@ Available Claude Code slash commands:
 /bug-capture
 /verify-contract
 /ship-mini
+/context-check
 /handoff
 ```
 
@@ -374,7 +379,7 @@ Use the smallest route that fits the task. See `docs/recipes.md` for visual work
 | Decide GO / NO-GO for use | `ship-mini` |
 | Compress context for the next session | `handoff` |
 | Reduce routine response length while preserving commands, risks, verification, and next actions | `lean-mode` |
-| Reduce routine response length while preserving commands, risks, verification, and next actions | `lean-mode` |
+| Detect context drift, rehydration loops, active-mode loss, hypothesis sprawl, or handoff pressure | `context-check` |
 
 ## Example workflows
 

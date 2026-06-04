@@ -20,6 +20,7 @@ EXAMPLE_COMMANDS = [
     "build-one",
     "verify-contract",
     "lean-mode",
+    "context-check",
     "handoff",
 ]
 

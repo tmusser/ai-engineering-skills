@@ -118,6 +118,7 @@ Available slash commands:
 /verify-contract
 /ship-mini
 /lean-mode
+/context-check
 /handoff
 ```
 

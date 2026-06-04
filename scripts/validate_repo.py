@@ -59,6 +59,7 @@ REQUIRED_SKILLS = [
     "grill-with-docs-lite",
     "constitution-lite",
     "lean-mode",
+    "context-check",
     "mini-spec",
     "checklist-mini",
     "thin-plan",
@@ -100,7 +101,9 @@ REQUIRED_README_PHRASES = [
     "Ceremony ladder",
     "Analytical deliverables",
     "lean-mode",
+    "context-check",
     "communication density",
+    "passive guardrail",
     "```mermaid",
     "--codex-user",
     "scripts/install_codex.py",
@@ -217,6 +220,13 @@ def check_skill(skill_name: str, errors: list[str]) -> None:
         if "Always preserve" not in skill_text:
             errors.append("skills/lean-mode/SKILL.md missing phrase: Always preserve")
 
+    if skill_name == "context-check":
+        skill_text = "\n".join(lines)
+        if "Detect context drift" not in skill_text:
+            errors.append("skills/context-check/SKILL.md missing phrase: Detect context drift")
+        if "Keep FREEZE NOW limited" not in skill_text:
+            errors.append("skills/context-check/SKILL.md missing phrase: Keep FREEZE NOW limited")
+
 
 def check_skills(errors: list[str]) -> None:
     """Check all required skill directories."""
@@ -261,16 +271,22 @@ def check_docs(errors: list[str]) -> None:
     claude_path = repo_path("docs/claude-code-installation.md")
     if claude_path.is_file() and "/lean-mode" not in read_text("docs/claude-code-installation.md"):
         errors.append("docs/claude-code-installation.md does not mention /lean-mode")
+    if claude_path.is_file() and "/context-check" not in read_text("docs/claude-code-installation.md"):
+        errors.append("docs/claude-code-installation.md does not mention /context-check")
 
     codex_path = repo_path("docs/codex-installation.md")
     if codex_path.is_file() and "$mini-spec" not in read_text("docs/codex-installation.md"):
         errors.append("docs/codex-installation.md does not mention $mini-spec")
     if codex_path.is_file() and "$lean-mode" not in read_text("docs/codex-installation.md"):
         errors.append("docs/codex-installation.md does not mention $lean-mode")
+    if codex_path.is_file() and "$context-check" not in read_text("docs/codex-installation.md"):
+        errors.append("docs/codex-installation.md does not mention $context-check")
 
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():
         recipes = read_text("docs/recipes.md")
+        if "context-check" not in recipes:
+            errors.append("docs/recipes.md does not mention context-check")
         if "Cross-functional infrastructure coordination" not in recipes:
             errors.append(
                 "docs/recipes.md does not mention Cross-functional infrastructure coordination"

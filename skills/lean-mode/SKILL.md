@@ -133,7 +133,7 @@ Lean
 Do:
 
 git remote -v
-git push origin v0.4.0"
+git push origin v0.5.0"
 
 ## Outputs
 

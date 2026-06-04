@@ -65,6 +65,7 @@ $scope-freeze
 $build-one
 $verify-contract
 $lean-mode
+$context-check
 $handoff
 ```
 
