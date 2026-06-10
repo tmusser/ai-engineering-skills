@@ -384,6 +384,12 @@ Record the command output.
 
 Use the smallest route that fits the task. See `docs/recipes.md` for visual workflows covering small projects, bugfixes, ML/dashboard work, agent workers, and fresh-context development.
 
+## Companion patterns
+
+This repo focuses on technical execution with coding agents.
+
+For non-technical business workflows - clear asks, owners, decisions, updates, risks, and follow-ups - a companion `ai-business-skills` project may use the same lightweight-skill philosophy with a smaller, Cowork-first surface area.
+
 ## Skill routing table
 
 | Need | Skill |
@@ -433,10 +439,9 @@ ML workflow POC:
 
 Cross-functional infrastructure coordination:
 
-1. Use `grill-with-docs-lite` to turn a meeting transcript or brain dump into a clear request.
-2. Track stakeholder asks in files, keep private technical context in `.local/context/`, and use verification scripts for access or workflow checks.
-3. Keep `CONTEXT.md` and `TODO.md` current so the next session can pick up cleanly.
-4. Cross-functional infrastructure coordination — using `grill-with-docs-lite`, stakeholder ask files, private context packs, and verification scripts to manage a messy multi-team project.
+  1. Use `grill-with-docs-lite` to turn a meeting transcript or brain dump into a clear technical request.
+  2. Track stakeholder asks in files, keep private technical context in `.local/context/`, and use verification scripts for access or workflow checks.
+  3. Keep `CONTEXT.md`, `TODO.md`, and `HANDOFF.md` current so the next session can pick up cleanly.
 
 ## Recommended daily loop
 
