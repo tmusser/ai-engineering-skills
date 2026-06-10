@@ -1,50 +1,63 @@
 ---
 name: scope-freeze
-description: Limit an agent's blast radius before implementation.
+description: Explicitly limit blast radius before any implementation or file changes.
 ---
 
 # Scope Freeze
 
 ## Purpose
 
-Limit the agent's blast radius before implementation.
+Prevent uncontrolled changes by defining a narrow, enforceable boundary. This freezes **write scope**, not discovery.
 
 ## When to use
 
-Use immediately before editing files or running commands that can change project state.
+Immediately before editing files or running state-changing commands.
 
 ## Inputs
 
-- `SPEC.md`
-- `PLAN.md`
-- `TODO.md`
-- Current repo status
+- SPEC.md / PLAN.md / TODO.md
 - Selected task
+- Current repo state
 
 ## Workflow
 
-1. Name the selected task.
-2. List allowed files and folders.
-3. List read-only files and folders.
-4. List forbidden operations.
-5. Set max files changed.
-6. Set max lines changed if useful.
-7. List allowed commands.
-8. Define the stop condition.
+1. Name the exact task.
+2. List **allowed** files/folders.
+3. List **read-only** files/folders.
+4. List **forbidden** operations.
+5. Set max files/lines changed (if helpful).
+6. List allowed commands.
+7. Define clear stop condition.
+8. Note that reads/searches are allowed unless explicitly forbidden.
 
 ## Outputs
 
-- Scope boundary for the task
-- Allowed commands
-- Stop condition
+**Canonical output block:**
+````
+
+SCOPE FREEZE
+Task: ...
+Allowed: src/ui/settings/, tests/ui/settings_test.py
+Read-only: src/core/
+Forbidden: changing any other UI components, database schema, or build config
+Max files: 4
+Allowed commands: git status, pytest, etc.
+Stop when: toggle works in UI + tests pass
+
+```
+
+## Success looks like
+
+The example block above.
 
 ## Stop conditions
 
-- The scope is narrow enough to implement safely.
-- The selected task requires files or commands outside the approved boundary.
+- Scope is narrow enough for safe implementation.
+- Task requires changes outside boundary → pause and renegotiate.
 
 ## Anti-patterns
 
-- Letting the agent roam the entire repo for a small fix.
-- Expanding scope because nearby code looks tempting.
-- Running write commands before the boundary is clear.
+- Roaming the entire repo for a small fix.
+- Expanding scope because "nearby code looked easy."
+- Running write commands before boundary is agreed.
+- Forbidding necessary discovery reads.

@@ -49,6 +49,17 @@ flowchart TD
   I --> F
 ```
 
+## Context-Pressure Control Layer
+
+Four skills form the backbone for resilient agent sessions:
+
+- `scope-freeze` — limits blast radius **before** work
+- `verify-contract` — records evidence **after** work
+- `context-check` — detects drift **during** work
+- `handoff` — preserves durable state **between** sessions
+
+Together they enforce bounded execution and verifiable progress.
+
 ## The failure mode this avoids
 
 ```mermaid

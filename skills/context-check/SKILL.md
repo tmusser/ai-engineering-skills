@@ -1,94 +1,78 @@
 ---
 name: context-check
-description: Detect context drift, rehydration loops, scope creep, active-mode loss, hypothesis sprawl, durable-state gaps, and compaction pressure in small AI-assisted engineering sessions. Use when a thread is getting long, repeated facts are being restated, a task changes shape, debugging has multiple competing hypotheses, handoff or fresh context is mentioned, active modes like lean-mode may need to persist, or the agent may be leaving a bounded vertical-slice workflow. Recommend the smallest corrective action: continue, freeze scope, update durable state, fork, handoff, or restart.
+description: Detect context drift, rehydration loops, hypothesis sprawl, scope creep, active-mode loss, and durable-state gaps. Recommend the smallest corrective action.
 ---
 
 # Context Check
 
 ## Purpose
 
-Keep AI-engineering sessions cheap, bounded, and durable without adding ceremony.
-
-Detect when the thread is starting to distort execution through rehydration, scope drift, hypothesis sprawl, or missing durable state.
+Keep sessions cheap, bounded, and durable. Detect distortion early and recommend minimal correction.
 
 ## When to use
 
-Use passively as a guardrail during project work.
+Passive guardrail. Speak **only** on medium/high risk (or when explicitly invoked).
 
-Speak only when risk is medium or high, unless the user explicitly invokes `context-check`.
+Low risk: stay silent **unless explicitly invoked**. If explicitly invoked on low risk, output one line: `CONTEXT RISK: low — continue.`
 
-Use when:
-
-- The same facts or premises are being restated.
-- The same misconception has been corrected twice.
-- Scope, audience, hypothesis, or error class changes.
-- Debugging has more than one active hypothesis.
-- A handoff, fork, restart, compaction, or fresh context is being considered.
-- Active modes may need to survive into another session.
-- Important facts still live only in chat.
+Trigger on repeated facts, scope/hypothesis changes, multiple debug hypotheses, handoff pressure, or active modes that may need to persist.
 
 ## Inputs
 
-- Current task and recent conversation.
-- Durable files such as `CONTEXT.md`, `SPEC.md`, `PLAN.md`, `TODO.md`, `VERIFY.md`, `DECISIONS.md`, `BUGS.md`, and `HANDOFF.md` if present.
-- Current phase, active modes, next gate, and verification path if known.
-- Current debugging hypothesis if debugging.
+- Current conversation
+- Durable state files if present
+- Current task, phase, loop, and active modes if known
+- Current debugging hypothesis if debugging
 
 ## Workflow
 
-1. Scan for context risk:
-   - repeated premise repair
-   - history restatement
-   - scope drift
-   - hypothesis sprawl
-   - weak durable state
-   - compaction or handoff pressure
-   - active-mode loss
-2. Assign one risk level:
-   - low: continue
-   - medium: freeze state before continuing
-   - high: fork, handoff, or restart before more implementation
-3. Recommend exactly one best move:
-   - continue
-   - freeze scope
-   - update durable state
-   - fork
-   - handoff
-   - restart
-4. If risk is medium or high, output:
+1. Scan for risk signals (repeated premises, history restatement, scope drift, hypothesis sprawl, weak durable state, active-mode loss).
+2. Assign risk: low / medium / high.
+3. Recommend exactly one best move. For medium/high risk, prefer: scope-freeze | update durable state | handoff | diagnose-loop | restart. Use `continue` only for explicit low-risk checks.
+4. On medium/high risk, output the structured block. Recommend restart only when context is actively corrupting decisions.
 
-```text
-CONTEXT RISK: low | medium | high
-TRIGGER:
-BEST MOVE:
-FREEZE NOW:
-NEXT ACTION:
+**Output format (medium/high only):**
+```
+CONTEXT RISK: medium
+TRIGGER: repeated premise repair on X
+BEST MOVE: handoff | scope-freeze | update PLAN.md | etc.
+FREEZE NOW: [key facts/decisions/modes/hypothesis]
+NEXT ACTION: ...
 ```
 
 Keep FREEZE NOW limited to facts, decisions, assumptions, IDs, files, tests, active modes, current hypothesis, and next verification that must survive.
 
-If active modes should survive a handoff, require them in `HANDOFF.md` under Workflow state.
-
 ## Outputs
 
-- A concise context-risk warning.
-- One recommended corrective action.
-- A minimal freeze list when needed.
-- No output during normal progress unless risk is medium or high.
+- Concise risk assessment
+- One recommended action
+- Minimal freeze list when needed
+
+## Success looks like
+
+- Low risk → no output (unless explicitly invoked), work continues cleanly.
+- Medium risk → quick state update prevents drift.
+- High risk → handoff or restart before more damage.
+
+**Example (medium risk):**
+```
+CONTEXT RISK: medium
+TRIGGER: scope subtly expanding
+BEST MOVE: scope-freeze
+FREEZE NOW: only modify files in /src/featureX
+```
 
 ## Stop conditions
 
-- The next action is clear.
-- The session can continue without re-explaining history.
-- Durable state contains the facts needed for a fresh thread.
-- Debugging has one active hypothesis.
-- Active modes are captured if they must persist.
+- Next action is clear.
+- Durable state holds necessary facts.
+- One active hypothesis (if debugging).
+- Active modes captured for persistence.
 
 ## Anti-patterns
 
-- Triggering just because the conversation is long.
-- Producing a checklist instead of one recommendation.
-- Summarizing the whole thread when only one state field is missing.
-- Treating handoff as a transcript summary.
-- Letting multiple debug hypotheses share one thread.
-- Assuming lean-mode or other active modes survive a fork without writing them down.
+- Triggering on normal long conversations.
+- Producing checklists instead of one action.
+- Full thread summaries.
+- Letting multiple debug hypotheses coexist.
+- Assuming modes survive without writing them down.
