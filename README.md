@@ -126,8 +126,6 @@ It emphasizes:
 - Handoff and context compression
 - Lightweight ship gates for ML, agent, and dashboard workflows
 
-The same workflow can also produce non-technical skill packs; [`ai-business-skills`](https://github.com/tmusser/ai-business-skills) is the first companion case study.
-
 ## What this repo is not
 
 This is not a generic prompt collection.
@@ -148,11 +146,9 @@ Claude Code and Codex are peer targets. Manual install is always available becau
 
 ## Companion case study
 
-[`ai-business-skills`](https://github.com/tmusser/ai-business-skills) is a Cowork-first companion repo built using this workflow.
+[`ai-business-skills`](https://github.com/tmusser/ai-business-skills) applies the same lightweight-skill philosophy to non-technical business workflows: clear asks, owners, decisions, updates, risks, and follow-ups.
 
-Where `ai-engineering-skills` helps technical builders reduce coding-agent chaos, `ai-business-skills` helps business users reduce business-context chaos: turning messy notes, transcripts, threads, tickets, and data outputs into clear asks, decisions, owners, updates, and follow-ups.
-
-It also serves as a small case study for this repo: the companion was scoped, planned, constrained, built, verified, and handed off using the `ai-engineering-skills` loop.
+It is useful as a companion case study: this repo focuses on technical execution with coding agents, while `ai-business-skills` shows how the same operating pattern can be adapted for business-context clarity.
 
 See [`docs/case-study-ai-business-skills.md`](docs/case-study-ai-business-skills.md).
 
@@ -383,12 +379,6 @@ Record the command output.
 ## Workflow recipes
 
 Use the smallest route that fits the task. See `docs/recipes.md` for visual workflows covering small projects, bugfixes, ML/dashboard work, agent workers, and fresh-context development.
-
-## Companion patterns
-
-This repo focuses on technical execution with coding agents.
-
-For non-technical business workflows - clear asks, owners, decisions, updates, risks, and follow-ups - a companion `ai-business-skills` project may use the same lightweight-skill philosophy with a smaller, Cowork-first surface area.
 
 ## Skill routing table
 
