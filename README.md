@@ -126,6 +126,8 @@ It emphasizes:
 - Handoff and context compression
 - Lightweight ship gates for ML, agent, and dashboard workflows
 
+The same workflow can also produce non-technical skill packs; [`ai-business-skills`](https://github.com/tmusser/ai-business-skills) is the first companion case study.
+
 ## What this repo is not
 
 This is not a generic prompt collection.
@@ -143,6 +145,16 @@ Claude Code and Codex are peer targets. Manual install is always available becau
 `lean-mode` is optional. It changes communication density, not the project workflow. Use it when token budget matters, then switch back to full reasoning when ambiguity, safety, or trade-offs require more explanation.
 
 `context-check` is an optional passive guardrail. It watches for drift, compaction pressure, and active-mode loss, then recommends the smallest corrective action.
+
+## Companion case study
+
+[`ai-business-skills`](https://github.com/tmusser/ai-business-skills) is a Cowork-first companion repo built using this workflow.
+
+Where `ai-engineering-skills` helps technical builders reduce coding-agent chaos, `ai-business-skills` helps business users reduce business-context chaos: turning messy notes, transcripts, threads, tickets, and data outputs into clear asks, decisions, owners, updates, and follow-ups.
+
+It also serves as a small case study for this repo: the companion was scoped, planned, constrained, built, verified, and handed off using the `ai-engineering-skills` loop.
+
+See [`docs/case-study-ai-business-skills.md`](docs/case-study-ai-business-skills.md).
 
 ## Installation
 
