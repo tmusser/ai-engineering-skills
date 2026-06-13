@@ -6,19 +6,9 @@ Build with AI like a disciplined team of two: one human setting direction, one a
 
 This is not just a prompt pack. Skills make behavior repeatable across sessions, templates preserve state, and verification records make claims auditable. See [Why skills, not prompts](docs/WHY_SKILLS_NOT_PROMPTS.md).
 
-## Demo
+## Start here
 
-![ai-engineering-skills terminal demo](assets/demo.gif)
-
-This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → verify-contract → handoff cycle using fake data and simulated agent output.
-
-The demo is generated from `demo/demo.tape` using VHS, so it is reproducible and does not require private data, API keys, or a real Claude Code session.
-
-Render it with:
-
-```bash
-scripts/render_demo.sh
-```
+This repo helps agents stop wandering, prove what changed, and preserve handoff state.
 
 ## Try it now
 
@@ -63,6 +53,20 @@ After:
 mini-spec -> one slice -> frozen scope -> command output -> handoff
 
 See the 3-minute vertical slice: [`examples/tiny-bugfix/README.md`](examples/tiny-bugfix/README.md)
+
+## Demo
+
+![ai-engineering-skills terminal demo](assets/demo.gif)
+
+This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → verify-contract → handoff cycle using fake data and simulated agent output.
+
+The demo is generated from `demo/demo.tape` using VHS, so it is reproducible and does not require private data, API keys, or a real Claude Code session.
+
+Render it with:
+
+```bash
+scripts/render_demo.sh
+```
 
 ## Why this exists
 
