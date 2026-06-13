@@ -531,6 +531,10 @@ Workflow:
 grill-with-docs-lite → mini-spec → checklist-mini → thin-plan → scope-freeze → analyze-mini → build-one → test-mini → verify-contract → ship-mini → handoff
 ```
 
+## Part of the suite
+
+This repo is one piece of a small set of repos for making AI-assisted work clearer, more bounded, and more verifiable. See [Suite map](docs/SUITE_MAP.md).
+
 ## License and acknowledgments
 
 This repository is MIT licensed. See `LICENSE`.
