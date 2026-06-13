@@ -4,17 +4,65 @@ A compact workflow for shipping small AI-assisted software projects with bounded
 
 Build with AI like a disciplined team of two: one human setting direction, one agent executing inside clear boundaries.
 
-```mermaid
-flowchart TD
-  A[Pick one vertical slice] --> B[Scope freeze]
-  B --> C[Build one]
-  C --> D[Test mini]
-  D --> E[Verify contract]
-  E --> F[Handoff]
-  F --> G[Fresh context]
-  G --> H[Confirm next task<br/>+ verification]
-  H --> A
+This is not just a prompt pack. Skills make behavior repeatable across sessions, templates preserve state, and verification records make claims auditable. See [Why skills, not prompts](docs/WHY_SKILLS_NOT_PROMPTS.md).
+
+## Demo
+
+![ai-engineering-skills terminal demo](assets/demo.gif)
+
+This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → verify-contract → handoff cycle using fake data and simulated agent output.
+
+The demo is generated from `demo/demo.tape` using VHS, so it is reproducible and does not require private data, API keys, or a real Claude Code session.
+
+Render it with:
+
+```bash
+scripts/render_demo.sh
 ```
+
+## Try it now
+
+```bash
+git clone https://github.com/tmusser/ai-engineering-skills.git
+cd ai-engineering-skills
+./install.sh
+```
+
+Then open Claude Code in a project and run:
+
+```text
+/mini-spec
+/thin-plan
+/scope-freeze
+/build-one
+/verify-contract
+```
+
+Or use Codex:
+
+```text
+$mini-spec
+$thin-plan
+$scope-freeze
+$build-one
+$verify-contract
+```
+
+## Minimum viable loop
+
+mini-spec -> scope-freeze -> build-one -> verify-contract
+
+This is the smallest adoption path. `thin-plan` and `handoff` are recommended, but they are not required to get value from the first slice.
+
+Before:
+
+vague request -> broad edits -> weak verification -> lost context
+
+After:
+
+mini-spec -> one slice -> frozen scope -> command output -> handoff
+
+See the 3-minute vertical slice: [`examples/tiny-bugfix/README.md`](examples/tiny-bugfix/README.md)
 
 ## Why this exists
 
@@ -79,35 +127,6 @@ flowchart TD
   M --> N["fresh context"]
 ```
 
-## Demo
-
-![ai-engineering-skills terminal demo](assets/demo.gif)
-
-This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → verify-contract → handoff cycle using fake data and simulated agent output.
-
-The demo is generated from `demo/demo.tape` using VHS, so it is reproducible and does not require private data, API keys, or a real Claude Code session.
-
-Render it with:
-
-```bash
-scripts/render_demo.sh
-```
-
-## Try it now
-
-```bash
-git clone https://github.com/tmusser/ai-engineering-skills.git
-cd ai-engineering-skills
-./install.sh
-```
-
-Then open Claude Code in a project and run:
-
-```text
-/mini-spec
-/lean-mode
-```
-
 ## What this repo is
 
 This repo is a portable skill pack for solo AI engineers, data scientists, and technical builders using coding agents to ship focused tools, ML workflows, agent workflows, dashboards, notebooks, and automation projects.
@@ -161,6 +180,8 @@ Claude Code gets direct slash commands like `/mini-spec`.
 Codex gets first-class skill installation through `.agents/skills`, explicit `$skill-name` invocation, `/skills` discovery, and `AGENTS.md` project guidance.
 
 Same workflow. Native invocation style for each tool.
+
+Compatibility confidence and invocation notes are in [docs/compatibility-confidence.md](docs/compatibility-confidence.md).
 
 ### Claude Code
 
