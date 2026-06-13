@@ -94,4 +94,4 @@ Next verification command:
 
 ## Next recommended task
 
-- Commit the example or link it from the README.
+- Use this example as the first smoke test for new users.

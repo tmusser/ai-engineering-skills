@@ -10,12 +10,17 @@ mini-spec -> thin-plan -> scope-freeze -> build-one -> verify-contract -> handof
 
 ## Run it
 
+Reproduce the bug first. This command is expected to fail because `before/` intentionally does not support `--limit` yet.
+
 ```bash
 python -m unittest discover examples/tiny-bugfix/before
-python -m unittest discover examples/tiny-bugfix/after
 ```
 
-The first command should fail. The second should pass.
+Verify the fix. This command is expected to pass.
+
+```bash
+python -m unittest discover examples/tiny-bugfix/after
+```
 
 ## Files
 
