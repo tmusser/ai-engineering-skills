@@ -15,7 +15,12 @@ This repo helps agents stop wandering, prove what changed, and preserve handoff 
 ```bash
 git clone https://github.com/tmusser/ai-engineering-skills.git
 cd ai-engineering-skills
-./install.sh
+```
+
+### Claude Code
+
+```bash
+./install.sh --claude-user
 ```
 
 Then open Claude Code in a project and run:
@@ -28,7 +33,13 @@ Then open Claude Code in a project and run:
 /verify-contract
 ```
 
-Or use Codex:
+### Codex
+
+```bash
+./install.sh --codex-user
+```
+
+Then open Codex in a project and run:
 
 ```text
 $mini-spec
