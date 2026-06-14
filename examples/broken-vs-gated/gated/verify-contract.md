@@ -42,13 +42,3 @@ Expected for a real implementation:
 ## Next safest task
 
 Create a separate mini-spec for dashboard usability if that work is still desired.
-
-## Validation
-
-- Run `git diff --check`
-- Run `python scripts/validate_repo.py`
-- Report files changed and command results
-
-## Commit message
-
-`docs: clarify broken-vs-gated verification`
