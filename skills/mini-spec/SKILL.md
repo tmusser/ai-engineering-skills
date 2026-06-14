@@ -27,17 +27,19 @@ Use when a project or feature is clear enough to define before implementation.
 2. Identify the user or use case.
 3. Define observable acceptance criteria.
 4. Record non-goals.
-5. Record constraints.
-6. List run, test, build, and verification commands.
-7. Sketch project structure.
-8. Define the smallest verification demo.
-9. Record open questions.
+5. List likely failure modes and name the primary failure mode for this slice.
+6. Record constraints.
+7. List run, test, build, and verification commands.
+8. Sketch project structure.
+9. Define the smallest verification demo.
+10. Record open questions.
 
 ## Outputs
 
 - `SPEC.md`
 - Explicit acceptance criteria
 - Explicit non-goals
+- Likely failure modes
 - Verification demo
 
 ## Stop conditions

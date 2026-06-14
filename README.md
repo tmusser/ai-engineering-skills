@@ -10,6 +10,47 @@ This is not just a prompt pack. Skills make behavior repeatable across sessions,
 
 This repo helps agents stop wandering, prove what changed, and preserve handoff state.
 
+## Why not just use Plan Mode?
+
+Use Plan Mode. It is useful.
+
+But planner modes usually ask a later question:
+
+> Do you approve this plan?
+
+This repo adds an earlier gate:
+
+> Is this the right work?
+
+Many agent failures do not start with bad code. They start with a plausible plan for underspecified intent.
+
+For work too consequential for ad hoc prompting but too small for a PRD, this repo adds lightweight circuit breakers between intent and execution:
+
+| Gate | Prevents | Forces you to answer |
+|---|---|---|
+| `mini-spec` | Premature agreement on vague scope | Is this the right work? |
+| `grill-with-docs-lite` | Mismatched terms, constraints, or boundaries | Are we using the same words the same way? |
+| `thin-plan` | Over-planning and scope creep | What is the smallest safe route? |
+| `scope-freeze` | Mid-flight expansion | What is allowed to change? |
+| `verify-contract` | Fake completion | What evidence proves it worked? |
+| `handoff` | Lost context across sessions | What state must survive the next restart? |
+
+**Better specs, not bigger specs.**
+
+## Proof, not polish
+
+This repo is new, so trust should come from inspectable artifacts rather than popularity signals:
+
+- reproducible examples showing the gated loop in action
+- verification records with commands, results, changed files, and known risks
+- handoff artifacts that preserve durable state across sessions
+- templates that make assumptions, non-goals, and acceptance criteria explicit
+- known limitations stated directly instead of hidden behind hype
+
+The goal is not to make agents slower.
+
+The goal is to make their work easier to steer, verify, resume, and discard when the direction is wrong.
+
 ## Try it now
 
 ```bash
