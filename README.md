@@ -47,6 +47,8 @@ This repo is new, so trust should come from inspectable artifacts rather than po
 - templates that make assumptions, non-goals, and acceptance criteria explicit
 - known limitations stated directly instead of hidden behind hype
 
+See [`examples/broken-vs-gated`](./examples/broken-vs-gated/) for a walkthrough of a plausible ungated plan versus the gated workflow.
+
 The goal is not to make agents slower.
 
 The goal is to make their work easier to steer, verify, resume, and discard when the direction is wrong.

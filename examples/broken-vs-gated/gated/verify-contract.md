@@ -1,30 +1,54 @@
 # Verify Contract
 
-## Date
+## Verification status
 
-- 2026-06-14
+Illustrative walkthrough only. This example does not include an executable fixture.
 
-## Task
+## Expected verification record
 
-- Auth cleanup slice
+A real implementation should record:
 
-## Commands run
+- exact command run
+- exact command result from the local run
+- changed files
+- untested risks
+- next safest task
 
-- `python -m unittest discover examples/broken-vs-gated/gated`
+## Example command shape
 
-## Result
+Replace this with the smallest relevant project check:
 
-- PASS
+```bash
+npm test -- auth-session-state
+```
 
 ## Changed files
 
-- `auth/middleware.py`
-- `tests/auth/test_auth_flow.py`
+Expected for a real implementation:
+
+- selected auth helper or login-state file
+- directly related auth test file
+
+## Not tested
+
+- full browser login flow unless explicitly run
+- dashboard usability changes, because they are out of scope
 
 ## Remaining risks
 
-- Dashboard usability has not been addressed.
+- the selected unit test may not cover the full login/logout path
+- a separate dashboard usability mini-spec is still needed
 
 ## Next safest task
 
-- Create a separate mini-spec for dashboard usability.
+Create a separate mini-spec for dashboard usability if that work is still desired.
+
+## Validation
+
+- Run `git diff --check`
+- Run `python scripts/validate_repo.py`
+- Report files changed and command results
+
+## Commit message
+
+`docs: clarify broken-vs-gated verification`
