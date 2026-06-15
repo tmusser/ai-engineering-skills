@@ -1,17 +1,19 @@
 ---
 name: grill-with-docs-lite
-description: Clarify ambiguous AI-engineering project ideas by challenging vague terms, assumptions, and missing context.
+description: Run a short boundary-grilling pass for small AI-engineering tasks, clarifying intent, non-goals, terms, constraints, and readiness before mini-spec.
 ---
 
 # Grill With Docs Lite
 
 ## Purpose
 
-Clarify an ambiguous project idea before writing specs or code.
+Clarify whether a small AI-engineering task is ready for `mini-spec` by resolving only the ambiguity that could cause wrong work, scope creep, or unsafe implementation.
 
 ## When to use
 
-Use when a request contains vague terms, missing domain language, unclear success criteria, unknown constraints, or hidden assumptions.
+Use when a request is probably small enough to move quickly, but contains vague terms, unclear success criteria, unknown constraints, hidden assumptions, or boundary risk.
+
+Use a fuller domain-model grilling workflow instead when the work depends on existing glossary terms, ADRs, cross-context architecture, or deep codebase/domain alignment.
 
 ## Inputs
 
@@ -50,3 +52,4 @@ Use when a request contains vague terms, missing domain language, unclear succes
 - Starting implementation before the problem language is clear.
 - Treating unclear business terms as obvious.
 - Asking broad questions when a narrow assumption would work.
+- Turning a short readiness gate into a full domain-model interrogation when the next slice only needs bounded intent.

@@ -47,6 +47,8 @@ This repo is new, so trust should come from inspectable artifacts rather than po
 - templates that make assumptions, non-goals, and acceptance criteria explicit
 - known limitations stated directly instead of hidden behind hype
 
+Want to evaluate before installing? Start with [`examples/broken-vs-gated`](./examples/broken-vs-gated/) and compare the ungated plan with the gated artifacts.
+
 See [`examples/broken-vs-gated`](./examples/broken-vs-gated/) for a walkthrough of a plausible ungated plan versus the gated workflow.
 
 The goal is not to make agents slower.
@@ -215,7 +217,7 @@ It is not tied to one AI coding tool.
 
 Claude Code and Codex are peer targets. Manual install is always available because skills are plain folders with `SKILL.md` files.
 
-`grill-with-docs-lite` is adapted from Matt Pocock's grill skill, but here it feeds durable context files and a readiness judgment for AI-engineering work.
+`grill-with-docs-lite` acknowledges Matt Pocock's `grill-with-docs`, but targets a smaller operating point. Use the full version when a plan needs to be stress-tested against a domain model, glossary, codebase, or ADRs. Use this lite version when a small AI-engineering task only needs enough semantic pressure to define intent, non-goals, boundaries, and readiness before `mini-spec`.
 
 `lean-mode` is optional. It changes communication density, not the project workflow. Use it when token budget matters, then switch back to full reasoning when ambiguity, safety, or trade-offs require more explanation.
 

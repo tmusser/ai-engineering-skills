@@ -5,6 +5,7 @@ This project is inspired by:
 - Addy Osmani's agent-skills: https://github.com/addyosmani/agent-skills
 - Matt Pocock's skills: https://github.com/mattpocock/skills
 - GitHub's Spec Kit: https://github.com/github/spec-kit
+- Matt Pocock's `grill-with-docs`: the idea of challenging vague plans against project language and documentation; `grill-with-docs-lite` adapts that impulse for short readiness checks before mini-specs.
 
 `ai-engineering-skills` is independently written and MIT licensed.
 

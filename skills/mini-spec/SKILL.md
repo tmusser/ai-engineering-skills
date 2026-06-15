@@ -1,13 +1,13 @@
 ---
 name: mini-spec
-description: Create a compact SPEC.md for small AI-engineering projects.
+description: Create a compact SPEC.md that prevents premature agreement by defining intent, non-goals, likely failure modes, and verification evidence.
 ---
 
 # Mini Spec
 
 ## Purpose
 
-Create a small `SPEC.md` for a project.
+Create the smallest useful `SPEC.md` that clarifies intent, names the likely failure mode, and gives the agent a verifiable target before planning or implementation.
 
 ## When to use
 
