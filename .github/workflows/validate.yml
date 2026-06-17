@@ -38,6 +38,18 @@ jobs:
       - name: Validate repo structure
         run: python scripts/validate_repo.py
 
+      - name: Run Claude Code dry-run smoke check
+        run: |
+          tmp_home="$(mktemp -d)"
+          HOME="$tmp_home" python scripts/install_claude_code.py --target user --dry-run
+          test ! -e "$tmp_home/.claude/skills"
+
+      - name: Run Codex dry-run smoke check
+        run: |
+          tmp_home="$(mktemp -d)"
+          HOME="$tmp_home" python scripts/install_codex.py --target user --dry-run
+          test ! -e "$tmp_home/.agents/skills"
+
       - name: Run tiny bugfix passing example
         run: python -m unittest discover examples/tiny-bugfix/after
 

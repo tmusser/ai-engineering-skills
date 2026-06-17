@@ -34,6 +34,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Also copy templates into a Claude-friendly support directory.",
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print what would be installed without creating or replacing files.",
+    )
     return parser.parse_args()
 
 
@@ -93,8 +98,15 @@ def resolve_template_target(args: argparse.Namespace) -> Path:
     return project_path / "docs" / "ai-engineering-skills" / "templates"
 
 
-def copy_skill(skill_dir: Path, target_root: Path) -> str:
+def copy_skill(skill_dir: Path, target_root: Path, dry_run: bool) -> str:
     destination = target_root / skill_dir.name
+
+    if dry_run:
+        if destination.exists():
+            print(f"Would replace existing skill: {destination}")
+        else:
+            print(f"Would install skill: {destination}")
+        return skill_dir.name
 
     if destination.exists():
         print(f"Replacing existing skill: {destination}")
@@ -103,31 +115,39 @@ def copy_skill(skill_dir: Path, target_root: Path) -> str:
     return skill_dir.name
 
 
-def copy_skills(skills: list[Path], target_root: Path) -> list[str]:
-    target_root.mkdir(parents=True, exist_ok=True)
+def copy_skills(skills: list[Path], target_root: Path, dry_run: bool) -> list[str]:
+    if not dry_run:
+        target_root.mkdir(parents=True, exist_ok=True)
 
     installed: list[str] = []
 
     for skill_dir in skills:
-        installed.append(copy_skill(skill_dir, target_root))
+        installed.append(copy_skill(skill_dir, target_root, dry_run))
 
     return installed
 
 
-def copy_templates(target_root: Path) -> None:
+def copy_templates(target_root: Path, dry_run: bool) -> None:
+    if dry_run:
+        if target_root.exists():
+            print(f"Would replace existing templates: {target_root}")
+        return
+
     if target_root.exists():
         print(f"Replacing existing templates: {target_root}")
 
     shutil.copytree(TEMPLATES_DIR, target_root, dirs_exist_ok=True)
 
 
-def print_summary(skill_target: Path, installed: list[str]) -> None:
-    print(f"Installed {len(installed)} skills into: {skill_target}")
+def print_summary(skill_target: Path, installed: list[str], dry_run: bool) -> None:
+    action = "Would install" if dry_run else "Installed"
+    print(f"{action} {len(installed)} skills into: {skill_target}")
 
     for skill_name in installed:
         print(f"- {skill_name}")
 
-    print("Claude Code slash commands:")
+    heading = "Claude Code slash commands that would be available:" if dry_run else "Claude Code slash commands:"
+    print(heading)
 
     for skill_name in installed:
         print(f"/{skill_name}")
@@ -140,14 +160,17 @@ def main() -> int:
 
     skills = skill_directories()
     skill_target = resolve_skill_target(args)
-    installed = copy_skills(skills, skill_target)
+    installed = copy_skills(skills, skill_target, args.dry_run)
 
-    print_summary(skill_target, installed)
+    print_summary(skill_target, installed, args.dry_run)
 
     if args.include_templates:
         template_target = resolve_template_target(args)
-        copy_templates(template_target)
-        print(f"Installed templates into: {template_target}")
+        copy_templates(template_target, args.dry_run)
+        if args.dry_run:
+            print(f"Would install templates into: {template_target}")
+        else:
+            print(f"Installed templates into: {template_target}")
 
     return 0
 
