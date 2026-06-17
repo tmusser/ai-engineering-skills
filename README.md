@@ -231,6 +231,8 @@ It is useful as a companion case study: this repo focuses on technical execution
 
 See [`docs/case-study-ai-business-skills.md`](docs/case-study-ai-business-skills.md).
 
+A second case study shows the same loop guiding a real external OSS contribution for `tmusser/skill-codex` on the `cursor-cli-delegation` branch: [Cursor CLI delegation case study](docs/case-studies/skill-codex-cursor-delegation/README.md).
+
 ## Installation
 
 This repo is portable by design.

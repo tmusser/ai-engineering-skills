@@ -6,6 +6,7 @@ A small set of repos for making AI-assisted work clearer, more bounded, and more
 
 - Audience: technical builders using coding agents.
 - Job: clarify, constrain, verify, and hand off small software work.
+- Related proof inside this repo: [Cursor CLI delegation case study](case-studies/skill-codex-cursor-delegation/README.md)
 
 ## ai-business-skills
 
