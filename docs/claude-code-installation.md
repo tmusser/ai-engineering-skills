@@ -27,7 +27,7 @@ This copies each folder under `skills/` into:
 ~/.claude/skills/
 ```
 
-Existing skill folders with the same names are replaced after the script prints what will be replaced.
+Existing managed, unmodified skill folders are updated. Unmanaged or locally modified skill folders are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs.
 
 ## Project install
 

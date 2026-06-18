@@ -3,13 +3,16 @@
 ## Workflow defaults
 
 Default modes:
+
 - lean-mode: on | off
 - context-check: passive | explicit-only | off
 
 Default loop:
--
+
+- _TBD_
 
 Durable state files:
+
 - `CONTEXT.md`
 - `SPEC.md`
 - `PLAN.md`
@@ -20,29 +23,29 @@ Durable state files:
 
 Rule:
 
-CONTEXT.md holds project defaults.
-HANDOFF.md holds current session state.
+- CONTEXT.md holds project defaults.
+- HANDOFF.md holds current session state.
 
 ## Domain terms
 
-- Term:
+- Term: _TBD_
 
 ## Decisions
 
-- Decision:
+- Decision: _TBD_
 
 ## Assumptions
 
-- Assumption:
+- Assumption: _TBD_
 
 ## Non-goals
 
-- Non-goal:
+- Non-goal: _TBD_
 
 ## Open questions
 
-- Question:
+- Question: _TBD_
 
 ## External constraints
 
-- Constraint:
+- Constraint: _TBD_

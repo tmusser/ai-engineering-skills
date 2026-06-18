@@ -33,7 +33,8 @@ Immediately before editing files or running state-changing commands.
 ## Outputs
 
 **Canonical output block:**
-````
+
+```text
 
 SCOPE FREEZE
 Task: ...

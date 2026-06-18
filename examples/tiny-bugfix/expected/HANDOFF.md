@@ -3,33 +3,41 @@
 ## Resume packet
 
 Read first if present:
+
 - `HANDOFF.md`
 - `SPEC.md`
 - `PLAN.md`
 - `VERIFY.md`
 
 Resume command:
+
 - `python -m unittest discover examples/tiny-bugfix/after`
 
 ## Workflow state
 
 Active modes:
+
 - lean-mode: off
 - context-check: off
 
 Current phase:
+
 - complete
 
 Current loop:
+
 - verify example output
 
 Next gate:
+
 - handoff
 
 Context risk:
+
 - low
 
 Active hypothesis:
+
 - none
 
 ## Project goal
@@ -44,15 +52,19 @@ Active hypothesis:
 ## State IDs
 
 Facts:
+
 - F1: `--limit` truncates the CLI output.
 
 Decisions:
+
 - D1: Use the Python standard library and `unittest` only.
 
 Assumptions:
+
 - A1: The example stays self-contained under `examples/tiny-bugfix/`.
 
 Claims / numbers:
+
 - C1: `python -m unittest discover examples/tiny-bugfix/after` passes.
 
 ## Completed slices
@@ -78,9 +90,11 @@ Claims / numbers:
 ## Verification state
 
 Last proof:
+
 - `python -m unittest discover examples/tiny-bugfix/after` passed.
 
 Next verification command:
+
 - `python -m unittest discover examples/tiny-bugfix/after`
 
 ## Open decisions

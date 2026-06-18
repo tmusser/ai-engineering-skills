@@ -58,11 +58,11 @@ Next: Add scheduling wrapper
 
 ## Stop conditions
 
-* Evidence is recorded clearly.
-* Failures trigger diagnosis (do not mark as passed).
+- Evidence is recorded clearly.
+- Failures trigger diagnosis (do not mark as passed).
 
 ## Anti-patterns
 
-* "Looks good" without evidence.
-* Hiding failed commands.
-* Using screenshots as primary evidence for non-visual tasks.
+- "Looks good" without evidence.
+- Hiding failed commands.
+- Using screenshots as primary evidence for non-visual tasks.

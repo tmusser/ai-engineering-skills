@@ -1,2 +1,17 @@
+globs:
+  - "README.md"
+  - "docs/**/*.md"
+  - "examples/**/*.md"
+  - "skills/**/*.md"
+  - "templates/**/*.md"
+
+ignores:
+  - "node_modules/**"
+  - ".git/**"
+
 config:
   MD013: false
+  MD024:
+    siblings_only: true
+  # Keep pipe tables readable without forcing exact column alignment.
+  MD060: false

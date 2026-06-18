@@ -36,7 +36,8 @@ Use at the end of a session, before switching agents, or before pausing work.
 9. Keep under 120 lines unless complexity requires more.
 
 **Resume Packet example (place near top):**
-```
+
+```text
 RESUME PACKET
 
 * Goal: ...

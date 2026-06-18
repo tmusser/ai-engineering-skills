@@ -1,11 +1,11 @@
 # TODO
 
-## Slice 1:
+## Slice 1
 
-- [ ] Task:
-- [ ] Verify:
+- [ ] Task: _TBD_
+- [ ] Verify: _TBD_
 
-## Slice 2:
+## Slice 2
 
-- [ ] Task:
-- [ ] Verify:
+- [ ] Task: _TBD_
+- [ ] Verify: _TBD_

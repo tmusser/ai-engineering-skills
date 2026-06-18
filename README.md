@@ -26,14 +26,14 @@ Many agent failures do not start with bad code. They start with a plausible plan
 
 For work too consequential for ad hoc prompting but too small for a PRD, this repo adds lightweight circuit breakers between intent and execution:
 
-| Gate | Prevents | Forces you to answer |
-|---|---|---|
-| `mini-spec` | Premature agreement on vague scope | Is this the right work? |
+| Gate                  | Prevents                                      | Forces you to answer                      |
+|-----------------------|-----------------------------------------------|--------------------------------------------|
+| `mini-spec`           | Premature agreement on vague scope            | Is this the right work?                   |
 | `grill-with-docs-lite` | Mismatched terms, constraints, or boundaries | Are we using the same words the same way? |
-| `thin-plan` | Over-planning and scope creep | What is the smallest safe route? |
-| `scope-freeze` | Mid-flight expansion | What is allowed to change? |
-| `verify-contract` | Fake completion | What evidence proves it worked? |
-| `handoff` | Lost context across sessions | What state must survive the next restart? |
+| `thin-plan`           | Over-planning and scope creep                  | What is the smallest safe route?          |
+| `scope-freeze`        | Mid-flight expansion                           | What is allowed to change?                |
+| `verify-contract`     | Fake completion                                | What evidence proves it worked?           |
+| `handoff`             | Lost context across sessions                   | What state must survive the next restart?  |
 
 **Better specs, not bigger specs.**
 
@@ -245,7 +245,7 @@ Same workflow. Native invocation style for each tool.
 
 Compatibility confidence and invocation notes are in [docs/compatibility-confidence.md](docs/compatibility-confidence.md).
 
-The installers are safety-aware: each installed skill gets an `AI_ENGINEERING_SKILLS_VERSION.json` manifest, `--dry-run` stays side-effect free, `--backup` copies replaced or removed targets to a timestamped backup root, `--force` is required to overwrite unmanaged or locally modified installs, `--only` narrows the selected skills, `--uninstall` removes selected skills, and `--include-templates` keeps support files portable.
+The installers are safety-aware: each installed skill gets an `AI_ENGINEERING_SKILLS_VERSION.json` manifest. Managed, unmodified installs update cleanly. Unmanaged or locally modified installs are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs. `--dry-run` stays side-effect free, `--only` narrows the selected skills, `--uninstall` removes selected skills, and `--include-templates` keeps support files portable.
 
 ### Claude Code
 
@@ -467,22 +467,22 @@ Use the smallest route that fits the task. See `docs/recipes.md` for visual work
 
 ## Skill routing table
 
-| Need | Skill |
-|---|---|
-| Clarify vague goals, terms, assumptions, or non-goals | `grill-with-docs-lite` |
-| Set compact project rules before repeated agent work | `constitution-lite` |
-| Turn a clarified request into a small durable spec | `mini-spec` |
-| Validate a mini-spec before planning | `checklist-mini` |
-| Break work into 3-7 observable slices | `thin-plan` |
-| Limit files, commands, and blast radius before coding | `scope-freeze` |
-| Check artifact consistency before implementation | `analyze-mini` |
-| Implement exactly one planned slice | `build-one` |
-| Add focused tests, fixtures, smoke checks, or demos | `test-mini` |
-| Debug a failure without random edits | `diagnose-loop` |
-| Preserve discovered bug details | `bug-capture` |
-| Record proof that work passed | `verify-contract` |
-| Decide GO / NO-GO for use | `ship-mini` |
-| Compress context for the next session | `handoff` |
+| Need                                                                      | Skill                      |
+|---------------------------------------------------------------------------|----------------------------|
+| Clarify vague goals, terms, assumptions, or non-goals                    | `grill-with-docs-lite`     |
+| Set compact project rules before repeated agent work                      | `constitution-lite`        |
+| Turn a clarified request into a small durable spec                        | `mini-spec`                |
+| Validate a mini-spec before planning                                      | `checklist-mini`           |
+| Break work into 3-7 observable slices                                     | `thin-plan`                |
+| Limit files, commands, and blast radius before coding                    | `scope-freeze`             |
+| Check artifact consistency before implementation                          | `analyze-mini`             |
+| Implement exactly one planned slice                                       | `build-one`                |
+| Add focused tests, fixtures, smoke checks, or demos                       | `test-mini`                |
+| Debug a failure without random edits                                      | `diagnose-loop`            |
+| Preserve discovered bug details                                            | `bug-capture`              |
+| Record proof that work passed                                              | `verify-contract`          |
+| Decide GO / NO-GO for use                                                 | `ship-mini`                |
+| Compress context for the next session                                     | `handoff`                  |
 | Reduce routine response length while preserving commands, risks, verification, and next actions | `lean-mode` |
 | Detect context drift, rehydration loops, active-mode loss, hypothesis sprawl, or handoff pressure | `context-check` |
 

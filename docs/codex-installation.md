@@ -36,6 +36,8 @@ This copies each folder under `skills/` into:
 
 Use project install when you want the workflow versioned with a repo and shared by a team.
 
+Existing managed, unmodified skill folders are updated. Unmanaged or locally modified skill folders are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs.
+
 ## Templates
 
 Templates are not installed by default.

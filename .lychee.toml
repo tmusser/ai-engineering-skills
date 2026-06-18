@@ -1,0 +1,5 @@
+accept = [200, 429]
+exclude = ["mailto:*"]
+exclude_path = ["**/assets/**"]
+max_retries = 2
+retry_wait_time = 2

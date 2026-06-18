@@ -2,8 +2,8 @@
 
 ## Spec readiness
 
-- Status:
-- Date:
+- Status: _TBD_
+- Date: _TBD_
 
 ## Checks
 
@@ -17,8 +17,8 @@
 
 ## Blocking notes
 
-- 
+- _TBD_
 
 ## Safe next step
 
-- 
+- _TBD_

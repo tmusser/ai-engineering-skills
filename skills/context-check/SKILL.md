@@ -32,7 +32,8 @@ Trigger on repeated facts, scope/hypothesis changes, multiple debug hypotheses, 
 4. On medium/high risk, output the structured block. Recommend restart only when context is actively corrupting decisions.
 
 **Output format (medium/high only):**
-```
+
+```text
 CONTEXT RISK: medium
 TRIGGER: repeated premise repair on X
 BEST MOVE: handoff | scope-freeze | update PLAN.md | etc.
@@ -55,7 +56,8 @@ Keep FREEZE NOW limited to facts, decisions, assumptions, IDs, files, tests, act
 - High risk → handoff or restart before more damage.
 
 **Example (medium risk):**
-```
+
+```text
 CONTEXT RISK: medium
 TRIGGER: scope subtly expanding
 BEST MOVE: scope-freeze
