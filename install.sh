@@ -6,6 +6,11 @@ print_help() {
 Usage:
   ./install.sh
   ./install.sh --dry-run
+  ./install.sh --backup
+  ./install.sh --uninstall
+  ./install.sh --force
+  ./install.sh --only mini-spec,scope-freeze
+  ./install.sh --include-templates
   ./install.sh --claude-user
   ./install.sh --claude-project /path/to/project
   ./install.sh --codex-user
@@ -13,7 +18,12 @@ Usage:
   ./install.sh --help
 
 Options:
-  --dry-run                  Print what would be installed without creating files.
+  --dry-run                  Print what would happen without changing files.
+  --backup                   Back up existing skills or templates before replace/remove.
+  --uninstall                Remove installed skills instead of installing them.
+  --force                    Replace or remove modified or unmanaged destinations.
+  --only SKILL_LIST          Comma-separated list of skill directories to act on.
+  --include-templates        Also install or uninstall shared templates.
   --claude-user              Install Claude Code skills to ~/.claude/skills/.
   --claude-project PATH      Install Claude Code skills to PATH/.claude/skills/.
   --codex-user               Install Codex skills to ~/.agents/skills/.
@@ -25,81 +35,78 @@ Default:
 EOF
 }
 
-print_slash_commands() {
-  if [ "${1:-0}" -eq 1 ]; then
-    heading='Claude Code slash commands that would be available:'
-  else
-    heading='Installed Claude Code slash commands:'
+run_installer() {
+  script="$1"
+  target="$2"
+  project_path="${3:-}"
+
+  set -- python "$script" --target "$target"
+
+  if [ -n "$project_path" ]; then
+    set -- "$@" --project-path "$project_path"
   fi
 
-  cat <<EOF
-$heading
-/grill-with-docs-lite
-/mini-spec
-/thin-plan
-/scope-freeze
-/build-one
-/test-mini
-/diagnose-loop
-/bug-capture
-/verify-contract
-/ship-mini
-/context-check
-/handoff
-EOF
-}
-
-install_claude_user() {
-  dry_run="$1"
-  if [ "$dry_run" -eq 1 ]; then
-    python scripts/install_claude_code.py --target user --dry-run
-  else
-    python scripts/install_claude_code.py --target user
+  if [ "$DRY_RUN" -eq 1 ]; then
+    set -- "$@" --dry-run
   fi
 
-  print_slash_commands "$dry_run"
-}
-
-install_claude_project() {
-  project_path="$1"
-  dry_run="$2"
-  if [ "$dry_run" -eq 1 ]; then
-    python scripts/install_claude_code.py --target project --project-path "$project_path" --dry-run
-  else
-    python scripts/install_claude_code.py --target project --project-path "$project_path"
+  if [ "$BACKUP" -eq 1 ]; then
+    set -- "$@" --backup
   fi
 
-  print_slash_commands "$dry_run"
-}
-
-install_codex_user() {
-  dry_run="$1"
-  if [ "$dry_run" -eq 1 ]; then
-    python scripts/install_codex.py --target user --dry-run
-  else
-    python scripts/install_codex.py --target user
+  if [ "$UNINSTALL" -eq 1 ]; then
+    set -- "$@" --uninstall
   fi
-}
 
-install_codex_project() {
-  project_path="$1"
-  dry_run="$2"
-  if [ "$dry_run" -eq 1 ]; then
-    python scripts/install_codex.py --target project --project-path "$project_path" --dry-run
-  else
-    python scripts/install_codex.py --target project --project-path "$project_path"
+  if [ "$FORCE" -eq 1 ]; then
+    set -- "$@" --force
   fi
+
+  if [ -n "$ONLY" ]; then
+    set -- "$@" --only "$ONLY"
+  fi
+
+  if [ "$INCLUDE_TEMPLATES" -eq 1 ]; then
+    set -- "$@" --include-templates
+  fi
+
+  "$@"
 }
 
 INSTALLER=claude
 TARGET=user
 PROJECT_PATH=
 DRY_RUN=0
+BACKUP=0
+UNINSTALL=0
+FORCE=0
+INCLUDE_TEMPLATES=0
+ONLY=
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --dry-run)
       DRY_RUN=1
+      ;;
+    --backup)
+      BACKUP=1
+      ;;
+    --uninstall)
+      UNINSTALL=1
+      ;;
+    --force)
+      FORCE=1
+      ;;
+    --include-templates)
+      INCLUDE_TEMPLATES=1
+      ;;
+    --only)
+      shift
+      if [ "$#" -eq 0 ]; then
+        echo "error: --only requires a comma-separated skill list" >&2
+        exit 1
+      fi
+      ONLY="$1"
       ;;
     --claude-user)
       INSTALLER=claude
@@ -146,15 +153,15 @@ done
 
 case "$INSTALLER:$TARGET" in
   claude:user)
-    install_claude_user "$DRY_RUN"
+    run_installer scripts/install_claude_code.py user
     ;;
   claude:project)
-    install_claude_project "$PROJECT_PATH" "$DRY_RUN"
+    run_installer scripts/install_claude_code.py project "$PROJECT_PATH"
     ;;
   codex:user)
-    install_codex_user "$DRY_RUN"
+    run_installer scripts/install_codex.py user
     ;;
   codex:project)
-    install_codex_project "$PROJECT_PATH" "$DRY_RUN"
+    run_installer scripts/install_codex.py project "$PROJECT_PATH"
     ;;
 esac

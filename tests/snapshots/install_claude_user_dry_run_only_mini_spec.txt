@@ -1,0 +1,5 @@
+Would install skill: <HOME>/.claude/skills/mini-spec
+Would install 1 skills into: <HOME>/.claude/skills
+- mini-spec
+Claude Code slash commands that would be available:
+/mini-spec

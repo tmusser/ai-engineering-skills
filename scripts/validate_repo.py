@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import py_compile
+import subprocess
 import sys
 from pathlib import Path
 
@@ -41,7 +42,14 @@ REQUIRED_FILES = [
     WORKFLOW_FILE,
     "install.sh",
     "scripts/render_demo.sh",
+    "scripts/run_runnable_examples.py",
+    "scripts/run_negative_examples.py",
     "scripts/validate_repo.py",
+    "tests/test_installers.py",
+    "tests/snapshots/install_sh_help.txt",
+    "tests/snapshots/install_claude_user_dry_run_only_mini_spec.txt",
+    "tests/snapshots/install_codex_user_dry_run_only_mini_spec.txt",
+    ".markdownlint-cli2.yaml",
 ]
 
 REQUIRED_DOCS = [
@@ -51,8 +59,11 @@ REQUIRED_DOCS = [
 ]
 
 REQUIRED_SCRIPTS = [
+    "scripts/install_common.py",
     "scripts/install_claude_code.py",
     "scripts/install_codex.py",
+    "scripts/run_runnable_examples.py",
+    "scripts/run_negative_examples.py",
 ]
 
 REQUIRED_SKILLS = [
@@ -104,6 +115,12 @@ REQUIRED_README_PHRASES = [
     "context-check",
     "communication density",
     "passive guardrail",
+    "AI_ENGINEERING_SKILLS_VERSION.json",
+    "--backup",
+    "--force",
+    "--uninstall",
+    "--only",
+    "--include-templates",
     "```mermaid",
     "--codex-user",
     "scripts/install_codex.py",
@@ -273,6 +290,8 @@ def check_docs(errors: list[str]) -> None:
         errors.append("docs/claude-code-installation.md does not mention /lean-mode")
     if claude_path.is_file() and "/context-check" not in read_text("docs/claude-code-installation.md"):
         errors.append("docs/claude-code-installation.md does not mention /context-check")
+    if claude_path.is_file() and "Safety behavior" not in read_text("docs/claude-code-installation.md"):
+        errors.append("docs/claude-code-installation.md does not mention Safety behavior")
 
     codex_path = repo_path("docs/codex-installation.md")
     if codex_path.is_file() and "$mini-spec" not in read_text("docs/codex-installation.md"):
@@ -281,6 +300,8 @@ def check_docs(errors: list[str]) -> None:
         errors.append("docs/codex-installation.md does not mention $lean-mode")
     if codex_path.is_file() and "$context-check" not in read_text("docs/codex-installation.md"):
         errors.append("docs/codex-installation.md does not mention $context-check")
+    if codex_path.is_file() and "Safety behavior" not in read_text("docs/codex-installation.md"):
+        errors.append("docs/codex-installation.md does not mention Safety behavior")
 
     recipes_path = repo_path("docs/recipes.md")
     if recipes_path.is_file():
@@ -320,9 +341,29 @@ def check_python_compiles(relative_path: str, errors: list[str]) -> None:
 
 def check_python_scripts(errors: list[str]) -> None:
     """Check Python script syntax."""
+    check_python_compiles("scripts/install_common.py", errors)
     check_python_compiles("scripts/validate_repo.py", errors)
     check_python_compiles("scripts/install_claude_code.py", errors)
     check_python_compiles("scripts/install_codex.py", errors)
+    check_python_compiles("scripts/run_runnable_examples.py", errors)
+    check_python_compiles("scripts/run_negative_examples.py", errors)
+    check_python_compiles("tests/test_installers.py", errors)
+
+
+def check_shell_scripts(errors: list[str]) -> None:
+    """Check shell script syntax."""
+    install_sh = repo_path("install.sh")
+
+    if not install_sh.is_file():
+        return
+
+    try:
+        subprocess.run(["sh", "-n", str(install_sh)], cwd=ROOT, check=True, capture_output=True, text=True)
+    except (OSError, subprocess.CalledProcessError) as exc:
+        stderr = ""
+        if isinstance(exc, subprocess.CalledProcessError):
+            stderr = exc.stderr.strip()
+        errors.append(f"install.sh does not pass sh -n{': ' + stderr if stderr else ''}")
 
 
 def main() -> int:
@@ -335,6 +376,7 @@ def main() -> int:
     check_docs(errors)
     check_license(errors)
     check_python_scripts(errors)
+    check_shell_scripts(errors)
 
     if errors:
         print("Validation failed:")

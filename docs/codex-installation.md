@@ -52,6 +52,19 @@ Template destinations:
 - User install: `~/.agents/ai-engineering-skills/templates/`
 - Project install: `<project>/docs/ai-engineering-skills/templates/`
 
+## Safety behavior
+
+The installer writes `AI_ENGINEERING_SKILLS_VERSION.json` into each installed skill folder.
+
+- `--dry-run` prints what would happen and makes no changes.
+- `--only mini-spec,scope-freeze` installs or uninstalls just those skills.
+- `--backup` copies replaced or removed folders to a timestamped backup root before mutation.
+- `--force` is required to overwrite unmanaged or locally modified installs.
+- `--uninstall` removes selected skills instead of installing them.
+- `--include-templates` copies templates with the same backup behavior.
+
+When in doubt, run `--dry-run` first.
+
 ## Invocation
 
 Codex skills should be invoked with `$skill-name` or selected through `/skills`.

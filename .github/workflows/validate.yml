@@ -35,8 +35,24 @@ jobs:
       - name: Compile Codex installer
         run: python -m py_compile scripts/install_codex.py
 
+      - name: Compile behavioral CI scripts
+        run: |
+          python -m py_compile scripts/install_common.py
+          python -m py_compile scripts/run_runnable_examples.py
+          python -m py_compile scripts/run_negative_examples.py
+          python -m py_compile tests/test_installers.py
+
       - name: Validate repo structure
         run: python scripts/validate_repo.py
+
+      - name: Run installer and example behavior tests
+        run: python -m unittest discover tests
+
+      - name: Run runnable example suites
+        run: python scripts/run_runnable_examples.py
+
+      - name: Run negative example suites
+        run: python scripts/run_negative_examples.py
 
       - name: Run Claude Code dry-run smoke check
         run: |
@@ -50,8 +66,30 @@ jobs:
           HOME="$tmp_home" python scripts/install_codex.py --target user --dry-run
           test ! -e "$tmp_home/.agents/skills"
 
-      - name: Run tiny bugfix passing example
-        run: python -m unittest discover examples/tiny-bugfix/after
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Lint markdown
+        run: npx markdownlint-cli2 "**/*.md"
+
+      - name: Check markdown links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: >-
+            --verbose
+            --no-progress
+            --retry-wait-time 2
+            --max-retries 2
+            --accept 200,429
+            --exclude-mail
+            --exclude-path '**/assets/**'
+            README.md
+            docs/**/*.md
+            skills/**/*.md
+            templates/**/*.md
+            examples/**/*.md
 
       - name: Check install wrapper help
         run: bash install.sh --help

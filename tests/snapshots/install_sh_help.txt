@@ -1,0 +1,29 @@
+Usage:
+  ./install.sh
+  ./install.sh --dry-run
+  ./install.sh --backup
+  ./install.sh --uninstall
+  ./install.sh --force
+  ./install.sh --only mini-spec,scope-freeze
+  ./install.sh --include-templates
+  ./install.sh --claude-user
+  ./install.sh --claude-project /path/to/project
+  ./install.sh --codex-user
+  ./install.sh --codex-project /path/to/project
+  ./install.sh --help
+
+Options:
+  --dry-run                  Print what would happen without changing files.
+  --backup                   Back up existing skills or templates before replace/remove.
+  --uninstall                Remove installed skills instead of installing them.
+  --force                    Replace or remove modified or unmanaged destinations.
+  --only SKILL_LIST          Comma-separated list of skill directories to act on.
+  --include-templates        Also install or uninstall shared templates.
+  --claude-user              Install Claude Code skills to ~/.claude/skills/.
+  --claude-project PATH      Install Claude Code skills to PATH/.claude/skills/.
+  --codex-user               Install Codex skills to ~/.agents/skills/.
+  --codex-project PATH       Install Codex skills to PATH/.agents/skills/.
+  --help                     Show this help message.
+
+Default:
+  ./install.sh is the same as ./install.sh --claude-user.

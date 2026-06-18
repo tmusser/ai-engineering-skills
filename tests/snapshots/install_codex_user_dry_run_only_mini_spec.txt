@@ -1,0 +1,5 @@
+Would install skill: <HOME>/.agents/skills/mini-spec
+Would install 1 skills into: <HOME>/.agents/skills
+- mini-spec
+Codex slash commands that would be available:
+$mini-spec

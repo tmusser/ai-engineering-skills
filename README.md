@@ -245,6 +245,8 @@ Same workflow. Native invocation style for each tool.
 
 Compatibility confidence and invocation notes are in [docs/compatibility-confidence.md](docs/compatibility-confidence.md).
 
+The installers are safety-aware: each installed skill gets an `AI_ENGINEERING_SKILLS_VERSION.json` manifest, `--dry-run` stays side-effect free, `--backup` copies replaced or removed targets to a timestamped backup root, `--force` is required to overwrite unmanaged or locally modified installs, `--only` narrows the selected skills, `--uninstall` removes selected skills, and `--include-templates` keeps support files portable.
+
 ### Claude Code
 
 Install for your personal Claude Code environment:
