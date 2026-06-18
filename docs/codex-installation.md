@@ -14,7 +14,7 @@ Install skills for use across Codex projects:
 python scripts/install_codex.py --target user
 ```
 
-This copies each folder under `skills/` into:
+This installs the selected skill folders into:
 
 ```text
 ~/.agents/skills/
@@ -28,7 +28,7 @@ Install skills into a specific project:
 python scripts/install_codex.py --target project --project-path /path/to/project
 ```
 
-This copies each folder under `skills/` into:
+This installs the selected skill folders into:
 
 ```text
 <project>/.agents/skills/
@@ -36,7 +36,7 @@ This copies each folder under `skills/` into:
 
 Use project install when you want the workflow versioned with a repo and shared by a team.
 
-Existing managed, unmodified skill folders are updated. Unmanaged or locally modified skill folders are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs.
+Managed, unmodified skill folders update normally. Unmanaged or locally modified skill folders are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs, and start with `--dry-run` when you want to inspect the plan first.
 
 ## Templates
 

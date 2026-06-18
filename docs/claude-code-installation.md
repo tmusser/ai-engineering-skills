@@ -21,13 +21,13 @@ Run this command from the root of this repository:
 python scripts/install_claude_code.py --target user
 ```
 
-This copies each folder under `skills/` into:
+This installs the selected skill folders into:
 
 ```text
 ~/.claude/skills/
 ```
 
-Existing managed, unmodified skill folders are updated. Unmanaged or locally modified skill folders are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs.
+Managed, unmodified skill folders update normally. Unmanaged or locally modified skill folders are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs, and start with `--dry-run` when you want to inspect the plan first.
 
 ## Project install
 
@@ -39,13 +39,13 @@ Run this command from the root of this repository:
 python scripts/install_claude_code.py --target project --project-path /path/to/project
 ```
 
-This copies each folder under `skills/` into:
+This installs the selected skill folders into:
 
 ```text
 <target-project>/.claude/skills/
 ```
 
-Commit the copied skills in the target project when you want the team to share the same workflow.
+Commit the installed skills in the target project when you want the team to share the same workflow.
 
 ## Include templates
 

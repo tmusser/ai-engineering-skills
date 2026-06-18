@@ -245,6 +245,8 @@ Same workflow. Native invocation style for each tool.
 
 Compatibility confidence and invocation notes are in [docs/compatibility-confidence.md](docs/compatibility-confidence.md).
 
+Hardening milestones are summarized in [CHANGELOG.md](CHANGELOG.md).
+
 The installers are safety-aware: each installed skill gets an `AI_ENGINEERING_SKILLS_VERSION.json` manifest. Managed, unmodified installs update cleanly. Unmanaged or locally modified installs are refused by default and require `--force`. Use `--backup` before replacing or removing existing installs. `--dry-run` stays side-effect free, `--only` narrows the selected skills, `--uninstall` removes selected skills, and `--include-templates` keeps support files portable.
 
 ### Claude Code
