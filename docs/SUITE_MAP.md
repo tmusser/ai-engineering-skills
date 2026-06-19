@@ -2,22 +2,11 @@
 
 A small set of repos for making AI-assisted work clearer, more bounded, and more verifiable.
 
-## ai-engineering-skills
-
-- Audience: technical builders using coding agents.
-- Job: clarify, constrain, verify, and hand off small software work.
-- Related proof inside this repo: [Cursor CLI delegation case study](case-studies/skill-codex-cursor-delegation/README.md)
-
-## ai-business-skills
-
-- Audience: PMs, managers, analysts, operators, and exec-adjacent ICs.
-- Job: turn messy workplace context into clear asks, decisions, owners, updates, and follow-ups.
-- Related proof inside this repo: [ai-business-skills case study](case-study-ai-business-skills.md)
-
-## chart-contract
-
-- Audience: analysts, data scientists, and AI agents producing analytical charts.
-- Job: audit claim, data, visual choice, source, unit, and caveat before sharing.
+| Repo | Primary job | First thing to try |
+| --- | --- | --- |
+| [ai-engineering-skills](https://github.com/tmusser/ai-engineering-skills) | Turn AI coding sessions into bounded, verifiable work | `mini-spec → scope-freeze → build-one → verify-contract` |
+| [context-to-action-skills](https://github.com/tmusser/context-to-action-skills) | Turn messy workplace context into facts and next actions | Start with `reduce-to-facts`, then use `clear-ask`, `decision-brief`, `status-update`, or `follow-up-draft` |
+| [chart-contract](https://github.com/tmusser/chart-contract) | Turn analytical charts into auditable claims | Build one chart with an explicit claim, caveat, and source trail |
 
 ## Same operating philosophy
 

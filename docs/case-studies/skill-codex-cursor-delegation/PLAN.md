@@ -10,7 +10,7 @@
 
 ## Dependencies
 
-- Existing case study style in `docs/case-study-ai-business-skills.md`.
+- Existing case study style in `docs/case-study-context-to-action-skills.md`.
 - Branch and commit evidence from the external `skill-codex` repo.
 
 ## Risk notes

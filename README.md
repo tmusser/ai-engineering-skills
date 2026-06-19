@@ -225,11 +225,11 @@ Claude Code and Codex are peer targets. Manual install is always available becau
 
 ## Companion case study
 
-[`ai-business-skills`](https://github.com/tmusser/ai-business-skills) applies the same lightweight-skill philosophy to non-technical business workflows: clear asks, owners, decisions, updates, risks, and follow-ups.
+[`context-to-action-skills`](https://github.com/tmusser/context-to-action-skills) applies the same lightweight-skill philosophy to non-technical context work: clear facts, asks, decisions, owners, risks, updates, and safe replies.
 
-It is useful as a companion case study: this repo focuses on technical execution with coding agents, while `ai-business-skills` shows how the same operating pattern can be adapted for business-context clarity.
+It is useful as a companion case study: this repo focuses on technical execution with coding agents, while `context-to-action-skills` shows how the same operating pattern can be adapted for business-context clarity.
 
-See [`docs/case-study-ai-business-skills.md`](docs/case-study-ai-business-skills.md).
+See [`docs/case-study-context-to-action-skills.md`](docs/case-study-context-to-action-skills.md).
 
 A second case study shows the same loop guiding a real external OSS contribution for `tmusser/skill-codex` on the `cursor-cli-delegation` branch: [Cursor CLI delegation case study](docs/case-studies/skill-codex-cursor-delegation/README.md).
 
@@ -595,7 +595,15 @@ grill-with-docs-lite → mini-spec → checklist-mini → thin-plan → scope-fr
 
 ## Part of the suite
 
-This repo is one piece of a small set of repos for making AI-assisted work clearer, more bounded, and more verifiable. See [Suite map](docs/SUITE_MAP.md).
+This repo is one piece of a small set of repos for making AI-assisted work clearer, more bounded, and more verifiable.
+
+| Repo | Primary job | First thing to try |
+| --- | --- | --- |
+| [ai-engineering-skills](https://github.com/tmusser/ai-engineering-skills) | Bounded, verifiable AI coding work | `mini-spec → scope-freeze → build-one → verify-contract` |
+| [context-to-action-skills](https://github.com/tmusser/context-to-action-skills) | Turn messy workplace context into facts and next actions | `reduce-to-facts`, then `clear-ask`, `decision-brief`, `status-update`, or `follow-up-draft` |
+| [chart-contract](https://github.com/tmusser/chart-contract) | Auditable analytical charts | Build one chart with an explicit claim, caveat, and source trail |
+
+The shared pattern: clarify first, bound the work, verify the result, preserve handoff state. See [Suite map](docs/SUITE_MAP.md).
 
 ## License and acknowledgments
 
