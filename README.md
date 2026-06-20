@@ -47,6 +47,8 @@ This repo is new, so trust should come from inspectable artifacts rather than po
 - templates that make assumptions, non-goals, and acceptance criteria explicit
 - known limitations stated directly instead of hidden behind hype
 
+If you want the edge cases and escape hatches first, see [Limitations](LIMITATIONS.md).
+
 Want to evaluate before installing? Start with [`examples/broken-vs-gated`](./examples/broken-vs-gated/) and compare the ungated plan with the gated artifacts.
 
 See [`examples/broken-vs-gated`](./examples/broken-vs-gated/) for a walkthrough of a plausible ungated plan versus the gated workflow.

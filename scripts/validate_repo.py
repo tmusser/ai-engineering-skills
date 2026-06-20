@@ -14,6 +14,7 @@ WORKFLOW_FILE = ".github/workflows/validate.yml"
 
 REQUIRED_FILES = [
     "README.md",
+    "LIMITATIONS.md",
     "LICENSE",
     "ACKNOWLEDGMENTS.md",
     "AGENTS.md",
@@ -104,6 +105,7 @@ REQUIRED_README_PHRASES = [
     "Why this exists",
     "anti-patterns",
     "Demo",
+    "Limitations",
     "demo/demo.tape",
     "assets/demo.gif",
     "Workflow recipes",
