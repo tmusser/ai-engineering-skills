@@ -55,6 +55,7 @@ REQUIRED_FILES = [
 REQUIRED_DOCS = [
     "docs/claude-code-installation.md",
     "docs/codex-installation.md",
+    "docs/bundles.md",
     "docs/recipes.md",
 ]
 
@@ -106,6 +107,7 @@ REQUIRED_README_PHRASES = [
     "demo/demo.tape",
     "assets/demo.gif",
     "Workflow recipes",
+    "Optional bundles",
     "Cross-functional infrastructure coordination",
     "Skill map",
     "The failure mode this avoids",

@@ -57,6 +57,10 @@ The goal is to make their work easier to steer, verify, resume, and discard when
 
 ## Try it now
 
+Recommended starter set: `mini-spec`, `scope-freeze`, `build-one`, `verify-contract`, `handoff`.
+
+Use `--only` to install just that starter set. `thin-plan` is recommended when a slice needs more shape, but it stays out of the absolute starter set.
+
 ```bash
 git clone https://github.com/tmusser/ai-engineering-skills.git
 cd ai-engineering-skills
@@ -65,40 +69,50 @@ cd ai-engineering-skills
 ### Claude Code
 
 ```bash
-./install.sh --claude-user
+./install.sh --claude-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ```
 
 Then open Claude Code in a project and run:
 
 ```text
 /mini-spec
-/thin-plan
 /scope-freeze
 /build-one
 /verify-contract
+/handoff
 ```
 
 ### Codex
 
 ```bash
-./install.sh --codex-user
+./install.sh --codex-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ```
 
 Then open Codex in a project and run:
 
 ```text
 $mini-spec
-$thin-plan
 $scope-freeze
 $build-one
 $verify-contract
+$handoff
 ```
 
 ## Minimum viable loop
 
-mini-spec -> scope-freeze -> build-one -> verify-contract
+mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
 
-This is the smallest adoption path. `thin-plan` and `handoff` are recommended, but they are not required to get value from the first slice.
+This is the smallest adoption path. `thin-plan` is recommended when the slice needs more shape, but it is not part of the starter set.
+
+## Canonical core path
+
+The starter install is the smallest useful guardrail set.
+
+For real repo work, the canonical request-to-verified-work path adds planning and testing:
+
+mini-spec -> thin-plan -> scope-freeze -> build-one -> test-mini -> verify-contract -> handoff
+
+`thin-plan` gives the slice shape. `test-mini` adds the tightest useful check.
 
 Before:
 
@@ -110,11 +124,15 @@ mini-spec -> one slice -> frozen scope -> command output -> handoff
 
 See the 3-minute vertical slice: [`examples/tiny-bugfix/README.md`](examples/tiny-bugfix/README.md)
 
+## Optional bundles
+
+See [docs/bundles.md](docs/bundles.md) for copy-paste install sets for starter, bugfix, ML/data science, dashboard, agent-worker, and full governance.
+
 ## Demo
 
 ![ai-engineering-skills terminal demo](assets/demo.gif)
 
-This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → verify-contract → handoff cycle using fake data and simulated agent output.
+This sanitized terminal demo shows a mini-spec → thin-plan → scope-freeze → build-one → test-mini → verify-contract → handoff cycle using fake data and simulated agent output.
 
 The demo is generated from `demo/demo.tape` using VHS, so it is reproducible and does not require private data, API keys, or a real Claude Code session.
 
