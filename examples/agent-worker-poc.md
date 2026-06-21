@@ -4,6 +4,8 @@
 
 Build an autonomous worker that reads a Monday board or ticket board, drafts a branch or PR for one approved task type, and stops for human review.
 
+Before enabling writes or scheduled runs, see [Agent worker safety](../docs/agent-worker-safety.md) for the `ship-mini` pre-flight checklist.
+
 ## Workflow
 
 1. Use `grill-with-docs-lite` to clarify intake fields, autonomy level, allowed task type, and stop conditions.

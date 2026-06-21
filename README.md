@@ -188,6 +188,8 @@ Four skills form the backbone for resilient agent sessions:
 
 Together they enforce bounded execution and verifiable progress.
 
+For scheduled or delegated tool-using runs, see [Agent-worker safety](docs/agent-worker-safety.md) before giving a workflow write access.
+
 ## The failure mode this avoids
 
 ```mermaid

@@ -57,6 +57,7 @@ REQUIRED_DOCS = [
     "docs/claude-code-installation.md",
     "docs/codex-installation.md",
     "docs/bundles.md",
+    "docs/agent-worker-safety.md",
     "docs/recipes.md",
 ]
 
@@ -119,6 +120,7 @@ REQUIRED_README_PHRASES = [
     "context-check",
     "communication density",
     "passive guardrail",
+    "Agent-worker safety",
     "AI_ENGINEERING_SKILLS_VERSION.json",
     "--backup",
     "--force",
