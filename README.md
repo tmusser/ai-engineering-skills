@@ -674,7 +674,7 @@ grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan -> scope-freeze
 
 Some tasks do not need a skill, artifact, or workflow gate. For quick steering moves like “Find the lie,” “Smallest safe diff,” or “Test the tests,” use prompt primitives instead.
 
-See `docs/recipes.md#prompt-primitives`.
+See [Prompt primitives](docs/recipes.md#prompt-primitives).
 
 ## Part of the suite
 
