@@ -670,6 +670,12 @@ Workflow:
 grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan -> scope-freeze -> analyze-mini -> build-one -> test-mini -> verify-contract -> ship-mini -> handoff
 ```
 
+### Below Level 0 — Prompt primitives
+
+Some tasks do not need a skill, artifact, or workflow gate. For quick steering moves like “Find the lie,” “Smallest safe diff,” or “Test the tests,” use prompt primitives instead.
+
+See `docs/recipes.md#prompt-primitives`.
+
 ## Part of the suite
 
 This repo is one piece of a small set of repos for making AI-assisted work clearer,

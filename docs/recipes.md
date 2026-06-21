@@ -132,6 +132,27 @@ Deterministic checks can include SQL row and count sanity checks, exact arithmet
 - Use `handoff` for continuation, not completion.
 - Do not skip `verify-contract` when behavior changed.
 
+## Prompt primitives
+
+Not every useful agent instruction needs to become a full skill.
+
+Some interventions are intentionally tiny: one-line review postures that steer an agent without creating artifacts, workflow state, or ceremony. Use them when you want a sharper pass on code, plans, tests, or scope, but the task does not justify a structured skill.
+
+Examples:
+
+- **Adversarial review, no compliments** — find concrete reasons this could fail.
+- **Find the lie** — surface hidden assumptions and unproven claims.
+- **Regression hunt** — look for existing behavior this may have broken.
+- **Smallest safe diff** — reduce the change to the minimum viable fix.
+- **Test the tests** — check whether the tests prove the behavior that matters.
+- **Fresh maintainer pass** — review for future readability and modification risk.
+- **Failure-mode sweep** — test messy, missing, malformed, stale, or large inputs.
+- **Contract check** — compare implementation against the stated intent.
+- **Evidence-only review** — separate verified facts from plausible claims.
+- **Kill the plan** — try to invalidate the plan before implementation.
+
+These are not full skills because they do not define durable workflows. They are lightweight steering primitives: fast, disposable, and useful inside many different skills.
+
 ## Communication density
 
 Use `lean-mode` to keep routine interactions short. Do not use it to compress away assumptions, risks, verification, or unresolved questions.
