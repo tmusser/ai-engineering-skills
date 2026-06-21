@@ -6,7 +6,7 @@
 
 - Nothing yet.
 
-## [v0.6.0] - TBD
+## [v0.6.0] - 2026-06-21
 
 ### Added
 
@@ -108,6 +108,7 @@ CI hardening preserved:
 - Claude/Codex dry-run smoke checks where defined by the workflow
 
 Validation run locally:
+
 - `python scripts/validate_repo.py` — passed
 - `python -m unittest discover tests` — 22 tests passed
 - `python scripts/run_runnable_examples.py` — runnable example passed
