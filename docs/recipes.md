@@ -250,6 +250,47 @@ flowchart TD
 
 Check fixture data, row counts, null checks, metric deltas, and screenshot or smoke verification.
 
+For metrics, experiments, campaign lift, notebooks, or decision-impacting summaries,
+start with [Data Trust Pass](#data-trust-pass).
+
+## Data Trust Pass
+
+Use for metrics, campaign lift, experiments, dashboards, notebooks, model evaluation,
+and decision-impacting summaries.
+
+Do not compute or share the headline metric until the grain, denominator, time
+window, exclusions, and claim boundary are explicit.
+
+Required checks:
+
+- metric grain
+- numerator
+- denominator
+- aggregation level
+- duplicate rows or duplicate keys
+- synthetic/test/QA rows
+- invalid dates or analysis windows
+- denominator variation by arm/phase/segment/window
+- assignment balance
+- sample size issues
+- leakage or post-treatment fields
+- unsupported causal language
+- verification evidence
+
+Outputs:
+
+- For small tasks, add a Data Trust section to `VERIFY.md`.
+- For larger tasks, create `DATA_AUDIT.md`.
+- Record allowed claims and blocked claims before writing an executive summary.
+
+Anti-patterns:
+
+- treating public schema tests as analysis proof
+- computing lift before checking denominator consistency
+- silently filtering bad rows and still making a confident claim
+- using future/post-treatment fields as causal evidence
+- saying caused/proved/lift without design evidence
+
 ## Agent worker workflow
 
 Use when an agent will read queues, boards, tickets, files, or tools and take bounded action.

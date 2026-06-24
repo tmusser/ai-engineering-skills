@@ -4,7 +4,8 @@
 
 ## [Unreleased]
 
-- Nothing yet.
+- Added Data Trust Pass recipe for metric, denominator, leakage, and
+  claim-boundary checks.
 
 ## [v0.6.0] - 2026-06-21
 

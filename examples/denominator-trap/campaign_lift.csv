@@ -1,0 +1,8 @@
+row_id,campaign,arm,phase,segment,analysis_window_start,analysis_window_end,event_date,audience_size,orders_7d,is_test_row,future_14d_revenue
+1,SpringSale,control,pre,all,2026-03-01,2026-03-14,2026-03-05,1000,50,false,12000
+2,SpringSale,treatment,post,all,2026-03-15,2026-03-28,2026-03-20,1200,78,false,16500
+2,SpringSale,treatment,post,all,2026-03-15,2026-03-28,2026-03-20,1200,78,false,16500
+3,SpringSale,treatment,post,all,2026-03-15,2026-03-28,2026-03-18,900,60,false,15000
+4,SpringSale,treatment,post,qa,2026-03-15,2026-03-28,2026-03-19,75,11,true,500
+5,SpringSale,control,pre,all,2026-03-15,2026-03-28,2026-03-10,1000,49,false,11800
+6,SpringSale,control,post,all,2026-03-15,2026-03-28,2026-03-22,300,18,false,4700
