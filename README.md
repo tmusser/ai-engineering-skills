@@ -94,6 +94,37 @@ and durable artifacts. It reduces risk, but it does not replace judgment.
 
 **Better specs, not bigger specs.**
 
+## Proof artifact: agent-workflow-bench
+
+This repo is paired with
+[`agent-workflow-bench`](https://github.com/tmusser/agent-workflow-bench), a small
+standalone benchmark for agent skills, verification artifacts, and fresh-session
+resumability.
+
+The benchmark does not claim that workflow skills universally beat a baseline coding
+agent. It tests a narrower question:
+
+> When an agent completes messy technical work, does it leave enough verified context
+> for another fresh session to trust, audit, and continue it?
+
+Current pilot findings:
+
+- Task 4, `Impossible Churn Regression`: both baseline and skill-routed agents can
+  fix the bug, but the skill-routed run leaves durable `BUGS.md`, `VERIFY.md`, and
+  `HANDOFF.md` artifacts. When those artifacts are stripped, the fresh session has to
+  rediscover more context.
+- Task 5, `Fake Data Campaign Lift Trust`: both baseline and skill-routed agents
+  passed public checks but failed the hidden data-trust contract by missing
+  denominator and leakage/post-treatment-field risks. The skill-routed run still left
+  a clearer audit trail, which made the failure easier to inspect and improve.
+
+The intended claim boundary is:
+
+- The skills improve auditability, verification discipline, and resumability.
+- The benchmark does not prove broad pass-rate superiority.
+- The benchmark is useful precisely because it exposes where the current skills still
+  need better recipes, such as the Data Trust Pass and denominator-trap workflows.
+
 ## Evaluate before installing
 
 This repo is new, so trust should come from inspectable artifacts rather than
@@ -105,6 +136,8 @@ Start here:
   with the gated workflow on the same task
 - [examples/tiny-bugfix](examples/tiny-bugfix/README.md) — a small vertical slice
   with the workflow artifacts
+- [examples/denominator-trap](examples/denominator-trap/README.md) — a compact
+  data-trust example inspired by the benchmark
 - [Limitations](LIMITATIONS.md) — edge cases, escape hatches, and non-promises
 - [Compatibility confidence](docs/compatibility-confidence.md) — documented install
   paths, tested status, and caveats
