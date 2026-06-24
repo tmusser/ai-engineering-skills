@@ -96,7 +96,7 @@ and durable artifacts. It reduces risk, but it does not replace judgment.
 
 ## Proof artifact: agent-workflow-bench
 
-This repo is paired with
+**Proof artifact:** this repo is paired with
 [`agent-workflow-bench`](https://github.com/tmusser/agent-workflow-bench), a small
 standalone benchmark for agent skills, verification artifacts, and fresh-session
 resumability.
@@ -109,14 +109,10 @@ agent. It tests a narrower question:
 
 Current pilot findings:
 
-- Task 4, `Impossible Churn Regression`: both baseline and skill-routed agents can
-  fix the bug, but the skill-routed run leaves durable `BUGS.md`, `VERIFY.md`, and
-  `HANDOFF.md` artifacts. When those artifacts are stripped, the fresh session has to
-  rediscover more context.
-- Task 5, `Fake Data Campaign Lift Trust`: both baseline and skill-routed agents
-  passed public checks but failed the hidden data-trust contract by missing
-  denominator and leakage/post-treatment-field risks. The skill-routed run still left
-  a clearer audit trail, which made the failure easier to inspect and improve.
+| Task | Baseline | Skill-routed | What it shows |
+|---|---|---|---|
+| Task 4 — Impossible Churn Regression | Green functional fix, no workflow artifacts | Green functional fix + `BUGS.md`, `VERIFY.md`, `HANDOFF.md` | Skill-routed runs can leave durable context for audit/resume |
+| Task 5 — Fake Data Campaign Lift Trust | Public pass, hidden fail | Public pass, hidden fail + clearer audit/handoff trail | Skills improved visibility, but did not automatically catch denominator/leakage traps |
 
 The intended claim boundary is:
 
@@ -124,6 +120,10 @@ The intended claim boundary is:
 - The benchmark does not prove broad pass-rate superiority.
 - The benchmark is useful precisely because it exposes where the current skills still
   need better recipes, such as the Data Trust Pass and denominator-trap workflows.
+
+The Task 5 miss directly informed the new
+[`examples/denominator-trap/`](examples/denominator-trap/) demo and the Data Trust
+Pass recipe.
 
 ## Evaluate before installing
 
