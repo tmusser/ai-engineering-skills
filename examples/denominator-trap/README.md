@@ -6,9 +6,9 @@ It uses one fake campaign-lift extract and shows two paths:
 
 1. an ungated generic-agent path that computes a confident lift, writes an
    overconfident summary, and passes a shallow public check
-2. a skill-pack path that freezes the metric definition, runs Data Trust Pass
-   before any headline metric is shared, records evidence, and leaves a
-   resumable handoff
+2. a skill-pack path that freezes the metric definition, runs Data Trust Pass,
+   blocks the headline metric until the claim boundary is clear, records
+   evidence, and leaves a resumable handoff
 
 ## Files
 
