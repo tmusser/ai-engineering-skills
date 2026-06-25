@@ -1,6 +1,9 @@
 # AI Engineering Skills
 
 [![CI](https://github.com/tmusser/ai-engineering-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/tmusser/ai-engineering-skills/actions/workflows/ci.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/tmusser/ai-engineering-skills)](https://github.com/tmusser/ai-engineering-skills/releases)
+[![Benchmark](https://img.shields.io/badge/benchmark-agent--workflow--bench-7c3aed)](https://github.com/tmusser/agent-workflow-bench)
 
 <!-- markdownlint-disable MD013 -->
 
@@ -13,6 +16,13 @@ one agent executes inside them.
 This is not just a prompt pack. Skills make behavior repeatable across sessions,
 templates preserve state, and verification records make claims auditable. See
 [Why skills, not prompts](docs/WHY_SKILLS_NOT_PROMPTS.md).
+
+| Common failure mode | Skill-pack response |
+|---|---|
+| Vague ask, hidden assumptions, or missing boundary | `grill-with-docs-lite` → `mini-spec` |
+| Scope expands while coding | `scope-freeze` |
+| Change is treated as done without evidence | `test-mini` → `verify-contract` |
+| Fresh session loses the thread | `handoff` |
 
 ## Start here
 
