@@ -98,7 +98,7 @@ and durable artifacts. It reduces risk, but it does not replace judgment.
 
 ## Proof artifact: agent-workflow-bench
 
-**Proof artifact:** this repo is evaluated by
+**Proof artifact:** this repo is paired with
 [`agent-workflow-bench`](https://github.com/tmusser/agent-workflow-bench), a small
 standalone benchmark for agent skills, verification artifacts, and fresh-session
 resumability.
@@ -125,7 +125,7 @@ The intended claim boundary is:
 
 The Task 5 miss directly informed the new
 [`examples/denominator-trap/`](examples/denominator-trap/) demo and the Data Trust
-Pass recipe in [docs/recipes.md](docs/recipes.md).
+Pass recipe.
 
 ## Evaluate before installing
 
