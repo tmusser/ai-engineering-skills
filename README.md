@@ -1,5 +1,7 @@
 # AI Engineering Skills
 
+[![CI](https://github.com/tmusser/ai-engineering-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/tmusser/ai-engineering-skills/actions/workflows/ci.yml)
+
 <!-- markdownlint-disable MD013 -->
 
 A compact workflow for shipping small AI-assisted software projects with bounded scope,
@@ -96,7 +98,7 @@ and durable artifacts. It reduces risk, but it does not replace judgment.
 
 ## Proof artifact: agent-workflow-bench
 
-**Proof artifact:** this repo is paired with
+**Proof artifact:** this repo is evaluated by
 [`agent-workflow-bench`](https://github.com/tmusser/agent-workflow-bench), a small
 standalone benchmark for agent skills, verification artifacts, and fresh-session
 resumability.
@@ -123,7 +125,7 @@ The intended claim boundary is:
 
 The Task 5 miss directly informed the new
 [`examples/denominator-trap/`](examples/denominator-trap/) demo and the Data Trust
-Pass recipe.
+Pass recipe in [docs/recipes.md](docs/recipes.md).
 
 ## Evaluate before installing
 
