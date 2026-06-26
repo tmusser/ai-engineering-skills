@@ -10,6 +10,8 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 - REVIEW_REQUIRED is not the same as functional failure.
 
 If `scripts/verify_gate.py` is available, run it with an explicit `--base` before marking verification complete.
+If repeated iterations occurred without a loop contract, mark verification
+`REVIEW_REQUIRED`.
 
 Contract probes:
 
@@ -28,6 +30,19 @@ Diff guards:
 Review required because:
 
 - _TBD_
+
+## Loop readiness
+
+Required only if repeated agent iterations occurred or are planned.
+
+- Loop contract present: yes/no/n/a
+- Iterations run: _TBD_
+- Feedback signal used: _TBD_
+- Budget respected: yes/no/n/a
+- Revert rule followed: yes/no/n/a
+- Ledger updated: yes/no/n/a
+- Stop condition met: yes/no/n/a
+- Review required because: _TBD_
 
 ## Verify gate evidence
 

@@ -68,6 +68,9 @@ Use skills when you want the expected behavior to be explicit, inspectable,
 recoverable, and gateable across sessions.
 Use templates when the next session needs durable context.
 Use verification when the work should be auditable.
+Use loops only when they are bounded by an objective signal, a budget, a rollback
+rule, a ledger, and a stop condition. Otherwise they are just automated drift. See
+[Loop governance](loop-governance.md).
 
 ## Process theater caveat
 

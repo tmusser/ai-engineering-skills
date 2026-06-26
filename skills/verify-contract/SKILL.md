@@ -25,6 +25,8 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 
 1. Update VERIFY.md with date + task name.
 2. Record commands run + pass/fail output. If `scripts/verify_gate.py` is available, run it before marking verification complete.
+   If repeated iterations were used, check for a loop contract, budget, ledger,
+   revert rule, and stop condition before calling the work done.
 3. List changed files.
 4. Note working directory / environment assumptions if relevant.
 5. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
@@ -39,6 +41,10 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 - FAIL when behavior or contract probes fail.
 - REVIEW_REQUIRED when behavior passes but evidence integrity is questionable.
 - REVIEW_REQUIRED is not the same as functional failure.
+- If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
+- If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
+  or FAIL depending on whether the behavior contract failed.
+- Do not treat loop activity as success merely because the final output looks plausible.
 
 Contract probes:
 

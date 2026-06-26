@@ -64,6 +64,7 @@ REQUIRED_DOCS = [
     "docs/codex-installation.md",
     "docs/bundles.md",
     "docs/agent-worker-safety.md",
+    "docs/loop-governance.md",
     "docs/recipes.md",
 ]
 
@@ -118,6 +119,7 @@ REQUIRED_README_PHRASES = [
     "assets/demo.gif",
     "Workflow recipes",
     "Optional bundles",
+    "Loop governance",
     "Cross-functional infrastructure coordination",
     "Skill map",
     "The failure mode this avoids",
@@ -321,6 +323,9 @@ def check_docs(errors: list[str]) -> None:
         recipes = read_text("docs/recipes.md")
         if "context-check" not in recipes:
             errors.append("docs/recipes.md does not mention context-check")
+        loop_governance_path = repo_path("docs/loop-governance.md")
+        if loop_governance_path.is_file() and "Loop governance" not in read_text("docs/loop-governance.md"):
+            errors.append("docs/loop-governance.md does not mention Loop governance")
         if "Cross-functional infrastructure coordination" not in recipes:
             errors.append(
                 "docs/recipes.md does not mention Cross-functional infrastructure coordination"

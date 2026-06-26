@@ -287,6 +287,8 @@ handoff state.
 - [Why skills, not prompts](docs/why-skills-not-prompts.md)
 - [Skill map](docs/skill-map.md)
 - [Workflow recipes](docs/recipes.md)
+- [Loop governance](docs/loop-governance.md) — when iteration helps, when it drifts,
+  and how to bound it.
 - [Optional bundles](docs/bundles.md)
 - [Cross-functional infrastructure coordination](docs/recipes.md#cross-functional-infrastructure-coordination)
 - [Claude Code installation](docs/claude-code-installation.md)

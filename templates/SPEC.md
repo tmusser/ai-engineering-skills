@@ -16,6 +16,19 @@ _Describe who needs this and why._
 
 - _TBD_
 
+## Loop contract
+
+_When repeated iterations are expected, define the loop before running it._
+
+- Artifact being improved: _TBD_
+- Feedback signal: _TBD_
+- Acceptance threshold: _TBD_
+- Budget / max iterations: _TBD_
+- Revert rule: _TBD_
+- Ledger location: _TBD_
+- Stop condition: _TBD_
+- Human review trigger: _TBD_
+
 ## Likely failure modes
 
 Check the risks this spec is meant to prevent.

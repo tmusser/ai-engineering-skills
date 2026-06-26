@@ -102,6 +102,19 @@ Next verification command:
 
 - _TBD_
 
+## Loop state
+
+_Use only when repeated iterations occurred or are expected._
+
+- Iterations attempted:
+- Best known artifact/state:
+- Rejected attempts:
+- Current feedback signal:
+- Remaining budget:
+- Stop condition:
+- Next allowed iteration:
+- Human review trigger:
+
 ## Open decisions
 
 - _TBD_

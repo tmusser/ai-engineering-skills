@@ -20,6 +20,9 @@ Use at the end of a session, before switching agents, or before pausing work.
 - Compatibility seams, invalid-if constraints, verify gate status, review-required items, next gate command when relevant
 - Context risk level
 - Active debugging hypothesis (if any)
+- When relevant, carry loop state forward: iterations attempted, best known artifact,
+  rejected attempts, current feedback signal, remaining budget, stop condition, and
+  human review trigger.
 - Branch, commit, dirty state
 - Changed files, working/failing commands, unverified files
 - Important decisions, open decisions, traps
