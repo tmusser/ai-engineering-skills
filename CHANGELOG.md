@@ -4,8 +4,50 @@
 
 ## [Unreleased]
 
-- Added Data Trust Pass recipe for metric, denominator, leakage, and
+## [v0.6.1] - 2026-06-26
+
+### Added
+
+- Added `scripts/verify_gate.py`, a deterministic evidence checker for
+  `SPEC.md`, `VERIFY.md`, and the current git diff.
+- Added text and JSON verify-gate output.
+- Added conservative diff guards for tests, fixtures/data, dependencies,
+  protected paths, and forbidden paths.
+- Added `PASS`, `FAIL`, and `REVIEW_REQUIRED` gate semantics to the
+  verification workflow.
+- Added `docs/loop-governance.md` for bounded agent iteration.
+- Added a Data Trust Pass recipe for metric, denominator, leakage, and
   claim-boundary checks.
+
+### Changed
+
+- Refactored the README into a sharper front door and moved deeper explanation
+  into docs.
+- Clarified the repo as a state layer for explicit, inspectable, recoverable,
+  and gateable agent work.
+- Updated workflow artifacts around compatibility seams, invalid-if
+  constraints, test integrity, durable build notes, and verification
+  guardrails.
+- Added optional loop-contract, loop-readiness, and loop-state fields to
+  `SPEC.md`, `VERIFY.md`, and `HANDOFF.md`.
+- Updated docs to emphasize auditability, verification discipline, and
+  resumability instead of broad skill superiority.
+
+### Fixed
+
+- Limited root `pytest` discovery to the intended `tests/` suite.
+- Removed stale/duplicate docs naming around `why-skills-not-prompts`.
+- Tightened validation so new gate scripts, docs, and tests are covered.
+- Made verify-gate diff checks working-tree-aware, including staged, unstaged,
+  untracked, and deleted files.
+
+### Claim boundary
+
+Current evidence supports auditability, verification discipline, and
+resumability claims. It does not prove broad pass-rate superiority over strong
+prompting or strong models.
+
+## [Unreleased]
 
 ## [v0.6.0] - 2026-06-21
 
