@@ -51,9 +51,13 @@ REQUIRED_FILES = [
     "tests/snapshots/install_claude_user_dry_run_only_mini_spec.txt",
     "tests/snapshots/install_codex_user_dry_run_only_mini_spec.txt",
     ".markdownlint-cli2.yaml",
+    "pytest.ini",
 ]
 
 REQUIRED_DOCS = [
+    "docs/benchmark-findings.md",
+    "docs/skill-map.md",
+    "docs/why-skills-not-prompts.md",
     "docs/claude-code-installation.md",
     "docs/codex-installation.md",
     "docs/bundles.md",
