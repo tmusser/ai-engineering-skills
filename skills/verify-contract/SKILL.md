@@ -24,7 +24,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 ## Workflow
 
 1. Update VERIFY.md with date + task name.
-2. Record commands run + pass/fail output.
+2. Record commands run + pass/fail output. If `scripts/verify_gate.py` is available, run it before marking verification complete.
 3. List changed files.
 4. Note working directory / environment assumptions if relevant.
 5. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).

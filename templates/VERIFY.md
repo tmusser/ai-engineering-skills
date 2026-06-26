@@ -9,6 +9,8 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 - REVIEW_REQUIRED when behavior passes but evidence integrity is questionable.
 - REVIEW_REQUIRED is not the same as functional failure.
 
+If `scripts/verify_gate.py` is available, run it with an explicit `--base` before marking verification complete.
+
 Contract probes:
 
 - Public import/API seams: _TBD_
@@ -26,6 +28,13 @@ Diff guards:
 Review required because:
 
 - _TBD_
+
+## Verify gate evidence
+
+- Protected paths declared: _TBD_
+- Forbidden paths declared: _TBD_
+- Compatibility seams: _TBD_
+- Invalid-if constraints: _TBD_
 
 ## Build note
 

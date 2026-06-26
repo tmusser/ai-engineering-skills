@@ -45,8 +45,10 @@ REQUIRED_FILES = [
     "scripts/render_demo.sh",
     "scripts/run_runnable_examples.py",
     "scripts/run_negative_examples.py",
+    "scripts/verify_gate.py",
     "scripts/validate_repo.py",
     "tests/test_installers.py",
+    "tests/test_verify_gate.py",
     "tests/snapshots/install_sh_help.txt",
     "tests/snapshots/install_claude_user_dry_run_only_mini_spec.txt",
     "tests/snapshots/install_codex_user_dry_run_only_mini_spec.txt",
@@ -71,6 +73,7 @@ REQUIRED_SCRIPTS = [
     "scripts/install_codex.py",
     "scripts/run_runnable_examples.py",
     "scripts/run_negative_examples.py",
+    "scripts/verify_gate.py",
 ]
 
 REQUIRED_SKILLS = [
@@ -357,7 +360,9 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("scripts/install_codex.py", errors)
     check_python_compiles("scripts/run_runnable_examples.py", errors)
     check_python_compiles("scripts/run_negative_examples.py", errors)
+    check_python_compiles("scripts/verify_gate.py", errors)
     check_python_compiles("tests/test_installers.py", errors)
+    check_python_compiles("tests/test_verify_gate.py", errors)
 
 
 def check_shell_scripts(errors: list[str]) -> None:
