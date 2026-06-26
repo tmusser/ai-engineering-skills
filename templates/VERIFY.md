@@ -1,5 +1,42 @@
 # Verify
 
+## Verify gate
+
+Status: PASS | FAIL | REVIEW_REQUIRED
+
+- PASS only when contract probes pass and no diff guard requires review.
+- FAIL when behavior or contract probes fail.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable.
+- REVIEW_REQUIRED is not the same as functional failure.
+
+Contract probes:
+
+- Public import/API seams: _TBD_
+- CLI/output behavior: _TBD_
+- Edge/no-match behavior: _TBD_
+- Existing behavior preserved: _TBD_
+
+Diff guards:
+
+- Protected paths touched: yes/no
+- Tests changed: yes/no
+- Fixture/data changed: yes/no
+- Dependencies changed: yes/no
+
+Review required because:
+
+- _TBD_
+
+## Build note
+
+- Selected slice: _TBD_
+- Files touched: _TBD_
+- Why each file was touched: _TBD_
+- Compatibility seams preserved: _TBD_
+- Tests changed: yes/no
+- Verification run: _TBD_
+- Stop reason: _TBD_
+
 ## Verification
 
 - Date: _TBD_

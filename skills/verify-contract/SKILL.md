@@ -31,9 +31,37 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 6. Note what was **not** tested and remaining risks.
 7. Name the next safest task.
 
+## Verify gate
+
+Status: PASS | FAIL | REVIEW_REQUIRED
+
+- PASS only when contract probes pass and no diff guard requires review.
+- FAIL when behavior or contract probes fail.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable.
+- REVIEW_REQUIRED is not the same as functional failure.
+
+Contract probes:
+
+- Public import/API seams:
+- CLI/output behavior:
+- Edge/no-match behavior:
+- Existing behavior preserved:
+
+Diff guards:
+
+- Protected paths touched: yes/no
+- Tests changed: yes/no
+- Fixture/data changed: yes/no
+- Dependencies changed: yes/no
+
+Review required because:
+
+- _TBD_
+
 ## Outputs
 
 - VERIFY.md entry with evidence
+- Verify gate status
 - Pass/fail summary + automated/manual/inferred status
 - Remaining / untested risks
 - Next safest task

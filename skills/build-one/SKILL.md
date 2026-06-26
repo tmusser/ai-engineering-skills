@@ -28,15 +28,24 @@ Use after a task is selected and scope is frozen.
 3. Confirm the scope boundary.
 4. Make the minimum useful change.
 5. Run relevant verification.
-6. Update task status.
-7. Stop after one task.
-8. Summarize changed files and result.
+6. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
+   - Selected slice
+   - Files touched
+   - Why each file was touched
+   - Compatibility seams preserved
+   - Tests changed: yes/no
+   - Verification run
+   - Stop reason
+7. Update task status.
+8. Stop after one task.
+9. Summarize changed files and result.
 
 ## Outputs
 
 - One implemented slice
 - Changed file summary
 - Verification result
+- Build note
 - Updated `TODO.md` if appropriate
 
 ## Stop conditions

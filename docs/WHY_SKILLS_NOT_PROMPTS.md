@@ -1,7 +1,8 @@
 # Why Skills, Not Prompts
 
 A prompt asks for behavior once.
-A skill makes behavior repeatable across sessions.
+A skill makes the expected behavior explicit, inspectable, recoverable, and
+gateable across sessions.
 Templates preserve state.
 Verification artifacts make claims auditable.
 
@@ -9,7 +10,7 @@ That difference matters when you are working with coding agents. A one-off promp
 
 In this repo, a skill is a small, named procedure with a clear trigger, a short workflow, and a known stop point. It is meant to be invoked again later with the same expectations. That is why the repo keeps skills, templates, and verification artifacts separate:
 
-- Skills describe the repeatable behavior.
+- Skills describe the expected behavior.
 - Templates hold the durable state a session needs to resume.
 - Verification artifacts record what was checked and what passed.
 
@@ -40,7 +41,7 @@ These are not rare edge cases. They are the usual ways agent work goes off track
 ## The practical rule
 
 Use prompts for one-off direction.
-Use skills when you want the behavior to be repeatable.
+Use skills when you want the expected behavior to be explicit, inspectable, recoverable, and gateable across sessions.
 Use templates when the next session needs durable context.
 Use verification when the work should be auditable.
 

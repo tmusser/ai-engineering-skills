@@ -27,29 +27,46 @@ Immediately before editing files or running state-changing commands.
 4. List **forbidden** operations.
 5. Set max files/lines changed (if helpful).
 6. List allowed commands.
-7. Define clear stop condition.
-8. Note that reads/searches are allowed unless explicitly forbidden.
+7. List compatibility seams and test-integrity triggers before editing.
+8. Define clear stop condition.
+9. Note that reads/searches are allowed unless explicitly forbidden.
 
 ## Outputs
 
 **Canonical output block:**
 
 ```text
-
 SCOPE FREEZE
 Task: ...
-Allowed: src/ui/settings/, tests/ui/settings_test.py
-Read-only: src/core/
-Forbidden: changing any other UI components, database schema, or build config
-Max files: 4
-Allowed commands: git status, pytest, etc.
-Stop when: toggle works in UI + tests pass
+Allowed writes: ...
+Read-only: ...
+Forbidden: ...
 
+Compatibility seams to preserve:
+- Public imports / APIs: ...
+- CLI behavior: ...
+- Output schema: ...
+- Fixture/data meaning: ...
+- Existing tests that must remain meaningful: ...
+
+Test integrity:
+- Existing tests may be added to: yes/no
+- Existing tests may be changed only if: ...
+
+Review required if:
+- tests changed
+- dependencies changed
+- protected paths touched
+- compatibility seams changed
+
+Allowed commands: ...
+Stop when: ...
+Invalid if: ...
 ```
 
 ## Success looks like
 
-The example block above.
+The canonical block above.
 
 ## Stop conditions
 

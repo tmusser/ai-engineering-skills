@@ -42,6 +42,14 @@ Active hypothesis:
 
 - _TBD_
 
+## Continuation guardrails
+
+- Compatibility seams preserved: _TBD_
+- Invalid-if constraints: _TBD_
+- Verify gate status: _TBD_
+- Review-required items: _TBD_
+- Next gate command: _TBD_
+
 ## Project goal
 
 - _TBD_

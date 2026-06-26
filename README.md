@@ -13,8 +13,9 @@ durable context, reproducible verification, and fast handoff.
 Build with AI like a disciplined team of two: one human sets direction and boundaries;
 one agent executes inside them.
 
-This is not just a prompt pack. Skills make behavior repeatable across sessions,
-templates preserve state, and verification records make claims auditable. See
+Skills do not make agents obey. They make expected behavior explicit, inspectable,
+recoverable, resumable, and gateable across messy work. Templates preserve state,
+and verification records make claims auditable. See
 [Why skills, not prompts](docs/WHY_SKILLS_NOT_PROMPTS.md).
 
 | Common failure mode | Skill-pack response |
@@ -125,6 +126,7 @@ Current pilot findings:
 |---|---|---|---|
 | Task 4 — Impossible Churn Regression | Green functional fix, no workflow artifacts | Green functional fix + `BUGS.md`, `VERIFY.md`, `HANDOFF.md` | Skill-routed runs can leave durable context for audit/resume |
 | Task 5 — Fake Data Campaign Lift Trust | Public pass, hidden fail | Public pass, hidden fail + clearer audit/handoff trail | Skills improved visibility, but did not automatically catch denominator/leakage traps |
+| Task 7 — Dashboard Export Scope Pressure | Sonnet / Haiku-medium saturated on behavior; Haiku-low exposed API compatibility seam and test-integrity failures | E full produced the richest proof trail when behavior was green | Hardening added compatibility seams, invalid-if constraints, and `REVIEW_REQUIRED` gates |
 
 The intended claim boundary is:
 
@@ -136,6 +138,10 @@ The intended claim boundary is:
 The Task 5 miss directly informed the new
 [`examples/denominator-trap/`](examples/denominator-trap/) demo and the Data Trust
 Pass recipe.
+
+The Task 7 follow-up suggested the highest-leverage improvement was not heavier
+skills, but sharper invalidation: compatibility probes, diff guards, and
+review-required states.
 
 ## Evaluate before installing
 

@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-This repo reduces risk, but it does not replace judgment.
+This repo reduces risk, but it does not replace judgment or make behavior deterministic.
 
 ## When not to use this repo
 
@@ -36,7 +36,7 @@ bundle in [docs/bundles.md](docs/bundles.md) instead of building a larger proces
 
 ## Where agents still fail
 
-These skills improve behavior, but agents can still:
+These skills improve behavior, but agents can still ignore a skill, partially follow a workflow, or:
 
 - ignore a skill when the context gets long
 - partially follow a workflow and skip the hard part
@@ -45,7 +45,7 @@ These skills improve behavior, but agents can still:
 - miss a subtle constraint that was only implied in chat
 
 That is why the repo keeps durable files and explicit checks instead of relying on
-memory.
+memory or assumptions.
 
 ## Where verification can still be insufficient
 

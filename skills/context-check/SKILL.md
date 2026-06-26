@@ -23,13 +23,15 @@ Trigger on repeated facts, scope/hypothesis changes, multiple debug hypotheses, 
 - Durable state files if present
 - Current task, phase, loop, and active modes if known
 - Current debugging hypothesis if debugging
+- Where to record the result when the check is medium/high risk
 
 ## Workflow
 
 1. Scan for risk signals (repeated premises, history restatement, scope drift, hypothesis sprawl, weak durable state, active-mode loss).
 2. Assign risk: low / medium / high.
 3. Recommend exactly one best move. For medium/high risk, prefer: scope-freeze | update durable state | handoff | diagnose-loop | restart. Use `continue` only for explicit low-risk checks.
-4. On medium/high risk, output the structured block. Recommend restart only when context is actively corrupting decisions.
+4. Record where to persist the result when the risk is medium/high: `RECORD IN: HANDOFF.md | VERIFY.md | SPEC.md | none`.
+5. On medium/high risk, output the structured block. Recommend restart only when context is actively corrupting decisions.
 
 **Output format (medium/high only):**
 
@@ -39,6 +41,7 @@ TRIGGER: repeated premise repair on X
 BEST MOVE: handoff | scope-freeze | update PLAN.md | etc.
 FREEZE NOW: [key facts/decisions/modes/hypothesis]
 NEXT ACTION: ...
+RECORD IN: HANDOFF.md | VERIFY.md | SPEC.md | none
 ```
 
 Keep FREEZE NOW limited to facts, decisions, assumptions, IDs, files, tests, active modes, current hypothesis, and next verification that must survive.

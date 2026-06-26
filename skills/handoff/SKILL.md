@@ -17,6 +17,7 @@ Use at the end of a session, before switching agents, or before pausing work.
 
 - SPEC.md, PLAN.md, TODO.md, VERIFY.md
 - Active modes, current phase, next gate
+- Compatibility seams, invalid-if constraints, verify gate status, review-required items, next gate command when relevant
 - Context risk level
 - Active debugging hypothesis (if any)
 - Branch, commit, dirty state
@@ -28,12 +29,13 @@ Use at the end of a session, before switching agents, or before pausing work.
 1. Read current artifacts first.
 2. Create or update HANDOFF.md starting with a **Resume Packet** block.
 3. Record Workflow State (active modes, phase, loop, next gate, context risk, hypothesis).
-4. State the current goal in 1-2 sentences.
-5. List completed slices + verification results.
-6. List changed files with one-line purpose (flag unverified).
-7. Record working commands, known failing commands, important decisions, open decisions, and traps.
-8. Name **exactly one** next recommended task + its verification command.
-9. Keep under 120 lines unless complexity requires more.
+4. Record continuation guardrails when relevant: compatibility seams preserved, invalid-if constraints, verify gate status, review-required items, next gate command.
+5. State the current goal in 1-2 sentences.
+6. List completed slices + verification results.
+7. List changed files with one-line purpose (flag unverified).
+8. Record working commands, known failing commands, important decisions, open decisions, and traps.
+9. Name **exactly one** next recommended task + its verification command.
+10. Keep under 120 lines unless complexity requires more.
 
 **Resume Packet example (place near top):**
 
@@ -52,6 +54,7 @@ RESUME PACKET
 
 - HANDOFF.md with Resume Packet + Workflow State
 - Clear next task and verification path
+- Continuation guardrails when relevant
 
 ## Success looks like
 

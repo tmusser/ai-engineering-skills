@@ -59,3 +59,22 @@ If none apply, use a lighter workflow.
 ## Open questions
 
 - _TBD_
+
+## Compatibility seams to preserve
+
+When applicable, list behavior that must remain import-compatible or output-compatible.
+
+- Public imports / APIs: _TBD_
+- CLI commands / flags: _TBD_
+- JSON/schema/output contracts: _TBD_
+- Existing tests whose meaning must remain valid: _TBD_
+- Data/fixture semantics: _TBD_
+
+## Invalid if
+
+- breaks a named compatibility seam
+- weakens or rewrites existing tests merely to fit the implementation
+- changes fixture/source data without explicit approval
+- preserves behavior only through a new alternate path while breaking the old path
+- changes forbidden/protected files
+- adds dependencies or framework changes outside scope

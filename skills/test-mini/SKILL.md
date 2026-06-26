@@ -29,6 +29,20 @@ Use for ML model workflows, agents, dashboards, data transformations, metric cal
 5. Record command output and result.
 6. Keep tests focused on the changed behavior.
 
+## Test integrity
+
+Prefer adding tests over changing existing tests.
+
+If modifying existing tests:
+
+1. Record the changed test path.
+2. State why the old assertion was wrong or incomplete.
+3. Name the source of truth.
+4. Preserve the prior assertion or replace it intentionally.
+5. Mark verification as `REVIEW_REQUIRED` unless the rationale is explicit.
+
+Never weaken tests merely to match the implementation.
+
 ## Outputs
 
 - Focused test or fixture
