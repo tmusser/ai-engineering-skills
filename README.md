@@ -13,46 +13,21 @@ durable context, reproducible verification, and fast handoff.
 Build with AI like a disciplined team of two: one human sets direction and boundaries;
 one agent executes inside them.
 
-This is not just a prompt pack. Skills make behavior repeatable across sessions, templates preserve state, and verification records make claims auditable. See [Why skills, not prompts](docs/why-skills-not-prompts.md).
-
-The point is not to make the agent listen. The point is to make the work legible
-when it does not.
-
-**Better specs, not bigger specs.**
-
-**Durable state, not longer chats.**
-
-| Common failure mode | Skill-pack response |
-|---|---|
-| Vague ask, hidden assumptions, or missing boundary | `grill-with-docs-lite` → `mini-spec` |
-| Scope expands while coding | `scope-freeze` |
-| Change is treated as done without evidence | `test-mini` → `verify-contract` |
-| Fresh session loses the thread | `handoff` |
-
 ![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
 
 ## Start here
 
-This repo helps agents stop wandering, prove what changed, and preserve handoff state.
+Use this repo when an AI coding task is too consequential for ad hoc prompting but
+too small for a PRD.
 
-Use it when work is too consequential for ad hoc prompting but too small for a PRD.
-
-The smallest starter loop is:
+The smallest useful loop is:
 
 ```text
 mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
 ```
 
-Recommended starter set:
-
-- `mini-spec`
-- `scope-freeze`
-- `build-one`
-- `verify-contract`
-- `handoff`
-
-`thin-plan` is recommended when a slice needs more shape, but it is intentionally not
-part of the absolute starter path.
+That loop helps agents stop wandering, prove what changed, and leave enough state
+for the next session to continue safely.
 
 ## Try the starter install
 
@@ -65,6 +40,17 @@ cd ai-engineering-skills
 ./install.sh --codex-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ```
 
+Recommended starter set:
+
+* `mini-spec`
+* `scope-freeze`
+* `build-one`
+* `verify-contract`
+* `handoff`
+
+`thin-plan` is recommended when a slice needs more shape, but it is intentionally
+not part of the absolute starter path.
+
 For project-scoped installs, templates, and the raw Python installers, see
 [Claude Code installation](docs/claude-code-installation.md) and
 [Codex installation](docs/codex-installation.md).
@@ -75,30 +61,35 @@ Those docs cover `scripts/install_claude_code.py`, `scripts/install_codex.py`,
 
 ## What it creates
 
-| Artifact | What it means |
-| --- | --- |
-| `SPEC.md` | Current contract |
-| `VERIFY.md` | Proof ledger / verify gate |
+| Artifact     | What it means               |
+| ------------ | --------------------------- |
+| `SPEC.md`    | Current contract            |
+| `VERIFY.md`  | Proof ledger / verify gate  |
 | `HANDOFF.md` | Fresh-session resume packet |
 
 ## Why this exists
 
 AI coding agents are powerful, but sessions still fail for predictable reasons:
 
-- vague requests become plausible but wrong plans
-- scope expands quietly
-- weak verification gets accepted as completion
-- long contexts hide the important constraint
-- handoff state disappears between sessions
+* vague requests become plausible but wrong plans
+* scope expands quietly
+* weak verification gets accepted as completion
+* long contexts hide the important constraint
+* handoff state disappears between sessions
 
 `ai-engineering-skills` gives the human and agent shared boundaries, checks, and
 durable artifacts. It reduces risk, but it does not replace judgment.
 
-## Why every skill includes anti-patterns
+| Common failure mode                                | Skill-pack response                   |
+| -------------------------------------------------- | ------------------------------------- |
+| Vague ask, hidden assumptions, or missing boundary | `grill-with-docs-lite` -> `mini-spec` |
+| Scope expands while coding                         | `scope-freeze`                        |
+| Change is treated as done without evidence         | `test-mini` -> `verify-contract`      |
+| Fresh session loses the thread                     | `handoff`                             |
 
-Common failures are predictable: implementing before clarifying, expanding scope,
-touching unrelated files, debugging without reproduction, mistaking execution for
-correctness, and losing context between sessions.
+This is not just a prompt pack. Skills make behavior repeatable across sessions,
+templates preserve state, and verification records make claims auditable. See
+[Why skills, not prompts](docs/why-skills-not-prompts.md).
 
 ## Evidence
 
@@ -111,23 +102,23 @@ The benchmark asks a narrower question: when an agent completes messy technical
 work, does it leave enough verified context for another fresh session to trust,
 audit, and continue it?
 
-| Task | What it shows |
-| --- | --- |
-| Task 4 — Impossible Churn Regression | Skill-routed runs can leave durable context for audit/resume. |
-| Task 5 — Fake Data Campaign Lift Trust | Clearer audit trails help inspection, but do not guarantee correctness. |
+| Task                                     | What it shows                                                                                               |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Task 4 — Impossible Churn Regression     | Skill-routed runs can leave durable context for audit/resume.                                               |
+| Task 5 — Fake Data Campaign Lift Trust   | Clearer audit trails help inspection, but do not guarantee correctness.                                     |
 | Task 7 — Dashboard Export Scope Pressure | Stronger settings saturated on behavior; weaker settings exposed compatibility and test-integrity failures. |
 
 Supported claims:
 
-- auditability
-- verification discipline
-- resumability
+* auditability
+* verification discipline
+* resumability
 
 Not supported:
 
-- broad pass-rate superiority
-- guaranteed correctness
-- universal behavior improvement
+* broad pass-rate superiority
+* guaranteed correctness
+* universal behavior improvement
 
 The Task 7 follow-up suggested the highest-leverage improvement was not heavier
 skills, but sharper invalidation: compatibility probes, diff guards, and
@@ -165,9 +156,9 @@ This is the shape the repo is trying to prevent. For the full routing map, see
 
 ## How this is different
 
-- Raw prompting gives instructions. This repo leaves durable artifacts.
-- Plan Mode approves a plan. This repo adds earlier and later gates.
-- Chat scrollback disappears. Files survive the session.
+* Raw prompting gives instructions. This repo leaves durable artifacts.
+* Plan Mode approves a plan. This repo adds earlier and later gates.
+* Chat scrollback disappears. Files survive the session.
 
 ## Common objections
 
@@ -191,10 +182,10 @@ inspectable, and easier to correct when the agent drifts. See
 
 Four skills form the backbone for resilient agent sessions:
 
-- `scope-freeze` — limits blast radius before work
-- `verify-contract` — records evidence after work
-- `context-check` — detects drift during work
-- `handoff` — preserves durable state between sessions
+* `scope-freeze` — limits blast radius before work
+* `verify-contract` — records evidence after work
+* `context-check` — detects drift during work
+* `handoff` — preserves durable state between sessions
 
 Together they support bounded execution and verifiable progress.
 
@@ -258,57 +249,16 @@ agent-worker, and full governance workflows.
 
 This sanitized terminal demo shows a bounded cycle using fake data and simulated
 agent output. It is generated from `demo/demo.tape` using VHS, so it is reproducible
-and does not require private data, API keys, or a real Claude Code session.
+without private code, private data, or API calls.
 
-Render it with:
+Render it locally with:
 
 ```bash
 scripts/render_demo.sh
 ```
 
-## Part of the suite
+## Status
 
-This repo is one piece of a small set of repos for making AI-assisted work clearer,
-more bounded, and more verifiable. See [Suite map](docs/SUITE_MAP.md).
-
-| Repo | Primary job | First thing to try |
-| --- | --- | --- |
-| [ai-engineering-skills](https://github.com/tmusser/ai-engineering-skills) | Bounded, verifiable AI coding work | `mini-spec -> scope-freeze -> build-one -> verify-contract` |
-| [context-to-action-skills](https://github.com/tmusser/context-to-action-skills) | Turn messy workplace context into facts and next actions | `reduce-to-facts`, then `clear-ask`, `decision-brief`, `status-update`, or `follow-up-draft` |
-| [chart-contract](https://github.com/tmusser/chart-contract) | Auditable analytical charts | Build one chart with an explicit claim, caveat, and source trail |
-
-The shared pattern: clarify first, bound the work, verify the result, preserve
-handoff state.
-
-## Docs
-
-- [Benchmark findings](docs/benchmark-findings.md)
-- [Why skills, not prompts](docs/why-skills-not-prompts.md)
-- [Skill map](docs/skill-map.md)
-- [Workflow recipes](docs/recipes.md)
-- [Loop governance](docs/loop-governance.md) — when iteration helps, when it drifts,
-  and how to bound it.
-- [Optional bundles](docs/bundles.md)
-- [Cross-functional infrastructure coordination](docs/recipes.md#cross-functional-infrastructure-coordination)
-- [Claude Code installation](docs/claude-code-installation.md)
-- [Codex installation](docs/codex-installation.md)
-- [Compatibility confidence](docs/compatibility-confidence.md)
-- [Limitations](LIMITATIONS.md)
-- [Agent-worker safety](docs/agent-worker-safety.md)
-- [Suite map](docs/SUITE_MAP.md)
-- [Examples](examples/tiny-bugfix/README.md)
-
-## Slash-style usage
-
-Installed Claude Code skills are invoked directly with `/skill-name`.
-
-Installed Codex skills should be invoked with `$skill-name` or selected through
-`/skills` where available.
-
-## License and acknowledgments
-
-This repository is MIT licensed. See `LICENSE`.
-
-This project is independently written and acknowledges inspiration from Addy Osmani's
-`agent-skills`, Matt Pocock's `skills`, and GitHub's `spec-kit`. See
-`ACKNOWLEDGMENTS.md`.
+This is a practical workflow pack, not a guarantee that agents will behave. The
+best results still come from a human who can set boundaries, inspect evidence, and
+decide when to escalate ceremony.
