@@ -29,7 +29,7 @@ when it does not.
 | Change is treated as done without evidence | `test-mini` → `verify-contract` |
 | Fresh session loses the thread | `handoff` |
 
-
+![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
 
 ## Start here
 
