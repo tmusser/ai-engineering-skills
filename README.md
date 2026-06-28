@@ -259,10 +259,10 @@ scripts/render_demo.sh
 
 ## Further reading
 
-- Slash-style usage: see the install docs and skill command examples.
-- anti-patterns: each skill documents common failure modes to avoid.
-- Loop governance: see [docs/loop-governance.md](docs/loop-governance.md).
-- Cross-functional infrastructure coordination: see
+* Slash-style usage: see the install docs and skill command examples.
+* anti-patterns: each skill documents common failure modes to avoid.
+* Loop governance: see [docs/loop-governance.md](docs/loop-governance.md).
+* Cross-functional infrastructure coordination: see
   [docs/recipes.md](docs/recipes.md).
 
 ## Status
