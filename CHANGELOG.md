@@ -47,6 +47,8 @@ Current evidence supports auditability, verification discipline, and
 resumability claims. It does not prove broad pass-rate superiority over strong
 prompting or strong models.
 
+## [Unreleased]
+
 ## [v0.6.0] - 2026-06-21
 
 ### Added
