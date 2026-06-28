@@ -13,15 +13,23 @@ durable context, reproducible verification, and fast handoff.
 Build with AI like a disciplined team of two: one human sets direction and boundaries;
 one agent executes inside them.
 
-This is not just a prompt pack. Skills make behavior repeatable across sessions, templates preserve state, and verification records make claims auditable. See [Why skills, not prompts](docs/WHY_SKILLS_NOT_PROMPTS.md).
+This is not just a prompt pack. Skills make behavior repeatable across sessions, templates preserve state, and verification records make claims auditable. See [Why skills, not prompts](docs/why-skills-not-prompts.md).
 
-<p align="center">
-  <img
-    src="assets/durable_working_memory.png"
-    alt="AI agents lose the thread. Give them durable working memory."
-    width="900"
-  >
-</p>
+The point is not to make the agent listen. The point is to make the work legible
+when it does not.
+
+**Better specs, not bigger specs.**
+
+**Durable state, not longer chats.**
+
+| Common failure mode | Skill-pack response |
+|---|---|
+| Vague ask, hidden assumptions, or missing boundary | `grill-with-docs-lite` → `mini-spec` |
+| Scope expands while coding | `scope-freeze` |
+| Change is treated as done without evidence | `test-mini` → `verify-contract` |
+| Fresh session loses the thread | `handoff` |
+
+
 
 ## Start here
 
