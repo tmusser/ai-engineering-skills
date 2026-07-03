@@ -7,18 +7,16 @@
 
 <!-- markdownlint-disable MD013 -->
 
-A compact workflow for shipping small AI-assisted software projects with bounded scope,
-durable context, reproducible verification, and fast handoff.
+ai-engineering-skills is the control layer for coding agents.
+It keeps Claude Code, Codex CLI, and similar agents bounded, verified, and
+resumable through lightweight workflow gates.
 
-Build with AI like a disciplined team of two: one human sets direction and boundaries;
-one agent executes inside them.
-
-![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
+One human sets direction and boundaries; one agent executes inside them.
 
 ## Start here
 
-Use this repo when an AI coding task is too consequential for ad hoc prompting but
-too small for a PRD.
+Use this repo when a coding task needs bounded scope, verification, and a resumable
+handoff, but is too small for a full PRD.
 
 The smallest useful loop is:
 
@@ -29,9 +27,9 @@ mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
 That loop helps agents stop wandering, prove what changed, and leave enough state
 for the next session to continue safely.
 
-## Try the starter install
+## Try it in 60 seconds
 
-Clone the repo, then install the starter set:
+Clone the repo and install the starter set:
 
 ```bash
 git clone https://github.com/tmusser/ai-engineering-skills.git
@@ -39,6 +37,19 @@ cd ai-engineering-skills
 ./install.sh --claude-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ./install.sh --codex-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ```
+
+Prompt to give an agent:
+
+```text
+Use mini-spec, scope-freeze, build-one, verify-contract, and handoff for this bug fix.
+```
+
+Expect a `SPEC.md` or equivalent contract, a verification record, and a `HANDOFF.md`
+that lets the next session resume without re-deriving the work.
+
+Use `test-mini` as an optional add-on when the slice needs focused deterministic tests.
+
+## Starter set
 
 Recommended starter set:
 
@@ -59,6 +70,31 @@ Those docs cover `scripts/install_claude_code.py`, `scripts/install_codex.py`,
 `AI_ENGINEERING_SKILLS_VERSION.json`, `--dry-run`, `--backup`, `--force`, `--only`,
 `--uninstall`, and `--include-templates`.
 
+## Agent support
+
+| Agent | Support level | Notes |
+| ----- | ------------- | ----- |
+| Claude Code | First-class / primary target | Dedicated install docs and workflow examples. |
+| Codex CLI | First-class / supported docs | Dedicated install docs and workflow examples. |
+| Other markdown-capable coding agents | Experimental / manual | Skills are plain Markdown folders, but validation may be partial. |
+| IDE assistants | Manual artifact workflow | Use the same files and prompts by hand; no agent-specific install path is assumed. |
+
+Skills are portable because they are plain Markdown, but validation is strongest where
+this repo has explicit install and docs coverage.
+
+## Complements sandboxing and observability
+
+Runtime tools can help isolate where an agent runs and observe what it does. This repo
+sits one layer above that: it defines the task contract, scope boundary, verification
+evidence, and handoff state. Sandbox and observability tools can fit into that runtime
+layer, but they are not required for this workflow.
+
+ai-engineering-skills is not a replacement for sandboxing, secret scanning,
+permissions, or runtime isolation. It is a workflow layer that helps agents stay
+bounded and resumable while those controls handle execution safety.
+
+![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
+
 ## What it creates
 
 | Artifact     | What it means               |
@@ -66,6 +102,20 @@ Those docs cover `scripts/install_claude_code.py`, `scripts/install_codex.py`,
 | `SPEC.md`    | Current contract            |
 | `VERIFY.md`  | Proof ledger / verify gate  |
 | `HANDOFF.md` | Fresh-session resume packet |
+
+## What you can do
+
+Use the smallest route that fits.
+
+| Need | Skill route |
+| ---- | ----------- |
+| Turn a messy feature request into a safe coding task | `grill-with-docs-lite` -> `mini-spec` |
+| Prevent unrelated edits | `scope-freeze` |
+| Implement one vertical slice | `build-one` |
+| Verify before calling done | `test-mini` -> `verify-contract` |
+| Resume in a fresh session | `handoff` |
+| Diagnose repeated agent loops | `diagnose-loop` |
+| Capture bugs cleanly | `bug-capture` |
 
 ## Why this exists
 
@@ -204,6 +254,9 @@ access.
 
 See [docs/recipes.md](docs/recipes.md) for the small-project, debug, ML/dashboard,
 analytical, and cross-functional recipes.
+
+For an isolated git worktree task, see
+[docs/worktree-agent-run.md](docs/worktree-agent-run.md).
 
 ## Ceremony ladder
 

@@ -2,6 +2,8 @@
 
 Use the smallest workflow that fits the task. These recipes show common routes through the skills.
 
+For an isolated git worktree task, see [Worktree Agent Run](worktree-agent-run.md).
+
 ## Level 0 — Patch
 
 Use for tiny reversible edits that only need one sanity check.
