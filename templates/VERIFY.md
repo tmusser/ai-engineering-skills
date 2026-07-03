@@ -27,6 +27,17 @@ Diff guards:
 - Fixture/data changed: yes/no
 - Dependencies changed: yes/no
 
+Credential boundary check:
+
+- Confirm `.env` or local secret files were not modified unless they were explicitly in scope.
+- Confirm no API keys, tokens, cookies, passwords, or private URLs were added.
+- If a secret is needed, document only the environment variable name. Environment variable names are okay; raw secret values are not.
+- Run a repo secret scan if one already exists and is easy to invoke.
+- Mark `REVIEW_REQUIRED` if credential exposure is uncertain.
+
+This is a lightweight workflow check, not a secret scanner or a replacement for
+permissions, secret scanning, or runtime controls.
+
 Review required because:
 
 - _TBD_
@@ -50,6 +61,17 @@ Required only if repeated agent iterations occurred or are planned.
 - Forbidden paths declared: _TBD_
 - Compatibility seams: _TBD_
 - Invalid-if constraints: _TBD_
+
+## Command evidence
+
+Use a short, auditable record for each meaningful command:
+
+- Command: _TBD_
+- Exit code: _TBD_
+- Relevant output: _TBD_
+- Interpretation: _TBD_
+- Acceptance criterion covered: _TBD_
+- Remaining uncertainty: _TBD_
 
 ## Build note
 

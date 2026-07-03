@@ -4,6 +4,32 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added a root `LLM.md` guide for agent-facing repo navigation and workflow
+  expectations.
+- Added a worktree agent-run recipe in `docs/worktree-agent-run.md` and linked it
+  from the docs and README recipe indexes.
+- Added a README compatibility matrix, a faster try-it path, and a short
+  "What you can do" routing table.
+- Added a lightweight secret-boundary checklist and structured command evidence
+  guidance to verification artifacts.
+
+### Changed
+
+- Reframed the README hero around `ai-engineering-skills` as the control layer
+  for coding agents.
+- Added a short README section explaining how this repo complements sandboxing
+  and observability tools.
+
+### Migration notes
+
+- No version bump is required yet; this branch stays under `## [Unreleased]`.
+- Existing installs and skill behavior are unchanged; the branch is documentation
+  and artifact guidance only.
+- Verification entries now expect concise command-level evidence and may use
+  `REVIEW_REQUIRED` if credential exposure is uncertain.
+
 ## [v0.6.1] - 2026-06-26
 
 ### Added

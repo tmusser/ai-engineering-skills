@@ -24,7 +24,10 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 ## Workflow
 
 1. Update VERIFY.md with date + task name.
-2. Record commands run + pass/fail output. If `scripts/verify_gate.py` is available, run it before marking verification complete.
+2. Record commands run as short evidence entries with command, exit code, relevant
+   output, interpretation, acceptance criterion covered, and remaining uncertainty.
+   Keep each entry concise and auditable. If `scripts/verify_gate.py` is available,
+   run it before marking verification complete.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
 3. List changed files.
@@ -60,6 +63,17 @@ Diff guards:
 - Fixture/data changed: yes/no
 - Dependencies changed: yes/no
 
+Credential boundary check:
+
+- Confirm `.env` or local secret files were not modified unless they were explicitly in scope.
+- Confirm no API keys, tokens, cookies, passwords, or private URLs were added.
+- If a secret is needed, document only the environment variable name. Environment variable names are okay; raw secret values are not.
+- Run a repo secret scan if one already exists and is easy to invoke.
+- Mark `REVIEW_REQUIRED` if credential exposure is uncertain.
+
+This is a lightweight workflow check, not a secret scanner or a replacement for
+permissions, secret scanning, or runtime controls.
+
 Review required because:
 
 - _TBD_
@@ -80,9 +94,19 @@ Review required because:
 2026-06-09 - Implement user export
 Environment: Python 3.11, clean venv
 
-Commands:
-./run_export_test.sh → PASSED (output attached)
-python -m pytest tests/export_test.py → PASSED (automated)
+Command: ./run_export_test.sh
+Exit code: 0
+Relevant output: export summary matched fixture
+Interpretation: passed
+Acceptance criterion covered: user export happy path
+Remaining uncertainty: large dataset edge case
+
+Command: python -m pytest tests/export_test.py
+Exit code: 0
+Relevant output: 12 passed
+Interpretation: passed
+Acceptance criterion covered: test coverage for export behavior
+Remaining uncertainty: none known
 
 Changed: src/export.py, tests/export_test.py
 Not tested: large dataset edge case
