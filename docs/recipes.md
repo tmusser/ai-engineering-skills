@@ -236,6 +236,11 @@ context-check
 
 Do not run this as ceremony. Use it only when context starts to distort execution.
 
+## Context hydration
+
+For a deterministic packet that pulls only the smallest relevant markdown excerpts,
+see [Context Hydration](context-hydration.md).
+
 ## ML / dashboard workflow
 
 Use when outputs may influence analysis, metrics, model decisions, or stakeholder review.

@@ -31,6 +31,7 @@ REQUIRED_FILES = [
     "templates/SHIP.md",
     "templates/HANDOFF.md",
     "templates/STAKEHOLDER_ASKS.md",
+    ".ai-context/routing.yml",
     "examples/small-dashboard-poc.md",
     "examples/agent-worker-poc.md",
     "examples/ml-model-poc.md",
@@ -49,6 +50,7 @@ REQUIRED_FILES = [
     "scripts/validate_repo.py",
     "tests/test_installers.py",
     "tests/test_verify_gate.py",
+    "tests/test_context_hydration.py",
     "tests/snapshots/install_sh_help.txt",
     "tests/snapshots/install_claude_user_dry_run_only_mini_spec.txt",
     "tests/snapshots/install_codex_user_dry_run_only_mini_spec.txt",
@@ -66,12 +68,15 @@ REQUIRED_DOCS = [
     "docs/agent-worker-safety.md",
     "docs/loop-governance.md",
     "docs/recipes.md",
+    "docs/context-hydration.md",
 ]
 
 REQUIRED_SCRIPTS = [
     "scripts/install_common.py",
     "scripts/install_claude_code.py",
     "scripts/install_codex.py",
+    "scripts/build_context_index.py",
+    "scripts/context_pack.py",
     "scripts/run_runnable_examples.py",
     "scripts/run_negative_examples.py",
     "scripts/verify_gate.py",
@@ -343,6 +348,16 @@ def check_docs(errors: list[str]) -> None:
         if "```mermaid" not in recipes:
             errors.append("docs/recipes.md does not contain a Mermaid code block")
 
+    hydration_path = repo_path("docs/context-hydration.md")
+    if hydration_path.is_file():
+        hydration = read_text("docs/context-hydration.md")
+        if "working-context headroom" not in hydration:
+            errors.append("docs/context-hydration.md does not mention working-context headroom")
+        if "scripts/build_context_index.py" not in hydration:
+            errors.append("docs/context-hydration.md does not mention scripts/build_context_index.py")
+        if "scripts/context_pack.py" not in hydration:
+            errors.append("docs/context-hydration.md does not mention scripts/context_pack.py")
+
 
 def check_python_compiles(relative_path: str, errors: list[str]) -> None:
     """Check that a Python file compiles."""
@@ -363,10 +378,13 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("scripts/validate_repo.py", errors)
     check_python_compiles("scripts/install_claude_code.py", errors)
     check_python_compiles("scripts/install_codex.py", errors)
+    check_python_compiles("scripts/build_context_index.py", errors)
+    check_python_compiles("scripts/context_pack.py", errors)
     check_python_compiles("scripts/run_runnable_examples.py", errors)
     check_python_compiles("scripts/run_negative_examples.py", errors)
     check_python_compiles("scripts/verify_gate.py", errors)
     check_python_compiles("tests/test_installers.py", errors)
+    check_python_compiles("tests/test_context_hydration.py", errors)
     check_python_compiles("tests/test_verify_gate.py", errors)
 
 

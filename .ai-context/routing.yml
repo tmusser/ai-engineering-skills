@@ -1,0 +1,31 @@
+max_selected_context_tokens: 1500
+routes:
+  resume_handoff:
+    label: Resume / handoff
+    keywords: handoff, resume, fresh context, resume packet, continuation
+    files: templates/HANDOFF.md, skills/handoff/SKILL.md, docs/recipes.md
+
+  verification:
+    label: Verification
+    keywords: verify, verification, evidence, review required, review_required
+    files: templates/VERIFY.md, skills/verify-contract/SKILL.md, skills/test-mini/SKILL.md
+
+  scope_control:
+    label: Scope control
+    keywords: scope, boundary, freeze, blast radius, unrelated edits
+    files: skills/scope-freeze/SKILL.md, docs/recipes.md, docs/skill-map.md
+
+  planning:
+    label: Planning
+    keywords: plan, spec, checklist, mini-spec, thin-plan
+    files: skills/mini-spec/SKILL.md, skills/checklist-mini/SKILL.md, skills/thin-plan/SKILL.md, templates/SPEC.md, templates/PLAN.md
+
+  debugging:
+    label: Debugging
+    keywords: debug, bug, diagnose, failure, regression, loop
+    files: skills/diagnose-loop/SKILL.md, skills/bug-capture/SKILL.md, docs/recipes.md
+
+  shipping:
+    label: Shipping
+    keywords: ship, release, deploy, publish, rollout
+    files: skills/ship-mini/SKILL.md, docs/release-checklist.md, docs/agent-worker-safety.md

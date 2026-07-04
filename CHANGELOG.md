@@ -14,6 +14,12 @@
   "What you can do" routing table.
 - Added a lightweight secret-boundary checklist and structured command evidence
   guidance to verification artifacts.
+- Added an optional context hydration recipe with a local markdown indexer,
+  packet generator, and routing map.
+- Added optional subagent / small-model routing guidance and a reusable
+  context-librarian prompt template for the context hydration recipe.
+- Added explicit `--refresh-index` freshness handling and selected-context
+  budget guardrails to the context hydration tooling.
 
 ### Changed
 
@@ -25,8 +31,8 @@
 ### Migration notes
 
 - No version bump is required yet; this branch stays under `## [Unreleased]`.
-- Existing installs and skill behavior are unchanged; the branch is documentation
-  and artifact guidance only.
+- Existing skill behavior and starter usage are unchanged; context hydration is
+  optional tooling and documentation for advanced local workflows.
 - Verification entries now expect concise command-level evidence and may use
   `REVIEW_REQUIRED` if credential exposure is uncertain.
 
