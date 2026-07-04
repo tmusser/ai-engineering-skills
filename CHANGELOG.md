@@ -38,7 +38,7 @@
 
 ### Migration notes
 
-- No version bump is required yet; this branch stays under `## [Unreleased]`.
+- This release adds optional context hydration tooling for advanced local workflows.
 - Existing skill behavior and starter usage are unchanged; context hydration is
   optional tooling and documentation for advanced local workflows.
 - Verification entries now expect concise command-level evidence and may use
