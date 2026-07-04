@@ -6,6 +6,14 @@
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [v0.7.0] - 2026-07-03
+
+### Added
+
 - Added a root `LLM.md` guide for agent-facing repo navigation and workflow
   expectations.
 - Added a worktree agent-run recipe in `docs/worktree-agent-run.md` and linked it
