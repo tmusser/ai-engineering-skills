@@ -15,28 +15,44 @@ context for another fresh session to trust, audit, and continue it?
 | --- | --- | --- |
 | Task 4 — Impossible Churn Regression | Functional fixes landed; skill-routed runs left `BUGS.md`, `VERIFY.md`, and `HANDOFF.md` artifacts. | Durable artifacts help audit and resumability. |
 | Task 5 — Fake Data Campaign Lift Trust | Both paths passed public checks but missed hidden denominator / leakage traps. | Clearer audit trails help inspection, but do not guarantee correctness. |
-| Task 7 — Dashboard Export Scope Pressure | Stronger settings saturated on behavior; weaker settings exposed API seam and test-integrity failures. | The best hardening move was sharper invalidation, not heavier skills. |
+| Task 7 — Dashboard Export Scope Pressure | Scope pressure exposed the difference between too much ceremony, too little ceremony, and targeted proof reserve. In the observed stripped-resume rerun, the functional solution was preserved and deterministic proof finalization made the run bench-ready. | The useful move was not heavier process by default. It was selecting the smallest route that protected compatibility seams, proof quality, and fresh-session resume safety. |
 
-## Claim boundary
+## Current supported claims
 
 Supported:
 
 - auditability
 - verification discipline
-- resumability
+- fresh-session resumability
+- optional ceremony routing for choosing a smaller or larger workflow before work
+- benchmark-informed workflow improvement through `ceremony-budget`
+
+The strongest current claim is:
+
+```text
+ai-engineering-skills helps coding agents leave bounded, verified, resumable work
+artifacts, and now includes ceremony budgeting to choose the smallest workflow that
+still protects scope, proof, and resume safety.
+```
+
+## Claim boundary
 
 Not supported:
 
 - broad skill superiority
 - guaranteed correctness
 - universal behavior improvement
+- automatic selection of the perfect amount of process
+- universal fresh-session robustness across tasks, models, and seeds
 
-The Task 7 follow-up suggested the highest-leverage improvement was not heavier
-skills, but sharper invalidation: compatibility probes, diff guards, and
-`REVIEW_REQUIRED` states.
+Use Task 7 as motivating evidence, not as proof of general superiority. The Task 7
+follow-up suggested the highest-leverage improvement was not heavier skills, but
+sharper invalidation and better route selection: compatibility probes, diff guards,
+proof reserve, verify-before-edit resume behavior, and deterministic proof
+finalization.
 
 ## Why it matters
 
 The benchmark is useful because it exposes where the current skills still need better
-recipes, especially around compatibility seams, evidence integrity, and recovery
-state.
+recipes, especially around compatibility seams, evidence integrity, recovery state,
+and knowing when not to use heavier parts of the workflow.
