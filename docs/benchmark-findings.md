@@ -15,15 +15,18 @@ context for another fresh session to trust, audit, and continue it?
 | --- | --- | --- |
 | Task 4 — Impossible Churn Regression | Functional fixes landed; skill-routed runs left `BUGS.md`, `VERIFY.md`, and `HANDOFF.md` artifacts. | Durable artifacts help audit and resumability. |
 | Task 5 — Fake Data Campaign Lift Trust | Both paths passed public checks but missed hidden denominator / leakage traps. | Clearer audit trails help inspection, but do not guarantee correctness. |
-| Task 7 — Dashboard Export Scope Pressure | Scope pressure exposed the difference between too much ceremony, too little ceremony, and targeted proof reserve. In the observed stripped-resume rerun, the functional solution was preserved and deterministic proof finalization made the run bench-ready. | The useful move was not heavier process by default. It was selecting the smallest route that protected compatibility seams, proof quality, and fresh-session resume safety. |
+| Task 7 — Dashboard Export Scope Pressure | Scope pressure exposed the difference between too much ceremony, too little ceremony, and targeted proof reserve. In the observed stripped-resume rerun, the functional solution was preserved and the benchmark harness produced valid deterministic proof artifacts. | The useful move was not heavier process by default. It was selecting the smallest route that protected compatibility seams, proof quality, and fresh-session resume safety. |
 
-## Current supported claims
+## Current project claims
 
-Supported:
+Benchmark-supported:
 
 - auditability
 - verification discipline
 - fresh-session resumability
+
+Repo-supported:
+
 - optional ceremony routing for choosing a smaller or larger workflow before work
 - benchmark-informed workflow improvement through `ceremony-budget`
 
