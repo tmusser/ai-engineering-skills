@@ -6,18 +6,17 @@ Use this repo as a small operating loop for bounded AI-assisted technical work.
 
 ```mermaid
 flowchart TD
-  A["Pre-flight<br/>ceremony-budget"] --> B["Clarify<br/>grill-with-docs-lite<br/>constitution-lite"]
-  A --> C["Specify<br/>mini-spec<br/>checklist-mini"]
-  A --> D["Constrain<br/>scope-freeze"]
-  B --> C
-  C --> E["Plan<br/>thin-plan<br/>analyze-mini"]
-  E --> D
-  D --> F["Build<br/>build-one"]
-  F --> G["Verify<br/>test-mini<br/>verify-contract"]
-  G --> H["Ship<br/>ship-mini"]
-  H --> I["Handoff<br/>handoff"]
-  J["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
-  J --> G
+  A["Clarify<br/>grill-with-docs-lite<br/>constitution-lite"] --> B["Specify<br/>mini-spec<br/>checklist-mini"]
+  B --> C["Plan<br/>thin-plan<br/>analyze-mini"]
+  C --> D["Constrain<br/>scope-freeze"]
+  D --> E["Build<br/>build-one"]
+  E --> F["Verify<br/>test-mini<br/>verify-contract"]
+  F --> G["Ship<br/>ship-mini"]
+  G --> H["Handoff<br/>handoff"]
+  I["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
+  I --> F
+  J["Optional route check<br/>ceremony-budget"] -. "when route is unclear" .-> A
+  J -. "choose smaller route" .-> D
 ```
 
 `ceremony-budget` is an optional pre-flight router. Use it to choose the smallest
