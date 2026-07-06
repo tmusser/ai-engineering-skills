@@ -35,12 +35,28 @@ Default:
 EOF
 }
 
+resolve_python() {
+  if command -v python3 >/dev/null 2>&1; then
+    printf '%s\n' "python3"
+    return 0
+  fi
+
+  if command -v python >/dev/null 2>&1; then
+    printf '%s\n' "python"
+    return 0
+  fi
+
+  echo "error: python3 or python is required" >&2
+  exit 127
+}
+
 run_installer() {
   script="$1"
   target="$2"
   project_path="${3:-}"
+  python_cmd="$(resolve_python)"
 
-  set -- python "$script" --target "$target"
+  set -- "$python_cmd" "$script" --target "$target"
 
   if [ -n "$project_path" ]; then
     set -- "$@" --project-path "$project_path"

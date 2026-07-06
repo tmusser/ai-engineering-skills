@@ -6,7 +6,16 @@
 
 ### Added
 
+- Added an optional `ceremony-budget` pre-flight skill that routes tasks to the
+  smallest workflow that still buys back enough attention and safety.
+- Added [docs/ceremony-budget.md](docs/ceremony-budget.md) to explain why
+  ceremony budget exists, how Level 0-3 routing works, and when to escalate or
+  de-escalate.
+
 ### Changed
+
+- Updated the README, workflow recipes, skill map, and bundles docs to position
+  `ceremony-budget` as an optional router before the existing ceremony ladder.
 
 ### Fixed
 

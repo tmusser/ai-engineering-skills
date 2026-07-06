@@ -1,12 +1,39 @@
 # Workflow Recipes
 
-Use the smallest workflow that fits the task. These recipes show common routes through the skills.
+Use `ceremony-budget` first when the right route is not obvious. It should
+usually produce a short decision block, not a durable file.
+
+Use the smallest workflow that fits the task. These recipes show common routes
+through the skills.
 
 For an isolated git worktree task, see [Worktree Agent Run](worktree-agent-run.md).
+
+## Ceremony budget entry move
+
+Use this before choosing a recipe when the task could plausibly fit more than one
+level.
+
+```text
+ceremony-budget
+→ choose Level 0 / 1 / 2 / 3
+→ run only the selected route
+```
+
+Rule: spend ceremony only when it buys back attention or safety.
 
 ## Level 0 — Patch
 
 Use for tiny reversible edits that only need one sanity check.
+
+Typical `ceremony-budget` output:
+
+```text
+Level: 0
+Use: direct patch -> one sanity check
+Skip: mini-spec, thin-plan, handoff
+Proof reserve: one command or smoke path
+Stop rule: stop after the sanity check passes and no broader seam moved
+```
 
 ```mermaid
 flowchart TD
@@ -17,6 +44,53 @@ flowchart TD
 ## Level 1 — Micro behavior change
 
 Use for small bounded behavior changes that still fit in one slice.
+
+Typical `ceremony-budget` output:
+
+```text
+Level: 1
+Use: inline scope-freeze -> build-one -> verify-contract
+Skip: mini-spec unless ambiguity appears, thin-plan, handoff unless another session will continue
+Proof reserve: one bounded verification record tied to the changed behavior
+Stop rule: stop after the slice is verified and no continuation risk remains
+```
+
+## Level 2 — Mini slice
+
+Use for small vertical slices with meaningful ambiguity, moderate scope pressure,
+or a real chance that weak proof will be mistaken for done.
+
+Typical `ceremony-budget` output:
+
+```text
+Level: 2
+Use: mini-spec -> optional thin-plan -> scope-freeze -> build-one -> test-mini -> verify-contract
+Skip: checklist-mini, analyze-mini, ship-mini unless the risk profile changes
+Proof reserve: explicit acceptance criteria plus deterministic verification evidence
+Stop rule: stop after the slice is verified or pause if the task expands beyond one safe slice
+```
+
+Common triggers:
+
+- acceptance criteria need to be written down
+- compatibility seams or test meaning need to be preserved
+- the task can drift unless the slice is named first
+- another person may inspect the proof later
+
+## Level 3 — Full guarded workflow
+
+Use for user-facing, scheduled, autonomous, decision-impacting, data-sensitive,
+or multi-slice work.
+
+Typical `ceremony-budget` output:
+
+```text
+Level: 3
+Use: grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan -> scope-freeze -> analyze-mini -> build-one -> test-mini -> verify-contract -> ship-mini -> handoff
+Skip: only skills that clearly do not apply to this task
+Proof reserve: durable verification, explicit guardrails, and safe resume state
+Stop rule: stop at the next gate when verification, risk, or resume state is not strong enough
+```
 
 ```mermaid
 flowchart TD
@@ -124,6 +198,7 @@ Deterministic checks can include SQL row and count sanity checks, exact arithmet
 
 ## When to skip steps
 
+- Skip `ceremony-budget` when the route is already obvious.
 - Skip `mini-spec` when the change is mechanical, single-purpose, and unambiguous.
 - Skip `thin-plan` when there is only one slice.
 - Skip `scope-freeze` when the workspace is already isolated and the blast radius is obvious.
@@ -133,6 +208,35 @@ Deterministic checks can include SQL row and count sanity checks, exact arithmet
 - Skip `ship-mini` only when the output is not user-facing, scheduled, autonomous, decision-impacting, or data-sensitive.
 - Use `handoff` for continuation, not completion.
 - Do not skip `verify-contract` when behavior changed.
+
+## Escalation and de-escalation triggers
+
+Escalate ceremony when:
+
+- ambiguity is causing re-interpretation
+- scope is drifting past the intended slice
+- proof is too weak to support the claim of done
+- context is getting long enough to risk losing the real constraint
+- another session will need to resume safely
+- the change is hard to undo or affects decisions, users, public interfaces, or
+  shared data
+
+De-escalate ceremony when:
+
+- the task is still a tiny reversible patch
+- the next artifact would only repeat information already made explicit
+- a smaller proof reserve covers the real risk
+- a larger workflow was chosen out of habit rather than task pressure
+
+## Resume and verify-before-edit stop rules
+
+- Stop and verify before editing when the user request is still ambiguous.
+- Stop and verify before editing when compatibility seams, test meaning, or data
+  semantics are unclear.
+- Stop and hand off instead of continuing when another session can resume more
+  safely from a verified state than from a longer live thread.
+- Stop escalating when the next route is clear and the remaining ceremony would
+  not buy back more safety.
 
 ## Prompt primitives
 
@@ -235,6 +339,10 @@ context-check
 ```
 
 Do not run this as ceremony. Use it only when context starts to distort execution.
+
+Task 7 style scope pressure often belongs here: if compatibility seams, test
+integrity, or public behavior may be drifting, stop the loop, tighten the route,
+and reserve stronger proof before continuing.
 
 ## Context hydration
 

@@ -15,7 +15,13 @@ flowchart TD
   G --> H["Handoff<br/>handoff"]
   I["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
   I --> F
+  J["Optional route check<br/>ceremony-budget"] -. "when route is unclear" .-> A
+  J -. "choose smaller route" .-> D
 ```
+
+`ceremony-budget` is an optional pre-flight router. Use it to choose the smallest
+safe path before selecting clarify, specify, plan, build, verify, ship, or
+handoff skills.
 
 ## Context-pressure control layer
 
