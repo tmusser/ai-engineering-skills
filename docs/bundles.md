@@ -5,6 +5,9 @@
 Use the smallest bundle that fits. These are copy-paste shortcuts, not a new layer
 of process.
 
+`ceremony-budget` is optional. It is a router, not a required starter artifact.
+Use it when the right bundle is not obvious.
+
 All examples below use user-level installs. For project-scoped installs, replace
 `--claude-user` or `--codex-user` with the project install flags described in the
 README.

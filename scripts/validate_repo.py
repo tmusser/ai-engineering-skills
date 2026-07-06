@@ -60,6 +60,7 @@ REQUIRED_FILES = [
 
 REQUIRED_DOCS = [
     "docs/benchmark-findings.md",
+    "docs/ceremony-budget.md",
     "docs/skill-map.md",
     "docs/why-skills-not-prompts.md",
     "docs/claude-code-installation.md",
@@ -83,6 +84,7 @@ REQUIRED_SCRIPTS = [
 ]
 
 REQUIRED_SKILLS = [
+    "ceremony-budget",
     "grill-with-docs-lite",
     "constitution-lite",
     "lean-mode",

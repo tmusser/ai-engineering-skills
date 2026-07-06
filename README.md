@@ -27,6 +27,10 @@ mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
 That loop helps agents stop wandering, prove what changed, and leave enough state
 for the next session to continue safely.
 
+When the right route is not obvious, start with `ceremony-budget`: a short
+pre-flight that chooses the smallest workflow that still buys back enough
+attention and safety.
+
 ## Try it in 60 seconds
 
 Clone the repo and install the starter set:
@@ -44,10 +48,19 @@ Prompt to give an agent:
 Use mini-spec, scope-freeze, build-one, verify-contract, and handoff for this bug fix.
 ```
 
+Or let the agent route first:
+
+```text
+Use ceremony-budget first, then run only the smallest safe route.
+```
+
 Expect a `SPEC.md` or equivalent contract, a verification record, and a `HANDOFF.md`
 that lets the next session resume without re-deriving the work.
 
 Use `test-mini` as an optional add-on when the slice needs focused deterministic tests.
+
+Use `ceremony-budget` as an optional front door when you are unsure whether the
+task is a patch, one slice, a mini workflow, or a fuller guarded route.
 
 ## Starter set
 
@@ -61,6 +74,9 @@ Recommended starter set:
 
 `thin-plan` is recommended when a slice needs more shape, but it is intentionally
 not part of the absolute starter path.
+
+`ceremony-budget` is also intentionally outside the absolute starter path. It is
+an optional router that helps choose whether the starter set is even warranted.
 
 For project-scoped installs, templates, and the raw Python installers, see
 [Claude Code installation](docs/claude-code-installation.md) and
@@ -255,12 +271,18 @@ access.
 See [docs/recipes.md](docs/recipes.md) for the small-project, debug, ML/dashboard,
 analytical, and cross-functional recipes.
 
+For the routing logic behind those recipes, see
+[docs/ceremony-budget.md](docs/ceremony-budget.md).
+
 For an isolated git worktree task, see
 [docs/worktree-agent-run.md](docs/worktree-agent-run.md).
 
 ## Ceremony ladder
 
 Use the smallest workflow that still feels safe.
+
+`ceremony-budget` is the optional entry move before this ladder. It should usually
+output a short decision, not a new durable artifact.
 
 ### Level 0 — Patch
 
@@ -323,3 +345,8 @@ scripts/render_demo.sh
 This is a practical workflow pack, not a guarantee that agents will behave. The
 best results still come from a human who can set boundaries, inspect evidence, and
 decide when to escalate ceremony.
+
+The benchmark evidence supports auditability, verification discipline, and
+resumability. It does not show broad pass-rate superiority, and `ceremony-budget`
+should not be read as "always do more process." The point is to know when not to
+use the heavier parts of this repo.
