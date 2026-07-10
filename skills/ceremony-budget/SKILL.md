@@ -7,85 +7,138 @@ description: Choose the smallest workflow that still buys back enough attention 
 
 ## Purpose
 
-Route a task to the smallest safe workflow before the agent starts creating
-artifacts or editing files.
+Spend ceremony only when it buys back attention or safety. Route a task to a
+workflow that replaces the default larger route; do not append a second process
+contract.
 
 ## When to use
 
-Use at the start of a task when it is not obvious whether the work needs no
-artifact, a short route, or a fuller workflow.
+Use when the safe route is not already obvious. If the task or wrapper already
+supplies an execution-sized route, use it without re-deriving the route.
 
 ## Inputs
 
-- User request
-- Known constraints
-- Expected blast radius
-- Verification burden
-- Resume or handoff risk
-- Decision or irreversibility risk
+- User request and any task-wrapper instructions
+- Scope boundary and expected blast radius
+- Verification target and failure risk
+- Ambiguity, irreversibility, and resume risk
 
 ## Workflow
 
-1. Check whether the task is reversible, bounded, and already unambiguous.
-2. Check whether failure would mostly waste time or would affect users, data,
-   decisions, compatibility seams, or future sessions.
-3. Check whether the task is likely to drift without a scope boundary or explicit
-   verification target.
-4. Choose the lowest level that still protects against the real failure mode.
-5. Select the skill route for that level.
-6. Name the skills or artifacts intentionally skipped.
-7. Reserve the minimum proof needed before stopping.
-8. Stop routing once the decision block is good enough to start the work.
+1. Check whether the task is bounded, reversible, and already explicit.
+2. Identify the concrete implementation, reproduction, or inspection action and
+   its proof target.
+3. Choose the lowest level that protects the actual failure mode.
+4. Select one replacement route and name only the missing guard, if any.
+5. Start the next action immediately once the boundary and proof target are clear.
+
+### Replacement rule
+
+Ceremony budget selects a route that replaces the default larger workflow. Do not
+regenerate the full route after a wrapper has already made it explicit. It must
+not:
+
+- append a second workflow contract to an already explicit route
+- restate task-wrapper instructions
+- invoke several skills merely because they are available
+- require a budget ledger merely to prove ceremony was budgeted
+- create process work whose only purpose is documenting the process choice
+
+When an existing route is sufficient, prefer:
+
+```text
+Route already explicit; no additional ceremony block needed.
+```
+
+If one guard is missing, provide only that delta:
+
+```text
+Route already explicit.
+Missing guard: stop after verification and required proof pass.
+Next action: implement the named seam.
+```
+
+### Startup discipline
+
+For Level 0 and Level 1, do not create a durable planning artifact by default or
+run commands solely to document route selection. Identify the concrete action,
+then begin it once the boundary and proof target are clear.
+
+For Level 2, allow one compact acceptance block only when real ambiguity exists.
+Implementation must follow immediately; do not create secondary artifacts before
+the first implementation attempt.
+
+Level 3 may retain fuller safeguards when the risk genuinely warrants them.
 
 ## Outputs
 
-Produce a short routing block. Do not create a durable file by default.
+Use at most this six-line block, and omit it when the existing route is enough:
 
 ```text
-CEREMONY BUDGET
+CEREMONY ROUTE
 Level: 0 | 1 | 2 | 3
-Why: ...
+Next action: ...
 Use: ...
 Skip: ...
-Proof reserve: ...
-Stop rule: ...
+Proof and stop: ...
 ```
 
-Level guide:
+Do not create `CEREMONY_BUDGET.md` or a budget ledger by default.
 
-- Level 0: tiny reversible patch; usually no durable artifact
-- Level 1: one bounded slice; inline boundary plus proof
-- Level 2: small multi-step or ambiguity-prone slice; compact spec and
-  verification
-- Level 3: decision-impacting, autonomous, user-facing, risky, or multi-slice
-  work; full guarded route
+### Level guidance
 
-Escalate when:
+- Level 0: direct patch -> one sanity check -> stop
+- Level 1: inline boundary -> build-one -> targeted verify -> stop
+- Level 2: compact mini-spec -> build-one -> targeted test -> verify-contract -> stop
+- Level 3: fuller guarded route for genuinely high-risk, multi-slice, or
+  decision-impacting work
 
-- ambiguity blocks implementation
-- scope is starting to drift
-- verification is weak or hand-wavy
-- context is likely to be lost before completion
-- another session must resume safely
-- changes are hard to undo or affect decisions, users, or public seams
+Use `handoff` only when another session actually needs to resume, work remains
+unresolved, or durable continuation state buys real safety. It is not automatic.
 
-De-escalate when:
+## Compatibility reserve
 
-- the task is a tiny reversible edit
-- the route is creating artifacts that are not buying clarity or safety
-- one shorter proof path would cover the same risk
-- the next skill would only restate what is already explicit
+For each named preserved behavior, non-goal, or adjacent compatibility seam,
+reserve the cheapest relevant negative or regression check when one is available.
+
+Light routing may omit planning artifacts. It must not omit a cheap check that
+protects an explicitly preserved behavior. Reserving that check is proof work; it
+does not by itself require a larger route.
 
 ## Stop conditions
 
-- The lowest safe level is chosen.
-- The selected route and proof reserve are explicit.
-- Do not continue routing once the next step is clear.
+Stop when all are true:
+
+1. required verification has passed
+2. required proof is valid
+3. no named acceptance criterion or risk remains unresolved
+
+After that, do not rerun an already passing proof validator without a concrete
+reason, repeat Git or status commands for reassurance, rewrite valid artifacts for
+style, continue because turns remain, add a ceremony retrospective, or expand
+verification beyond the named risk without evidence that it is needed.
+
+## Failure discipline
+
+After a targeted check fails:
+
+1. inspect the first actionable traceback or mismatch
+2. inspect the actual import, call, or data path implicated by the failure
+3. make the smallest related correction
+4. rerun the narrow check
+5. escalate ceremony only if the failure reveals genuine ambiguity, broader
+   scope, or higher risk
+
+Do not respond to one failed check by generating additional planning artifacts.
 
 ## Anti-patterns
 
 - Treating more artifacts as automatically better process.
-- Creating `SPEC.md`, `PLAN.md`, or `HANDOFF.md` for a trivial reversible fix.
-- Creating `CEREMONY_BUDGET.md` by default.
-- Escalating because the repo has a skill available, not because the task needs it.
-- Using Level 0 or 1 when the task is decision-impacting or hard to resume safely.
+- Making the six-line block mandatory when no route delta is needed.
+- Deriving a full route after a wrapper has already made it explicit.
+- Requiring `scope-freeze`, `handoff`, a ledger, or a durable artifact for every
+  Level 1 task.
+- Omitting a cheap regression check for an explicitly preserved behavior.
+- Stopping before required proof is valid.
+- Using Level 0 or 1 when the task is decision-impacting or genuinely unsafe to
+  resume without durable state.
