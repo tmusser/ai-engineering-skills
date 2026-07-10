@@ -96,6 +96,15 @@ Do not create `CEREMONY_BUDGET.md` or a budget ledger by default.
 Use `handoff` only when another session actually needs to resume, work remains
 unresolved, or durable continuation state buys real safety. It is not automatic.
 
+## Compatibility reserve
+
+For each named preserved behavior, non-goal, or adjacent compatibility seam,
+reserve the cheapest relevant negative or regression check when one is available.
+
+Light routing may omit planning artifacts. It must not omit a cheap check that
+protects an explicitly preserved behavior. Reserving that check is proof work; it
+does not by itself require a larger route.
+
 ## Stop conditions
 
 Stop when all are true:
@@ -129,6 +138,7 @@ Do not respond to one failed check by generating additional planning artifacts.
 - Deriving a full route after a wrapper has already made it explicit.
 - Requiring `scope-freeze`, `handoff`, a ledger, or a durable artifact for every
   Level 1 task.
+- Omitting a cheap regression check for an explicitly preserved behavior.
 - Stopping before required proof is valid.
 - Using Level 0 or 1 when the task is decision-impacting or genuinely unsafe to
   resume without durable state.
