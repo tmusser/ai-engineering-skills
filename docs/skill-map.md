@@ -15,13 +15,22 @@ flowchart TD
   G --> H["Handoff<br/>handoff"]
   I["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
   I --> F
-  J["Optional route check<br/>ceremony-budget"] -. "when route is unclear" .-> A
-  J -. "choose smaller route" .-> D
+  J["Optional route check<br/>ceremony-budget"] -. "Level 0" .-> P["Direct patch<br/>one sanity check"]
+  J -. "Level 1<br/>inline boundary" .-> E
+  J -. "Level 2<br/>compact spec" .-> B
+  J -. "Level 3<br/>guarded route" .-> A
 ```
 
-`ceremony-budget` is an optional pre-flight router. Use it to choose the smallest
-safe path before selecting clarify, specify, plan, build, verify, ship, or
-handoff skills.
+`ceremony-budget` is an optional pre-flight router. It can bypass most of the map
+for a tiny patch, enter at build for a low-ambiguity micro change, enter at specify
+for a compact mini slice, or select the fuller guarded route.
+
+The five-skill starter is a durable default loop, not the minimum process for every
+task. Installing a bundle does not require invoking every installed skill.
+
+- Add `test-mini` when focused deterministic tests add value.
+- Use `verify-contract` when the proof itself should be explicit and durable.
+- Use `handoff` for continuation risk, not as a completion ritual.
 
 ## Context-pressure control layer
 
