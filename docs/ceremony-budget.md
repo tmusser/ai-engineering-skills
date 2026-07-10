@@ -77,6 +77,15 @@ multi-slice work.
 - Typical skips: only skills that clearly do not apply
 - Proof and stop: durable verification and guardrails pass; stop at the next gate
 
+## Compatibility reserve
+
+For each named preserved behavior, non-goal, or adjacent compatibility seam,
+reserve the cheapest relevant negative or regression check when one is available.
+
+Light routing may omit planning artifacts, but it must not omit a cheap check that
+protects explicitly preserved behavior. This is focused proof, not a reason by
+itself to choose a heavier workflow.
+
 ## Escalation triggers
 
 Escalate when:
@@ -148,7 +157,9 @@ Skip: mini-spec, ledger, handoff
 Proof and stop: parser test passes, then stop
 ```
 
-Implementation starts immediately; no ledger is created.
+Implementation starts immediately; no ledger is created. If the task explicitly
+names preserved parser behavior, add the cheapest relevant regression check before
+stopping.
 
 ### Small feature with real ambiguity
 
