@@ -22,6 +22,31 @@ That means:
 
 If the next artifact does not do one of those jobs, skip it.
 
+## Choose a level in 10 seconds
+
+Evaluate from lightest to heaviest and choose the first row that leaves no named
+risk uncovered.
+
+| Level | Use when | Minimum proof |
+| ----- | -------- | ------------- |
+| 0 | Tiny, reversible, behaviorally obvious edit | One sanity check |
+| 1 | One bounded behavior seam with clear acceptance | One targeted verification path |
+| 2 | Acceptance, compatibility, data meaning, or test meaning must be explicit | Written criteria plus deterministic proof |
+| 3 | Multi-slice, autonomous, hard-to-reverse, user-facing, decision-impacting, or data-sensitive work | Durable gates and safe resume state |
+
+Do not escalate because the repository is large, many skills are installed, or a
+fuller route exists. Escalate because a lighter route leaves a concrete risk
+unprotected.
+
+## Bundles are not execution mandates
+
+Bundles control which skills are available. Ceremony budget controls which skills
+are actually needed for the current task.
+
+Installing the five-skill starter does not mean every edit must invoke all five
+skills. A Level 0 patch may use none of them. A Level 1 change may use only an
+inline boundary, `build-one`, and targeted verification.
+
 ## What ceremony budget outputs
 
 Usually no additional block is needed when the task or wrapper already supplies
