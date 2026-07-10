@@ -11,13 +11,22 @@
 - Added [docs/ceremony-budget.md](docs/ceremony-budget.md) to explain why
   ceremony budget exists, how Level 0-3 routing works, and when to escalate or
   de-escalate.
+- Added a fast routing test that selects the first ceremony level leaving no named
+  risk uncovered.
 
 ### Changed
 
 - Updated the README, workflow recipes, skill map, and bundles docs to position
   `ceremony-budget` as an optional router before the existing ceremony ladder.
+- Clarified that bundles control installed capabilities while `ceremony-budget`
+  controls which skills a task actually needs.
+- Aligned `LLM.md` and the skill map with the five-skill durable starter loop,
+  optional focused testing, and continuation-only handoffs.
 
 ### Fixed
+
+- Removed conflicting agent-facing guidance that treated the starter bundle as the
+  minimum runtime process for every task.
 
 ## [v0.7.0] - 2026-07-03
 
