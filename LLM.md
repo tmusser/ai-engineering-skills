@@ -14,17 +14,25 @@ Use this repo when:
 
 - the task is too consequential for ad hoc prompting
 - the work should stay inside a bounded slice
-- you need durable context between sessions
-- you want verification evidence and a handoff packet at the end
+- you want explicit verification evidence
+- another session needs durable continuation state
 
-## Canonical workflow loop
+Use `ceremony-budget` first when the safe route is unclear. Tiny reversible edits and
+low-ambiguity micro changes may not need durable artifacts at all.
+
+## Default durable loop
 
 ```text
-mini-spec -> scope-freeze -> build-one -> test-mini -> verify-contract -> handoff
+mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
 ```
 
-Use this as the default loop for vertical slices. Do not widen the slice unless the
-spec is updated first.
+Use this as the default durable loop for a bounded vertical slice. Do not widen the
+slice unless the spec is updated first. Add `test-mini` when behavior changed and a
+focused deterministic test is practical. Use `handoff` only when another session or
+agent actually needs continuation state.
+
+The starter bundle is an installation convenience, not a mandate to invoke every
+installed skill on every task.
 
 ## Important files and directories
 
@@ -46,8 +54,8 @@ spec is updated first.
 python scripts/validate_repo.py
 npx markdownlint-cli2 "**/*.md"
 git diff --check
-./install.sh --claude-user --only mini-spec,scope-freeze,build-one,test-mini,verify-contract,handoff
-./install.sh --codex-user --only mini-spec,scope-freeze,build-one,test-mini,verify-contract,handoff
+./install.sh --claude-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
+./install.sh --codex-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 python scripts/run_runnable_examples.py
 python scripts/run_negative_examples.py
 python scripts/verify_gate.py
@@ -57,8 +65,9 @@ python scripts/verify_gate.py
 
 - Keep changes small and local.
 - Update the spec before expanding scope.
-- Use `test-mini` and `verify-contract` as the proof gate, not a guess.
-- Preserve handoff state so a fresh context can continue without re-deriving the work.
+- Use `test-mini` when focused deterministic tests add value.
+- Use `verify-contract` as the proof gate, not a guess.
+- Preserve handoff state when a fresh context must continue without re-deriving the work.
 - Prefer the repo's templates and scripts over inventing new process.
 - Do not change skill behavior while making documentation-only edits.
 
@@ -67,8 +76,8 @@ python scripts/verify_gate.py
 - The intended files are updated.
 - Validation passes, or any failure is explained with concrete output.
 - Verification evidence exists for behavior changes.
-- Handoff state captures the current phase, next gate, context risk, and active hypothesis.
-- A fresh session could resume from the recorded artifacts.
+- When handoff is used, it captures the current phase, next gate, context risk, and active hypothesis.
+- A fresh session could resume from recorded artifacts when continuation is required.
 
 ## What not to do
 
