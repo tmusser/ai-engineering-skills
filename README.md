@@ -15,10 +15,11 @@ One human sets direction and boundaries; one agent executes inside them.
 
 ## Start here
 
-Use this repo when a coding task needs bounded scope, verification, and a resumable
-handoff, but is too small for a full PRD.
+Use this repo when a coding task benefits from bounded scope and explicit proof,
+but is too small for a full PRD. Add durable handoff state only when another
+session or agent must continue the work.
 
-The smallest useful loop is:
+The default durable loop is:
 
 ```text
 mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
@@ -33,19 +34,32 @@ attention and safety.
 
 ## Try it in 60 seconds
 
-Clone the repo and install the starter set:
+Clone the repo:
 
 ```bash
 git clone https://github.com/tmusser/ai-engineering-skills.git
 cd ai-engineering-skills
+```
+
+Then choose one install target.
+
+Claude Code:
+
+```bash
 ./install.sh --claude-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
+```
+
+Codex CLI:
+
+```bash
 ./install.sh --codex-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ```
 
-Prompt to give an agent:
+Prompt to give an agent for a durable slice:
 
 ```text
-Use mini-spec, scope-freeze, build-one, verify-contract, and handoff for this bug fix.
+Use mini-spec, scope-freeze, build-one, and verify-contract for this bug fix.
+Add handoff only if another session must continue.
 ```
 
 Or let the agent route first:
@@ -54,8 +68,8 @@ Or let the agent route first:
 Use ceremony-budget first, then run only the smallest safe route.
 ```
 
-Expect a `SPEC.md` or equivalent contract, a verification record, and a `HANDOFF.md`
-that lets the next session resume without re-deriving the work.
+A durable route can leave a `SPEC.md` or equivalent contract, a verification
+record, and a `HANDOFF.md` when continuation state is actually needed.
 
 Use `test-mini` as an optional add-on when the slice needs focused deterministic tests.
 
@@ -71,6 +85,9 @@ Recommended starter set:
 * `build-one`
 * `verify-contract`
 * `handoff`
+
+The starter set controls which skills are available. It does not require invoking
+all five for every task.
 
 `thin-plan` is recommended when a slice needs more shape, but it is intentionally
 not part of the absolute starter path.
@@ -111,13 +128,14 @@ bounded and resumable while those controls handle execution safety.
 
 ![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
 
-## What it creates
+## Durable artifacts
 
-| Artifact     | What it means               |
-| ------------ | --------------------------- |
-| `SPEC.md`    | Current contract            |
-| `VERIFY.md`  | Proof ledger / verify gate  |
-| `HANDOFF.md` | Fresh-session resume packet |
+| Artifact     | What it means                              |
+| ------------ | ------------------------------------------ |
+| `SPEC.md`    | Current contract                           |
+| `PLAN.md`    | Optional slice plan                        |
+| `VERIFY.md`  | Proof ledger / verify gate                 |
+| `HANDOFF.md` | Fresh-session packet when continuation exists |
 
 ## What you can do
 
@@ -235,8 +253,9 @@ verification records, and handoff notes.
 
 ### Is this process theater?
 
-It can be if you use too much of it. Start with the five-gate starter and skip the
-workflow for tiny reversible edits.
+It can be if you use too much of it. Use `ceremony-budget` when the route is
+unclear, use the durable starter for bounded work that needs artifacts, and skip
+the workflow for tiny reversible edits.
 
 ### Will agents ignore the skills?
 
@@ -304,7 +323,7 @@ Analytical deliverables such as sizing memos or scenario tables often fit Level 
 User-facing, scheduled, autonomous, decision-impacting, data-sensitive, or
 multi-slice work. `grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan
 -> scope-freeze -> analyze-mini -> build-one -> test-mini -> verify-contract ->
-ship-mini -> handoff`.
+ship-mini`. Add `handoff` when another session or agent must continue.
 
 ### Below Level 0 — Prompt primitives
 
@@ -314,9 +333,10 @@ instead. See [docs/recipes.md#prompt-primitives](docs/recipes.md#prompt-primitiv
 
 ## Optional bundles
 
-Use the smallest bundle that fits. See [docs/bundles.md](docs/bundles.md) for
-copy-paste install sets for starter, bugfix, ML/data science, dashboard,
-agent-worker, and full governance workflows.
+Use the smallest bundle that fits. Installing a bundle does not require invoking
+every included skill. See [docs/bundles.md](docs/bundles.md) for copy-paste install
+sets for starter, bugfix, ML/data science, dashboard, agent-worker, and full
+governance workflows.
 
 ## Demo
 
