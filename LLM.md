@@ -14,8 +14,8 @@ Use this repo when:
 
 - the task is too consequential for ad hoc prompting
 - the work should stay inside a bounded slice
-- you need durable context between sessions
-- you want verification evidence and a handoff packet at the end
+- you want explicit verification evidence
+- another session needs durable continuation state
 
 Use `ceremony-budget` first when the safe route is unclear. Tiny reversible edits and
 low-ambiguity micro changes may not need durable artifacts at all.
