@@ -24,20 +24,21 @@ If the next artifact does not do one of those jobs, skip it.
 
 ## What ceremony budget outputs
 
-Usually a short decision block, not a durable file:
+Usually no additional block is needed when the task or wrapper already supplies
+an explicit route. Otherwise use this short routing block:
 
 ```text
-CEREMONY BUDGET
+CEREMONY ROUTE
 Level: 0 | 1 | 2 | 3
+Next action: ...
 Use: ...
 Skip: ...
-Proof reserve: ...
-Stop rule: ...
+Proof and stop: ...
 ```
 
-Do not create `CEREMONY_BUDGET.md` by default. A durable routing note is optional
-and only justified for higher-risk work where the routing decision itself needs to
-survive a handoff or audit.
+The route replaces a larger default workflow. It must not append a second process
+contract, restate a wrapper, invoke skills merely because they exist, or require a
+budget ledger. Do not create `CEREMONY_BUDGET.md` by default.
 
 ## Levels
 
@@ -47,25 +48,25 @@ Tiny reversible patch.
 
 - Use: direct patch plus one sanity check
 - Typical skips: `mini-spec`, `thin-plan`, `handoff`
-- Proof reserve: one command, smoke path, or direct behavior check
+- Proof and stop: one command passes, then stop
 
 ### Level 1
 
 One bounded slice with low ambiguity but enough behavior change to justify an
 explicit boundary and proof.
 
-- Use: `scope-freeze -> build-one -> verify-contract`
-- Typical skips: `mini-spec` unless ambiguity appears, `thin-plan`, `handoff`
-- Proof reserve: a bounded verification record tied to the changed behavior
+- Use: `inline boundary -> build-one -> targeted verify -> stop`
+- Typical skips: `scope-freeze` artifact, `mini-spec`, `thin-plan`, `handoff`
+- Proof and stop: targeted verification passes and no named risk remains
 
 ### Level 2
 
 Small vertical slice with real ambiguity, moderate scope pressure, or a genuine
 risk that weak proof will be mistaken for done.
 
-- Use: `mini-spec -> optional thin-plan -> scope-freeze -> build-one -> test-mini -> verify-contract`
-- Typical skips: `checklist-mini`, `analyze-mini`, `ship-mini` unless risk rises
-- Proof reserve: explicit acceptance criteria and deterministic verification
+- Use: `compact mini-spec -> build-one -> targeted test -> verify-contract -> stop`
+- Typical skips: `thin-plan`, `scope-freeze` artifact, `checklist-mini`, `analyze-mini`, `ship-mini`
+- Proof and stop: acceptance criteria and deterministic proof pass; use `handoff` only for real continuation risk
 
 ### Level 3
 
@@ -74,7 +75,7 @@ multi-slice work.
 
 - Use: `grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan -> scope-freeze -> analyze-mini -> build-one -> test-mini -> verify-contract -> ship-mini -> handoff`
 - Typical skips: only skills that clearly do not apply
-- Proof reserve: durable verification, explicit guardrails, and safe resume state
+- Proof and stop: durable verification and guardrails pass; stop at the next gate
 
 ## Escalation triggers
 
@@ -117,34 +118,46 @@ Stop and resume later when:
 
 ## Examples
 
-### Tiny README typo
+### Already-prescriptive wrapper
+
+```text
+Route already explicit.
+Missing guard: stop immediately after verification and required proof pass.
+Next action: implement the named seam.
+```
+
+No second ceremony block, durable routing artifact, or budget ledger is needed.
+
+### Tiny reversible patch
 
 ```text
 Level: 0
+Next action: fix the README typo
 Use: direct patch -> markdownlint
-Skip: mini-spec, verify-contract artifact, handoff
-Proof reserve: clean lint result
-Stop rule: stop after the one-file check passes
+Skip: mini-spec, ledger, handoff
+Proof and stop: clean lint result, then stop
 ```
 
-### Small bounded bug fix
+### Small bounded feature
 
 ```text
 Level: 1
-Use: inline scope-freeze -> build-one -> verify-contract
-Skip: mini-spec unless reproduction or acceptance criteria are still fuzzy
-Proof reserve: one targeted test or smoke path
-Stop rule: stop after the behavior change is verified
+Next action: add the bounded parser branch
+Use: inline boundary -> build-one -> targeted test
+Skip: mini-spec, ledger, handoff
+Proof and stop: parser test passes, then stop
 ```
+
+Implementation starts immediately; no ledger is created.
 
 ### Small feature with real ambiguity
 
 ```text
 Level: 2
-Use: mini-spec -> optional thin-plan -> scope-freeze -> build-one -> test-mini -> verify-contract
-Skip: ship-mini, handoff unless the slice becomes shared or resumed later
-Proof reserve: explicit acceptance criteria plus deterministic verification
-Stop rule: stop after one verified slice, not after "mostly working"
+Next action: define the compact export acceptance block
+Use: compact mini-spec -> build-one -> targeted test -> verify-contract
+Skip: thin-plan, ledger, handoff unless another session must resume
+Proof and stop: deterministic compatibility proof passes, then stop
 ```
 
 ### Task 7 style scope pressure
@@ -162,3 +175,17 @@ Under scope pressure:
 
 That often means a Level 2 route with sharper proof, or a Level 3 gate when the
 change is decision-impacting or hard to resume safely.
+
+## Observed tradeoff
+
+One controlled Task 7 Codex pair tested an additive ceremony protocol: a required
+budget ledger and ceremony steps were appended to an already prescriptive
+benchmark wrapper. The treatment reached first functional and bench-ready green
+later than the control, but had a shorter post-bench-ready tail; total provider
+activity was nearly tied. This motivated replacement routing plus a stronger stop
+rule.
+
+The result is suggestive only. It does not establish universal benefit or
+universal failure, and it does not isolate the base skill from the
+benchmark-specific wrapper and protocol. The revised design is a
+benchmark-informed hypothesis awaiting another controlled pair.

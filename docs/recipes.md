@@ -1,7 +1,7 @@
 # Workflow Recipes
 
-Use `ceremony-budget` first when the right route is not obvious. It should
-usually produce a short decision block, not a durable file.
+Use `ceremony-budget` when the right route is not obvious. It replaces a larger
+route; when the task or wrapper is already explicit, do not add another block.
 
 Use the smallest workflow that fits the task. These recipes show common routes
 through the skills.
@@ -28,11 +28,12 @@ Use for tiny reversible edits that only need one sanity check.
 Typical `ceremony-budget` output:
 
 ```text
+CEREMONY ROUTE
 Level: 0
+Next action: make the tiny patch
 Use: direct patch -> one sanity check
 Skip: mini-spec, thin-plan, handoff
-Proof reserve: one command or smoke path
-Stop rule: stop after the sanity check passes and no broader seam moved
+Proof and stop: one command passes and no broader seam moved
 ```
 
 ```mermaid
@@ -48,11 +49,12 @@ Use for small bounded behavior changes that still fit in one slice.
 Typical `ceremony-budget` output:
 
 ```text
+CEREMONY ROUTE
 Level: 1
-Use: inline scope-freeze -> build-one -> verify-contract
-Skip: mini-spec unless ambiguity appears, thin-plan, handoff unless another session will continue
-Proof reserve: one bounded verification record tied to the changed behavior
-Stop rule: stop after the slice is verified and no continuation risk remains
+Next action: implement the bounded slice
+Use: inline boundary -> build-one -> targeted verify -> stop
+Skip: scope-freeze artifact, mini-spec unless ambiguity appears, thin-plan, handoff unless another session will continue
+Proof and stop: targeted verification passes and no continuation risk remains
 ```
 
 ## Level 2 — Mini slice
@@ -63,11 +65,12 @@ or a real chance that weak proof will be mistaken for done.
 Typical `ceremony-budget` output:
 
 ```text
+CEREMONY ROUTE
 Level: 2
-Use: mini-spec -> optional thin-plan -> scope-freeze -> build-one -> test-mini -> verify-contract
-Skip: checklist-mini, analyze-mini, ship-mini unless the risk profile changes
-Proof reserve: explicit acceptance criteria plus deterministic verification evidence
-Stop rule: stop after the slice is verified or pause if the task expands beyond one safe slice
+Next action: implement the named slice after the compact acceptance block
+Use: compact mini-spec -> build-one -> targeted test -> verify-contract -> stop
+Skip: thin-plan, scope-freeze artifact, checklist-mini, analyze-mini, ship-mini unless the risk profile changes
+Proof and stop: acceptance criteria and deterministic verification pass; pause if the task expands beyond one safe slice
 ```
 
 Common triggers:
@@ -85,11 +88,12 @@ or multi-slice work.
 Typical `ceremony-budget` output:
 
 ```text
+CEREMONY ROUTE
 Level: 3
+Next action: begin the named guarded slice
 Use: grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan -> scope-freeze -> analyze-mini -> build-one -> test-mini -> verify-contract -> ship-mini -> handoff
 Skip: only skills that clearly do not apply to this task
-Proof reserve: durable verification, explicit guardrails, and safe resume state
-Stop rule: stop at the next gate when verification, risk, or resume state is not strong enough
+Proof and stop: durable verification, explicit guardrails, and safe resume state; stop at the next valid gate
 ```
 
 ```mermaid

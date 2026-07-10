@@ -281,8 +281,8 @@ For an isolated git worktree task, see
 
 Use the smallest workflow that still feels safe.
 
-`ceremony-budget` is the optional entry move before this ladder. It should usually
-output a short decision, not a new durable artifact.
+`ceremony-budget` is the optional entry move before this ladder. It replaces a
+larger route and should usually output no block when the route is already explicit.
 
 ### Level 0 — Patch
 
@@ -290,12 +290,12 @@ Tiny reversible edit. Run one sanity check. Record the result.
 
 ### Level 1 — Micro
 
-One bounded slice. `inline scope-freeze -> build-one -> verify-contract`.
+One bounded slice. `inline boundary -> build-one -> targeted verify -> stop`.
 
 ### Level 2 — Mini
 
-Small vertical slice. `mini-spec -> optional thin-plan -> scope-freeze ->
-build-one -> test-mini -> verify-contract`.
+Small vertical slice. `compact mini-spec -> build-one -> targeted test ->
+verify-contract -> stop`.
 
 Analytical deliverables such as sizing memos or scenario tables often fit Level 2.
 
