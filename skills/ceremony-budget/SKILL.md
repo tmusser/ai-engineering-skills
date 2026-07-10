@@ -70,6 +70,24 @@ the first implementation attempt.
 
 Level 3 may retain fuller safeguards when the risk genuinely warrants them.
 
+### Fast routing test
+
+Evaluate these from lightest to heaviest and choose the first level that leaves no
+named risk uncovered:
+
+- Level 0: the edit is tiny, reversible, behaviorally obvious, and one sanity check
+  can prove it.
+- Level 1: one bounded behavior seam changes, acceptance is already clear, and one
+  targeted verification path can prove it.
+- Level 2: acceptance criteria, compatibility seams, data meaning, or test meaning
+  must be written down before implementation can be trusted.
+- Level 3: the work is multi-slice, autonomous, hard to reverse, user-facing,
+  decision-impacting, data-sensitive, or unsafe to resume without durable state.
+
+Do not escalate only because the repository is large, many skills are installed,
+or a fuller route is available. Escalate because a lighter route leaves a concrete
+risk unprotected.
+
 ## Outputs
 
 Use at most this six-line block, and omit it when the existing route is enough:
@@ -138,6 +156,7 @@ Do not respond to one failed check by generating additional planning artifacts.
 - Deriving a full route after a wrapper has already made it explicit.
 - Requiring `scope-freeze`, `handoff`, a ledger, or a durable artifact for every
   Level 1 task.
+- Escalating because a large bundle is installed rather than because risk requires it.
 - Omitting a cheap regression check for an explicitly preserved behavior.
 - Stopping before required proof is valid.
 - Using Level 0 or 1 when the task is decision-impacting or genuinely unsafe to
