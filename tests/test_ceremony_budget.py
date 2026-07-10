@@ -47,6 +47,11 @@ class CeremonyBudgetContractTests(unittest.TestCase):
             SKILL_COMPACT,
         )
         self.assertIn("does not by itself require a larger route", SKILL_COMPACT)
+        self.assertIn("Compatibility reserve", DOC)
+        self.assertIn(
+            "must not omit a cheap check that protects explicitly preserved behavior",
+            DOC_COMPACT,
+        )
 
     def test_stop_and_failure_discipline_protects_proof_without_reassurance_loops(self) -> None:
         self.assertIn("required verification has passed", SKILL_COMPACT)
