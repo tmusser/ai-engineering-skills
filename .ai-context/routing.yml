@@ -1,24 +1,29 @@
 max_selected_context_tokens: 1500
 routes:
+  context_hydration:
+    label: Context hydration
+    keywords: context hydration, context packet, context index, context librarian, working-context headroom, hydrate, hydration
+    files: docs/context-hydration.md, scripts/context_pack.py, scripts/build_context_index.py, .ai-context/routing.yml, tests/test_context_hydration.py
+
   resume_handoff:
     label: Resume / handoff
     keywords: handoff, resume, fresh context, resume packet, continuation
-    files: templates/HANDOFF.md, skills/handoff/SKILL.md, docs/recipes.md
+    files: HANDOFF.md, CONTEXT.md, templates/HANDOFF.md, skills/handoff/SKILL.md, docs/recipes.md
 
   verification:
     label: Verification
     keywords: verify, verification, evidence, review required, review_required
-    files: templates/VERIFY.md, skills/verify-contract/SKILL.md, skills/test-mini/SKILL.md
+    files: VERIFY.md, SPEC.md, templates/VERIFY.md, skills/verify-contract/SKILL.md, skills/test-mini/SKILL.md
 
   scope_control:
     label: Scope control
     keywords: scope, boundary, freeze, blast radius, unrelated edits
-    files: skills/scope-freeze/SKILL.md, docs/recipes.md, docs/skill-map.md
+    files: SPEC.md, skills/scope-freeze/SKILL.md, docs/recipes.md, docs/skill-map.md
 
   planning:
     label: Planning
     keywords: plan, spec, checklist, mini-spec, thin-plan
-    files: skills/mini-spec/SKILL.md, skills/checklist-mini/SKILL.md, skills/thin-plan/SKILL.md, templates/SPEC.md, templates/PLAN.md
+    files: SPEC.md, PLAN.md, TODO.md, skills/mini-spec/SKILL.md, skills/checklist-mini/SKILL.md, skills/thin-plan/SKILL.md, templates/SPEC.md, templates/PLAN.md
 
   debugging:
     label: Debugging
