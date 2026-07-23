@@ -12,6 +12,18 @@ Keep each skill self-contained.
 
 When editing a skill, update related templates if needed.
 
+## Route-first context loading
+
+Resolve the task route before loading workflow guidance.
+
+- Load only the selected skills and directly relevant current-state or project files by default.
+- Do not preload the full skill pack merely because it is installed.
+- Expand context when the task spans routes, a compatibility seam requires it, or verification exposes missing context.
+- Searches and reads remain allowed unless explicitly forbidden. This rule limits the default working set, not discovery.
+- Treat current project state as more authoritative than templates and examples.
+
+See `docs/context-isolation.md` for the full loading and expansion rules.
+
 Run validation after changes:
 
 ```bash
