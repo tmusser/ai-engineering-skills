@@ -1,0 +1,43 @@
+{
+  "profile_version": 1,
+  "description": "Portable contract signals for the core durable coding workflow.",
+  "contracts": {
+    "ceremony-budget": {
+      "required_substrings": [
+        "### Replacement rule",
+        "Proof and stop:",
+        "Do not create `CEREMONY_BUDGET.md`"
+      ]
+    },
+    "mini-spec": {
+      "required_substrings": [
+        "name the primary failure mode for this slice",
+        "Explicit acceptance criteria",
+        "## Invalid if"
+      ]
+    },
+    "scope-freeze": {
+      "required_substrings": [
+        "Allowed writes:",
+        "Review required if:",
+        "Invalid if:"
+      ]
+    },
+    "verify-contract": {
+      "required_substrings": [
+        "PASS | FAIL | REVIEW_REQUIRED",
+        "Contract probes:",
+        "Diff guards:",
+        "Credential boundary check:"
+      ]
+    },
+    "handoff": {
+      "required_substrings": [
+        "RESUME PACKET",
+        "exactly one",
+        "Verification:",
+        "No important context lives only in memory"
+      ]
+    }
+  }
+}
