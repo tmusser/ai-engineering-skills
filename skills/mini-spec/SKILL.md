@@ -35,6 +35,7 @@ Use when a project or feature is clear enough to define before implementation.
 10. Record open questions.
 11. When applicable, name compatibility seams that must remain import-compatible or output-compatible.
 12. When applicable, record invalid-if constraints that would make the slice non-viable.
+13. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
 
 ## Outputs
 
@@ -43,6 +44,7 @@ Use when a project or feature is clear enough to define before implementation.
 - Explicit non-goals
 - Likely failure modes
 - Verification demo
+- Optional contract identity when traceability buys back safety
 
 ## Compatibility seams to preserve
 
@@ -74,3 +76,4 @@ When applicable, list behavior that must remain import-compatible or output-comp
 - Turning a small POC into a full product requirements document.
 - Adding speculative future features.
 - Writing vague acceptance criteria that cannot be verified.
+- Assigning contract identifiers to tiny edits merely to create process metadata.

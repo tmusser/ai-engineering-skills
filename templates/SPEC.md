@@ -1,5 +1,10 @@
 # Spec
 
+## Contract identity (optional)
+
+Contract ID: _TBD_ | Parent: _none_ | Base commit: _TBD_ | Issued: _TBD_
+Replan reason: _none_
+
 ## Objective
 
 _Describe the smallest useful objective._
