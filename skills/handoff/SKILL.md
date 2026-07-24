@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Compress project context into HANDOFF.md with workflow state, active modes, next gate, verification, current hypothesis, freshness anchors, and a resume packet for the next agent session.
+description: Compress project context into HANDOFF.md with workflow state, active modes, next gate, verification, current hypothesis, freshness anchors, optional gotcha references, and a resume packet for the next agent session.
 ---
 
 # Handoff
@@ -20,6 +20,7 @@ When resuming from an existing handoff, apply the freshness check before using i
 ## Inputs
 
 - SPEC.md, PLAN.md, TODO.md, VERIFY.md
+- Optional `GOTCHAS.md` when recurring project sharp edges have been recorded
 - Active modes, current phase, next gate
 - Compatibility seams, invalid-if constraints, verify gate status, review-required items, next gate command when relevant
 - Context risk level
@@ -51,6 +52,19 @@ If the helper cannot be executed, compare the recorded commit, dirty state, chan
 and live Git status manually. Any mismatch or unresolved uncertainty is
 `REVIEW_REQUIRED`, not an implicit pass.
 
+## Gotcha promotion rule
+
+Keep one-off continuation traps in `HANDOFF.md`. Promote a trap to optional `GOTCHAS.md`
+only when it is non-obvious, has a meaningful consequence, is likely to recur across
+sessions or nearby tasks, and can be grounded in evidence.
+
+A promoted gotcha should record a stable ID, trigger, consequence, safe path, evidence,
+last verification, and active/resolved status. When it affects the next task, reference
+the gotcha ID from the handoff instead of copying the whole entry.
+
+Do not turn `GOTCHAS.md` into a generic bug log, TODO list, or folklore file. `BUGS.md`
+owns active defects; `GOTCHAS.md` owns recurring sharp edges.
+
 ## Workflow
 
 1. Read current artifacts first.
@@ -62,10 +76,12 @@ and live Git status manually. Any mismatch or unresolved uncertainty is
 7. List completed slices + verification results.
 8. List changed files with one-line purpose (flag unverified).
 9. Record working commands, known failing commands, important decisions, open decisions, and traps.
-10. Name **exactly one** next recommended task + its verification command.
-11. After the final non-handoff project edit, stamp the freshness anchors with the bundled helper.
-12. Run the helper's `check` command. Only `PASS` should be treated as a fresh handoff when the helper is available.
-13. Keep under 120 lines unless complexity requires more.
+10. Promote recurring evidence-backed traps to `GOTCHAS.md`; keep one-off session traps in the handoff.
+11. If an active gotcha affects the next task, reference its ID and make `GOTCHAS.md` part of the read-first set. When generating a context packet for that continuation, prefer `--require-file GOTCHAS.md` so the dependency is explicit.
+12. Name **exactly one** next recommended task + its verification command.
+13. After the final non-handoff project edit, stamp the freshness anchors with the bundled helper.
+14. Run the helper's `check` command. Only `PASS` should be treated as a fresh handoff when the helper is available.
+15. Keep under 120 lines unless complexity requires more.
 
 **Resume Packet example (place near top):**
 
@@ -76,15 +92,17 @@ RESUME PACKET
 * Workflow State: lean-mode active, next gate=verify-contract, risk=low
 * Branch: main, Commit: abc123, Dirty: no
 * Freshness: PASS, Snapshot: abc123, Workspace: sha256:...
+* Gotchas: G1, G3 | none
 * Next task: ...
 * Verification: `python test_mini.py --slice=foo`
-* Read first: HANDOFF.md, SPEC.md, PLAN.md, VERIFY.md (if present), then changed files below
+* Read first: HANDOFF.md, GOTCHAS.md (if present/referenced), SPEC.md, PLAN.md, VERIFY.md (if present), then changed files below
 ```
 
 ## Outputs
 
 - HANDOFF.md with Resume Packet + Workflow State
 - Freshness anchors when Git state is available
+- Optional references to active `GOTCHAS.md` entries that affect continuation
 - Clear next task and verification path
 - Continuation guardrails when relevant
 
@@ -94,6 +112,7 @@ RESUME PACKET
 - All critical context (modes, risks, decisions, next gate) is in durable files.
 - Exactly one next task is named.
 - A stale handoff cannot silently outrank live repository state.
+- A recurring sharp edge that matters to future work is not buried only in a one-session handoff.
 
 ## Stop conditions
 
@@ -101,6 +120,7 @@ RESUME PACKET
 - No important context lives only in memory.
 - Next task and verification command are explicit.
 - Freshness is `PASS` when the bundled helper is available; otherwise unresolved freshness is surfaced as `REVIEW_REQUIRED`.
+- Relevant promoted gotchas are referenced without duplicating their full contents.
 
 ## Anti-patterns
 
@@ -111,3 +131,5 @@ RESUME PACKET
 - No explicit next gate or verification.
 - Treating `HANDOFF.md` as current merely because it exists.
 - Continuing from a `STALE` or `REVIEW_REQUIRED` handoff without reconciling live state.
+- Burying a recurring evidence-backed sharp edge only in `HANDOFF.md`.
+- Creating `GOTCHAS.md` for ordinary bugs, temporary failures, or generic reminders.
