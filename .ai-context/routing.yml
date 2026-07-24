@@ -10,6 +10,11 @@ routes:
     keywords: handoff, resume, fresh context, resume packet, continuation
     files: HANDOFF.md, CONTEXT.md, templates/HANDOFF.md, skills/handoff/SKILL.md, docs/recipes.md, docs/context-persistence-horizons.md
 
+  gotchas:
+    label: Gotchas / sharp edges
+    keywords: gotcha, gotchas, trap, traps, sharp edge, sharp edges, footgun, footguns, quirk, quirks, caveat, caveats, pitfall, pitfalls, surprising behavior, known sharp edge
+    files: GOTCHAS.md, templates/GOTCHAS.md
+
   verification:
     label: Verification
     keywords: verify, verification, evidence, review required, review_required
