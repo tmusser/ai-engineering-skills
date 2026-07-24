@@ -4,8 +4,8 @@
 
 - Snapshot commit: `_TBD_`
 - Workspace fingerprint: `_TBD_`
-- Stamp after the final non-handoff edit: `python scripts/handoff_freshness.py stamp --handoff HANDOFF.md`
-- Check before trusting this handoff: `python scripts/handoff_freshness.py check --handoff HANDOFF.md`
+- Stamp after the final non-handoff edit: `python <handoff-skill-dir>/scripts/handoff_freshness.py stamp --handoff HANDOFF.md`
+- Check before trusting this handoff: `python <handoff-skill-dir>/scripts/handoff_freshness.py check --handoff HANDOFF.md`
 
 A `STALE` result means live repository state changed after this handoff was stamped. Re-read live project state and regenerate the handoff before resuming. `REVIEW_REQUIRED` means freshness could not be established and the handoff must not be treated as authoritative without inspection.
 
