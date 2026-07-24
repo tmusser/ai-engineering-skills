@@ -24,3 +24,6 @@ jobs:
 
       - name: Validate core skill conformance
         run: python scripts/check_skill_conformance.py
+
+      - name: Test handoff freshness guard
+        run: python tests/test_handoff_freshness.py
