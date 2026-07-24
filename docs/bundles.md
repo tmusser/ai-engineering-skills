@@ -136,19 +136,22 @@ guardrail useful.
 Skip when any smaller bundle fits the task. Prefer a smaller bundle unless you
 already know why you need this one.
 
+`tool-noise-guard` is passive in this bundle. Enable it when tool traffic is verbose or
+repetitive; installing it does not require a compaction step on every call.
+
 Claude Code:
 
 ```bash
-./install.sh --claude-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
+./install.sh --claude-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,tool-noise-guard,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
 ```
 
 Codex:
 
 ```bash
-./install.sh --codex-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
+./install.sh --codex-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,tool-noise-guard,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
 ```
 
 Skills: `grill-with-docs-lite`, `constitution-lite`, `lean-mode`, `context-check`,
-`mini-spec`, `checklist-mini`, `thin-plan`, `scope-freeze`, `analyze-mini`,
-`build-one`, `test-mini`, `diagnose-loop`, `bug-capture`, `verify-contract`,
-`ship-mini`, `handoff`.
+`tool-noise-guard`, `mini-spec`, `checklist-mini`, `thin-plan`, `scope-freeze`,
+`analyze-mini`, `build-one`, `test-mini`, `diagnose-loop`, `bug-capture`,
+`verify-contract`, `ship-mini`, `handoff`.
