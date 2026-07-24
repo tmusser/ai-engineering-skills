@@ -15,6 +15,11 @@ routes:
     keywords: gotcha, gotchas, trap, traps, sharp edge, sharp edges, footgun, footguns, quirk, quirks, caveat, caveats, pitfall, pitfalls, surprising behavior, known sharp edge
     files: GOTCHAS.md, templates/GOTCHAS.md
 
+  tool_noise:
+    label: Tool noise / result compaction
+    keywords: tool noise, tool bloat, tool call bloat, metadata bloat, repetitive metadata, repeated tool result, repeated tool results, refetch, re-fetch, polling, compact tool output, compact tool results
+    files: skills/tool-noise-guard/SKILL.md, docs/tool-noise-guard.md, skills/lean-mode/SKILL.md, skills/context-check/SKILL.md
+
   verification:
     label: Verification
     keywords: verify, verification, evidence, review required, review_required
