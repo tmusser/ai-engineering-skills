@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "scripts" / "handoff_freshness.py"
+SCRIPT = ROOT / "skills" / "handoff" / "scripts" / "handoff_freshness.py"
 PYTHON = sys.executable
 TEMPLATE = """# Handoff
 
