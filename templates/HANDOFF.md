@@ -14,11 +14,16 @@ A `STALE` result means live repository state changed after this handoff was stam
 Read first if present:
 
 - `HANDOFF.md`
+- `GOTCHAS.md` when referenced below or relevant to the next task
 - `CONTEXT.md`
 - `SPEC.md`
 - `PLAN.md`
 - `TODO.md`
 - `VERIFY.md`
+
+Relevant gotchas:
+
+- _G1, G2 | none_
 
 Resume command:
 
@@ -129,6 +134,8 @@ _Use only when repeated iterations occurred or are expected._
 - _TBD_
 
 ## Traps / do-not-change notes
+
+_Keep one-off continuation traps here. Reference `GOTCHAS.md` IDs for recurring evidence-backed sharp edges instead of duplicating the full entry._
 
 - _TBD_
 
