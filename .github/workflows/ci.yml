@@ -27,3 +27,6 @@ jobs:
 
       - name: Test handoff freshness guard
         run: python tests/test_handoff_freshness.py
+
+      - name: Test optional gotchas routing
+        run: python tests/test_gotchas_routing.py
