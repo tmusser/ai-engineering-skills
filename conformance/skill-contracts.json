@@ -36,7 +36,9 @@
         "RESUME PACKET",
         "exactly one",
         "Verification:",
-        "No important context lives only in memory"
+        "No important context lives only in memory",
+        "A stale handoff cannot silently outrank live repository state.",
+        "Only `PASS` should be treated as a fresh handoff"
       ]
     }
   }
