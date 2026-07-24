@@ -38,7 +38,9 @@
         "Verification:",
         "No important context lives only in memory",
         "A stale handoff cannot silently outrank live repository state.",
-        "Only `PASS` should be treated as a fresh handoff"
+        "Only `PASS` should be treated as a fresh handoff",
+        "GOTCHAS.md",
+        "Promote recurring evidence-backed traps"
       ]
     }
   }
