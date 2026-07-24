@@ -37,9 +37,15 @@ task. Installing a bundle does not require invoking every installed skill.
 - `scope-freeze` limits blast radius before work.
 - `verify-contract` records evidence after work.
 - `context-check` detects drift during work.
+- `tool-noise-guard` compacts repeated tool envelopes and suppresses unjustified re-fetches.
 - `handoff` preserves durable state between sessions.
 
-Together they support bounded execution and verifiable progress.
+`tool-noise-guard` is optional and passive. It protects the carry-forward representation
+of tool state; it does not retroactively remove raw tool output already injected by the
+runtime. See [Tool Noise Guard](tool-noise-guard.md).
+
+Together these controls support bounded execution, dense working context, and verifiable
+progress.
 
 ## Failure mode diagram
 
