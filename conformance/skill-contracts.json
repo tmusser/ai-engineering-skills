@@ -9,6 +9,17 @@
         "Do not create `CEREMONY_BUDGET.md`"
       ]
     },
+    "grill-with-docs-lite": {
+      "required_substrings": [
+        "CLARIFICATION DELTA",
+        "Default question budget: at most 3",
+        "Do not update `CONTEXT.md`, create glossary entries, or write ADRs",
+        "FACT",
+        "DECISION",
+        "ASSUMPTION",
+        "UNKNOWN"
+      ]
+    },
     "mini-spec": {
       "required_substrings": [
         "name the primary failure mode for this slice",
