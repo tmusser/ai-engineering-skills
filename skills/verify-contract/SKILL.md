@@ -1,6 +1,6 @@
 ---
 name: verify-contract
-description: Record clear evidence that a task works, including commands, results, and remaining risks.
+description: Record clear evidence that a task works, including commands, results, remaining risks, and whether the implementation stayed under the spec ceiling.
 ---
 
 # Verify Contract
@@ -9,6 +9,8 @@ description: Record clear evidence that a task works, including commands, result
 
 Prove the task actually works and leave durable evidence.
 
+Verification also checks that the implementation did not exceed the behavioral contract merely because the extra work looked reasonable.
+
 ## When to use
 
 After implementation, tests, bug fixes, data runs, or smoke checks.
@@ -16,6 +18,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 ## Inputs
 
 - Task name
+- `SPEC.md` acceptance criteria, non-goals, constraints, and invalid-if rules
 - Commands run or to run
 - Changed files
 - Evidence to record
@@ -31,18 +34,19 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
 3. List changed files.
-4. Note working directory / environment assumptions if relevant.
-5. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
-6. Note what was **not** tested and remaining risks.
-7. Name the next safest task.
+4. Run the spec ceiling check against the implemented behavior and diff.
+5. Note working directory / environment assumptions if relevant.
+6. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
+7. Note what was **not** tested and remaining risks.
+8. Name the next safest task.
 
 ## Verify gate
 
 Status: PASS | FAIL | REVIEW_REQUIRED
 
-- PASS only when contract probes pass and no diff guard requires review.
-- FAIL when behavior or contract probes fail.
-- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable.
+- PASS only when contract probes pass, no diff guard requires review, and no spec ceiling violation is present.
+- FAIL when behavior or contract probes fail, or an explicit non-goal / invalid-if rule was violated.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
 - If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
@@ -55,6 +59,17 @@ Contract probes:
 - CLI/output behavior:
 - Edge/no-match behavior:
 - Existing behavior preserved:
+
+Spec ceiling:
+
+- Unspecified user-visible / API / schema behavior added: yes/no
+- Explicit non-goal implemented: yes/no
+- Adjacent refactor or cleanup beyond necessary support: yes/no
+- Necessary spec expansion discovered but not written down first: yes/no
+
+Any `yes` above prevents PASS. Use FAIL for a clear contract violation; use
+REVIEW_REQUIRED when the extra behavior may be reasonable but was not authorized by the
+written spec.
 
 Diff guards:
 
@@ -83,6 +98,7 @@ Review required because:
 - VERIFY.md entry with evidence
 - Verify gate status
 - Pass/fail summary + automated/manual/inferred status
+- Spec ceiling result
 - Remaining / untested risks
 - Next safest task
 
@@ -108,6 +124,7 @@ Interpretation: passed
 Acceptance criterion covered: test coverage for export behavior
 Remaining uncertainty: none known
 
+Spec ceiling: PASS — no unspecified behavior or adjacent cleanup added
 Changed: src/export.py, tests/export_test.py
 Not tested: large dataset edge case
 Remaining risks: large dataset edge case (monitor in prod)
@@ -117,10 +134,12 @@ Next: Add scheduling wrapper
 ## Stop conditions
 
 - Evidence is recorded clearly.
+- Spec ceiling was checked against the actual diff and behavior.
 - Failures trigger diagnosis (do not mark as passed).
 
 ## Anti-patterns
 
 - "Looks good" without evidence.
 - Hiding failed commands.
+- Calling extra behavior harmless because tests still pass.
 - Using screenshots as primary evidence for non-visual tasks.
