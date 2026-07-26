@@ -25,6 +25,13 @@ flowchart TD
 for a tiny patch, enter at build for a low-ambiguity micro change, enter at specify
 for a compact mini slice, or select the fuller guarded route.
 
+`grill-with-docs-lite` is a bounded pre-spec contradiction hunt, not a domain-modeling
+interview. It reads the smallest relevant source set, separates source-backed facts from
+user decisions and assumptions, asks only blocking questions, and emits a compact
+`CLARIFICATION DELTA` for `mini-spec`. If the work needs glossary-building, ADRs, or an
+open-ended decision tree, route to a fuller clarification workflow instead of expanding
+the lite pass.
+
 The five-skill starter is a durable default loop, not the minimum process for every
 task. Installing a bundle does not require invoking every installed skill.
 
