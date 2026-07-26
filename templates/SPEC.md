@@ -21,6 +21,13 @@ _Describe who needs this and why._
 
 - _TBD_
 
+## Spec ceiling
+
+Acceptance criteria are the required floor. Do not add user-visible behavior, APIs,
+schema changes, refactors, dependencies, or adjacent cleanup beyond what is necessary
+to satisfy them. If correctness requires expansion, update or renegotiate the spec before
+implementing that expansion.
+
 ## Loop contract
 
 _When repeated iterations are expected, define the loop before running it._
@@ -47,6 +54,7 @@ Check the risks this spec is meant to prevent.
 - [ ] Hallucinated dependency or API behavior
 - [ ] Refactor disguised as a small fix
 - [ ] Multiple tasks bundled as one request
+- [ ] Helpful extra behavior beyond the spec
 - [ ] Other: _TBD_
 
 Primary failure mode for this slice:
@@ -91,6 +99,7 @@ When applicable, list behavior that must remain import-compatible or output-comp
 ## Invalid if
 
 - breaks a named compatibility seam
+- implements an explicit non-goal or adds adjacent behavior not required by an acceptance criterion
 - weakens or rewrites existing tests merely to fit the implementation
 - changes fixture/source data without explicit approval
 - preserves behavior only through a new alternate path while breaking the old path
