@@ -82,6 +82,20 @@ runtime. See [Tool Noise Guard](tool-noise-guard.md).
 Together these controls support bounded execution, dense working context, and verifiable
 progress.
 
+## Claim-evidence layer
+
+`claim-contract` sits outside the normal build lifecycle. It preserves a bounded assertion,
+its scope, and a frozen support/refute rule only when the question matters across sessions and
+has a practical evidence path.
+
+`VERIFY.md` answers whether the current task satisfied its contract. `CLAIMS.md` tracks broader
+assertions that may need evidence across tasks, runs, models, or sessions. An `OPEN` claim is
+not a failure and is not a project claim yet; it is a durable proof obligation that a future
+agent can adjudicate from referenced evidence.
+
+Do not create claims for routine unknowns. A claim must be able to lose, and changing the
+judge rule after seeing evidence requires a new claim rather than silently moving the goalposts.
+
 ## Failure mode diagram
 
 ```mermaid
