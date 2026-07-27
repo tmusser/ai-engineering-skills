@@ -52,6 +52,25 @@ This is why optional safeguards such as `analyze-mini`, `ship-mini`, `constituti
 and context controls are conditional rather than mandatory stages. Progressive disclosure
 should reduce context pressure, not create a hidden token tax.
 
+## Decision reactivation and the workspace hypothesis
+
+The July 2026 Transformer Circuits paper
+[Verbalizable Representations Form a Global Workspace in Language Models](https://transformer-circuits.pub/2026/workspace/index.html)
+reports evidence that modern language models maintain a small, selectively populated set of
+verbalizable representations used for flexible reasoning. The authors also report that
+explicit chain-of-thought can make one reasoning benchmark more robust to workspace ablation
+by externalizing intermediate state, and that longer-timescale deliberation extends itself by
+writing intermediate results into context and reading them back later.
+
+This repo does not expose that internal workspace, implement the paper's Jacobian lens, or
+reproduce counterfactual reflection training. The paper also does not prove that a workflow
+checkpoint improves coding-agent behavior.
+
+`workspace-checkpoint` takes a narrower engineering hypothesis from the result: immediately
+before a consequential action, reload only the current source-backed constraints and evidence
+that can change that action. The checkpoint is ephemeral and should not become another durable
+artifact or whole-session summary. See [Workspace Checkpoint](workspace-checkpoint.md).
+
 ## Failure modes this catches
 
 - Scope creep
