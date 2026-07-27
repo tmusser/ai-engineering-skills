@@ -6,7 +6,7 @@ Use this repo as a small operating loop for bounded AI-assisted technical work.
 
 ```mermaid
 flowchart TD
-  A["Clarify<br/>grill-with-docs-lite<br/>constitution-lite"] --> B["Specify<br/>mini-spec<br/>checklist-mini"]
+  A["Clarify<br/>grill-with-docs-lite"] --> B["Specify<br/>mini-spec<br/>checklist-mini"]
   B --> C["Plan<br/>thin-plan<br/>analyze-mini"]
   C --> D["Constrain<br/>scope-freeze"]
   D --> E["Build<br/>build-one"]
@@ -19,6 +19,8 @@ flowchart TD
   J -. "Level 1<br/>inline boundary" .-> E
   J -. "Level 2<br/>compact spec" .-> B
   J -. "Level 3<br/>guarded route" .-> A
+  K["Govern delegated authority<br/>constitution-lite"] -. "stable cross-task limits" .-> D
+  K -. "human gates" .-> G
 ```
 
 `ceremony-budget` is an optional pre-flight router. It can bypass most of the map
@@ -31,6 +33,12 @@ user decisions and assumptions, asks only blocking questions, and emits a compac
 `CLARIFICATION DELTA` for `mini-spec`. If the work needs glossary-building, ADRs, or an
 open-ended decision tree, route to a fuller clarification workflow instead of expanding
 the lite pass.
+
+`constitution-lite` is not a second `CLAUDE.md` or `AGENTS.md`. Native project instructions
+own architecture, commands, conventions, and ordinary team preferences. The constitution
+owns only stable cross-task authority limits for delegated work: non-negotiable `MUST` /
+`MUST NOT` rules, protected boundaries, and decisions that require a human gate. Task-local
+requirements still belong in `SPEC.md`, `scope-freeze`, or `SHIP.md`.
 
 The five-skill starter is a durable default loop, not the minimum process for every
 task. Installing a bundle does not require invoking every installed skill.

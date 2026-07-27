@@ -20,6 +20,15 @@
         "UNKNOWN"
       ]
     },
+    "constitution-lite": {
+      "required_substrings": [
+        "Project instructions are not constitution rules",
+        "MUST`, `MUST NOT`, or `HUMAN GATE`",
+        "Do not copy their conventions into the constitution",
+        "stop and ask for a human decision",
+        "Use the constitution to narrow delegated authority, not to expand it"
+      ]
+    },
     "mini-spec": {
       "required_substrings": [
         "name the primary failure mode for this slice",
