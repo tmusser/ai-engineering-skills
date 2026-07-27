@@ -38,6 +38,19 @@ artifacts, and now includes ceremony budgeting to choose the smallest workflow t
 still protects scope, proof, and resume safety.
 ```
 
+## Open claim ledger
+
+[`CLAIMS.md`](../CLAIMS.md) preserves broader assertions that are important enough to test
+but are **not yet current project claims**. Each entry freezes a scope and support/refute rule
+before additional evidence is used to judge it.
+
+An `OPEN` claim is not promoted by repetition, plausibility, or a favorable anecdote. It becomes
+`SUPPORTED` only when its recorded judge contract is met. `REFUTED` and `INCONCLUSIVE` are
+first-class outcomes too.
+
+The ledger intentionally excludes universal assertions that are too broad to adjudicate in a
+practical benchmark. Narrow them to a falsifiable scope before preserving them as claims.
+
 ## Claim boundary
 
 Not supported:
