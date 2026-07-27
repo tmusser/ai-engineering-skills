@@ -72,7 +72,7 @@ jobs:
           node-version: "20"
 
       - name: Lint markdown
-        run: npx markdownlint-cli2 "**/*.md"
+        run: npx markdownlint-cli2@0.22.1 "**/*.md"
 
       - name: Check markdown links
         uses: lycheeverse/lychee-action@v1

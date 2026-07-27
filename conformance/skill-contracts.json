@@ -74,6 +74,15 @@
         "Credential boundary check:"
       ]
     },
+    "workspace-checkpoint": {
+      "required_substrings": [
+        "Reactivate, do not introspect.",
+        "Checkpoint, do not summarize.",
+        "A checkpoint is a working projection of live sources, not a new source of truth.",
+        "Do not create `WORKSPACE.md`",
+        "Treat the checkpoint as expired"
+      ]
+    },
     "ship-mini": {
       "required_substrings": [
         "`verify-contract` owns correctness and evidence",

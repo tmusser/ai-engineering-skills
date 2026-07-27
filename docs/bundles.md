@@ -150,6 +150,10 @@ already know why you need this one.
 `tool-noise-guard` is passive in this bundle. Enable it when tool traffic is verbose or
 repetitive; installing it does not require a compaction step on every call.
 
+`workspace-checkpoint` is conditional and ephemeral. Invoke it only immediately before a
+specific consequential action when several live constraints or pieces of evidence could
+change that action. Do not run it as a routine stage and do not create a checkpoint ledger.
+
 `constitution-lite` is also conditional: use it for stable delegated-authority limits,
 not as a second project-instructions file.
 
@@ -164,16 +168,16 @@ changed strategy after failure, or changed live state during resume reconciliati
 Claude Code:
 
 ```bash
-./install.sh --claude-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,tool-noise-guard,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
+./install.sh --claude-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,tool-noise-guard,workspace-checkpoint,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
 ```
 
 Codex:
 
 ```bash
-./install.sh --codex-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,tool-noise-guard,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
+./install.sh --codex-user --only grill-with-docs-lite,constitution-lite,lean-mode,context-check,tool-noise-guard,workspace-checkpoint,mini-spec,checklist-mini,thin-plan,scope-freeze,analyze-mini,build-one,test-mini,diagnose-loop,bug-capture,verify-contract,ship-mini,handoff
 ```
 
 Skills: `grill-with-docs-lite`, `constitution-lite`, `lean-mode`, `context-check`,
-`tool-noise-guard`, `mini-spec`, `checklist-mini`, `thin-plan`, `scope-freeze`,
-`analyze-mini`, `build-one`, `test-mini`, `diagnose-loop`, `bug-capture`,
+`tool-noise-guard`, `workspace-checkpoint`, `mini-spec`, `checklist-mini`, `thin-plan`,
+`scope-freeze`, `analyze-mini`, `build-one`, `test-mini`, `diagnose-loop`, `bug-capture`,
 `verify-contract`, `ship-mini`, `handoff`.
