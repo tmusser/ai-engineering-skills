@@ -85,8 +85,8 @@ Criterion -> task -> proof: ...
 Re-run when: ...
 ```
 
-9. If a handoff is being updated, carry the checkpoint state and reason into `HANDOFF.md`. Otherwise return the compact checkpoint inline.
-10. Do not create `ANALYZE.md` for a clean checkpoint. Create or update it only when material findings need durable standalone review or the user explicitly asks for it.
+1. If a handoff is being updated, carry the checkpoint state and reason into `HANDOFF.md`. Otherwise return the compact checkpoint inline.
+2. Do not create `ANALYZE.md` for a clean checkpoint. Create or update it only when material findings need durable standalone review or the user explicitly asks for it.
 
 ## Outputs
 
