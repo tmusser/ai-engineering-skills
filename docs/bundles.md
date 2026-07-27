@@ -110,6 +110,11 @@ steps.
 
 Skip when the work is a one-off and does not need autonomy boundaries.
 
+`constitution-lite` is installed here because delegated work may need stable authority
+limits across runs. Invoke it only when those limits are not already captured by higher
+level policy or native project instructions. Do not use it to duplicate architecture,
+commands, coding conventions, or task-local requirements.
+
 Before scheduling or giving write access, read
 [agent-worker safety](agent-worker-safety.md).
 
@@ -138,6 +143,9 @@ already know why you need this one.
 
 `tool-noise-guard` is passive in this bundle. Enable it when tool traffic is verbose or
 repetitive; installing it does not require a compaction step on every call.
+
+`constitution-lite` is also conditional: use it for stable delegated-authority limits,
+not as a second project-instructions file.
 
 Claude Code:
 
