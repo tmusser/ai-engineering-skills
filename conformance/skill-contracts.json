@@ -29,6 +29,15 @@
         "Use the constitution to narrow delegated authority, not to expand it"
       ]
     },
+    "claim-contract": {
+      "required_substrings": [
+        "A claim must be able to lose.",
+        "Open claims are contracts for future evidence, not placeholders for confidence.",
+        "Freeze the judge contract before collecting new evidence",
+        "OPEN | SUPPORTED | REFUTED | INCONCLUSIVE | RETIRED",
+        "do not move the goalposts"
+      ]
+    },
     "mini-spec": {
       "required_substrings": [
         "name the primary failure mode for this slice",
