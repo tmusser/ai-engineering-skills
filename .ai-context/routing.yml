@@ -20,6 +20,11 @@ routes:
     keywords: tool noise, tool bloat, tool call bloat, metadata bloat, repetitive metadata, repeated tool result, repeated tool results, refetch, re-fetch, polling, compact tool output, compact tool results
     files: skills/tool-noise-guard/SKILL.md, docs/tool-noise-guard.md, skills/lean-mode/SKILL.md, skills/context-check/SKILL.md
 
+  claims:
+    label: Claims / adjudication
+    keywords: claim, claims, claim contract, claim ledger, adjudicate, adjudication, support claim, refute claim, proof obligation
+    files: CLAIMS.md, templates/CLAIMS.md, skills/claim-contract/SKILL.md, docs/benchmark-findings.md
+
   verification:
     label: Verification
     keywords: verify, verification, evidence, review required, review_required
