@@ -62,8 +62,8 @@ assertions that may require evidence across tasks, runs, models, or sessions.
     - `RETIRED` — the claim is no longer decision-relevant; this is not a truth judgment
 11. Record exact evidence references and the commit, run, date, or version needed to identify
     what was judged.
-12. If the claim or judge rule changes materially after evidence is observed, do not move the
-    goalposts. Create a new claim ID and link the parent or superseded claim.
+12. If the claim or judge rule changes materially after evidence is observed,
+    **do not move the goalposts.** Create a new claim ID and link the parent or superseded claim.
 13. Keep resolved claims in the ledger or an explicit archive so future agents can see what
     was tested and why the status changed.
 
