@@ -1,13 +1,13 @@
 ---
 name: build-one
-description: Implement exactly one planned slice after scope is frozen, without exceeding the spec ceiling.
+description: Implement exactly one planned slice after scope is frozen, without exceeding the spec ceiling or carrying known analysis debt into the build.
 ---
 
 # Build One
 
 ## Purpose
 
-Implement exactly one planned slice without expanding the behavioral contract.
+Implement exactly one planned slice without expanding the behavioral contract or building through a known stale/required analysis checkpoint.
 
 ## When to use
 
@@ -20,29 +20,38 @@ Use after a task is selected and scope is frozen.
 - `TODO.md`
 - Scope boundary
 - Current repo status
+- Analysis checkpoint when present in `HANDOFF.md` or other current state
 
 ## Workflow
 
 1. Read `SPEC.md`, `PLAN.md`, and `TODO.md`.
 2. Select one task.
 3. Confirm the scope boundary.
-4. Confirm the spec ceiling: each intended behavior change must satisfy an acceptance criterion or be necessary support for one. Explicit non-goals remain out of scope.
-5. If the implementation needs behavior outside that ceiling, stop and renegotiate or update the spec before making that expansion.
-6. Make the minimum useful change.
-7. Run relevant verification.
-8. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
-   - Selected slice
-   - Files touched
-   - Why each file was touched
-   - Compatibility seams preserved
-   - Spec ceiling respected: yes/no
-   - Unexpected behavior added: none | describe
-   - Tests changed: yes/no
-   - Verification run
-   - Stop reason
-9. Update task status.
-10. Stop after one task.
-11. Summarize changed files and result.
+4. Perform the cheap `analyze-mini` eligibility check using artifacts already loaded for this build:
+   - `REQUIRED` or `STALE` checkpoint -> invoke `analyze-mini` before editing.
+   - `FRESH` checkpoint -> confirm its task-defining inputs still match current state; if not, mark it `STALE` and invoke `analyze-mini`.
+   - missing checkpoint or `NOT_NEEDED` -> invoke `analyze-mini` only when a current trigger exists.
+   - **Missing prior analysis alone does not require `analyze-mini`.**
+   - Do not broaden discovery merely to prove that analysis is unnecessary.
+5. If full analysis returns `BLOCKED`, stop before implementation and resolve the contradiction or decision.
+6. Confirm the spec ceiling: each intended behavior change must satisfy an acceptance criterion or be necessary support for one. Explicit non-goals remain out of scope.
+7. If the implementation needs behavior outside that ceiling, stop and renegotiate or update the spec before making that expansion.
+8. Make the minimum useful change.
+9. Run relevant verification.
+10. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
+    - Selected slice
+    - Files touched
+    - Why each file was touched
+    - Compatibility seams preserved
+    - Analysis checkpoint: `FRESH | NOT_NEEDED`
+    - Spec ceiling respected: yes/no
+    - Unexpected behavior added: none | describe
+    - Tests changed: yes/no
+    - Verification run
+    - Stop reason
+11. Update task status.
+12. Stop after one task.
+13. Summarize changed files and result.
 
 ## Outputs
 
@@ -56,11 +65,14 @@ Use after a task is selected and scope is frozen.
 
 - The selected task is complete and verified.
 - The task needs a scope or spec change.
+- Analysis is `REQUIRED`, `STALE`, or `BLOCKED` and must be resolved before editing.
 - Verification fails and diagnosis is needed.
 - A useful adjacent improvement is discovered but is not required by the current acceptance criteria.
 
 ## Anti-patterns
 
+- Running `analyze-mini` before every build as a ritual.
+- Treating absence of an analysis checkpoint as a blocker by itself.
 - Continuing into the next task without approval.
 - Refactoring unrelated code.
 - Adding "helpful" behavior beyond the acceptance criteria because it is nearby or easy.

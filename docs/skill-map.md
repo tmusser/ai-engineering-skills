@@ -7,7 +7,7 @@ Use this repo as a small operating loop for bounded AI-assisted technical work.
 ```mermaid
 flowchart TD
   A["Clarify<br/>grill-with-docs-lite"] --> B["Specify<br/>mini-spec<br/>checklist-mini"]
-  B --> C["Plan<br/>thin-plan<br/>analyze-mini"]
+  B --> C["Plan<br/>thin-plan"]
   C --> D["Constrain<br/>scope-freeze"]
   D --> E["Build<br/>build-one"]
   E --> F["Verify<br/>test-mini<br/>verify-contract"]
@@ -21,6 +21,9 @@ flowchart TD
   J -. "Level 3<br/>guarded route" .-> A
   K["Govern delegated authority<br/>constitution-lite"] -. "stable cross-task limits" .-> D
   K -. "human gates" .-> G
+  L["Risk-triggered consistency<br/>analyze-mini"] -. "only when analysis is REQUIRED / STALE" .-> E
+  D -. "artifact or assumption trigger" .-> L
+  H -. "resume checkpoint" .-> L
 ```
 
 `ceremony-budget` is an optional pre-flight router. It can bypass most of the map
@@ -40,6 +43,13 @@ owns only stable cross-task authority limits for delegated work: non-negotiable 
 `MUST NOT` rules, protected boundaries, and decisions that require a human gate. Task-local
 requirements still belong in `SPEC.md`, `scope-freeze`, or `SHIP.md`.
 
+`analyze-mini` is not a normal planning stage. `build-one` and `handoff` perform a cheap
+eligibility check using artifacts they already need to read. Full analysis runs only when
+task-defining inputs changed, an unresolved choice can alter implementation, the
+criterion-to-task-to-proof chain no longer holds, strategy changed after failure, or resume
+reconciliation changed live state. Missing prior analysis alone is not a trigger. Staleness
+is caused by relevant state change, not elapsed time.
+
 The five-skill starter is a durable default loop, not the minimum process for every
 task. Installing a bundle does not require invoking every installed skill.
 
@@ -53,6 +63,7 @@ task. Installing a bundle does not require invoking every installed skill.
 - `verify-contract` records evidence after work.
 - `context-check` detects drift during work.
 - `tool-noise-guard` compacts repeated tool envelopes and suppresses unjustified re-fetches.
+- `analyze-mini` blocks known stale reasoning from crossing into build without requiring a routine analysis pass.
 - `handoff` preserves durable state between sessions.
 
 `tool-noise-guard` is optional and passive. It protects the carry-forward representation
