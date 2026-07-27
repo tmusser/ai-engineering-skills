@@ -41,7 +41,12 @@ A long conversation by itself is not a trigger. Use `context-check` for context 
 1. Name the exact next action. Do not checkpoint an entire project or phase.
 2. Read the smallest authoritative source set needed to govern that action.
 3. Select only constraints and evidence that can change what happens next. Prefer 1-3 governing constraints.
-4. Emit at most this six-line block:
+4. Emit at most the six-line checkpoint block below.
+5. If sources materially conflict, do not silently reconcile them. Stop or route to the smallest skill that can resolve the conflict, such as `mini-spec`, `scope-freeze`, or a human decision.
+6. Take the named action immediately once the checkpoint is coherent.
+7. Treat the checkpoint as expired when the action completes, the evidence changes, or the governing source changes. Recompute only at the next real decision boundary.
+
+### Checkpoint block
 
 ```text
 WORKSPACE CHECKPOINT
@@ -51,10 +56,6 @@ Current evidence: ...
 Open risk: ...
 Stop / escalate if: ...
 ```
-
-5. If sources materially conflict, do not silently reconcile them. Stop or route to the smallest skill that can resolve the conflict, such as `mini-spec`, `scope-freeze`, or a human decision.
-6. Take the named action immediately once the checkpoint is coherent.
-7. Treat the checkpoint as expired when the action completes, the evidence changes, or the governing source changes. Recompute only at the next real decision boundary.
 
 ### Authority rule
 
