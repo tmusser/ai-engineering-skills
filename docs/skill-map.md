@@ -25,6 +25,9 @@ flowchart TD
   L["Risk-triggered consistency<br/>analyze-mini"] -. "only when analysis is REQUIRED / STALE" .-> E
   D -. "artifact or assumption trigger" .-> L
   H -. "resume checkpoint" .-> L
+  M["Decision reactivation<br/>workspace-checkpoint"] -. "consequential next action" .-> E
+  H -. "first consequential edit after resume" .-> M
+  I -. "repeated failure risks drift" .-> M
 ```
 
 `ceremony-budget` is an optional pre-flight router. It can bypass most of the map
@@ -51,6 +54,12 @@ criterion-to-task-to-proof chain no longer holds, strategy changed after failure
 reconciliation changed live state. Missing prior analysis alone is not a trigger. Staleness
 is caused by relevant state change, not elapsed time.
 
+`workspace-checkpoint` is not another analysis or context-summary stage. Use it only at a
+specific consequential decision boundary when several live constraints or pieces of evidence
+could plausibly change the next action. It reactivates a tiny source-backed working set, then
+expires after the action or evidence changes. It does not create a durable checkpoint ledger
+or ask the model to expose hidden reasoning. See [Workspace Checkpoint](workspace-checkpoint.md).
+
 `ship-mini` is not a second verification gate. `verify-contract` owns correctness and proof.
 After a trustworthy verification pass, ordinary work can proceed directly to handoff.
 Use `ship-mini` only when activation adds a material operational boundary: production or
@@ -63,6 +72,7 @@ task. Installing a bundle does not require invoking every installed skill.
 
 - Add `test-mini` when focused deterministic tests add value.
 - Use `verify-contract` when the proof itself should be explicit and durable.
+- Use `workspace-checkpoint` only when a consequential next action needs a small reactivation of governing constraints.
 - Use `ship-mini` only for material activation risk after verification.
 - Use `handoff` for continuation risk, not as a completion ritual.
 
@@ -72,12 +82,17 @@ task. Installing a bundle does not require invoking every installed skill.
 - `verify-contract` records evidence after work.
 - `context-check` detects drift during work.
 - `tool-noise-guard` compacts repeated tool envelopes and suppresses unjustified re-fetches.
+- `workspace-checkpoint` reloads a tiny governing set immediately before a consequential action.
 - `analyze-mini` blocks known stale reasoning from crossing into build without requiring a routine analysis pass.
 - `handoff` preserves durable state between sessions.
 
 `tool-noise-guard` is optional and passive. It protects the carry-forward representation
 of tool state; it does not retroactively remove raw tool output already injected by the
 runtime. See [Tool Noise Guard](tool-noise-guard.md).
+
+`workspace-checkpoint` is optional and ephemeral. It owns last-mile decision reactivation,
+not drift detection, tool compaction, verification, or durable continuation state. See
+[Workspace Checkpoint](workspace-checkpoint.md).
 
 Together these controls support bounded execution, dense working context, and verifiable
 progress.
