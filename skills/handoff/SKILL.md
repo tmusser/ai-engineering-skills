@@ -66,7 +66,7 @@ Reuse the artifacts already being read for the handoff and classify the one next
 - `STALE` — a prior analysis exists but task-defining inputs changed.
 - `REQUIRED` — a current trigger exists and full analysis should run before `build-one`.
 
-**Do not run `analyze-mini` merely because a handoff is being written.**
+Do not run `analyze-mini` merely because a handoff is being written.
 
 Missing prior analysis is not itself a reason to mark `REQUIRED`. Use the triggers defined by `analyze-mini`: changed task-defining inputs, unresolved implementation-shaping choices, broken criterion-to-task-to-proof mapping, changed strategy after failure, or live-state changes discovered during resume reconciliation.
 
