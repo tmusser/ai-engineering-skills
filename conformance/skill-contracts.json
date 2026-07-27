@@ -35,6 +35,8 @@
         "Explicit acceptance criteria",
         "Explicit spec ceiling",
         "The spec is both a floor and a ceiling",
+        "## Reference-first rule",
+        "If the user request and an authoritative reference conflict",
         "## Invalid if"
       ]
     },
