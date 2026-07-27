@@ -11,8 +11,9 @@ flowchart TD
   C --> D["Constrain<br/>scope-freeze"]
   D --> E["Build<br/>build-one"]
   E --> F["Verify<br/>test-mini<br/>verify-contract"]
-  F --> G["Ship<br/>ship-mini"]
-  G --> H["Handoff<br/>handoff"]
+  F --> H["Handoff<br/>handoff"]
+  F -. "material activation risk" .-> G["Activate conditionally<br/>ship-mini"]
+  G --> H
   I["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
   I --> F
   J["Optional route check<br/>ceremony-budget"] -. "Level 0" .-> P["Direct patch<br/>one sanity check"]
@@ -20,7 +21,7 @@ flowchart TD
   J -. "Level 2<br/>compact spec" .-> B
   J -. "Level 3<br/>guarded route" .-> A
   K["Govern delegated authority<br/>constitution-lite"] -. "stable cross-task limits" .-> D
-  K -. "human gates" .-> G
+  K -. "human activation gates" .-> G
   L["Risk-triggered consistency<br/>analyze-mini"] -. "only when analysis is REQUIRED / STALE" .-> E
   D -. "artifact or assumption trigger" .-> L
   H -. "resume checkpoint" .-> L
@@ -50,11 +51,19 @@ criterion-to-task-to-proof chain no longer holds, strategy changed after failure
 reconciliation changed live state. Missing prior analysis alone is not a trigger. Staleness
 is caused by relevant state change, not elapsed time.
 
+`ship-mini` is not a second verification gate. `verify-contract` owns correctness and proof.
+After a trustworthy verification pass, ordinary work can proceed directly to handoff.
+Use `ship-mini` only when activation adds a material operational boundary: production or
+shared-state writes, scheduled/autonomous execution, external side effects, expanded
+permissions, sensitive-data access, or a meaningful approval/rollback/audit requirement.
+It references existing verification instead of replaying tests, builds, or lint.
+
 The five-skill starter is a durable default loop, not the minimum process for every
 task. Installing a bundle does not require invoking every installed skill.
 
 - Add `test-mini` when focused deterministic tests add value.
 - Use `verify-contract` when the proof itself should be explicit and durable.
+- Use `ship-mini` only for material activation risk after verification.
 - Use `handoff` for continuation risk, not as a completion ritual.
 
 ## Context-pressure control layer

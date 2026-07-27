@@ -66,17 +66,19 @@ criteria and verification evidence.
 Claude Code:
 
 ```bash
-./install.sh --claude-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,ship-mini,handoff
+./install.sh --claude-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,handoff
 ```
 
 Codex:
 
 ```bash
-./install.sh --codex-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,ship-mini,handoff
+./install.sh --codex-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,handoff
 ```
 
 Skills: `mini-spec`, `checklist-mini`, `thin-plan`, `scope-freeze`, `build-one`,
-`test-mini`, `verify-contract`, `ship-mini`, `handoff`.
+`test-mini`, `verify-contract`, `handoff`.
+
+Add `ship-mini` only when the verified result will cross a material activation boundary such as production/shared-state writes, scheduled execution, external side effects, expanded permissions, or sensitive-data access.
 
 ## Dashboard
 
@@ -91,17 +93,19 @@ artifact being verified.
 Claude Code:
 
 ```bash
-./install.sh --claude-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,ship-mini,handoff
+./install.sh --claude-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,handoff
 ```
 
 Codex:
 
 ```bash
-./install.sh --codex-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,ship-mini,handoff
+./install.sh --codex-user --only mini-spec,checklist-mini,thin-plan,scope-freeze,build-one,test-mini,verify-contract,handoff
 ```
 
 Skills: `mini-spec`, `checklist-mini`, `thin-plan`, `scope-freeze`, `build-one`,
-`test-mini`, `verify-contract`, `ship-mini`, `handoff`.
+`test-mini`, `verify-contract`, `handoff`.
+
+Add `ship-mini` only when activation adds a material operational boundary. Ordinary visibility, sharing, or release is not enough by itself.
 
 ## Agent-worker
 
@@ -114,6 +118,8 @@ Skip when the work is a one-off and does not need autonomy boundaries.
 limits across runs. Invoke it only when those limits are not already captured by higher
 level policy or native project instructions. Do not use it to duplicate architecture,
 commands, coding conventions, or task-local requirements.
+
+`ship-mini` is installed here because agent workers often cross activation boundaries. Invoke it only before the worker gains material side effects, autonomy, permissions, sensitive-data access, or shared-state impact; do not run it merely because the bundle includes it.
 
 Before scheduling or giving write access, read
 [agent-worker safety](agent-worker-safety.md).
@@ -152,6 +158,8 @@ and `handoff` should first perform the cheap eligibility check using artifacts a
 hand. Invoke full analysis only for a current trigger such as changed task-defining inputs,
 an implementation-shaping unresolved choice, broken criterion-to-task-to-proof mapping,
 changed strategy after failure, or changed live state during resume reconciliation.
+
+`ship-mini` is conditional too: use it only for material activation risk. A successful `verify-contract` normally proceeds directly to handoff unless the verified work is about to gain external/shared side effects, autonomy, permissions, sensitive-data access, or an operational rollback/approval boundary.
 
 Claude Code:
 
