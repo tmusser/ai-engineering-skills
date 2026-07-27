@@ -20,6 +20,7 @@ Read first if present:
 - `PLAN.md`
 - `TODO.md`
 - `VERIFY.md`
+- `ANALYZE.md` only when the analysis checkpoint references durable findings there
 
 Relevant gotchas:
 
@@ -47,6 +48,12 @@ Current loop:
 Next gate:
 
 - _TBD_
+
+Analysis checkpoint:
+
+- State: `FRESH | NOT_NEEDED | STALE | REQUIRED`
+- Reason: _TBD_
+- Re-run when: _TBD_
 
 Context risk:
 
