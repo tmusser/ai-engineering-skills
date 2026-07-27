@@ -45,8 +45,18 @@
         "Invalid if:"
       ]
     },
+    "analyze-mini": {
+      "required_substrings": [
+        "Analysis checkpoint: FRESH | NOT_NEEDED | STALE | REQUIRED",
+        "Missing prior analysis is not, by itself, a trigger.",
+        "Staleness is event-driven, not time-driven.",
+        "Do not create `ANALYZE.md` for a clean checkpoint."
+      ]
+    },
     "build-one": {
       "required_substrings": [
+        "Missing prior analysis alone does not require `analyze-mini`.",
+        "Analysis checkpoint: `FRESH | NOT_NEEDED`",
         "Confirm the spec ceiling",
         "Spec ceiling respected: yes/no",
         "stop and renegotiate or update the spec"
@@ -66,6 +76,8 @@
       "required_substrings": [
         "RESUME PACKET",
         "exactly one",
+        "Analysis checkpoint",
+        "Do not run `analyze-mini` merely because a handoff is being written.",
         "Verification:",
         "No important context lives only in memory",
         "A stale handoff cannot silently outrank live repository state.",
