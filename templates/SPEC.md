@@ -1,5 +1,7 @@
 # Spec
 
+_Omit unused optional sections. Prefer pointers to high-fidelity references over copying their contents into this file._
+
 ## Contract identity (optional)
 
 Contract ID: _TBD_ | Parent: _none_ | Base commit: _TBD_ | Issued: _TBD_
@@ -13,7 +15,19 @@ _Describe the smallest useful objective._
 
 _Describe who needs this and why._
 
+## Authoritative references
+
+_Point to the richest existing source of truth. Do not paraphrase it line by line._
+
+| Reference | Governs | Task-specific delta |
+| --- | --- | --- |
+| _file, test, symbol, artifact, URL, rubric, or source implementation_ | _behavior/decision_ | _none or explicit difference_ |
+
+If references conflict with the request, record the conflict under Open questions before implementation.
+
 ## Acceptance criteria
+
+_Write the observable task-specific contract. Point to a reference when it already encodes the behavior precisely._
 
 - _TBD_
 
@@ -23,12 +37,9 @@ _Describe who needs this and why._
 
 ## Spec ceiling
 
-Acceptance criteria are the required floor. Do not add user-visible behavior, APIs,
-schema changes, refactors, dependencies, or adjacent cleanup beyond what is necessary
-to satisfy them. If correctness requires expansion, update or renegotiate the spec before
-implementing that expansion.
+Acceptance criteria and reference-backed deltas are the required floor. Do not add user-visible behavior, APIs, schema changes, refactors, dependencies, or adjacent cleanup beyond what is necessary to satisfy them. If correctness requires expansion, update or renegotiate the spec before implementing that expansion.
 
-## Loop contract
+## Loop contract (optional)
 
 _When repeated iterations are expected, define the loop before running it._
 
@@ -43,17 +54,18 @@ _When repeated iterations are expected, define the loop before running it._
 
 ## Likely failure modes
 
-Check the risks this spec is meant to prevent.
+Check only the risks this spec is meant to prevent.
 
 - [ ] Premature agreement on vague scope
 - [ ] Hidden non-goals
 - [ ] Over-broad file changes
 - [ ] Unclear acceptance criteria
+- [ ] Lossy restatement of a richer reference
+- [ ] Reference/request conflict hidden instead of resolved
 - [ ] Unverified success claim
 - [ ] Context drift / forgotten constraint
 - [ ] Hallucinated dependency or API behavior
 - [ ] Refactor disguised as a small fix
-- [ ] Multiple tasks bundled as one request
 - [ ] Helpful extra behavior beyond the spec
 - [ ] Other: _TBD_
 
@@ -69,14 +81,12 @@ If none apply, use a lighter workflow.
 
 ## Commands
 
+_Record only non-obvious commands that matter to this slice._
+
 - Run: _TBD_
 - Test: _TBD_
 - Build: _TBD_
 - Verify: _TBD_
-
-## Project structure
-
-- _TBD_
 
 ## Verification demo
 
@@ -100,6 +110,7 @@ When applicable, list behavior that must remain import-compatible or output-comp
 
 - breaks a named compatibility seam
 - implements an explicit non-goal or adds adjacent behavior not required by an acceptance criterion
+- silently contradicts an authoritative reference without an explicit task-specific delta
 - weakens or rewrites existing tests merely to fit the implementation
 - changes fixture/source data without explicit approval
 - preserves behavior only through a new alternate path while breaking the old path
