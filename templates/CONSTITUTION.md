@@ -1,29 +1,31 @@
 # Constitution
 
-## Engineering principles
+_Stable agent authority boundaries only. Keep project instructions in `CLAUDE.md` / `AGENTS.md` and task-local constraints in the task contract._
+
+## MUST
 
 - _TBD_
 
-## Testing principles
+## MUST NOT
 
 - _TBD_
 
-## Data/model/dashboard principles
+## Human approval gates
 
 - _TBD_
 
-## Agent autonomy boundaries
+## Protected boundaries
 
-- _TBD_
+- Resource / environment / data boundary: _TBD_
+- Evidence or test meaning that must not be weakened: _TBD_
 
-## Simplicity rules
+## Conflict rule
 
-- _TBD_
+If this constitution conflicts with live project instructions or a task contract,
+stop and ask for a human decision. Do not silently choose an authority winner.
 
-## Forbidden patterns
+## Amendment
 
-- _TBD_
-
-## Amendment process
-
-- _TBD_
+- Owner: _TBD_
+- Approval required: _TBD_
+- Change process: _TBD_
