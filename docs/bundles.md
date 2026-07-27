@@ -147,6 +147,12 @@ repetitive; installing it does not require a compaction step on every call.
 `constitution-lite` is also conditional: use it for stable delegated-authority limits,
 not as a second project-instructions file.
 
+`analyze-mini` is installed as a risk-triggered safeguard, not a routine gate. `build-one`
+and `handoff` should first perform the cheap eligibility check using artifacts already in
+hand. Invoke full analysis only for a current trigger such as changed task-defining inputs,
+an implementation-shaping unresolved choice, broken criterion-to-task-to-proof mapping,
+changed strategy after failure, or changed live state during resume reconciliation.
+
 Claude Code:
 
 ```bash
