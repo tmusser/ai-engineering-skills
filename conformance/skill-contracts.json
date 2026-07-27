@@ -72,6 +72,15 @@
         "Credential boundary check:"
       ]
     },
+    "ship-mini": {
+      "required_substrings": [
+        "`verify-contract` owns correctness and evidence",
+        "Do not create `SHIP.md` when no material activation risk exists.",
+        "Activation risk:",
+        "do not replay correctness checks merely because `ship-mini` is invoked",
+        "Do not rerun tests, builds, lint, data-quality checks, or model validation"
+      ]
+    },
     "handoff": {
       "required_substrings": [
         "RESUME PACKET",
