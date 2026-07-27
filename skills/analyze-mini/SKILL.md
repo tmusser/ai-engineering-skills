@@ -25,7 +25,7 @@ Run a full analysis when one or more of these are true:
 
 Do not run a full analysis merely because the skill is installed, because a handoff is being written, or because no prior analysis exists.
 
-**Missing prior analysis is not, by itself, a trigger.**
+Missing prior analysis is not, by itself, a trigger.
 
 Staleness is event-driven, not time-driven. A checkpoint does not expire just because time passed.
 
