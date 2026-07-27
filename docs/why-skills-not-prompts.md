@@ -27,6 +27,31 @@ to output, and when to stop. Because the skill is stored as a file, it can be re
 across sessions and projects. It can also be paired with templates and verification
 notes so the next session does not need to reconstruct the whole situation from chat.
 
+The goal is not to preload every rule. Skills should be small, selectively loaded
+interfaces for context that matters only when the task reaches that boundary.
+
+## Context engineering for stronger models
+
+Anthropic's July 2026 article
+[The new rules of context engineering for Claude 5 generation models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)
+describes a similar shift: Anthropic reports removing over 80% of Claude Code's system
+prompt for newer models with no measurable loss on its coding evaluations, then recommends
+more model judgment, progressive disclosure, simpler interfaces, and richer references.
+
+This repo takes a portable version of that philosophy:
+
+- do not turn project instructions or installed skills into one giant behavioral prompt
+- load a narrow skill only when its failure mode is actually present
+- prefer small interfaces and explicit states over long example-driven instructions
+- prefer high-fidelity references such as tests, code, schemas, mockups, and rubrics over
+  lossy prose restatements
+- preserve durable state when it buys back resumability, auditability, or safety
+- let ordinary low-risk work stay ordinary
+
+This is why optional safeguards such as `analyze-mini`, `ship-mini`, `constitution-lite`,
+and context controls are conditional rather than mandatory stages. Progressive disclosure
+should reduce context pressure, not create a hidden token tax.
+
 ## Failure modes this catches
 
 - Scope creep
@@ -51,9 +76,10 @@ work easier to inspect, resume, and verify.
 
 1. Deterministic checks
 2. Tests, evals, and protected-path gates
-3. Durable artifacts
-4. Named lightweight rituals
-5. Long behavioral instruction packs
+3. High-fidelity authoritative references
+4. Durable artifacts
+5. Named lightweight rituals
+6. Long behavioral instruction packs
 
 More process is not better. More durable signal is better.
 
@@ -64,6 +90,8 @@ is this the right bounded work? It also adds later checks for evidence and resta
 state.
 
 Use prompts for one-off direction.
+Use references when existing code, tests, artifacts, or rubrics express the target more
+precisely than another prose summary would.
 Use skills when you want the expected behavior to be explicit, inspectable,
 recoverable, and gateable across sessions.
 Use templates when the next session needs durable context.
