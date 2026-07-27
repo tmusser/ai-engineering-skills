@@ -76,7 +76,7 @@
       "required_substrings": [
         "`verify-contract` owns correctness and evidence",
         "Do not create `SHIP.md` when no material activation risk exists.",
-        "Activation risk:",
+        "Classify activation risk:",
         "do not replay correctness checks merely because `ship-mini` is invoked",
         "Do not rerun tests, builds, lint, data-quality checks, or model validation"
       ]
