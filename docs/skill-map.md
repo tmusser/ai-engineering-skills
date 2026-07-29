@@ -12,6 +12,8 @@ flowchart TD
   D --> E["Build<br/>build-one"]
   E --> F["Verify<br/>test-mini<br/>verify-contract"]
   F --> H["Handoff<br/>handoff"]
+  F -. "human ownership transfer" .-> T["Learn conditionally<br/>teach-back"]
+  T --> H
   F -. "material activation risk" .-> G["Activate conditionally<br/>ship-mini"]
   G --> H
   I["Diagnose<br/>diagnose-loop<br/>bug-capture"] --> D
@@ -60,6 +62,12 @@ could plausibly change the next action. It reactivates a tiny source-backed work
 expires after the action or evidence changes. It does not create a durable checkpoint ledger
 or ask the model to expose hidden reasoning. See [Workspace Checkpoint](workspace-checkpoint.md).
 
+`teach-back` is not another verification or handoff stage. Use it only after trustworthy
+verification when the human wants to understand, debug, maintain, or extend the implementation.
+It asks for a small human attempt before repairing material gaps with source-grounded evidence.
+The result stays conversational unless durable learning state is genuinely needed. See
+[Teach Back](teach-back.md).
+
 `ship-mini` is not a second verification gate. `verify-contract` owns correctness and proof.
 After a trustworthy verification pass, ordinary work can proceed directly to handoff.
 Use `ship-mini` only when activation adds a material operational boundary: production or
@@ -72,6 +80,7 @@ task. Installing a bundle does not require invoking every installed skill.
 
 - Add `test-mini` when focused deterministic tests add value.
 - Use `verify-contract` when the proof itself should be explicit and durable.
+- Use `teach-back` only when the human wants ownership transfer from a verified implementation.
 - Use `workspace-checkpoint` only when a consequential next action needs a small reactivation of governing constraints.
 - Use `ship-mini` only for material activation risk after verification.
 - Use `handoff` for continuation risk, not as a completion ritual.

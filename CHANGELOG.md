@@ -4,29 +4,82 @@
 
 ## [Unreleased]
 
+## [v0.8.0] - 2026-07-28
+
 ### Added
 
-- Added an optional `ceremony-budget` pre-flight skill that routes tasks to the
+- Added the optional `ceremony-budget` pre-flight router for selecting the
   smallest workflow that still buys back enough attention and safety.
-- Added [docs/ceremony-budget.md](docs/ceremony-budget.md) to explain why
-  ceremony budget exists, how Level 0-3 routing works, and when to escalate or
-  de-escalate.
-- Added a fast routing test that selects the first ceremony level leaving no named
-  risk uncovered.
+- Added context-isolation, persistence-horizon, execution-contract identity,
+  and recurring-gotcha guidance for keeping agent context narrow and durable.
+- Added a portable skill-conformance profile and deterministic checker for
+  validating load-bearing workflow contract language.
+- Added the optional passive `tool-noise-guard` skill for compacting repetitive
+  tool envelopes without hiding uncertainty or failures.
+- Added the optional ephemeral `workspace-checkpoint` skill for reactivating the
+  smallest decision-governing source set before one consequential action.
+- Added handoff-freshness checks that reconcile durable resume packets against
+  live repository state instead of trusting stale artifacts silently.
+- Added the optional post-verification `teach-back` skill, supporting docs, a
+  worked example, and contract tests for transferring implementation ownership
+  without making learning artifacts mandatory.
 
 ### Changed
 
-- Updated the README, workflow recipes, skill map, and bundles docs to position
-  `ceremony-budget` as an optional router before the existing ceremony ladder.
-- Clarified that bundles control installed capabilities while `ceremony-budget`
-  controls which skills a task actually needs.
-- Aligned `LLM.md` and the skill map with the five-skill durable starter loop,
-  optional focused testing, and continuation-only handoffs.
+- Made `mini-spec` reference-first and tightened `grill-with-docs-lite`,
+  `constitution-lite`, `analyze-mini`, `build-one`, `ship-mini`, and `handoff`
+  around narrower ownership boundaries and explicit activation conditions.
+- Hardened context hydration with safer route isolation, freshness checks,
+  deterministic packet construction, token headroom, and separated data,
+  model, and rendering modules.
+- Updated the README, `LLM.md`, workflow recipes, skill map, bundles, and agent
+  instructions to distinguish installed capabilities from conditionally invoked
+  workflow stages.
+- Expanded verification and benchmark guidance around contract identity,
+  compatibility seams, stale evidence, and honest claim boundaries.
 
 ### Fixed
 
-- Removed conflicting agent-facing guidance that treated the starter bundle as the
-  minimum runtime process for every task.
+- Removed conflicting agent-facing guidance that treated the starter bundle as
+  the minimum runtime process for every task.
+- Prevented missing prior analysis, ordinary releases, long conversations, or
+  installed optional skills from automatically triggering heavier workflow
+  stages.
+
+### Migration notes
+
+- The five-skill starter remains `mini-spec`, `scope-freeze`, `build-one`,
+  `verify-contract`, and `handoff`; no existing skill was removed or renamed.
+- New skills are optional. Existing targeted `--only` installs keep their current
+  shape until the user intentionally adds another skill.
+- Run `--dry-run` before updating an install, use `--backup` before replacing
+  managed content, and use `--force` only when intentionally replacing modified
+  or unmanaged destinations.
+- `analyze-mini` is now event-triggered, `ship-mini` is limited to material
+  activation risk, `workspace-checkpoint` is ephemeral, and `teach-back` runs
+  only when the human wants an ownership-transfer learning pass.
+- A handoff may now be classified as stale when live repository state no longer
+  matches the recorded resume packet.
+
+### Breaking changes
+
+None.
+
+### Validation
+
+The v0.8.0 changes include focused tests for ceremony routing, context hydration
+hardening, gotcha routing, handoff freshness, tool-noise guarding, workspace
+checkpoints, and teach-back semantics. Before tagging, run:
+
+```bash
+python scripts/validate_repo.py
+python -m unittest discover tests
+python scripts/run_runnable_examples.py
+python scripts/run_negative_examples.py
+npx markdownlint-cli2 "**/*.md"
+bash install.sh --help
+git diff --check
+```
 
 ## [v0.7.0] - 2026-07-03
 
