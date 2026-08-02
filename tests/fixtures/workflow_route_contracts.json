@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "scenarios": [
+    {
+      "id": "tiny-doc-typo",
+      "summary": "A tiny reversible documentation correction needs one sanity check and no workflow artifacts.",
+      "route_explicit": false,
+      "expected_level": 0,
+      "risks": [],
+      "selected_skills": [],
+      "proof_guards": ["markdownlint"],
+      "forbidden_skills": ["mini-spec", "thin-plan", "verify-contract", "handoff"]
+    },
+    {
+      "id": "bounded-parser-branch",
+      "summary": "A low-ambiguity parser branch changes behavior inside one bounded slice.",
+      "route_explicit": false,
+      "expected_level": 1,
+      "risks": ["behavior_change", "scope_drift"],
+      "selected_skills": ["build-one"],
+      "proof_guards": ["inline-boundary", "targeted-verification"],
+      "forbidden_skills": ["mini-spec", "thin-plan", "verify-contract", "handoff"]
+    },
+    {
+      "id": "bounded-parser-compatibility",
+      "summary": "A bounded parser change preserves a named compatibility seam without escalating ceremony.",
+      "route_explicit": false,
+      "expected_level": 1,
+      "risks": ["behavior_change", "scope_drift", "compatibility_seam"],
+      "selected_skills": ["build-one"],
+      "proof_guards": [
+        "inline-boundary",
+        "targeted-verification",
+        "compatibility-regression-check"
+      ],
+      "forbidden_skills": ["mini-spec", "thin-plan", "verify-contract", "handoff"]
+    },
+    {
+      "id": "ambiguous-export-slice",
+      "summary": "A small export feature has real acceptance ambiguity and needs a compact durable proof record.",
+      "route_explicit": false,
+      "expected_level": 2,
+      "risks": ["behavior_change", "ambiguity"],
+      "selected_skills": ["mini-spec", "build-one", "verify-contract"],
+      "proof_guards": ["targeted-verification"],
+      "forbidden_skills": ["thin-plan", "scope-freeze", "ship-mini", "handoff"]
+    },
+    {
+      "id": "test-integrity-migration",
+      "summary": "A bounded migration can make tests pass by weakening their meaning, so focused test integrity is explicit.",
+      "route_explicit": false,
+      "expected_level": 2,
+      "risks": ["behavior_change", "ambiguity", "test_integrity"],
+      "selected_skills": ["mini-spec", "build-one", "test-mini", "verify-contract"],
+      "proof_guards": ["targeted-verification", "test-integrity-check"],
+      "forbidden_skills": ["thin-plan", "ship-mini", "handoff"]
+    },
+    {
+      "id": "verified-slice-needs-continuation",
+      "summary": "A verified ambiguous slice must be resumed by another session, making handoff conditionally useful.",
+      "route_explicit": false,
+      "expected_level": 2,
+      "risks": ["behavior_change", "ambiguity", "continuation_risk"],
+      "selected_skills": ["mini-spec", "build-one", "verify-contract", "handoff"],
+      "proof_guards": ["targeted-verification"],
+      "forbidden_skills": ["thin-plan", "ship-mini", "teach-back"]
+    },
+    {
+      "id": "scheduled-external-write",
+      "summary": "A scheduled external write is decision-impacting and adds an activation boundary after verification.",
+      "route_explicit": false,
+      "expected_level": 3,
+      "risks": ["behavior_change", "decision_impact", "activation_risk"],
+      "selected_skills": [
+        "mini-spec",
+        "scope-freeze",
+        "build-one",
+        "verify-contract",
+        "ship-mini"
+      ],
+      "proof_guards": ["targeted-verification", "human-approval", "rollback-plan"],
+      "forbidden_skills": ["handoff", "teach-back", "workspace-checkpoint"]
+    },
+    {
+      "id": "stale-analysis-before-build",
+      "summary": "A previously valid analysis became stale after task-defining inputs changed.",
+      "route_explicit": false,
+      "expected_level": 2,
+      "risks": ["behavior_change", "ambiguity", "stale_analysis"],
+      "selected_skills": [
+        "mini-spec",
+        "analyze-mini",
+        "build-one",
+        "verify-contract"
+      ],
+      "proof_guards": ["targeted-verification"],
+      "forbidden_skills": ["thin-plan", "ship-mini", "handoff"]
+    },
+    {
+      "id": "consequential-resume-decision",
+      "summary": "A resumed task needs a small evidence reactivation before one consequential next action.",
+      "route_explicit": false,
+      "expected_level": 3,
+      "risks": ["behavior_change", "decision_impact", "consequential_decision"],
+      "selected_skills": [
+        "mini-spec",
+        "scope-freeze",
+        "workspace-checkpoint",
+        "build-one",
+        "verify-contract"
+      ],
+      "proof_guards": ["targeted-verification", "human-approval"],
+      "forbidden_skills": ["ship-mini", "handoff", "teach-back"]
+    },
+    {
+      "id": "post-verify-ownership-transfer",
+      "summary": "A human wants to understand and maintain a verified ambiguous implementation.",
+      "route_explicit": false,
+      "expected_level": 2,
+      "risks": ["behavior_change", "ambiguity", "ownership_transfer"],
+      "selected_skills": [
+        "mini-spec",
+        "build-one",
+        "verify-contract",
+        "teach-back"
+      ],
+      "proof_guards": ["targeted-verification"],
+      "forbidden_skills": ["ship-mini", "handoff", "workspace-checkpoint"]
+    },
+    {
+      "id": "explicit-wrapper-no-second-route",
+      "summary": "An already-prescriptive wrapper supplies a bounded Level 1 route, so ceremony-budget adds no second contract.",
+      "route_explicit": true,
+      "route_output": "none",
+      "routing_artifact": false,
+      "expected_level": 1,
+      "risks": ["behavior_change", "scope_drift"],
+      "selected_skills": ["build-one"],
+      "proof_guards": ["inline-boundary", "targeted-verification"],
+      "forbidden_skills": ["ceremony-budget", "mini-spec", "thin-plan", "handoff"]
+    },
+    {
+      "id": "autonomous-multi-slice-worker",
+      "summary": "An autonomous multi-slice worker can make hard-to-reverse writes and must leave continuation state.",
+      "route_explicit": false,
+      "expected_level": 3,
+      "risks": [
+        "behavior_change",
+        "multi_slice",
+        "autonomous_execution",
+        "activation_risk",
+        "high_irreversibility",
+        "continuation_risk"
+      ],
+      "selected_skills": [
+        "constitution-lite",
+        "mini-spec",
+        "thin-plan",
+        "scope-freeze",
+        "build-one",
+        "verify-contract",
+        "ship-mini",
+        "handoff"
+      ],
+      "proof_guards": ["targeted-verification", "human-approval", "rollback-plan"],
+      "forbidden_skills": ["teach-back", "workspace-checkpoint"]
+    }
+  ]
+}
