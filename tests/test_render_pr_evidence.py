@@ -184,6 +184,36 @@ class RenderPrEvidenceTests(unittest.TestCase):
         self.assertNotIn("relevant output", records[0])
         self.assertNotIn("interpretation", records[0])
 
+    def test_template_instruction_placeholders_are_not_rendered(self) -> None:
+        spec_text = """# Spec
+
+## Objective
+
+_Describe the smallest useful objective._
+
+## Acceptance criteria
+
+_Write the observable contract._
+"""
+        markdown = RENDERER.render_markdown(
+            self.artifact("SPEC.md", spec_text),
+            self.artifact("VERIFY.md", VERIFY_PASS),
+            self.artifact("HANDOFF.md", None),
+            RENDERER.RuntimeCheck("PASS", []),
+            None,
+            "main",
+        )
+        self.assertIn("Not established: SPEC objective is missing", markdown)
+        self.assertIn("Not established: acceptance criteria are missing", markdown)
+        self.assertNotIn("Describe the smallest useful objective", markdown)
+
+    def test_output_cannot_overwrite_an_input_artifact(self) -> None:
+        handoff = self.artifact("HANDOFF.md", None)
+        error = RENDERER.output_path_error(
+            Path("SPEC.md"), Path("SPEC.md"), Path("VERIFY.md"), handoff
+        )
+        self.assertIn("must not overwrite", error or "")
+
     def test_output_file_can_be_written_read_only(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             output = Path(tempdir) / "PR_EVIDENCE.md"
