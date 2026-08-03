@@ -15,7 +15,7 @@ Run from the repository root after `SPEC.md` and `VERIFY.md` are current:
 ```bash
 python scripts/render_pr_evidence.py \
   --base origin/main \
-  --output PR_EVIDENCE.md
+  --output /tmp/PR_EVIDENCE.md
 ```
 
 The command:
@@ -45,7 +45,11 @@ python scripts/render_pr_evidence.py \
   --handoff artifacts/HANDOFF.md
 ```
 
-Without `--output`, Markdown is printed to standard output.
+Without `--output`, Markdown is printed to standard output. When an existing
+handoff is included, output inside the repository is rejected because creating or
+changing that file would invalidate the just-checked handoff snapshot. Write the
+summary outside the repository, print it to standard output, or use `--no-handoff`
+when continuation state is intentionally excluded.
 
 ## Output contract
 
