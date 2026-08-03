@@ -61,6 +61,9 @@ def normalize(value: str) -> str:
 
 
 def is_meaningful(value: str) -> bool:
+    raw = value.strip()
+    if len(raw) > 2 and raw.startswith("_") and raw.endswith("_"):
+        return False
     normalized = normalize(value).lower()
     if normalized in PLACEHOLDER_VALUES:
         return False
@@ -98,6 +101,32 @@ def section(text: str, name: str) -> str:
         match = HEADING_RE.match(line.strip())
         if match and len(match.group("marks")) <= level:
             break
+        collected.append(line)
+    return "\n".join(collected).strip()
+
+
+def labeled_block(text: str, label: str) -> str:
+    """Return bullets following a plain Markdown label."""
+    lines = text.splitlines()
+    target = label.strip().lower().rstrip(":")
+    start: int | None = None
+    for index, line in enumerate(lines):
+        if line.strip().lower().rstrip(":") == target:
+            start = index + 1
+            break
+    if start is None:
+        return ""
+
+    collected: list[str] = []
+    started = False
+    for line in lines[start:]:
+        if HEADING_RE.match(line.strip()):
+            break
+        if not line.strip():
+            if started:
+                break
+            continue
+        started = True
         collected.append(line)
     return "\n".join(collected).strip()
 
@@ -237,7 +266,9 @@ def run_handoff_freshness(handoff: Artifact) -> RuntimeCheck | None:
         text=True,
         check=False,
     )
-    output = "\n".join(part for part in (result.stdout, result.stderr) if part).strip()
+    output = "\n".join(
+        part for part in (result.stdout, result.stderr) if part
+    ).strip()
     if "HANDOFF FRESHNESS: PASS" in output:
         status = "PASS"
     elif "HANDOFF FRESHNESS: STALE" in output:
@@ -335,7 +366,9 @@ def render_markdown(
     lines.append("")
 
     objective = (
-        meaningful_lines(section(spec.text or "", "Objective")) if spec.present else []
+        meaningful_lines(section(spec.text or "", "Objective"))
+        if spec.present
+        else []
     )
     criteria = (
         meaningful_lines(section(spec.text or "", "Acceptance criteria"))
@@ -343,7 +376,9 @@ def render_markdown(
         else []
     )
     non_goals = (
-        meaningful_lines(section(spec.text or "", "Non-goals")) if spec.present else []
+        meaningful_lines(section(spec.text or "", "Non-goals"))
+        if spec.present
+        else []
     )
     append_list(
         lines,
@@ -403,6 +438,9 @@ def render_markdown(
     review_reason = first_field(verify_text, "Review required because")
     if review_reason:
         risks.append(review_reason)
+    risks.extend(
+        meaningful_lines(labeled_block(verify_text, "Review required because"))
+    )
     remaining = first_field(verify_text, "Remaining unverified risks")
     if remaining:
         risks.append(remaining)
@@ -412,8 +450,15 @@ def render_markdown(
     if overall == "PASS" and not risks:
         risks.append("No unresolved risk was recorded by the supplied checks.")
     elif not risks:
-        risks.append("Evidence is incomplete; review the missing status or artifact above.")
-    append_list(lines, "Remaining risk", list(dict.fromkeys(risks)), "Not established.")
+        risks.append(
+            "Evidence is incomplete; review the missing status or artifact above."
+        )
+    append_list(
+        lines,
+        "Remaining risk",
+        list(dict.fromkeys(risks)),
+        "Not established.",
+    )
 
     if handoff.present and handoff.text is not None:
         next_task = first_field(handoff.text, "Next task")
@@ -438,6 +483,49 @@ def render_markdown(
         lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"
+
+
+def git_root() -> Path | None:
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0 or not result.stdout.strip():
+        return None
+    return Path(result.stdout.strip()).resolve()
+
+
+def path_is_within(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    return True
+
+
+def output_path_error(
+    output: Path | None,
+    spec: Path,
+    verify: Path,
+    handoff: Artifact,
+) -> str | None:
+    if output is None:
+        return None
+    resolved = output.resolve()
+    input_paths = {spec.resolve(), verify.resolve()}
+    if handoff.present:
+        input_paths.add(handoff.path.resolve())
+    if resolved in input_paths:
+        return "--output must not overwrite an input workflow artifact"
+    root = git_root()
+    if handoff.present and root is not None and path_is_within(resolved, root):
+        return (
+            "--output inside the repository would invalidate the included handoff "
+            "after freshness checking; write outside the repository or use --no-handoff"
+        )
+    return None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -465,6 +553,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.no_handoff
         else read_artifact(args.handoff)
     )
+    output_error = output_path_error(args.output, args.spec, args.verify, handoff)
+    if output_error:
+        print(f"PR EVIDENCE: ERROR\n- {output_error}", file=sys.stderr)
+        return 2
     gate = run_verify_gate(args.base, args.spec, args.verify)
     freshness = run_handoff_freshness(handoff)
     markdown = render_markdown(spec, verify, handoff, gate, freshness, args.base)
