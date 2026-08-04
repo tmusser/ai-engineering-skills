@@ -105,8 +105,9 @@ class ConditionalActivationRegressionTests(unittest.TestCase):
             case for case in cases() if case["false_signal"] == "skills_installed"
         )
         expected = set(CHECKER.CONDITIONAL_SKILL_TRIGGERS)
+        route = installed_case["route"]
         self.assertEqual(set(installed_case["guarded_skills"]), expected)
-        self.assertEqual(set(installed_case["forbidden_skills"]), expected)
+        self.assertEqual(set(route["forbidden_skills"]), expected)
         self.assertEqual(set(installed_case["positive_controls"]), expected)
 
     def test_false_signal_labels_are_unique(self) -> None:
