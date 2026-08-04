@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "missing-analysis-is-not-stale-analysis",
+      "false_signal": "missing_prior_analysis",
+      "summary": "A bounded implementation has no prior analysis, but no task-defining input changed and no implementation-shaping question is open.",
+      "guarded_skills": ["analyze-mini"],
+      "contract_source": "skills/analyze-mini/SKILL.md",
+      "required_phrases": [
+        "Missing prior analysis is not, by itself, a trigger."
+      ],
+      "positive_controls": {
+        "analyze-mini": "stale-analysis-before-build"
+      },
+      "route": {
+        "route_explicit": false,
+        "expected_level": 1,
+        "risks": ["behavior_change", "scope_drift"],
+        "selected_skills": ["build-one"],
+        "proof_guards": ["inline-boundary", "targeted-verification"],
+        "forbidden_skills": ["analyze-mini"]
+      }
+    },
+    {
+      "id": "long-chat-is-not-a-workspace-checkpoint",
+      "false_signal": "long_conversation",
+      "summary": "The conversation is long, but the next edit is already bounded and no consequential decision boundary exists.",
+      "guarded_skills": ["workspace-checkpoint"],
+      "contract_source": "skills/workspace-checkpoint/SKILL.md",
+      "required_phrases": [
+        "A long conversation by itself is not a trigger."
+      ],
+      "positive_controls": {
+        "workspace-checkpoint": "consequential-resume-decision"
+      },
+      "route": {
+        "route_explicit": false,
+        "expected_level": 1,
+        "risks": ["behavior_change", "scope_drift"],
+        "selected_skills": ["build-one"],
+        "proof_guards": ["inline-boundary", "targeted-verification"],
+        "forbidden_skills": ["workspace-checkpoint"]
+      }
+    },
+    {
+      "id": "ordinary-release-is-not-activation-risk",
+      "false_signal": "ordinary_release",
+      "summary": "A verified user-visible change will be released through an ordinary reviewable and reversible path with no material activation boundary.",
+      "guarded_skills": ["ship-mini"],
+      "contract_source": "skills/ship-mini/SKILL.md",
+      "required_phrases": [
+        "Treating ordinary release, sharing, or visibility as activation risk by itself."
+      ],
+      "positive_controls": {
+        "ship-mini": "scheduled-external-write"
+      },
+      "route": {
+        "route_explicit": false,
+        "expected_level": 2,
+        "risks": ["behavior_change", "ambiguity"],
+        "selected_skills": ["mini-spec", "build-one", "verify-contract"],
+        "proof_guards": ["targeted-verification"],
+        "forbidden_skills": ["ship-mini"]
+      }
+    },
+    {
+      "id": "clean-completion-is-not-continuation-risk",
+      "false_signal": "clean_completion",
+      "summary": "The bounded task is verified and complete, with no unresolved work and no next session or agent expected to continue it.",
+      "guarded_skills": ["handoff"],
+      "contract_source": "docs/skill-map.md",
+      "required_phrases": [
+        "Use `handoff` for continuation risk, not as a completion ritual."
+      ],
+      "positive_controls": {
+        "handoff": "verified-slice-needs-continuation"
+      },
+      "route": {
+        "route_explicit": false,
+        "expected_level": 2,
+        "risks": ["behavior_change", "ambiguity"],
+        "selected_skills": ["mini-spec", "build-one", "verify-contract"],
+        "proof_guards": ["targeted-verification"],
+        "forbidden_skills": ["handoff"]
+      }
+    },
+    {
+      "id": "installed-skills-are-not-auto-invoked",
+      "false_signal": "skills_installed",
+      "summary": "A bundle is installed, but this bounded slice has none of the conditional risks that activate its optional skills.",
+      "guarded_skills": [
+        "analyze-mini",
+        "constitution-lite",
+        "handoff",
+        "ship-mini",
+        "teach-back",
+        "test-mini",
+        "thin-plan",
+        "workspace-checkpoint"
+      ],
+      "contract_source": "docs/skill-map.md",
+      "required_phrases": [
+        "Installing a bundle does not require invoking every installed skill."
+      ],
+      "positive_controls": {
+        "analyze-mini": "stale-analysis-before-build",
+        "constitution-lite": "autonomous-multi-slice-worker",
+        "handoff": "verified-slice-needs-continuation",
+        "ship-mini": "scheduled-external-write",
+        "teach-back": "post-verify-ownership-transfer",
+        "test-mini": "test-integrity-migration",
+        "thin-plan": "autonomous-multi-slice-worker",
+        "workspace-checkpoint": "consequential-resume-decision"
+      },
+      "route": {
+        "route_explicit": false,
+        "expected_level": 1,
+        "risks": ["behavior_change", "scope_drift"],
+        "selected_skills": ["build-one"],
+        "proof_guards": ["inline-boundary", "targeted-verification"],
+        "forbidden_skills": [
+          "analyze-mini",
+          "constitution-lite",
+          "handoff",
+          "ship-mini",
+          "teach-back",
+          "test-mini",
+          "thin-plan",
+          "workspace-checkpoint"
+        ]
+      }
+    },
+    {
+      "id": "verification-pass-is-not-ownership-transfer",
+      "false_signal": "verification_passed",
+      "summary": "Verification passed, but the human did not request a learning pass and no ownership-transfer trigger exists.",
+      "guarded_skills": ["teach-back"],
+      "contract_source": "skills/teach-back/SKILL.md",
+      "required_phrases": [
+        "A completed implementation does not require a teach-back ritual."
+      ],
+      "positive_controls": {
+        "teach-back": "post-verify-ownership-transfer"
+      },
+      "route": {
+        "route_explicit": false,
+        "expected_level": 2,
+        "risks": ["behavior_change", "ambiguity"],
+        "selected_skills": ["mini-spec", "build-one", "verify-contract"],
+        "proof_guards": ["targeted-verification"],
+        "forbidden_skills": ["teach-back"]
+      }
+    }
+  ]
+}
