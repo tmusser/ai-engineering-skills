@@ -30,6 +30,18 @@ Machine-readable output is available for CI or downstream inspection:
 python scripts/check_route_contracts.py --json
 ```
 
+## Adversarial non-trigger suite
+
+The companion [conditional activation regression suite](conditional-activation-regressions.md) protects the inverse contract: plausible ambient signals must not activate optional skills without their real trigger.
+
+It covers missing prior analysis, long conversations, ordinary releases, clean completion, installed skills, and successful verification. Every false-signal case is paired with a positive control where the same skill is correctly selected.
+
+Run it with:
+
+```bash
+python -m unittest discover tests -p 'test_conditional_activation_regressions.py' -v
+```
+
 ## Scenario shape
 
 Golden scenarios live in `tests/fixtures/workflow_route_contracts.json`.
