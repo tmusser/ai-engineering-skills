@@ -44,7 +44,10 @@
       "required_substrings": [
         "Allowed writes:",
         "Review required if:",
-        "Invalid if:"
+        "Invalid if:",
+        "Persist the canonical block as `SCOPE.md`",
+        "python scripts/scope_gate.py --base",
+        "Do not widen `SCOPE.md` after an out-of-scope change"
       ]
     },
     "analyze-mini": {
@@ -61,17 +64,22 @@
         "Analysis checkpoint: `FRESH | NOT_NEEDED`",
         "Confirm the spec ceiling",
         "Spec ceiling respected: yes/no",
-        "stop and renegotiate or update the spec"
+        "stop and renegotiate or update the spec",
+        "Run the scope gate before declaring the slice complete",
+        "A scope-gate `FAIL` blocks completion"
       ]
     },
     "verify-contract": {
       "required_substrings": [
         "PASS | FAIL | REVIEW_REQUIRED",
         "Contract probes:",
+        "Scope adherence:",
         "Spec ceiling:",
         "Any `yes` above prevents PASS",
         "Diff guards:",
-        "Credential boundary check:"
+        "Credential boundary check:",
+        "scripts/scope_gate.py",
+        "Any scope-gate `FAIL` prevents PASS"
       ]
     },
     "workspace-checkpoint": {
