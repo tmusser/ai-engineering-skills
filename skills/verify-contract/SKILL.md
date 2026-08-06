@@ -1,6 +1,6 @@
 ---
 name: verify-contract
-description: Record clear evidence that a task works, including commands, results, remaining risks, and whether the implementation stayed under the spec ceiling.
+description: Record clear evidence that a task works, including commands, results, remaining risks, scope adherence, and whether the implementation stayed under the spec ceiling.
 ---
 
 # Verify Contract
@@ -9,7 +9,7 @@ description: Record clear evidence that a task works, including commands, result
 
 Prove the task actually works and leave durable evidence.
 
-Verification also checks that the implementation did not exceed the behavioral contract merely because the extra work looked reasonable.
+Verification also checks that the implementation did not exceed the behavioral contract or frozen write boundary merely because the extra work looked reasonable.
 
 ## When to use
 
@@ -19,6 +19,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 
 - Task name
 - `SPEC.md` acceptance criteria, non-goals, constraints, and invalid-if rules
+- Optional persisted `SCOPE.md` plus its frozen Git base
 - Commands run or to run
 - Changed files
 - Evidence to record
@@ -29,24 +30,31 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 1. Update VERIFY.md with date + task name.
 2. Record commands run as short evidence entries with command, exit code, relevant
    output, interpretation, acceptance criterion covered, and remaining uncertainty.
-   Keep each entry concise and auditable. If `scripts/verify_gate.py` is available,
-   run it before marking verification complete.
+   Keep each entry concise and auditable.
+3. When `SCOPE.md` and `scripts/scope_gate.py` are available, run:
+
+   ```bash
+   python scripts/scope_gate.py --base <frozen-base>
+   ```
+
+   Record its status and relevant violations or review triggers. A scope-gate `FAIL` prevents PASS. `REVIEW_REQUIRED` also prevents PASS until the named review is resolved.
+4. If `scripts/verify_gate.py` is available, run it before marking verification complete.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
-3. List changed files.
-4. Run the spec ceiling check against the implemented behavior and diff.
-5. Note working directory / environment assumptions if relevant.
-6. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
-7. Note what was **not** tested and remaining risks.
-8. Name the next safest task.
+5. List changed files.
+6. Run the spec ceiling check against the implemented behavior and diff.
+7. Note working directory / environment assumptions if relevant.
+8. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
+9. Note what was **not** tested and remaining risks.
+10. Name the next safest task.
 
 ## Verify gate
 
 Status: PASS | FAIL | REVIEW_REQUIRED
 
-- PASS only when contract probes pass, no diff guard requires review, and no spec ceiling violation is present.
-- FAIL when behavior or contract probes fail, or an explicit non-goal / invalid-if rule was violated.
-- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
+- PASS only when contract probes pass, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
+- FAIL when behavior or contract probes fail, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, the scope gate requires review, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
 - If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
@@ -59,6 +67,16 @@ Contract probes:
 - CLI/output behavior:
 - Edge/no-match behavior:
 - Existing behavior preserved:
+
+Scope adherence:
+
+- Scope gate: PASS | FAIL | REVIEW_REQUIRED | NOT_APPLICABLE
+- Out-of-scope writes: none | describe
+- Read-only / forbidden paths touched: none | describe
+- Review triggers resolved: yes/no/not applicable
+- Scope artifact widened after implementation began: no | describe
+
+Any scope-gate `FAIL` prevents PASS. Unresolved scope-gate `REVIEW_REQUIRED` also prevents PASS.
 
 Spec ceiling:
 
@@ -97,6 +115,7 @@ Review required because:
 
 - VERIFY.md entry with evidence
 - Verify gate status
+- Scope-gate status when a persisted scope exists
 - Pass/fail summary + automated/manual/inferred status
 - Spec ceiling result
 - Remaining / untested risks
@@ -124,6 +143,7 @@ Interpretation: passed
 Acceptance criterion covered: test coverage for export behavior
 Remaining uncertainty: none known
 
+Scope gate: PASS — all changed files remained within SCOPE.md
 Spec ceiling: PASS — no unspecified behavior or adjacent cleanup added
 Changed: src/export.py, tests/export_test.py
 Not tested: large dataset edge case
@@ -134,12 +154,15 @@ Next: Add scheduling wrapper
 ## Stop conditions
 
 - Evidence is recorded clearly.
+- Persisted scope was checked against the live diff.
 - Spec ceiling was checked against the actual diff and behavior.
-- Failures trigger diagnosis (do not mark as passed).
+- Scope or verification failures trigger diagnosis; do not mark them as passed.
 
 ## Anti-patterns
 
 - "Looks good" without evidence.
 - Hiding failed commands.
+- Marking PASS after a scope-gate failure or unresolved review trigger.
+- Rewriting `SCOPE.md` after implementation to retroactively authorize the diff.
 - Calling extra behavior harmless because tests still pass.
 - Using screenshots as primary evidence for non-visual tasks.
