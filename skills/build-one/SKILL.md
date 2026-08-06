@@ -18,15 +18,15 @@ Use after a task is selected and scope is frozen.
 - `SPEC.md`
 - `PLAN.md`
 - `TODO.md`
-- Scope boundary
-- Current repo status
+- `SCOPE.md` or the active scope boundary
+- Current repo status and frozen Git base
 - Analysis checkpoint when present in `HANDOFF.md` or other current state
 
 ## Workflow
 
 1. Read `SPEC.md`, `PLAN.md`, and `TODO.md`.
 2. Select one task.
-3. Confirm the scope boundary.
+3. Confirm the scope boundary. When `SCOPE.md` and `scripts/scope_gate.py` exist, run the scope gate against the frozen base before the first new implementation write. Existing `FAIL` or unresolved `REVIEW_REQUIRED` state blocks further edits.
 4. Perform the cheap `analyze-mini` eligibility check using artifacts already loaded for this build:
    - `REQUIRED` or `STALE` checkpoint -> invoke `analyze-mini` before editing.
    - `FRESH` checkpoint -> confirm its task-defining inputs still match current state; if not, mark it `STALE` and invoke `analyze-mini`.
@@ -38,33 +38,43 @@ Use after a task is selected and scope is frozen.
 7. If the implementation needs behavior outside that ceiling, stop and renegotiate or update the spec before making that expansion.
 8. Make the minimum useful change.
 9. Run relevant verification.
-10. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
+10. Run the scope gate before declaring the slice complete when `SCOPE.md` and the helper exist:
+
+    ```bash
+    python scripts/scope_gate.py --base <frozen-base>
+    ```
+
+    A scope-gate `FAIL` blocks completion and requires a revert or pre-write scope renegotiation. `REVIEW_REQUIRED` must be surfaced and resolved; it is not permission to continue silently.
+11. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
     - Selected slice
     - Files touched
     - Why each file was touched
     - Compatibility seams preserved
     - Analysis checkpoint: `FRESH | NOT_NEEDED`
+    - Scope gate: `PASS | FAIL | REVIEW_REQUIRED`
     - Spec ceiling respected: yes/no
     - Unexpected behavior added: none | describe
     - Tests changed: yes/no
     - Verification run
     - Stop reason
-11. Update task status.
-12. Stop after one task.
-13. Summarize changed files and result.
+12. Update task status.
+13. Stop after one task.
+14. Summarize changed files and result.
 
 ## Outputs
 
 - One implemented slice
 - Changed file summary
 - Verification result
+- Scope-gate result when a persisted scope contract exists
 - Build note
 - Updated `TODO.md` if appropriate
 
 ## Stop conditions
 
-- The selected task is complete and verified.
+- The selected task is complete, verified, and inside the frozen write boundary.
 - The task needs a scope or spec change.
+- Scope gate returns `FAIL` or unresolved `REVIEW_REQUIRED`.
 - Analysis is `REQUIRED`, `STALE`, or `BLOCKED` and must be resolved before editing.
 - Verification fails and diagnosis is needed.
 - A useful adjacent improvement is discovered but is not required by the current acceptance criteria.
@@ -73,6 +83,8 @@ Use after a task is selected and scope is frozen.
 
 - Running `analyze-mini` before every build as a ritual.
 - Treating absence of an analysis checkpoint as a blocker by itself.
+- Changing `SCOPE.md` after an out-of-scope edit to make the final diff look compliant.
+- Continuing after a scope-gate failure because the changed code appears useful.
 - Continuing into the next task without approval.
 - Refactoring unrelated code.
 - Adding "helpful" behavior beyond the acceptance criteria because it is nearby or easy.
