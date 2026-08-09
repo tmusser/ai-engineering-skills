@@ -51,7 +51,9 @@ checks. `if: always()` lets the reporting step run even when an earlier check
 failed, so the Actions page can still show the available evidence.
 
 GitHub supplies the `GITHUB_STEP_SUMMARY` path automatically. The adapter appends
-rather than overwrites, so it can coexist with other job-summary sections.
+rather than overwrites, so it can coexist with other job-summary sections. The
+summary target must remain outside the repository checkout so publishing evidence
+cannot dirty live workflow state or stale a previously fresh handoff.
 
 ## Reporting is not enforcement
 
@@ -104,7 +106,7 @@ continuation content from the PR evidence section.
 
 ## Local preview
 
-Outside GitHub Actions, supply an explicit summary file:
+Outside GitHub Actions, supply an explicit summary file outside the repository:
 
 ```bash
 python scripts/render_github_step_summary.py \
@@ -113,13 +115,14 @@ python scripts/render_github_step_summary.py \
 ```
 
 The adapter appends Markdown to that file using the same rendering path used in
-Actions.
+Actions. In-repository targets are rejected to keep reporting from modifying the
+state it just inspected.
 
 ## Exit behavior
 
 - `0`: the summary was published, regardless of the underlying workflow status;
-- `2`: the summary target was unavailable, could not be written, or a child tool
-  could not be launched.
+- `2`: the summary target was unavailable, unsafe, could not be written, or a
+  child tool could not be launched.
 
 Underlying workflow statuses remain visible in the summary and should be enforced
 through their existing commands rather than through this reporting adapter.
