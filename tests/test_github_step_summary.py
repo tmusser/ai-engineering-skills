@@ -37,6 +37,20 @@ class GitHubStepSummaryTests(unittest.TestCase):
         run_child.assert_not_called()
         self.assertIn("GITHUB_STEP_SUMMARY is not set", error.getvalue())
 
+    def test_rejects_summary_target_inside_repository(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            summary_path = root / "summary.md"
+            error = io.StringIO()
+            with mock.patch.object(SUMMARY, "run_child") as run_child, contextlib.redirect_stderr(error):
+                status = SUMMARY.main(
+                    ["--root", str(root), "--summary", str(summary_path)],
+                    env={},
+                )
+            self.assertEqual(status, 2)
+            run_child.assert_not_called()
+            self.assertIn("outside the repository", error.getvalue())
+
     def test_reporting_mode_publishes_non_green_evidence_without_failing(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             summary_path = Path(tmp) / "step-summary.md"
@@ -63,8 +77,8 @@ class GitHubStepSummaryTests(unittest.TestCase):
             self.assertIn("Reporting only", rendered)
 
     def test_forwards_artifact_paths_and_base_to_both_tools(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            summary_path = Path(tmp) / "summary.md"
+        with tempfile.TemporaryDirectory() as repo_tmp, tempfile.TemporaryDirectory() as summary_tmp:
+            summary_path = Path(summary_tmp) / "summary.md"
             calls = []
 
             def fake_run(name, argv, cwd):
@@ -80,7 +94,7 @@ class GitHubStepSummaryTests(unittest.TestCase):
                 status = SUMMARY.main(
                     [
                         "--root",
-                        tmp,
+                        repo_tmp,
                         "--base",
                         "abc123",
                         "--spec",
@@ -108,8 +122,8 @@ class GitHubStepSummaryTests(unittest.TestCase):
                 self.assertIn(path, evidence_argv)
             self.assertIn("state/SCOPE.md", doctor_argv)
             self.assertNotIn("state/SCOPE.md", evidence_argv)
-            self.assertEqual(calls[0][2], Path(tmp).resolve())
-            self.assertEqual(calls[1][2], Path(tmp).resolve())
+            self.assertEqual(calls[0][2], Path(repo_tmp).resolve())
+            self.assertEqual(calls[1][2], Path(repo_tmp).resolve())
 
     def test_no_handoff_only_omits_continuation_from_evidence_renderer(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
