@@ -1,5 +1,11 @@
 # Handoff
 
+## Contract identity (optional)
+
+Contract ID: _TBD_
+
+_Omit this section when SPEC.md has no active contract ID. Otherwise copy the active SPEC contract ID exactly._
+
 ## Freshness
 
 - Snapshot commit: `_TBD_`

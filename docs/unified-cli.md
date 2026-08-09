@@ -16,6 +16,7 @@ Available commands:
 | --- | --- | --- |
 | `doctor` | `scripts/workflow_doctor.py` | Inspect current workflow state and print the safest next move. |
 | `scope` | `scripts/scope_gate.py` | Enforce `SCOPE.md` against the live Git diff. |
+| `lineage` | `scripts/check_contract_lineage.py` | Check optional contract identity across durable workflow artifacts. |
 | `verify` | `scripts/verify_gate.py` | Run the deterministic verification gate. |
 | `evidence` | `scripts/render_pr_evidence.py` | Render workflow artifacts into PR-ready evidence. |
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
@@ -28,6 +29,7 @@ For command-specific options, use the delegated help directly through the dispat
 ```bash
 python scripts/aes.py doctor --help
 python scripts/aes.py scope --help
+python scripts/aes.py lineage --help
 python scripts/aes.py verify --help
 python scripts/aes.py evidence --help
 python scripts/aes.py context --help
@@ -46,6 +48,12 @@ Enforce frozen write scope:
 
 ```bash
 python scripts/aes.py scope --base origin/main --strict-review
+```
+
+Check optional execution-contract lineage:
+
+```bash
+python scripts/aes.py lineage --format json
 ```
 
 Run deterministic verification:
@@ -92,19 +100,19 @@ The only dispatcher-owned error states are command-surface errors:
 
 ## Working-directory behavior
 
-Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `verify`, and `evidence` inspect the repository where the command is invoked.
+Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `lineage`, `verify`, and `evidence` inspect the repository where the command is invoked.
 
 The `install` command runs `install.sh` from the AI Engineering Skills repository root because the existing shell wrapper resolves its installer scripts relative to that root.
 
 ## Why no standalone `aes` executable yet?
 
-This first PR stabilizes command semantics without adding packaging or installation machinery for the CLI itself. The supported invocation is:
+This first CLI surface stabilizes command semantics without adding packaging or installation machinery for the CLI itself. The supported invocation is:
 
 ```bash
 python scripts/aes.py ...
 ```
 
-A future console entrypoint named `aes` can delegate to the same `main()` function after the interface proves stable. That packaging step should not change the six command contracts above.
+A future console entrypoint named `aes` can delegate to the same `main()` function after the interface proves stable. That packaging step should not change the command contracts above.
 
 ## Boundaries
 
