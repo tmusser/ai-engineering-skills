@@ -37,6 +37,11 @@ COMMANDS = {
             ROOT / "scripts" / "scope_gate.py",
         ),
         Command(
+            "lineage",
+            "Check optional contract identity across durable workflow artifacts.",
+            ROOT / "scripts" / "check_contract_lineage.py",
+        ),
+        Command(
             "verify",
             "Run the deterministic verification gate.",
             ROOT / "scripts" / "verify_gate.py",
