@@ -64,6 +64,14 @@ def resolve_summary_path(
     return Path(raw).expanduser().resolve()
 
 
+def path_is_within(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    return True
+
+
 def run_child(name: str, argv: Sequence[str], cwd: Path) -> ChildResult:
     try:
         result = subprocess.run(
@@ -200,6 +208,13 @@ def main(
     if summary_path is None:
         print(
             "error: GITHUB_STEP_SUMMARY is not set; supply --summary for a local target",
+            file=sys.stderr,
+        )
+        return 2
+    if path_is_within(summary_path, args.root):
+        print(
+            "error: Step Summary target must be outside the repository so reporting "
+            "cannot dirty live workflow state",
             file=sys.stderr,
         )
         return 2
