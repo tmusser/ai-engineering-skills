@@ -26,7 +26,15 @@ class UnifiedCliTests(unittest.TestCase):
             status = AES.main(["--help"])
         self.assertEqual(status, 0)
         rendered = output.getvalue()
-        for name in ("doctor", "scope", "verify", "evidence", "context", "install"):
+        for name in (
+            "doctor",
+            "scope",
+            "lineage",
+            "verify",
+            "evidence",
+            "context",
+            "install",
+        ):
             self.assertIn(name, rendered)
         self.assertIn("passed unchanged", rendered)
 
@@ -42,6 +50,7 @@ class UnifiedCliTests(unittest.TestCase):
         cases = {
             "doctor": ["--base", "origin/main", "--json"],
             "scope": ["--base", "HEAD~1", "--strict-review"],
+            "lineage": ["--format", "json", "--verify", "state/VERIFY.md"],
             "verify": ["--base", "main", "--format", "json"],
             "evidence": ["--base", "main", "--no-handoff"],
             "context": ["fix", "export", "--budget", "500"],
@@ -123,7 +132,7 @@ class UnifiedCliTests(unittest.TestCase):
 
     def test_dispatcher_does_not_add_a_working_directory_to_python_tools(self) -> None:
         with mock.patch.object(AES.subprocess, "call", return_value=0) as call:
-            AES.main(["scope", "--base", "main"])
+            AES.main(["lineage", "--format", "json"])
         _, kwargs = call.call_args
         self.assertNotIn("cwd", kwargs)
 
