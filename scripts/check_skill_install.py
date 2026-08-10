@@ -73,6 +73,20 @@ def resolve_skill_root(target: str, project_path: Path | None) -> tuple[Path, st
     return project / config["project_root"], "project"
 
 
+def skills_to_check(only: str | None, skill_root: Path) -> list[str]:
+    valid_names = available_skill_names()
+    if only is not None:
+        return selected_skill_names(only, valid_names)
+
+    present = sorted(name for name in valid_names if (skill_root / name).exists())
+    if not present:
+        raise InstallerError(
+            f"no known AI Engineering Skills skill directories found at: {skill_root}. "
+            "Use --only to name skills that are expected to be installed."
+        )
+    return present
+
+
 def classify_skill(skill_name: str, skill_root: Path, target: str) -> DriftResult:
     destination = skill_root / skill_name
     state = assess_skill_state(destination, skill_name)
@@ -272,7 +286,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--only",
-        help="Comma-separated skill names to check; defaults to every skill in this repo.",
+        help=(
+            "Comma-separated skills expected to be installed. Without --only, "
+            "check only known skill directories already present at the target."
+        ),
     )
     parser.add_argument("--format", choices=("text", "json"), default="text")
     return parser
@@ -282,7 +299,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         skill_root, location = resolve_skill_root(args.target, args.project_path)
-        names = selected_skill_names(args.only, available_skill_names())
+        names = skills_to_check(args.only, skill_root)
         report = evaluate_install(
             target=args.target,
             skill_root=skill_root,
