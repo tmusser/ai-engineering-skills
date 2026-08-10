@@ -24,7 +24,7 @@ No second provenance ledger is required.
 
 ## Usage
 
-Check the user-level Claude Code install:
+Check the known AI Engineering Skills already present in the user-level Claude Code install:
 
 ```bash
 python scripts/check_skill_install.py --target claude
@@ -36,7 +36,7 @@ Check Codex through the unified CLI:
 python scripts/aes.py drift --target codex
 ```
 
-Check only selected skills:
+Declare exactly which skills are expected to be installed:
 
 ```bash
 python scripts/aes.py drift \
@@ -58,6 +58,16 @@ Machine-readable output:
 python scripts/aes.py drift --target claude --format json
 ```
 
+## Partial installs are not drift
+
+Without `--only`, the checker inspects only known AI Engineering Skills directories that already exist at the selected target. It does not treat every skill in the repository as required.
+
+That matters because bundles and `--only` intentionally support partial installs. An optional skill that was never selected must not become installation debt merely because it exists in the source repository.
+
+Use `--only` when the checked set itself is part of the contract. In that mode an expected but absent skill becomes `MISSING`.
+
+If no known skill directory exists at the target and no `--only` expectation was supplied, the checker stops and asks for an explicit expected set rather than guessing.
+
 ## Per-skill states
 
 ### `CURRENT`
@@ -66,7 +76,7 @@ The installed files still match their recorded install snapshot, and that snapsh
 
 ### `OUTDATED`
 
-The installed files still match their recorded install snapshot, but the current repository skill has changed since that snapshot.
+The installed files still match their recorded install snapshot, but that snapshot differs from the current repository skill.
 
 This state is safe to repair with the normal installer because no local modification was detected.
 
@@ -78,7 +88,7 @@ Local modifications take precedence over repository drift. The checker does not 
 
 ### `MISSING`
 
-The selected skill is not installed at the checked target.
+A skill explicitly named through `--only` is not installed at the checked target.
 
 This state is safe to repair with the normal installer.
 
@@ -96,15 +106,15 @@ The checker does not guess that these states are either current or locally modif
 
 The command reports one overall state:
 
-- `CURRENT`: every selected skill is current; exit `0`;
-- `DRIFT`: at least one selected skill is missing, outdated, or locally modified, with no untrusted manifest state; exit `1`;
-- `REVIEW_REQUIRED`: at least one selected skill lacks trustworthy provenance; exit `2`.
+- `CURRENT`: every checked skill is current; exit `0`;
+- `DRIFT`: at least one checked skill is missing, outdated, or locally modified, with no untrusted manifest state; exit `1`;
+- `REVIEW_REQUIRED`: at least one checked skill lacks trustworthy provenance; exit `2`.
 
 `LOCALLY_MODIFIED` is drift, but not automatically repairable drift.
 
 ## Repair behavior
 
-When only `MISSING` or `OUTDATED` skills need repair, the checker prints the exact existing installer command, for example:
+When `MISSING` or `OUTDATED` skills need repair, the checker prints the exact existing installer command for only those safe-to-replace skills, for example:
 
 ```bash
 python scripts/aes.py install --claude-user --only mini-spec,scope-freeze
@@ -120,6 +130,7 @@ This checker does not:
 
 - modify installed files;
 - invoke the installer;
+- make every repository skill mandatory;
 - suggest destructive `--force` replacement for local edits;
 - check templates or arbitrary agent configuration;
 - prove that an installed skill is behaviorally correct;
