@@ -42,6 +42,11 @@ COMMANDS = {
             ROOT / "scripts" / "check_contract_lineage.py",
         ),
         Command(
+            "drift",
+            "Check installed Claude or Codex skills against their install snapshot and this repo.",
+            ROOT / "scripts" / "check_skill_install.py",
+        ),
+        Command(
             "verify",
             "Run the deterministic verification gate.",
             ROOT / "scripts" / "verify_gate.py",

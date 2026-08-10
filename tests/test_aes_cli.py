@@ -30,6 +30,7 @@ class UnifiedCliTests(unittest.TestCase):
             "doctor",
             "scope",
             "lineage",
+            "drift",
             "verify",
             "evidence",
             "context",
@@ -51,6 +52,7 @@ class UnifiedCliTests(unittest.TestCase):
             "doctor": ["--base", "origin/main", "--json"],
             "scope": ["--base", "HEAD~1", "--strict-review"],
             "lineage": ["--format", "json", "--verify", "state/VERIFY.md"],
+            "drift": ["--target", "claude", "--only", "mini-spec"],
             "verify": ["--base", "main", "--format", "json"],
             "evidence": ["--base", "main", "--no-handoff"],
             "context": ["fix", "export", "--budget", "500"],
@@ -132,7 +134,7 @@ class UnifiedCliTests(unittest.TestCase):
 
     def test_dispatcher_does_not_add_a_working_directory_to_python_tools(self) -> None:
         with mock.patch.object(AES.subprocess, "call", return_value=0) as call:
-            AES.main(["lineage", "--format", "json"])
+            AES.main(["drift", "--target", "codex"])
         _, kwargs = call.call_args
         self.assertNotIn("cwd", kwargs)
 

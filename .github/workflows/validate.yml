@@ -42,6 +42,7 @@ jobs:
           python -m py_compile scripts/run_negative_examples.py
           python -m py_compile scripts/render_github_step_summary.py
           python -m py_compile scripts/check_contract_lineage.py
+          python -m py_compile scripts/check_skill_install.py
           python -m py_compile tests/test_installers.py
 
       - name: Validate repo structure

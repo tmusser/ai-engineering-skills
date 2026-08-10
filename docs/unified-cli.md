@@ -17,6 +17,7 @@ Available commands:
 | `doctor` | `scripts/workflow_doctor.py` | Inspect current workflow state and print the safest next move. |
 | `scope` | `scripts/scope_gate.py` | Enforce `SCOPE.md` against the live Git diff. |
 | `lineage` | `scripts/check_contract_lineage.py` | Check optional contract identity across durable workflow artifacts. |
+| `drift` | `scripts/check_skill_install.py` | Check installed Claude/Codex skills against their install snapshot and this repo. |
 | `verify` | `scripts/verify_gate.py` | Run the deterministic verification gate. |
 | `evidence` | `scripts/render_pr_evidence.py` | Render workflow artifacts into PR-ready evidence. |
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
@@ -30,6 +31,7 @@ For command-specific options, use the delegated help directly through the dispat
 python scripts/aes.py doctor --help
 python scripts/aes.py scope --help
 python scripts/aes.py lineage --help
+python scripts/aes.py drift --help
 python scripts/aes.py verify --help
 python scripts/aes.py evidence --help
 python scripts/aes.py context --help
@@ -54,6 +56,12 @@ Check optional execution-contract lineage:
 
 ```bash
 python scripts/aes.py lineage --format json
+```
+
+Check a Claude Code skill installation for drift:
+
+```bash
+python scripts/aes.py drift --target claude
 ```
 
 Run deterministic verification:
@@ -100,7 +108,7 @@ The only dispatcher-owned error states are command-surface errors:
 
 ## Working-directory behavior
 
-Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `lineage`, `verify`, and `evidence` inspect the repository where the command is invoked.
+Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `lineage`, `drift`, `verify`, and `evidence` inspect either the active repository or explicitly selected install target.
 
 The `install` command runs `install.sh` from the AI Engineering Skills repository root because the existing shell wrapper resolves its installer scripts relative to that root.
 
