@@ -85,12 +85,44 @@ class SkillInstallDriftTests(unittest.TestCase):
         self.assertIn("--claude-user", report.repair_command or "")
         self.assertIn("--only mini-spec", report.repair_command or "")
 
-    def test_missing_skill_is_drift_and_repairable(self) -> None:
+    def test_missing_skill_is_drift_and_repairable_when_explicitly_expected(self) -> None:
         with self.make_root() as tmp:
             report = self.evaluate(Path(tmp))
         self.assertEqual(report.status, "DRIFT")
         self.assertEqual(report.skills[0].status, "MISSING")
         self.assertIsNotNone(report.repair_command)
+
+    def test_default_selection_checks_present_skills_not_every_repo_skill(self) -> None:
+        with self.make_root() as tmp:
+            root = Path(tmp)
+            self.install_snapshot(root, "mini-spec")
+            with mock.patch.object(
+                CHECK,
+                "available_skill_names",
+                return_value=["mini-spec", "scope-freeze"],
+            ):
+                selected = CHECK.skills_to_check(None, root)
+        self.assertEqual(selected, ["mini-spec"])
+
+    def test_explicit_only_preserves_missing_expectations(self) -> None:
+        with self.make_root() as tmp:
+            root = Path(tmp)
+            with mock.patch.object(
+                CHECK,
+                "available_skill_names",
+                return_value=["mini-spec", "scope-freeze"],
+            ):
+                selected = CHECK.skills_to_check("mini-spec,scope-freeze", root)
+        self.assertEqual(selected, ["mini-spec", "scope-freeze"])
+
+    def test_empty_default_target_requires_explicit_expectation(self) -> None:
+        with self.make_root() as tmp, mock.patch.object(
+            CHECK,
+            "available_skill_names",
+            return_value=["mini-spec"],
+        ):
+            with self.assertRaises(CHECK.InstallerError):
+                CHECK.skills_to_check(None, Path(tmp))
 
     def test_local_edit_takes_precedence_over_repo_drift(self) -> None:
         with self.make_root() as tmp:
@@ -188,7 +220,7 @@ class SkillInstallDriftTests(unittest.TestCase):
             with self.subTest(status=report.status), mock.patch.object(
                 CHECK, "resolve_skill_root", return_value=(Path("/tmp"), "user")
             ), mock.patch.object(
-                CHECK, "available_skill_names", return_value=["mini-spec"]
+                CHECK, "skills_to_check", return_value=["mini-spec"]
             ), mock.patch.object(
                 CHECK, "evaluate_install", return_value=report
             ), mock.patch.object(CHECK, "emit_text"):
