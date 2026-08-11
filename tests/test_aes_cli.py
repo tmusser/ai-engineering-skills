@@ -33,6 +33,7 @@ class UnifiedCliTests(unittest.TestCase):
             "drift",
             "verify",
             "evidence",
+            "summary",
             "context",
             "install",
         ):
@@ -55,6 +56,7 @@ class UnifiedCliTests(unittest.TestCase):
             "drift": ["--target", "claude", "--only", "mini-spec"],
             "verify": ["--base", "main", "--format", "json"],
             "evidence": ["--base", "main", "--no-handoff"],
+            "summary": ["--base", "main", "--no-handoff"],
             "context": ["fix", "export", "--budget", "500"],
         }
         for name, forwarded in cases.items():
@@ -134,7 +136,7 @@ class UnifiedCliTests(unittest.TestCase):
 
     def test_dispatcher_does_not_add_a_working_directory_to_python_tools(self) -> None:
         with mock.patch.object(AES.subprocess, "call", return_value=0) as call:
-            AES.main(["drift", "--target", "codex"])
+            AES.main(["summary", "--base", "main"])
         _, kwargs = call.call_args
         self.assertNotIn("cwd", kwargs)
 
