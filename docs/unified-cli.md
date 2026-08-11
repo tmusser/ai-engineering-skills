@@ -20,6 +20,7 @@ Available commands:
 | `drift` | `scripts/check_skill_install.py` | Check installed Claude/Codex skills against their install snapshot and this repo. |
 | `verify` | `scripts/verify_gate.py` | Run the deterministic verification gate. |
 | `evidence` | `scripts/render_pr_evidence.py` | Render workflow artifacts into PR-ready evidence. |
+| `summary` | `scripts/render_github_step_summary.py` | Publish workflow doctor and PR evidence output to GitHub Step Summary. |
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
 | `install` | `install.sh` | Install or uninstall skills through the existing wrapper. |
 
@@ -34,6 +35,7 @@ python scripts/aes.py lineage --help
 python scripts/aes.py drift --help
 python scripts/aes.py verify --help
 python scripts/aes.py evidence --help
+python scripts/aes.py summary --help
 python scripts/aes.py context --help
 python scripts/aes.py install --help
 ```
@@ -76,6 +78,12 @@ Render a review summary:
 python scripts/aes.py evidence --base origin/main --output /tmp/PR_EVIDENCE.md
 ```
 
+Publish workflow evidence to GitHub Step Summary:
+
+```bash
+python scripts/aes.py summary --base origin/main
+```
+
 Generate a small context packet:
 
 ```bash
@@ -108,7 +116,7 @@ The only dispatcher-owned error states are command-surface errors:
 
 ## Working-directory behavior
 
-Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `lineage`, `drift`, `verify`, and `evidence` inspect either the active repository or explicitly selected install target.
+Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `lineage`, `drift`, `verify`, `evidence`, and `summary` inspect either the active repository or explicitly selected install target.
 
 The `install` command runs `install.sh` from the AI Engineering Skills repository root because the existing shell wrapper resolves its installer scripts relative to that root.
 
