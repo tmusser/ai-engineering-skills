@@ -57,6 +57,11 @@ COMMANDS = {
             ROOT / "scripts" / "render_pr_evidence.py",
         ),
         Command(
+            "summary",
+            "Publish workflow doctor and PR evidence output to GitHub Step Summary.",
+            ROOT / "scripts" / "render_github_step_summary.py",
+        ),
+        Command(
             "context",
             "Generate an integrity-aware context packet.",
             ROOT / "scripts" / "context_pack.py",
