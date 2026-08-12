@@ -28,6 +28,7 @@ class UnifiedCliTests(unittest.TestCase):
         rendered = output.getvalue()
         for name in (
             "doctor",
+            "spec",
             "scope",
             "lineage",
             "drift",
@@ -51,6 +52,7 @@ class UnifiedCliTests(unittest.TestCase):
     def test_python_commands_forward_arguments_unchanged(self) -> None:
         cases = {
             "doctor": ["--base", "origin/main", "--json"],
+            "spec": ["--spec", "state/SPEC.md", "--format", "json"],
             "scope": ["--base", "HEAD~1", "--strict-review"],
             "lineage": ["--format", "json", "--verify", "state/VERIFY.md"],
             "drift": ["--target", "claude", "--only", "mini-spec"],
