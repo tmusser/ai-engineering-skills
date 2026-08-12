@@ -15,6 +15,7 @@ Available commands:
 | Command | Delegates to | Purpose |
 | --- | --- | --- |
 | `doctor` | `scripts/workflow_doctor.py` | Inspect current workflow state and print the safest next move. |
+| `spec` | `scripts/spec_gate.py` | Check whether `SPEC.md` is concrete enough to serve as an auditable contract. |
 | `scope` | `scripts/scope_gate.py` | Enforce `SCOPE.md` against the live Git diff. |
 | `lineage` | `scripts/check_contract_lineage.py` | Check optional contract identity across durable workflow artifacts. |
 | `drift` | `scripts/check_skill_install.py` | Check installed Claude/Codex skills against their install snapshot and this repo. |
@@ -30,6 +31,7 @@ For command-specific options, use the delegated help directly through the dispat
 
 ```bash
 python scripts/aes.py doctor --help
+python scripts/aes.py spec --help
 python scripts/aes.py scope --help
 python scripts/aes.py lineage --help
 python scripts/aes.py drift --help
@@ -46,6 +48,12 @@ Inspect a task before continuing:
 
 ```bash
 python scripts/aes.py doctor --base origin/main
+```
+
+Check whether the active specification is auditable:
+
+```bash
+python scripts/aes.py spec --strict-review
 ```
 
 Enforce frozen write scope:
@@ -116,7 +124,7 @@ The only dispatcher-owned error states are command-surface errors:
 
 ## Working-directory behavior
 
-Python-backed commands inherit the caller's working directory. This matters because `doctor`, `scope`, `lineage`, `drift`, `verify`, `evidence`, and `summary` inspect either the active repository or explicitly selected install target.
+Python-backed commands inherit the caller's working directory. This matters because `doctor`, `spec`, `scope`, `lineage`, `drift`, `verify`, `evidence`, and `summary` inspect either the active repository or explicitly selected install target.
 
 The `install` command runs `install.sh` from the AI Engineering Skills repository root because the existing shell wrapper resolves its installer scripts relative to that root.
 
