@@ -32,6 +32,11 @@ COMMANDS = {
             ROOT / "scripts" / "workflow_doctor.py",
         ),
         Command(
+            "spec",
+            "Check whether SPEC.md is concrete enough to serve as an auditable contract.",
+            ROOT / "scripts" / "spec_gate.py",
+        ),
+        Command(
             "scope",
             "Enforce SCOPE.md against the live Git diff.",
             ROOT / "scripts" / "scope_gate.py",
