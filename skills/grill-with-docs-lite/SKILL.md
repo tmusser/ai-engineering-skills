@@ -13,6 +13,8 @@ Turn a fuzzy but bounded AI-engineering request plus relevant docs/repo evidence
 
 This is a pre-spec evidence-grooming gate, not a requirements author and not a domain-modeling workflow. It must not silently promote guesses, implementation details, or source silence into contract language.
 
+`PRE-SPEC ASSEMBLY` replaces the older `CLARIFICATION DELTA` shape while preserving the same bounded pre-spec role.
+
 ## When to use
 
 Use when the task is probably small enough for `mini-spec`, but the request is still conversationally fuzzy or relevant docs/code may change the objective, acceptance boundary, compatibility surface, or proof target.
@@ -52,7 +54,7 @@ Source silence is not a `FACT`. An implementation detail is not automatically a 
 9. When asking, use the anatomy **evidence -> contradiction or absence -> decision -> consequence**. Make the tradeoff visible rather than asking a generic discovery question.
 10. Carry an `ASSUMPTION` only when it is reversible and low-risk. If it changes public behavior, schema, permissions, security, data semantics, compatibility, or the verification target, treat it as a `DECISION` or `UNKNOWN` instead.
 11. Groom the resolved material into spec ingredients: objective candidate, acceptance signals, boundaries, compatibility constraints, verification anchors, primary failure-mode candidate, and invalid-if candidates.
-12. Do not update `CONTEXT.md`, create glossary entries, write ADRs, or draft `SPEC.md` as part of this skill.
+12. Do not update `CONTEXT.md`, create glossary entries, or write ADRs as part of this skill. Do not draft `SPEC.md` here.
 13. Emit one compact **PRE-SPEC ASSEMBLY** packet and stop.
 14. If important ambiguity cannot fit the bounded question budget without hiding consequential decisions, route to a fuller clarification/domain-model workflow instead of expanding this skill.
 
