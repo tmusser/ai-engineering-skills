@@ -70,7 +70,7 @@ Better:
 
 The question should expose why the answer matters to the eventual contract.
 
-## Output
+## Outputs
 
 Use this compact shape:
 
