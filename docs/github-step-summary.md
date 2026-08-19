@@ -7,6 +7,21 @@ The adapter is reporting-only. It does not post PR comments, request write
 permissions, install hooks, change workflow artifacts, or convert a
 `REVIEW_REQUIRED` result into `PASS`.
 
+For repositories that do not vendor the AES scripts, the root reusable Action now
+wraps this same reporting path:
+
+```yaml
+- name: Publish AI Engineering Skills evidence
+  if: always()
+  uses: tmusser/ai-engineering-skills@main
+  with:
+    base: ${{ github.event.pull_request.base.sha }}
+```
+
+See [Reusable GitHub Action](github-action.md) for the consumer-facing contract,
+inputs, checkout requirements, and failure behavior. The raw script integration
+below remains supported.
+
 ## What it combines
 
 The summary contains:
@@ -50,10 +65,10 @@ steps:
 checks. `if: always()` lets the reporting step run even when an earlier check
 failed, so the Actions page can still show the available evidence.
 
-GitHub supplies the `GITHUB_STEP_SUMMARY` path automatically. The adapter appends
-rather than overwrites, so it can coexist with other job-summary sections. The
-summary target must remain outside the repository checkout so publishing evidence
-cannot dirty live workflow state or stale a previously fresh handoff.
+GitHub supplies `GITHUB_STEP_SUMMARY` automatically. The adapter appends rather
+than overwrites, so it can coexist with other job-summary content. The summary
+target must remain outside the repository checkout so publishing evidence cannot
+dirty live workflow state or stale a previously fresh handoff.
 
 ## Reporting is not enforcement
 

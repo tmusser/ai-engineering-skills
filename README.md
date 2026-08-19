@@ -76,6 +76,29 @@ Use `test-mini` as an optional add-on when the slice needs focused deterministic
 Use `ceremony-budget` as an optional front door when you are unsure whether the
 task is a patch, one slice, a mini workflow, or a fuller guarded route.
 
+## Use in GitHub Actions
+
+Publish workflow state and PR evidence without copying the AES reporting scripts
+into the consuming repository:
+
+```yaml
+- name: Check out repository
+  uses: actions/checkout@v4
+  with:
+    fetch-depth: 0
+
+- name: Publish AI Engineering Skills evidence
+  if: always()
+  uses: tmusser/ai-engineering-skills@main
+  with:
+    base: ${{ github.event.pull_request.base.sha }}
+```
+
+The reusable Action is reporting-only: it exposes existing workflow evidence in
+GitHub Step Summary without turning `FAIL` or `REVIEW_REQUIRED` into success and
+without running enforcement gates implicitly. See
+[Reusable GitHub Action](docs/github-action.md).
+
 ## Starter set
 
 Recommended starter set:

@@ -1,0 +1,22 @@
+name: "AI Engineering Skills Evidence"
+description: "Publish AI Engineering Skills workflow state and PR evidence to GitHub Step Summary."
+
+inputs:
+  base:
+    description: "Git base used by deterministic diff-aware evidence checks."
+    required: false
+    default: ""
+  no-handoff:
+    description: "Omit HANDOFF.md continuation details from rendered PR evidence."
+    required: false
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish workflow evidence
+      shell: bash
+      env:
+        AES_BASE: ${{ inputs.base }}
+        AES_NO_HANDOFF: ${{ inputs['no-handoff'] }}
+      run: bash "$GITHUB_ACTION_PATH/scripts/run_github_action.sh"

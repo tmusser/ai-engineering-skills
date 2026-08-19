@@ -26,6 +26,11 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Smoke test reusable evidence action
+        uses: ./
+        with:
+          no-handoff: "true"
+
       - name: Compile validator
         run: python -m py_compile scripts/validate_repo.py
 
