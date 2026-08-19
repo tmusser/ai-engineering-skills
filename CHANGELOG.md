@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added a reusable root composite GitHub Action that publishes the existing
+  workflow doctor and PR evidence stack into GitHub Step Summary without
+  requiring consumer repositories to copy the AES reporting scripts.
+- Added a thin Action runner, focused contract tests, consumer documentation,
+  and an in-repository CI smoke test for the reusable reporting surface.
+
 ## [v0.8.0] - 2026-07-28
 
 ### Added
