@@ -2,8 +2,8 @@ max_selected_context_tokens: 1500
 routes:
   context_hydration:
     label: Context hydration
-    keywords: context hydration, context packet, context index, context librarian, working-context headroom, hydrate, hydration, persistence horizon, working state, task state, knowledge state
-    files: docs/context-hydration.md, docs/context-persistence-horizons.md, scripts/context_pack.py, scripts/build_context_index.py, .ai-context/routing.yml, tests/test_context_hydration.py
+    keywords: context hydration, context packet, context index, context librarian, working-context headroom, hydrate, hydration, persistence horizon, working state, task state, knowledge state, explicit route, route only, list routes
+    files: docs/context-hydration.md, docs/context-route-steering.md, docs/context-persistence-horizons.md, scripts/context_pack.py, scripts/build_context_index.py, .ai-context/routing.yml, tests/test_context_hydration.py, tests/test_context_route_steering.py
 
   resume_handoff:
     label: Resume / handoff
