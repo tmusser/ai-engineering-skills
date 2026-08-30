@@ -32,7 +32,7 @@ from context_pack_render import exit_code_for, render_packet
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     """Parse CLI arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("task", nargs="+", help="Task string to route into a context packet.")
+    parser.add_argument("task", nargs="*", help="Task string to route into a context packet.")
     parser.add_argument(
         "--root",
         type=Path,
@@ -70,6 +70,23 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Require a repository-relative Markdown source. Repeat for multiple files.",
     )
     parser.add_argument(
+        "--route",
+        action="append",
+        default=[],
+        metavar="ROUTE_NAME",
+        help="Explicitly activate a named context route. Repeat for multiple routes.",
+    )
+    parser.add_argument(
+        "--route-only",
+        action="store_true",
+        help="Use only routes named with --route instead of combining them with automatic routing.",
+    )
+    parser.add_argument(
+        "--list-routes",
+        action="store_true",
+        help="List available route names and labels, then exit without generating a packet.",
+    )
+    parser.add_argument(
         "--strict",
         action="store_true",
         help=(
@@ -80,13 +97,52 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def unique_route_names(route_names: list[str]) -> list[str]:
+    """Return route names in first-seen order without duplicates."""
+    unique: list[str] = []
+    for name in route_names:
+        if name not in unique:
+            unique.append(name)
+    return unique
+
+
+def print_routes(routes: list[object]) -> None:
+    """Print configured route names and labels in deterministic order."""
+    print("Available context routes:")
+    for route in routes:
+        print(f"- {route.name}: {route.label}")
+
+
 def main(argv: list[str] | None = None) -> int:
     """Command-line entry point."""
     args = parse_args(argv)
     root = args.root.expanduser().resolve()
+
+    routes, routing_warnings, routing_source, route_max_budget = load_routes(root, args.routing)
+    if args.list_routes:
+        print_routes(routes)
+        for warning in routing_warnings:
+            print(f"warning: {warning}", file=sys.stderr)
+        return 0
+
     task_text = " ".join(args.task).strip()
     if not task_text:
-        raise SystemExit("task string must not be empty")
+        print("error: task string must not be empty unless --list-routes is used", file=sys.stderr)
+        return 2
+
+    explicit_routes = unique_route_names(args.route)
+    available_routes = {route.name for route in routes}
+    unknown_routes = [name for name in explicit_routes if name not in available_routes]
+    if unknown_routes:
+        available = ", ".join(route.name for route in routes)
+        print(
+            f"error: unknown route(s): {', '.join(unknown_routes)}; available routes: {available}",
+            file=sys.stderr,
+        )
+        return 2
+    if args.route_only and not explicit_routes:
+        print("error: --route-only requires at least one --route ROUTE_NAME", file=sys.stderr)
+        return 2
 
     if args.budget <= 0:
         packet, _ = render_packet(
@@ -115,7 +171,6 @@ def main(argv: list[str] | None = None) -> int:
         elif normalized and normalized not in normalized_required:
             normalized_required.append(normalized)
 
-    routes, routing_warnings, routing_source, route_max_budget = load_routes(root, args.routing)
     selected_budget, budget_messages = clamp_budget(args.budget, route_max_budget)
 
     refresh_note = ""
@@ -141,6 +196,8 @@ def main(argv: list[str] | None = None) -> int:
         budget=selected_budget,
         required_files=normalized_required,
         root=root,
+        explicit_routes=explicit_routes,
+        route_only=args.route_only,
     )
 
     packet, status = render_packet(
