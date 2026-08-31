@@ -331,6 +331,67 @@ def required_file_candidates(
     )
 
 
+def route_activation_reason(
+    route: RouteSpec,
+    task_text: str,
+    score: int,
+    explicit: bool,
+    fallback: bool,
+) -> str:
+    """Explain why one route participated without changing its selection score."""
+    reasons: list[str] = []
+    if explicit:
+        reasons.append("explicit")
+    if fallback:
+        reasons.append("overview fallback")
+    normalized_task = normalize_text(task_text)
+    keyword_hits = [
+        keyword
+        for keyword in route.keywords
+        if normalize_text(keyword) and normalize_text(keyword) in normalized_task
+    ]
+    if keyword_hits:
+        reasons.append("keywords=" + ",".join(keyword_hits))
+    task_tokens = set(tokenize(task_text))
+    route_tokens = set(tokenize(route.name.replace("_", " ")) + tokenize(route.label))
+    token_hits = sorted(task_tokens & route_tokens)
+    if token_hits:
+        reasons.append("route_tokens=" + ",".join(token_hits))
+    if not reasons:
+        reasons.append("automatic")
+    return f"score={score}; " + "; ".join(reasons)
+
+
+def resolve_ranked_routes(
+    task_text: str,
+    routes: list[RouteSpec],
+    explicit_routes: list[str] | None = None,
+    route_only: bool = False,
+) -> list[tuple[RouteSpec, int, bool, bool]]:
+    """Combine explicit route steering with the existing automatic matcher."""
+    explicit_routes = explicit_routes or []
+    route_by_name = {route.name: route for route in routes}
+    automatic = select_routes(task_text, routes)
+    automatic_scores = {route.name: score for route, score in automatic}
+    explicit_set = set(explicit_routes)
+    ranked: list[tuple[RouteSpec, int, bool, bool]] = []
+
+    for name in explicit_routes:
+        route = route_by_name.get(name)
+        if route is None:
+            raise ValueError(f"unknown route: {name}")
+        ranked.append((route, max(1, automatic_scores.get(name, 0)), True, False))
+
+    if not route_only:
+        for route, score in automatic:
+            if route.name not in explicit_set:
+                ranked.append((route, score, False, False))
+
+    if not ranked:
+        ranked = [(route, 0, False, True) for route in OVERVIEW_FALLBACK]
+    return ranked
+
+
 def select_records(
     task_text: str,
     routes: list[RouteSpec],
@@ -338,6 +399,8 @@ def select_records(
     budget: int,
     required_files: list[str] | None = None,
     root: Path | None = None,
+    explicit_routes: list[str] | None = None,
+    route_only: bool = False,
 ) -> tuple[
     list[dict[str, object]],
     list[dict[str, object]],
@@ -406,13 +469,19 @@ def select_records(
                 )
             )
 
-    ranked_routes = select_routes(task_text, routes)
-    if not ranked_routes:
-        ranked_routes = [(route, 0) for route in OVERVIEW_FALLBACK]
-    route_labels = [route.label for route, _ in ranked_routes]
-    route_names = [route.name for route, _ in ranked_routes]
+    ranked_routes = resolve_ranked_routes(
+        task_text,
+        routes,
+        explicit_routes=explicit_routes,
+        route_only=route_only,
+    )
+    route_labels = [
+        f"{route.label} [{route_activation_reason(route, task_text, score, explicit, fallback)}]"
+        for route, score, explicit, fallback in ranked_routes
+    ]
+    route_names = [route.name for route, _, _, _ in ranked_routes]
 
-    for route, route_score in ranked_routes:
+    for route, route_score, _, _ in ranked_routes:
         selected_for_route = 0
         candidates = rank_records_for_route(
             route, records, task_text, required_set, require_task_hit=(route_score == 0)
