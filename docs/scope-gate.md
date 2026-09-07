@@ -63,6 +63,11 @@ Invalid if: any write escapes the declared paths
 ```
 
 Path entries support exact paths, directory prefixes, and shell-style glob patterns.
+Repo-wide catch-all patterns (`*`, `**`, `**/*`) are syntactically valid globs to
+the gate, but `scope-freeze` prohibits them in `Allowed writes` because they erase
+the blast-radius boundary. Enumerate the narrowest relevant prefixes instead and
+use `Max files changed` when a task legitimately spans several areas.
+
 The scope artifact itself is excluded from its own write boundary so creating or
 updating `SCOPE.md` does not self-fail the gate.
 
@@ -83,11 +88,13 @@ A review-trigger entry may also be an explicit path or glob.
 When a route invokes `scope-freeze` and files will be modified:
 
 1. Write `SCOPE.md` before the first implementation write.
-2. Do not widen the file patterns after an out-of-scope edit merely to make the
+2. Keep `Allowed writes` meaningfully narrower than the repository root; do not
+   use repo-wide catch-all globs as a shortcut.
+3. Do not widen the file patterns after an out-of-scope edit merely to make the
    gate pass.
-3. Run the gate before declaring the slice complete.
-4. On `FAIL`, stop, revert the violating write, or renegotiate scope.
-5. On `REVIEW_REQUIRED`, surface the trigger and obtain the required review before
+4. Run the gate before declaring the slice complete.
+5. On `FAIL`, stop, revert the violating write, or renegotiate scope.
+6. On `REVIEW_REQUIRED`, surface the trigger and obtain the required review before
    claiming completion.
 
 ## Claim boundary
@@ -100,6 +107,8 @@ Non-path forbidden operations remain visible as advisory notes. Use
 `verify-contract`, tests, compatibility probes, and human review for semantic
 boundaries.
 
-The contract is also not tamper-proof against an actor authorized to rewrite
-`SCOPE.md`. Its purpose is deterministic consistency and fail-closed agent
-behavior, not cryptographic policy enforcement.
+The gate also does not currently reject an overly broad but syntactically valid
+`Allowed writes` glob. That boundary is part of the `scope-freeze` contract and
+must be reviewed as such. The contract is not tamper-proof against an actor
+authorized to rewrite `SCOPE.md`; its purpose is deterministic consistency and
+fail-closed agent behavior, not cryptographic policy enforcement.

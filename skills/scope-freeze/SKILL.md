@@ -24,21 +24,22 @@ Immediately before editing files or running state-changing commands.
 
 1. Name the exact task.
 2. List **allowed** files/folders as exact paths, directory prefixes, or globs.
-3. List **read-only** files/folders.
-4. List **forbidden** paths and operations.
-5. Set max files changed and rename/deletion rules when helpful.
-6. List allowed commands.
-7. List compatibility seams and test-integrity triggers before editing.
-8. Define clear stop condition.
-9. Note that reads/searches are allowed unless explicitly forbidden.
-10. Persist the canonical block as `SCOPE.md` before the first implementation write when the route invokes `scope-freeze` and `scripts/scope_gate.py` is available.
-11. After the implementation diff is complete, run:
+3. Do not use repo-wide catch-all patterns (`*`, `**`, `**/*`) in `Allowed writes`. If the task genuinely spans multiple areas, enumerate the narrowest relevant prefixes and set a changed-file budget.
+4. List **read-only** files/folders.
+5. List **forbidden** paths and operations.
+6. Set max files changed and rename/deletion rules when helpful.
+7. List allowed commands.
+8. List compatibility seams and test-integrity triggers before editing.
+9. Define clear stop condition.
+10. Note that reads/searches are allowed unless explicitly forbidden.
+11. Persist the canonical block as `SCOPE.md` before the first implementation write when the route invokes `scope-freeze` and `scripts/scope_gate.py` is available.
+12. After the implementation diff is complete, run:
 
     ```bash
     python scripts/scope_gate.py --base <frozen-base>
     ```
 
-12. Treat scope-gate `FAIL` as a hard stop: revert the violating write or renegotiate scope before continuing. Treat `REVIEW_REQUIRED` as unresolved review, not implicit permission.
+13. Treat scope-gate `FAIL` as a hard stop: revert the violating write or renegotiate scope before continuing. Treat `REVIEW_REQUIRED` as unresolved review, not implicit permission.
 
 Do not widen `SCOPE.md` after an out-of-scope change merely to make the gate pass. A legitimate scope expansion must be surfaced and agreed before the newly allowed write.
 
@@ -79,13 +80,14 @@ Stop when: ...
 Invalid if: ...
 ```
 
-Use path/glob entries for the machine-enforceable portions of `Allowed writes`, `Read-only`, and `Forbidden`. Non-path forbidden operations remain part of the human contract but cannot be proven by a file-diff gate.
+Use path/glob entries for the machine-enforceable portions of `Allowed writes`, `Read-only`, and `Forbidden`. `Allowed writes` must remain meaningfully narrower than the repository root; repo-wide catch-all globs are invalid scope-freeze output. Non-path forbidden operations remain part of the human contract but cannot be proven by a file-diff gate.
 
 See [Deterministic Scope Gate](../../docs/scope-gate.md) for status semantics and supported review triggers.
 
 ## Success looks like
 
 - The canonical block above exists before implementation writes.
+- `Allowed writes` names a real blast-radius boundary rather than a repo-wide catch-all.
 - The final live diff receives scope-gate `PASS`, or an explicit human resolves every `REVIEW_REQUIRED` trigger.
 - No violating write is justified retroactively by silently widening the scope artifact.
 
@@ -99,6 +101,7 @@ See [Deterministic Scope Gate](../../docs/scope-gate.md) for status semantics an
 ## Anti-patterns
 
 - Roaming the entire repo for a small fix.
+- Using `*`, `**`, or `**/*` as `Allowed writes` and calling the result scoped.
 - Expanding scope because "nearby code looked easy."
 - Running write commands before boundary is agreed.
 - Editing `SCOPE.md` after a violation to manufacture compliance.
