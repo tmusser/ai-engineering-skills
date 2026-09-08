@@ -12,6 +12,14 @@
 - Added a thin Action runner, focused contract tests, consumer documentation,
   and an in-repository CI smoke test for the reusable reporting surface.
 
+### Changed
+
+- Tightened README navigation and starter-skill descriptions, added documentation
+  and contributor entry points, and surfaced the existing unified CLI.
+- Made the optional router install explicit in the quickstart and replaced the
+  README's unconditional full-workflow chain with conditional routing guidance.
+- Added explicit project-scoped install flags to the bundle guide.
+
 ## [v0.8.0] - 2026-07-28
 
 ### Added

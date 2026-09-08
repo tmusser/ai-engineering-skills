@@ -13,6 +13,10 @@ resumable through lightweight workflow gates.
 
 One human sets direction and boundaries; one agent executes inside them.
 
+[Quickstart](#try-it-in-60-seconds) · [Documentation](docs/README.md) ·
+[Examples](#workflow-recipes) · [Evidence](#evidence) ·
+[Contributing](CONTRIBUTING.md)
+
 ## Start here
 
 Use this repo when a coding task benefits from bounded scope and explicit proof,
@@ -62,7 +66,15 @@ Use mini-spec, scope-freeze, build-one, and verify-contract for this bug fix.
 Add handoff only if another session must continue.
 ```
 
-Or let the agent route first:
+If you want the agent to choose a route, install the optional router first
+(from this clone, using your chosen target):
+
+```bash
+./install.sh --claude-user --only ceremony-budget
+# For Codex CLI, use --codex-user instead of --claude-user.
+```
+
+Then ask:
 
 ```text
 Use ceremony-budget first, then run only the smallest safe route.
@@ -72,9 +84,6 @@ A durable route can leave a `SPEC.md` or equivalent contract, a verification
 record, and a `HANDOFF.md` when continuation state is actually needed.
 
 Use `test-mini` as an optional add-on when the slice needs focused deterministic tests.
-
-Use `ceremony-budget` as an optional front door when you are unsure whether the
-task is a patch, one slice, a mini workflow, or a fuller guarded route.
 
 ## Use in GitHub Actions
 
@@ -101,13 +110,13 @@ without running enforcement gates implicitly. See
 
 ## Starter set
 
-Recommended starter set:
-
-* `mini-spec`
-* `scope-freeze`
-* `build-one`
-* `verify-contract`
-* `handoff`
+| Skill | Job |
+| ----- | --- |
+| [mini-spec](skills/mini-spec/SKILL.md) | Define the bounded task and acceptance criteria. |
+| [scope-freeze](skills/scope-freeze/SKILL.md) | Freeze the allowed write surface. |
+| [build-one](skills/build-one/SKILL.md) | Implement one vertical slice. |
+| [verify-contract](skills/verify-contract/SKILL.md) | Record proof against the contract. |
+| [handoff](skills/handoff/SKILL.md) | Preserve state for a fresh session. |
 
 The starter set controls which skills are available. It does not require invoking
 all five for every task.
@@ -186,13 +195,6 @@ AI coding agents are powerful, but sessions still fail for predictable reasons:
 
 `ai-engineering-skills` gives the human and agent shared boundaries, checks, and
 durable artifacts. It reduces risk, but it does not replace judgment.
-
-| Common failure mode                                | Skill-pack response                   |
-| -------------------------------------------------- | ------------------------------------- |
-| Vague ask, hidden assumptions, or missing boundary | `grill-with-docs-lite` -> `mini-spec` |
-| Scope expands while coding                         | `scope-freeze`                        |
-| Change is treated as done without evidence         | `test-mini` -> `verify-contract`      |
-| Fresh session loses the thread                     | `handoff`                             |
 
 This is not just a prompt pack. Skills make behavior repeatable across sessions,
 templates preserve state, and verification records make claims auditable. See
@@ -343,10 +345,14 @@ Analytical deliverables such as sizing memos or scenario tables often fit Level 
 
 ### Level 3 — Full
 
-User-facing, scheduled, autonomous, decision-impacting, data-sensitive, or
-multi-slice work. `grill-with-docs-lite -> mini-spec -> checklist-mini -> thin-plan
--> scope-freeze -> analyze-mini -> build-one -> test-mini -> verify-contract ->
-ship-mini`. Add `handoff` when another session or agent must continue.
+Higher-risk or multi-slice work may need more explicit planning, scope, and
+verification. Select stages using the [routing guide](docs/ceremony-budget.md);
+this level is not a requirement to invoke every installed skill.
+
+Use `analyze-mini` only when a current trigger warrants deeper analysis, and
+`ship-mini` only before a material activation boundary such as shared-state
+writes, scheduled execution, or expanded permissions. Add `handoff` when another
+session or agent must continue.
 
 ### Below Level 0 — Prompt primitives
 
@@ -375,13 +381,31 @@ Render it locally with:
 scripts/render_demo.sh
 ```
 
+## Command-line tools
+
+The clone also includes deterministic checks and evidence tools, accessible
+through one dispatcher:
+
+```bash
+python scripts/aes.py --help
+python scripts/aes.py doctor --help
+python scripts/aes.py verify --help
+```
+
+See the [CLI reference](docs/unified-cli.md) for commands, exit-code contracts,
+and working-directory behavior. Installing skills does not install the CLI on
+`PATH`.
+
 ## Further reading
 
-* Slash-style usage: see the install docs and skill command examples.
-* anti-patterns: each skill documents common failure modes to avoid.
-* Loop governance: see [docs/loop-governance.md](docs/loop-governance.md).
-* Cross-functional infrastructure coordination: see
-  [docs/recipes.md](docs/recipes.md).
+* Slash-style usage: [Claude Code](docs/claude-code-installation.md) and
+  [Codex CLI](docs/codex-installation.md); each skill lists its anti-patterns.
+* [Loop governance](docs/loop-governance.md): diagnose repeated failed attempts.
+* [Cross-functional infrastructure coordination](examples/cross-functional-infrastructure-coordination.md): a worked example.
+* [Documentation index](docs/README.md): installation, routing, checks, and examples.
+* [Limitations](LIMITATIONS.md): known failure modes and claim boundaries.
+* [Contributing](CONTRIBUTING.md): local checks and change expectations.
+* [Changelog](CHANGELOG.md) and [release notes](docs/releases/README.md).
 
 ## Status
 
