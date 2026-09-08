@@ -9,8 +9,10 @@ of process.
 Use it when the right bundle is not obvious.
 
 All examples below use user-level installs. For project-scoped installs, replace
-`--claude-user` or `--codex-user` with the project install flags described in the
-README.
+`--claude-user` with `--claude-project /path/to/project`, or `--codex-user`
+with `--codex-project /path/to/project`. See the
+[Claude Code](claude-code-installation.md) and [Codex](codex-installation.md)
+installation guides for updates, backups, and uninstall behavior.
 
 ## Starter
 
