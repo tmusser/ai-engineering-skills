@@ -6,6 +6,10 @@
 
 ### Added
 
+- Added an optional read-only loop gate (`aes.py loop`) with finite attempt and
+  no-progress limits, stale-evidence checks, and distinct retry/verify/stop
+  decisions, plus a worked record and regression coverage.
+
 - Added a reusable root composite GitHub Action that publishes the existing
   workflow doctor and PR evidence stack into GitHub Step Summary without
   requiring consumer repositories to copy the AES reporting scripts.
@@ -13,6 +17,9 @@
   and an in-repository CI smoke test for the reusable reporting surface.
 
 ### Changed
+
+- Hardened diagnosis and loop handoff guidance around falsifiable hypotheses,
+  counted failures/interruption, owned rollback, and budgets that survive resume.
 
 - Tightened README navigation and starter-skill descriptions, added documentation
   and contributor entry points, and surfaced the existing unified CLI.

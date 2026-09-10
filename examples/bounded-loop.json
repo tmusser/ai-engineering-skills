@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "loop_id": "export-region-filter-1",
+  "artifact": "src/export.py",
+  "input_id": "fixture-revision-1",
+  "evaluator_id": "export-tests-revision-1",
+  "feedback_signal": "Original region-filter reproduction and compatibility suite",
+  "acceptance_threshold": "Both checks pass without changing tests or scope",
+  "max_attempts": 3,
+  "max_stalled": 2,
+  "revert_rule": "Preserve evidence; restore only this attempt's owned edits",
+  "human_review_trigger": "Scope or evaluator change, or uncertain external effects",
+  "review_required": false,
+  "attempts": [
+    {
+      "number": 1,
+      "hypothesis": "The region filter is lost before serialization",
+      "artifact_state": "illustrative candidate 1: filter preserved before serialization",
+      "input_id": "fixture-revision-1",
+      "evaluator_id": "export-tests-revision-1",
+      "evidence": "Illustrative only: region-filter reproduction passes, empty-result compatibility still fails",
+      "outcome": "improved"
+    }
+  ]
+}
