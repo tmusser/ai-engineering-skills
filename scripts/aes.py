@@ -42,6 +42,11 @@ COMMANDS = {
             ROOT / "scripts" / "scope_gate.py",
         ),
         Command(
+            "loop",
+            "Check whether a recorded loop may attempt another iteration.",
+            ROOT / "scripts" / "loop_gate.py",
+        ),
+        Command(
             "lineage",
             "Check optional contract identity across durable workflow artifacts.",
             ROOT / "scripts" / "check_contract_lineage.py",

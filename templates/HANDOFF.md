@@ -133,12 +133,15 @@ Next verification command:
 
 _Use only when repeated iterations occurred or are expected._
 
+- Loop ID / ledger location:
+- Input / evaluator identities:
 - Iterations attempted:
 - Best known artifact/state:
 - Rejected attempts:
 - Current feedback signal:
-- Remaining budget:
-- Stop condition:
+- Remaining budget (total attempts / consecutive no-progress):
+- Stop condition / last stop reason:
+- Interrupted attempt / unresolved effects: none | describe
 - Next allowed iteration:
 - Human review trigger:
 

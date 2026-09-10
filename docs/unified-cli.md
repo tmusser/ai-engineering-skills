@@ -17,6 +17,7 @@ Available commands:
 | `doctor` | `scripts/workflow_doctor.py` | Inspect current workflow state and print the safest next move. |
 | `spec` | `scripts/spec_gate.py` | Check whether `SPEC.md` is concrete enough to serve as an auditable contract. |
 | `scope` | `scripts/scope_gate.py` | Enforce `SCOPE.md` against the live Git diff. |
+| `loop` | `scripts/loop_gate.py` | Check recorded retry limits; distinguish CONTINUE, VERIFY, and STOP. |
 | `lineage` | `scripts/check_contract_lineage.py` | Check optional contract identity across durable workflow artifacts. |
 | `drift` | `scripts/check_skill_install.py` | Check installed Claude/Codex skills against their install snapshot and this repo. |
 | `verify` | `scripts/verify_gate.py` | Run the deterministic verification gate. |
@@ -33,6 +34,7 @@ For command-specific options, use the delegated help directly through the dispat
 python scripts/aes.py doctor --help
 python scripts/aes.py spec --help
 python scripts/aes.py scope --help
+python scripts/aes.py loop --help
 python scripts/aes.py lineage --help
 python scripts/aes.py drift --help
 python scripts/aes.py verify --help
@@ -60,6 +62,12 @@ Enforce frozen write scope:
 
 ```bash
 python scripts/aes.py scope --base origin/main --strict-review
+```
+
+Check a repeated repair before another attempt (see [loop governance](loop-governance.md)):
+
+```bash
+python scripts/aes.py loop examples/bounded-loop.json
 ```
 
 Check optional execution-contract lineage:
