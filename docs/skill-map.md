@@ -37,15 +37,18 @@ for a tiny patch, enter at build for a low-ambiguity micro change, enter at spec
 for a compact mini slice, or select the fuller guarded route.
 
 `grill-with-docs-lite` is a bounded pre-spec evidence-grooming gate. It reads the smallest
-relevant source set, separates facts from decisions, assumptions, and unknowns, builds an
-authority map, surfaces contradictions, and emits a compact `PRE-SPEC ASSEMBLY` packet for
-`mini-spec`. The packet contains spec ingredients rather than finished requirements: objective
-candidates, acceptance signals, boundaries, compatibility constraints, verification anchors,
-and the likely primary failure mode. Its readiness state is `READY`,
-`READY_WITH_ASSUMPTIONS`, or `BLOCKED`. It must not silently promote assumptions, source
-silence, implementation details, unresolved conflicts, or unknowns into contract language.
-If the work needs glossary-building, ADRs, or an open-ended decision tree, route to a fuller
-clarification workflow instead of expanding the lite pass.
+relevant authority-bearing source set, separates facts from decisions, assumptions, and
+unknowns, builds an authority map, and surfaces both contradictions and evidence-backed
+decision tensions. When two or more independent evidence seams justify it, the parent may
+fan out up to three read-only research scouts; scouts gather source-located evidence while
+the parent retains synthesis, tradeoff judgment, and user-question ownership. The skill
+emits a compact `PRE-SPEC ASSEMBLY` packet for `mini-spec` with objective candidates,
+acceptance signals, boundaries, compatibility constraints, a tension map, verification
+anchors, and the likely primary failure mode. Its readiness state is `READY`,
+`READY_WITH_ASSUMPTIONS`, or `BLOCKED`. It must not silently promote assumptions, scout
+summaries, source silence, implementation details, unresolved conflicts, tensions, or
+unknowns into contract language. If the work needs glossary-building, ADRs, or an open-ended
+decision tree, route to a fuller clarification workflow instead of expanding the lite pass.
 
 `constitution-lite` is not a second `CLAUDE.md` or `AGENTS.md`. Native project instructions
 own architecture, commands, conventions, and ordinary team preferences. The constitution
