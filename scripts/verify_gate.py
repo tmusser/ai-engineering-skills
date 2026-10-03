@@ -17,6 +17,9 @@ STATUS_PASS = "PASS"
 STATUS_FAIL = "FAIL"
 STATUS_REVIEW = "REVIEW_REQUIRED"
 
+ROOT = Path(__file__).resolve().parents[1]
+VERIFICATION_FRESHNESS = ROOT / "skills" / "verify-contract" / "scripts" / "verification_freshness.py"
+
 DEFAULT_TEST_PATTERNS = [
     "tests/**",
     "**/test_*.py",
@@ -306,6 +309,60 @@ def parse_verify_status(verify_text: str) -> tuple[str | None, list[str]]:
     return match.group(1), errors
 
 
+def check_verification_freshness(verify_path: Path, verify_text: str | None) -> Check | None:
+    """Check stamped verification freshness without breaking unstamped legacy artifacts."""
+    if verify_text is None:
+        return None
+    lowered = verify_text.lower()
+    has_freshness_contract = (
+        "verification freshness" in lowered
+        or "snapshot commit:" in lowered
+        or "workspace fingerprint:" in lowered
+    )
+    if not has_freshness_contract:
+        return None
+    if not VERIFICATION_FRESHNESS.is_file():
+        return Check(
+            name="freshness",
+            status=STATUS_REVIEW,
+            details=f"verification freshness guard unavailable: {VERIFICATION_FRESHNESS}",
+        )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(VERIFICATION_FRESHNESS),
+            "check",
+            "--root",
+            str(Path.cwd()),
+            "--verify",
+            str(verify_path),
+        ],
+        cwd=Path.cwd(),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    output = "\n".join(part for part in (result.stdout, result.stderr) if part).strip()
+    if "VERIFICATION FRESHNESS: PASS" in output:
+        return Check(
+            name="freshness",
+            status=STATUS_PASS,
+            details="verified repository snapshot still matches.",
+        )
+    if "VERIFICATION FRESHNESS: STALE" in output:
+        return Check(
+            name="freshness",
+            status=STATUS_REVIEW,
+            details="verification is stale because repository state changed after the verified snapshot.",
+        )
+    detail = next(
+        (line.lstrip("- ") for line in output.splitlines()[1:] if line.strip()),
+        "freshness could not be established",
+    )
+    return Check(name="freshness", status=STATUS_REVIEW, details=detail)
+
+
 def evaluate(args: argparse.Namespace) -> Result:
     """Compute the gate outcome."""
     checks: list[Check] = []
@@ -392,6 +449,12 @@ def evaluate(args: argparse.Namespace) -> Result:
             else:
                 checks.append(Check(name="verify", status=STATUS_FAIL, details="verify gate status FAIL."))
                 failures.append("VERIFY.md status is FAIL")
+
+    freshness_check = check_verification_freshness(verify_path, verify_text)
+    if freshness_check is not None:
+        checks.append(freshness_check)
+        if freshness_check.status == STATUS_REVIEW:
+            review_required.append(freshness_check.details)
 
     changed_files, diff_error = git_changed_files(args.base)
     if diff_error is not None:
