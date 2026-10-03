@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added deterministic verification freshness stamps so recorded PASS evidence can be detected as stale after later repository changes.
+- Added verify-gate integration that downgrades stale stamped verification to `REVIEW_REQUIRED` while leaving legacy unstamped artifacts compatible.
+
 - Added an optional read-only loop gate (`aes.py loop`) with finite attempt and
   no-progress limits, stale-evidence checks, and distinct retry/verify/stop
   decisions, plus a worked record and regression coverage.
