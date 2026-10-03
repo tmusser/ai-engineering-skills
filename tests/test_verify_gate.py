@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PYTHON = sys.executable
 SCRIPT = ROOT / "scripts" / "verify_gate.py"
+FRESHNESS_SCRIPT = ROOT / "skills" / "verify-contract" / "scripts" / "verification_freshness.py"
 
 
 def write_text(path: Path, text: str) -> None:
@@ -535,6 +536,56 @@ class VerifyGateTests(unittest.TestCase):
         self.assertEqual(payload["status"], "REVIEW_REQUIRED")
         self.assertEqual(payload["changed_file_statuses"][0]["status"], "A")
         self.assertEqual(payload["changed_file_statuses"][0]["path"], "tests/test_app.py")
+
+    def test_stale_stamped_verification_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - app.py
+
+                    ## Invalid if
+
+                    - verified behavior changes after evidence is recorded
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Verification freshness
+
+                    - Snapshot commit: `_TBD_`
+                    - Workspace fingerprint: `_TBD_`
+                """,
+                "app.py": "VALUE = 1\n",
+            }
+        )
+        stamped = subprocess.run(
+            [
+                PYTHON,
+                str(FRESHNESS_SCRIPT),
+                "stamp",
+                "--root",
+                str(repo),
+                "--verify",
+                "VERIFY.md",
+            ],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(stamped.returncode, 0, stamped.stdout + stamped.stderr)
+        write_text(repo / "app.py", "VALUE = 2\n")
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "verification is stale")
+        self.assertIn("Freshness: REVIEW_REQUIRED", result.stdout)
 
     def test_strict_review_exits_nonzero(self) -> None:
         _, repo, base = self.make_repo(
