@@ -41,12 +41,30 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 4. If `scripts/verify_gate.py` is available, run it before marking verification complete.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
-5. List changed files.
-6. Run the spec ceiling check against the implemented behavior and diff.
-7. Note working directory / environment assumptions if relevant.
-8. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
-9. Note what was **not** tested and remaining risks.
-10. Name the next safest task.
+5. Before recording `PASS`, add or refresh the verification freshness anchors and
+   stamp the repository snapshot:
+
+   ```text
+   ## Verification freshness
+
+   - Snapshot commit: `_TBD_`
+   - Workspace fingerprint: `_TBD_`
+   ```
+
+   ```bash
+   python skills/verify-contract/scripts/verification_freshness.py stamp
+   ```
+
+   The fingerprint excludes `VERIFY.md` itself, so recording or committing the
+   verification artifact does not immediately invalidate it. Any later source,
+   test, fixture, dependency, or other repository-state change makes the stamped
+   evidence stale until affected verification is rerun and stamped again.
+6. List changed files.
+7. Run the spec ceiling check against the implemented behavior and diff.
+8. Note working directory / environment assumptions if relevant.
+9. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
+10. Note what was **not** tested and remaining risks.
+11. Name the next safest task.
 
 ## Verify gate
 
@@ -54,7 +72,7 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 
 - PASS only when contract probes pass, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
 - FAIL when behavior or contract probes fail, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
-- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, the scope gate requires review, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, stamped verification is stale, the scope gate requires review, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
 - If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
@@ -106,6 +124,15 @@ Credential boundary check:
 
 This is a lightweight workflow check, not a secret scanner or a replacement for
 permissions, secret scanning, or runtime controls.
+
+Verification freshness:
+
+- Snapshot commit: `_TBD_`
+- Workspace fingerprint: `_TBD_`
+
+A stamped freshness mismatch prevents PASS. Rerun the affected verification,
+update `VERIFY.md`, and stamp the new repository state rather than carrying
+forward old evidence.
 
 Review required because:
 
@@ -163,6 +190,7 @@ Next: Add scheduling wrapper
 - "Looks good" without evidence.
 - Hiding failed commands.
 - Marking PASS after a scope-gate failure or unresolved review trigger.
+- Editing code after verification and leaving the old PASS evidence stamped as current.
 - Rewriting `SCOPE.md` after implementation to retroactively authorize the diff.
 - Calling extra behavior harmless because tests still pass.
 - Using screenshots as primary evidence for non-visual tasks.

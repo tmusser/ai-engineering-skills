@@ -84,7 +84,10 @@
         "Diff guards:",
         "Credential boundary check:",
         "scripts/scope_gate.py",
-        "Any scope-gate `FAIL` prevents PASS"
+        "Any scope-gate `FAIL` prevents PASS",
+        "## Verification freshness",
+        "verification_freshness.py stamp",
+        "A stamped freshness mismatch prevents PASS"
       ]
     },
     "workspace-checkpoint": {

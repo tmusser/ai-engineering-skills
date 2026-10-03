@@ -21,7 +21,7 @@ python scripts/render_pr_evidence.py \
 The command:
 
 - reads `SPEC.md` and `VERIFY.md`;
-- runs `scripts/verify_gate.py` against the supplied base;
+- runs `scripts/verify_gate.py` against the supplied base, including verification freshness when `VERIFY.md` contains a freshness stamp;
 - checks `HANDOFF.md` with the bundled freshness guard when the file exists;
 - writes a review-oriented Markdown summary;
 - exits nonzero unless the combined evidence state is `PASS`.
@@ -91,6 +91,7 @@ The combined state is conservative:
 - a recorded `PASS` without `--base` remains `REVIEW_REQUIRED`;
 - missing `SPEC.md`, `VERIFY.md`, statuses, or command evidence remain explicit;
 - `_TBD_` and equivalent placeholders are never rendered as evidence;
+- stamped verification whose repository fingerprint no longer matches is stale and produces `REVIEW_REQUIRED`;
 - a stale or uncheckable handoff blocks continuation output and produces
   `REVIEW_REQUIRED`;
 - only recorded `PASS` plus deterministic `PASS`, and fresh included continuation
