@@ -16,8 +16,8 @@ PASS = 0
 STALE = 2
 REVIEW_REQUIRED = 3
 
-COMMIT_RE = re.compile(r"(?im)^-\s*Snapshot commit:\s*\`?([^\`\s]+)\`?\s*$")
-FINGERPRINT_RE = re.compile(r"(?im)^-\s*Workspace fingerprint:\s*\`?([^\`\s]+)\`?\s*$")
+COMMIT_RE = re.compile(r"(?im)^-\s*Snapshot commit:\s*`?([^`\s]+)`?\s*$")
+FINGERPRINT_RE = re.compile(r"(?im)^-\s*Workspace fingerprint:\s*`?([^`\s]+)`?\s*$")
 VALID_FINGERPRINT_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
@@ -163,7 +163,7 @@ def read_anchors(path: Path) -> tuple[str | None, str | None]:
 def replace_anchor(text: str, pattern: re.Pattern[str], label: str, value: str) -> str:
     if not pattern.search(text):
         raise ValueError(f"missing freshness anchor: {label}")
-    return pattern.sub(f"- {label}: \`{value}\`", text, count=1)
+    return pattern.sub(f"- {label}: `{value}`", text, count=1)
 
 
 def stamp_verify(root: Path, verify_path: str) -> int:
