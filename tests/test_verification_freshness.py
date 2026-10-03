@@ -28,8 +28,8 @@ class VerificationFreshnessTests(unittest.TestCase):
         (root / "app.py").write_text("VALUE = 1\n", encoding="utf-8")
         (root / "VERIFY.md").write_text(
             "# Verify\n\n## Verification freshness\n\n"
-            "- Snapshot commit: \`_TBD_\`\n"
-            "- Workspace fingerprint: \`_TBD_\`\n",
+            "- Snapshot commit: `_TBD_`\n"
+            "- Workspace fingerprint: `_TBD_`\n",
             encoding="utf-8",
         )
         git(root, "add", ".")
