@@ -29,6 +29,7 @@ Repo-supported:
 
 - optional ceremony routing for choosing a smaller or larger workflow before work
 - benchmark-informed workflow improvement through `ceremony-budget`
+- opt-in compatibility probe gates that bind pre-change baselines to post-change evidence
 
 The strongest current claim is:
 
@@ -52,7 +53,8 @@ Use Task 7 as motivating evidence, not as proof of general superiority. The Task
 follow-up suggested the highest-leverage improvement was not heavier skills, but
 sharper invalidation and better route selection: compatibility probes, diff guards,
 proof reserve, verify-before-edit resume behavior, and deterministic proof
-finalization.
+finalization. The compatibility-probe follow-up now operationalizes one of those
+recommendations without requiring a new skill or a heavier default route.
 
 ## Why it matters
 
