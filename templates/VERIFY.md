@@ -23,6 +23,7 @@ Contract probes:
 
 - Public import/API seams: _TBD_
 - CLI/output behavior: _TBD_
+- Config/default behavior: _TBD_
 - Edge/no-match behavior: _TBD_
 - Existing behavior preserved: _TBD_
 
