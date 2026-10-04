@@ -42,6 +42,9 @@
         "The spec is both a floor and a ceiling",
         "## Reference-first rule",
         "If the user request and an authoritative reference conflict",
+        "## Compatibility probe gate",
+        "Compatibility probe requirement: `REQUIRED | NOT_APPLICABLE`",
+        "Capture the baseline before implementation begins",
         "## Invalid if"
       ]
     },
@@ -87,7 +90,10 @@
         "Any scope-gate `FAIL` prevents PASS",
         "## Verification freshness",
         "verification_freshness.py stamp",
-        "A stamped freshness mismatch prevents PASS"
+        "A stamped freshness mismatch prevents PASS",
+        "Compatibility probe evidence:",
+        "The Probe ID must match the pre-change baseline in SPEC.md",
+        "Do not rewrite the baseline after implementation"
       ]
     },
     "workspace-checkpoint": {
