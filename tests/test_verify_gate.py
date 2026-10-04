@@ -537,6 +537,171 @@ class VerifyGateTests(unittest.TestCase):
         self.assertEqual(payload["changed_file_statuses"][0]["status"], "A")
         self.assertEqual(payload["changed_file_statuses"][0]["path"], "tests/test_app.py")
 
+    def test_required_compatibility_probe_passes_with_matching_evidence(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - CLI output format
+
+                    ## Compatibility probe gate
+
+                    Compatibility probe requirement: REQUIRED
+
+                    - Probe ID: cli-json
+                      - Seam: CLI JSON output
+                      - Baseline command: python -m app --format json
+                      - Baseline result: PASS
+                      - Baseline evidence: baseline probe passed before implementation
+                      - Expected invariant: existing JSON keys remain stable
+
+                    ## Invalid if
+
+                    - existing JSON keys disappear
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Compatibility probe evidence
+
+                    - Probe ID: cli-json
+                      - Post-change command: python -m app --format json
+                      - Result: PASS
+                      - Evidence: existing JSON keys remained stable
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: PASS"))
+        self.assertIn("Compatibility: PASS", result.stdout)
+
+    def test_required_compatibility_probe_missing_evidence_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - public API import
+
+                    ## Compatibility probe gate
+
+                    Compatibility probe requirement: REQUIRED
+
+                    - Probe ID: import-api
+                      - Seam: Public import/API
+                      - Baseline command: python -c "import package"
+                      - Baseline result: PASS
+                      - Baseline evidence: baseline probe passed before implementation
+                      - Expected invariant: public import remains valid
+
+                    ## Invalid if
+
+                    - public import breaks
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "missing post-change evidence")
+        self.assertIn("Compatibility: REVIEW_REQUIRED", result.stdout)
+
+    def test_failed_post_change_compatibility_probe_fails(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - config parsing
+
+                    ## Compatibility probe gate
+
+                    Compatibility probe requirement: REQUIRED
+
+                    - Probe ID: old-config
+                      - Seam: Existing config format
+                      - Baseline command: python -m app --config legacy.toml
+                      - Baseline result: PASS
+                      - Baseline evidence: baseline probe passed before implementation
+                      - Expected invariant: legacy config still parses
+
+                    ## Invalid if
+
+                    - legacy config stops parsing
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Compatibility probe evidence
+
+                    - Probe ID: old-config
+                      - Post-change command: python -m app --config legacy.toml
+                      - Result: FAIL
+                      - Evidence: parser rejected legacy field
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: FAIL"))
+        self.assertIn("post-change compatibility probe failed: old-config", result.stdout)
+
+    def test_compatibility_probe_not_applicable_passes(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - none
+
+                    ## Compatibility probe gate
+
+                    Compatibility probe requirement: NOT_APPLICABLE
+
+                    ## Invalid if
+
+                    - output shape changes without authorization
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Compatibility: PASS", result.stdout)
+
     def test_stale_stamped_verification_requires_review(self) -> None:
         _, repo, base = self.make_repo(
             {

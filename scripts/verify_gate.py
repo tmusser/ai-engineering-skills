@@ -53,6 +53,13 @@ DEFAULT_DEPENDENCY_PATTERNS = [
 
 HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s+(?P<title>.+?)\s*$")
 VERIFY_STATUS_RE = re.compile(r"(?im)^\s*status\s*:\s*(PASS|FAIL|REVIEW_REQUIRED)\s*$")
+COMPAT_REQUIREMENT_RE = re.compile(
+    r"(?im)^\s*compatibility\s+probe\s+requirement\s*:\s*(REQUIRED|NOT_APPLICABLE)\s*$"
+)
+FIELD_RE = re.compile(
+    r"^\s*[-*+]\s*(?P<label>[^:]+):\s*(?P<value>.*?)\s*$",
+    re.IGNORECASE,
+)
 INLINE_PATH_DECL_RE = re.compile(
     r"^\s*(?:[-*+]\s*)?(?P<label>protected|forbidden)\s+paths?(?:\s+\w+)*\s*:\s*(?P<value>.+?)\s*$",
     re.IGNORECASE,
@@ -309,6 +316,171 @@ def parse_verify_status(verify_text: str) -> tuple[str | None, list[str]]:
     return match.group(1), errors
 
 
+def meaningful_value(value: str) -> bool:
+    """Return True when a structured Markdown field contains real evidence."""
+    normalized = value.strip().strip("`").strip()
+    return normalized.lower() not in {
+        "",
+        "_tbd_",
+        "tbd",
+        "none",
+        "n/a",
+        "required | not_applicable",
+        "pass | fail | review_required",
+    }
+
+
+def parse_probe_records(text: str, heading_variants: list[str]) -> list[dict[str, str]]:
+    """Parse repeated Probe ID bullet blocks from one Markdown section."""
+    records: list[dict[str, str]] = []
+    current: dict[str, str] | None = None
+    for line in section_lines(text, heading_variants):
+        match = FIELD_RE.match(line)
+        if not match:
+            continue
+        label = match.group("label").strip().lower()
+        value = match.group("value").strip()
+        if label == "probe id":
+            if current is not None:
+                records.append(current)
+            current = {"probe id": value}
+        elif current is not None:
+            current[label] = value
+    if current is not None:
+        records.append(current)
+    return records
+
+
+def check_compatibility_probes(spec_text: str | None, verify_text: str | None) -> Check | None:
+    """Validate opt-in pre/post compatibility probe evidence."""
+    if spec_text is None:
+        return None
+
+    gate_lines = section_lines(spec_text, ["compatibility probe gate"])
+    if not gate_lines:
+        # Legacy specs remain valid until they opt into this contract.
+        return None
+
+    gate_text = "\n".join(gate_lines)
+    requirement_match = COMPAT_REQUIREMENT_RE.search(gate_text)
+    if not requirement_match:
+        return Check(
+            name="compatibility",
+            status=STATUS_REVIEW,
+            details="compatibility probe requirement is missing or unresolved.",
+        )
+
+    requirement = requirement_match.group(1)
+    if requirement == "NOT_APPLICABLE":
+        return Check(
+            name="compatibility",
+            status=STATUS_PASS,
+            details="compatibility probe gate explicitly marked NOT_APPLICABLE.",
+        )
+
+    spec_records = parse_probe_records(spec_text, ["compatibility probe gate"])
+    if not spec_records:
+        return Check(
+            name="compatibility",
+            status=STATUS_REVIEW,
+            details="compatibility probes are REQUIRED but no baseline probe is recorded.",
+        )
+
+    spec_by_id: dict[str, dict[str, str]] = {}
+    problems: list[str] = []
+    required_fields = ("seam", "baseline command", "baseline result", "baseline evidence", "expected invariant")
+    for record in spec_records:
+        probe_id = record.get("probe id", "").strip().strip("`")
+        if not meaningful_value(probe_id):
+            problems.append("baseline probe has missing Probe ID")
+            continue
+        if probe_id in spec_by_id:
+            problems.append(f"duplicate baseline Probe ID: {probe_id}")
+            continue
+        spec_by_id[probe_id] = record
+        missing = [
+            field
+            for field in required_fields
+            if not meaningful_value(record.get(field, ""))
+        ]
+        if missing:
+            problems.append(f"{probe_id} missing baseline fields: {', '.join(missing)}")
+        baseline_result = record.get("baseline result", "").strip().upper()
+        if meaningful_value(record.get("baseline result", "")) and baseline_result != STATUS_PASS:
+            problems.append(f"{probe_id} baseline result is not PASS")
+
+    if problems:
+        return Check(
+            name="compatibility",
+            status=STATUS_REVIEW,
+            details="; ".join(problems),
+        )
+
+    if verify_text is None:
+        return Check(
+            name="compatibility",
+            status=STATUS_REVIEW,
+            details="compatibility probes are REQUIRED but VERIFY.md evidence is unavailable.",
+        )
+
+    verify_records = parse_probe_records(
+        verify_text,
+        ["compatibility probe evidence", "compatibility probes"],
+    )
+    verify_by_id: dict[str, dict[str, str]] = {}
+    for record in verify_records:
+        probe_id = record.get("probe id", "").strip().strip("`")
+        if meaningful_value(probe_id):
+            if probe_id in verify_by_id:
+                problems.append(f"duplicate verification Probe ID: {probe_id}")
+            verify_by_id[probe_id] = record
+
+    unexpected = sorted(set(verify_by_id) - set(spec_by_id))
+    if unexpected:
+        problems.append("verification contains undeclared Probe ID(s): " + ", ".join(unexpected))
+
+    failed: list[str] = []
+    for probe_id in spec_by_id:
+        evidence = verify_by_id.get(probe_id)
+        if evidence is None:
+            problems.append(f"{probe_id} missing post-change evidence")
+            continue
+        missing = [
+            field
+            for field in ("post-change command", "result", "evidence")
+            if not meaningful_value(evidence.get(field, ""))
+        ]
+        if missing:
+            problems.append(f"{probe_id} missing verification fields: {', '.join(missing)}")
+            continue
+        result = evidence.get("result", "").strip().upper()
+        if result == STATUS_FAIL:
+            failed.append(probe_id)
+        elif result == STATUS_REVIEW:
+            problems.append(f"{probe_id} result is REVIEW_REQUIRED")
+        elif result != STATUS_PASS:
+            problems.append(f"{probe_id} has invalid result: {result}")
+
+    if failed:
+        return Check(
+            name="compatibility",
+            status=STATUS_FAIL,
+            details="post-change compatibility probe failed: " + ", ".join(failed),
+        )
+    if problems:
+        return Check(
+            name="compatibility",
+            status=STATUS_REVIEW,
+            details="; ".join(problems),
+        )
+
+    return Check(
+        name="compatibility",
+        status=STATUS_PASS,
+        details=f"{len(spec_by_id)} required compatibility probe(s) matched PASS evidence.",
+    )
+
+
 def check_verification_freshness(verify_path: Path, verify_text: str | None) -> Check | None:
     """Check stamped verification freshness without breaking unstamped legacy artifacts."""
     if verify_text is None:
@@ -449,6 +621,14 @@ def evaluate(args: argparse.Namespace) -> Result:
             else:
                 checks.append(Check(name="verify", status=STATUS_FAIL, details="verify gate status FAIL."))
                 failures.append("VERIFY.md status is FAIL")
+
+    compatibility_check = check_compatibility_probes(spec_text, verify_text)
+    if compatibility_check is not None:
+        checks.append(compatibility_check)
+        if compatibility_check.status == STATUS_FAIL:
+            failures.append(compatibility_check.details)
+        elif compatibility_check.status == STATUS_REVIEW:
+            review_required.append(compatibility_check.details)
 
     freshness_check = check_verification_freshness(verify_path, verify_text)
     if freshness_check is not None:

@@ -55,9 +55,15 @@ If the user request and an authoritative reference conflict, surface the conflic
 11. Define the smallest verification demo.
 12. Record open questions and reference conflicts instead of inventing a resolution.
 13. When applicable, name compatibility seams that must remain import-compatible or output-compatible.
-14. When applicable, record invalid-if constraints that would make the slice non-viable.
-15. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
-16. If satisfying the task requires behavior outside the ceiling or contradicts an authoritative reference, update or renegotiate the spec before implementing that expansion.
+14. Choose a compatibility probe requirement before implementation:
+    `REQUIRED` when the slice can affect a named public API/import, CLI/flag,
+    config, schema/output, or established edge/no-match seam; otherwise
+    `NOT_APPLICABLE`. For each required probe, record a stable Probe ID, the
+    seam, the baseline command, its observed baseline result and evidence, and the expected
+    invariant. Capture the baseline before implementation begins.
+15. When applicable, record invalid-if constraints that would make the slice non-viable.
+16. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
+17. If satisfying the task requires behavior outside the ceiling or contradicts an authoritative reference, update or renegotiate the spec before implementing that expansion.
 
 ## Outputs
 
@@ -69,6 +75,7 @@ If the user request and an authoritative reference conflict, surface the conflic
 - Explicit spec ceiling
 - Likely failure modes
 - Verification demo
+- Compatibility probe requirement and pre-change baseline evidence when applicable
 - Optional contract identity when traceability buys back safety
 
 ## Compatibility seams to preserve
@@ -77,9 +84,28 @@ When applicable, list behavior that must remain import-compatible or output-comp
 
 - Public imports / APIs: _TBD_
 - CLI commands / flags: _TBD_
+- Config files / defaults: _TBD_
 - JSON/schema/output contracts: _TBD_
 - Existing tests whose meaning must remain valid: _TBD_
 - Data/fixture semantics: _TBD_
+
+## Compatibility probe gate
+
+Compatibility probe requirement: `REQUIRED | NOT_APPLICABLE`
+
+Use `REQUIRED` when the planned change can affect a named compatibility seam.
+Capture the baseline before implementation begins. Each required probe should use
+a stable ID so verification can match the post-change evidence without guessing.
+
+- Probe ID: _TBD_
+  - Seam: _TBD_
+  - Baseline command: _TBD_
+  - Baseline result: PASS
+  - Baseline evidence: _TBD_
+  - Expected invariant: _TBD_
+
+Use `NOT_APPLICABLE` instead of inventing a probe for work with no relevant
+public compatibility seam.
 
 ## Invalid if
 
@@ -99,6 +125,7 @@ When applicable, list behavior that must remain import-compatible or output-comp
 - Reference authority and any task-specific delta are explicit when references exist.
 - The behavioral ceiling is clear enough to distinguish necessary support work from optional extras.
 - Unresolved questions are recorded instead of hidden.
+- Required compatibility probes have a pre-change baseline before implementation starts.
 
 ## Anti-patterns
 

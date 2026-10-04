@@ -102,9 +102,27 @@ When applicable, list behavior that must remain import-compatible or output-comp
 
 - Public imports / APIs: _TBD_
 - CLI commands / flags: _TBD_
+- Config files / defaults: _TBD_
 - JSON/schema/output contracts: _TBD_
 - Existing tests whose meaning must remain valid: _TBD_
 - Data/fixture semantics: _TBD_
+
+## Compatibility probe gate
+
+Compatibility probe requirement: REQUIRED | NOT_APPLICABLE
+
+Use REQUIRED when this slice can affect a named public API/import, CLI/flag,
+config, schema/output, or established edge/no-match compatibility seam. Capture
+the baseline before implementation begins.
+
+- Probe ID: _TBD_
+  - Seam: _TBD_
+  - Baseline command: _TBD_
+  - Baseline result: PASS
+  - Baseline evidence: _TBD_
+  - Expected invariant: _TBD_
+
+Use NOT_APPLICABLE when no relevant compatibility seam is exposed by the slice.
 
 ## Invalid if
 

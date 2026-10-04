@@ -23,8 +23,22 @@ Contract probes:
 
 - Public import/API seams: _TBD_
 - CLI/output behavior: _TBD_
+- Config/default behavior: _TBD_
 - Edge/no-match behavior: _TBD_
 - Existing behavior preserved: _TBD_
+
+Compatibility probe evidence:
+
+_Required only when SPEC.md says `Compatibility probe requirement: REQUIRED`.
+Repeat this block for every baseline Probe ID._
+
+- Probe ID: _TBD_
+  - Post-change command: _TBD_
+  - Result: PASS | FAIL | REVIEW_REQUIRED
+  - Evidence: _TBD_
+
+Missing, duplicate, undeclared, or incomplete required probe evidence prevents
+PASS. An explicit failed post-change probe means the compatibility seam regressed.
 
 Diff guards:
 

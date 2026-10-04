@@ -38,10 +38,14 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    ```
 
    Record its status and relevant violations or review triggers. A scope-gate `FAIL` prevents PASS. `REVIEW_REQUIRED` also prevents PASS until the named review is resolved.
-4. If `scripts/verify_gate.py` is available, run it before marking verification complete.
+4. If SPEC.md marks the compatibility probe gate `REQUIRED`, rerun every named
+   probe after implementation and record matching post-change evidence under the
+   same Probe ID. Missing or mismatched probe evidence requires review; an
+   explicit failed post-change probe prevents PASS.
+5. If `scripts/verify_gate.py` is available, run it before marking verification complete.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
-5. Before recording `PASS`, add or refresh the verification freshness anchors and
+6. Before recording `PASS`, add or refresh the verification freshness anchors and
    stamp the repository snapshot:
 
    ```text
@@ -59,19 +63,19 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    verification artifact does not immediately invalidate it. Any later source,
    test, fixture, dependency, or other repository-state change makes the stamped
    evidence stale until affected verification is rerun and stamped again.
-6. List changed files.
-7. Run the spec ceiling check against the implemented behavior and diff.
-8. Note working directory / environment assumptions if relevant.
-9. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
-10. Note what was **not** tested and remaining risks.
-11. Name the next safest task.
+7. List changed files.
+8. Run the spec ceiling check against the implemented behavior and diff.
+9. Note working directory / environment assumptions if relevant.
+10. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
+11. Note what was **not** tested and remaining risks.
+12. Name the next safest task.
 
 ## Verify gate
 
 Status: PASS | FAIL | REVIEW_REQUIRED
 
-- PASS only when contract probes pass, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
-- FAIL when behavior or contract probes fail, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
+- PASS only when contract probes pass, every REQUIRED compatibility probe has matching post-change PASS evidence, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
+- FAIL when behavior or contract probes fail, a required post-change compatibility probe fails, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
 - REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, stamped verification is stale, the scope gate requires review, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
@@ -83,8 +87,23 @@ Contract probes:
 
 - Public import/API seams:
 - CLI/output behavior:
+- Config/default behavior:
 - Edge/no-match behavior:
 - Existing behavior preserved:
+
+Compatibility probe evidence:
+
+When SPEC.md says `Compatibility probe requirement: REQUIRED`, record one block
+for every baseline Probe ID:
+
+- Probe ID: _TBD_
+  - Post-change command: _TBD_
+  - Result: PASS | FAIL | REVIEW_REQUIRED
+  - Evidence: _TBD_
+
+The Probe ID must match the pre-change baseline in SPEC.md. Missing, duplicate,
+undeclared, or incomplete probe evidence prevents PASS. An explicit `FAIL`
+means the compatibility seam regressed. Do not rewrite the baseline after implementation to make a changed behavior look compatible.
 
 Scope adherence:
 
@@ -142,6 +161,7 @@ Review required because:
 
 - VERIFY.md entry with evidence
 - Verify gate status
+- Matched compatibility probe evidence when the spec requires it
 - Scope-gate status when a persisted scope exists
 - Pass/fail summary + automated/manual/inferred status
 - Spec ceiling result
@@ -191,6 +211,7 @@ Next: Add scheduling wrapper
 - Hiding failed commands.
 - Marking PASS after a scope-gate failure or unresolved review trigger.
 - Editing code after verification and leaving the old PASS evidence stamped as current.
+- Recording compatibility expectations only after implementation, when the baseline can no longer constrain the change.
 - Rewriting `SCOPE.md` after implementation to retroactively authorize the diff.
 - Calling extra behavior harmless because tests still pass.
 - Using screenshots as primary evidence for non-visual tasks.
