@@ -59,7 +59,7 @@ If the user request and an authoritative reference conflict, surface the conflic
     `REQUIRED` when the slice can affect a named public API/import, CLI/flag,
     config, schema/output, or established edge/no-match seam; otherwise
     `NOT_APPLICABLE`. For each required probe, record a stable Probe ID, the
-    seam, the baseline command, its observed baseline result, and the expected
+    seam, the baseline command, its observed baseline result and evidence, and the expected
     invariant. Capture the baseline before implementation begins.
 15. When applicable, record invalid-if constraints that would make the slice non-viable.
 16. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
@@ -84,6 +84,7 @@ When applicable, list behavior that must remain import-compatible or output-comp
 
 - Public imports / APIs: _TBD_
 - CLI commands / flags: _TBD_
+- Config files / defaults: _TBD_
 - JSON/schema/output contracts: _TBD_
 - Existing tests whose meaning must remain valid: _TBD_
 - Data/fixture semantics: _TBD_
@@ -100,6 +101,7 @@ a stable ID so verification can match the post-change evidence without guessing.
   - Seam: _TBD_
   - Baseline command: _TBD_
   - Baseline result: PASS
+  - Baseline evidence: _TBD_
   - Expected invariant: _TBD_
 
 Use `NOT_APPLICABLE` instead of inventing a probe for work with no relevant
