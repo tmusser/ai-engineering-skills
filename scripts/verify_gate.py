@@ -388,7 +388,7 @@ def check_compatibility_probes(spec_text: str | None, verify_text: str | None) -
 
     spec_by_id: dict[str, dict[str, str]] = {}
     problems: list[str] = []
-    required_fields = ("seam", "baseline command", "baseline result", "expected invariant")
+    required_fields = ("seam", "baseline command", "baseline result", "baseline evidence", "expected invariant")
     for record in spec_records:
         probe_id = record.get("probe id", "").strip().strip("`")
         if not meaningful_value(probe_id):
