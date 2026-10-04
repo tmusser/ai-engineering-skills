@@ -6,6 +6,10 @@
 
 ### Added
 
+- Added an opt-in compatibility probe gate that records pre-change baselines in
+  `SPEC.md`, matches them to post-change evidence in `VERIFY.md`, and prevents
+  missing or failed compatibility proof from silently passing verification.
+
 - Added deterministic verification freshness stamps so recorded PASS evidence can be detected as stale after later repository changes.
 - Added verify-gate integration that downgrades stale stamped verification to `REVIEW_REQUIRED` while leaving legacy unstamped artifacts compatible.
 
