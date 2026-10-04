@@ -102,6 +102,7 @@ When applicable, list behavior that must remain import-compatible or output-comp
 
 - Public imports / APIs: _TBD_
 - CLI commands / flags: _TBD_
+- Config files / defaults: _TBD_
 - JSON/schema/output contracts: _TBD_
 - Existing tests whose meaning must remain valid: _TBD_
 - Data/fixture semantics: _TBD_
@@ -118,6 +119,7 @@ the baseline before implementation begins.
   - Seam: _TBD_
   - Baseline command: _TBD_
   - Baseline result: PASS
+  - Baseline evidence: _TBD_
   - Expected invariant: _TBD_
 
 Use NOT_APPLICABLE when no relevant compatibility seam is exposed by the slice.
