@@ -87,6 +87,7 @@ Contract probes:
 
 - Public import/API seams:
 - CLI/output behavior:
+- Config/default behavior:
 - Edge/no-match behavior:
 - Existing behavior preserved:
 
