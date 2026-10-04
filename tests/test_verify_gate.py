@@ -555,6 +555,7 @@ class VerifyGateTests(unittest.TestCase):
                       - Seam: CLI JSON output
                       - Baseline command: python -m app --format json
                       - Baseline result: PASS
+                      - Baseline evidence: baseline probe passed before implementation
                       - Expected invariant: existing JSON keys remain stable
 
                     ## Invalid if
@@ -601,6 +602,7 @@ class VerifyGateTests(unittest.TestCase):
                       - Seam: Public import/API
                       - Baseline command: python -c "import package"
                       - Baseline result: PASS
+                      - Baseline evidence: baseline probe passed before implementation
                       - Expected invariant: public import remains valid
 
                     ## Invalid if
@@ -639,6 +641,7 @@ class VerifyGateTests(unittest.TestCase):
                       - Seam: Existing config format
                       - Baseline command: python -m app --config legacy.toml
                       - Baseline result: PASS
+                      - Baseline evidence: baseline probe passed before implementation
                       - Expected invariant: legacy config still parses
 
                     ## Invalid if
