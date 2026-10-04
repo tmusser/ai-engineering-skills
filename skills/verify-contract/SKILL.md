@@ -103,8 +103,7 @@ for every baseline Probe ID:
 
 The Probe ID must match the pre-change baseline in SPEC.md. Missing, duplicate,
 undeclared, or incomplete probe evidence prevents PASS. An explicit `FAIL`
-means the compatibility seam regressed. Do not rewrite the baseline after
-implementation to make a changed behavior look compatible.
+means the compatibility seam regressed. Do not rewrite the baseline after implementation to make a changed behavior look compatible.
 
 Scope adherence:
 
