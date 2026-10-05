@@ -30,7 +30,17 @@ flowchart TD
   M["Decision reactivation<br/>workspace-checkpoint"] -. "consequential next action" .-> E
   H -. "first consequential edit after resume" .-> M
   I -. "repeated failure risks drift" .-> M
+  O["Optional setup<br/>operator-profile"] -. "ceremony default" .-> J
+  O -. "verification depth" .-> F
+  O -. "autonomy ceiling" .-> G
 ```
+
+`operator-profile` is optional setup, not another workflow stage. It captures
+recurring operator defaults for ceremony, autonomy, verification depth,
+communication density, and ambiguity handling. Those preferences may choose
+between already-safe options or make behavior stricter; they cannot expand
+permissions, scope, side effects, or weaken required proof. See
+[Operator Profile](operator-profile.md).
 
 `ceremony-budget` is an optional pre-flight router. It can bypass most of the map
 for a tiny patch, enter at build for a low-ambiguity micro change, enter at specify
