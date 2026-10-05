@@ -22,6 +22,7 @@ supplies an execution-sized route, use it without re-deriving the route.
 - Scope boundary and expected blast radius
 - Verification target and failure risk
 - Ambiguity, irreversibility, and resume risk
+- Optional operator profile defaults
 
 ## Workflow
 
@@ -87,6 +88,16 @@ named risk uncovered:
 Do not escalate only because the repository is large, many skills are installed,
 or a fuller route is available. Escalate because a lighter route leaves a concrete
 risk unprotected.
+
+### Operator-profile tie-breaker
+
+Operator profile is a tie-breaker, not a risk override.
+
+When two routes protect the same named risks, an available `Ceremony preference`
+may choose between them: `lean` favors the lighter route, `balanced` keeps the
+normal choice, and `guarded` may favor slightly more durable evidence when the
+extra cost is small. Never use the profile to downgrade required proof, skip a
+named risk, or escalate ceremony without a concrete benefit.
 
 ## Outputs
 
