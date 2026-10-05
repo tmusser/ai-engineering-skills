@@ -6,6 +6,12 @@
 
 ### Added
 
+- Added optional `operator-profile` setup for recurring ceremony, autonomy,
+  verification, communication, and ambiguity defaults without creating a new
+  mandatory artifact or weakening task/repository authority.
+- Integrated operator defaults as bounded inputs to routing, clarification,
+  communication density, verification depth, and activation gates.
+
 - Added an opt-in compatibility probe gate that records pre-change baselines in
   `SPEC.md`, matches them to post-change evidence in `VERIFY.md`, and prevents
   missing or failed compatibility proof from silently passing verification.
