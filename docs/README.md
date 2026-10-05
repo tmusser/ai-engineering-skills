@@ -13,6 +13,7 @@ make it a required workflow stage.
 | Install, update, or remove skills | [Claude Code](claude-code-installation.md) · [Codex CLI](codex-installation.md) |
 | Choose a copy-paste install set | [Bundles](bundles.md) |
 | Decide how much process a task needs | [Ceremony budget](ceremony-budget.md) |
+| Set recurring operator defaults | [Operator profile](operator-profile.md) |
 | Find a skill by purpose | [Skill map](skill-map.md) |
 | Follow a workflow for a concrete task | [Recipes](recipes.md) |
 
