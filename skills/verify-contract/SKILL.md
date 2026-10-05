@@ -24,6 +24,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 - Changed files
 - Evidence to record
 - Known risks or untested areas
+- Optional operator profile `Verification depth`
 
 ## Workflow
 
@@ -68,7 +69,12 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 9. Note working directory / environment assumptions if relevant.
 10. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
 11. Note what was **not** tested and remaining risks.
-12. Name the next safest task.
+12. If an operator profile provides `Verification depth`, use it only to size
+    optional proof beyond the required contract: `targeted` stops at required
+    evidence, `standard` adds cheap relevant regression proof, and `expanded`
+    allows additional adjacent high-value checks when low-cost. Required gates,
+    compatibility probes, and named risks remain mandatory in every mode.
+13. Name the next safest task.
 
 ## Verify gate
 
@@ -114,6 +120,9 @@ Scope adherence:
 - Scope artifact widened after implementation began: no | describe
 
 Any scope-gate `FAIL` prevents PASS. Unresolved scope-gate `REVIEW_REQUIRED` also prevents PASS.
+
+Operator-profile `Verification depth` never lowers this floor. It controls only
+optional proof beyond the task contract and deterministic gates.
 
 Spec ceiling:
 

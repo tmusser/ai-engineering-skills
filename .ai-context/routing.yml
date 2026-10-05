@@ -1,5 +1,10 @@
 max_selected_context_tokens: 1500
 routes:
+  operator_setup:
+    label: Operator setup
+    keywords: operator profile, operator setup, preferences, ceremony preference, autonomy boundary, verification depth, communication density, ambiguity handling
+    files: skills/operator-profile/SKILL.md, docs/operator-profile.md, skills/ceremony-budget/SKILL.md, skills/lean-mode/SKILL.md, skills/verify-contract/SKILL.md, skills/ship-mini/SKILL.md
+
   context_hydration:
     label: Context hydration
     keywords: context hydration, context packet, context index, context librarian, working-context headroom, hydrate, hydration, persistence horizon, working state, task state, knowledge state, explicit route, route only, list routes

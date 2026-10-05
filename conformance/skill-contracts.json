@@ -6,7 +6,8 @@
       "required_substrings": [
         "### Replacement rule",
         "Proof and stop:",
-        "Do not create `CEREMONY_BUDGET.md`"
+        "Do not create `CEREMONY_BUDGET.md`",
+        "Operator profile is a tie-breaker, not a risk override."
       ]
     },
     "grill-with-docs-lite": {
@@ -22,7 +23,8 @@
         "FACT",
         "DECISION",
         "ASSUMPTION",
-        "UNKNOWN"
+        "UNKNOWN",
+        "Ambiguity handling: safe-reversible-assumptions"
       ]
     },
     "constitution-lite": {
@@ -93,7 +95,8 @@
         "A stamped freshness mismatch prevents PASS",
         "Compatibility probe evidence:",
         "The Probe ID must match the pre-change baseline in SPEC.md",
-        "Do not rewrite the baseline after implementation"
+        "Do not rewrite the baseline after implementation",
+        "Operator-profile `Verification depth` never lowers this floor."
       ]
     },
     "workspace-checkpoint": {
@@ -111,7 +114,8 @@
         "Do not create `SHIP.md` when no material activation risk exists.",
         "Classify activation risk:",
         "do not replay correctness checks merely because `ship-mini` is invoked",
-        "Do not rerun tests, builds, lint, data-quality checks, or model validation"
+        "Do not rerun tests, builds, lint, data-quality checks, or model validation",
+        "`bounded-execution` does not grant activation permission"
       ]
     },
     "handoff": {
@@ -126,6 +130,27 @@
         "Only `PASS` should be treated as a fresh handoff",
         "GOTCHAS.md",
         "Promote recurring evidence-backed traps"
+      ]
+    },
+    "operator-profile": {
+      "required_substrings": [
+        "Setup skill, not a workflow stage.",
+        "The profile may narrow authority; it may not grant new authority.",
+        "## Authority boundary",
+        "Ceremony preference: `lean | balanced | guarded`",
+        "Autonomy boundary: `propose-only | bounded-execution | human-gate-side-effects`",
+        "Verification depth: `targeted | standard | expanded`",
+        "Communication density: `lean | normal | explanatory`",
+        "Ambiguity handling: `ask-material | safe-reversible-assumptions`",
+        "Do not create `OPERATOR.md` by default."
+      ]
+    },
+    "lean-mode": {
+      "required_substrings": [
+        "Compress prose, not meaning.",
+        "Communication density",
+        "current request instead of the profile default",
+        "must never suppress risk, uncertainty"
       ]
     }
   }

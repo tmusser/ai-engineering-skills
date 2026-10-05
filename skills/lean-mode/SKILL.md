@@ -41,20 +41,29 @@ Once enabled, stay in lean mode for routine replies until the user says:
 
 Switch temporarily to fuller prose when correctness requires nuance.
 
+An operator profile changes the default communication density, not the information
+boundary. `Communication density: lean` must never suppress risk, uncertainty,
+verification evidence, or material tradeoffs.
+
 ## Inputs
 
 - User request
 - Current task
 - Recent context
 - Commands, file paths, assumptions, risks, and verification details
+- Optional operator profile `Communication density`
 
 ## Workflow
 
-1. Detect a lean-mode trigger or explicit request.
-2. Compress routine response text.
-3. Keep exact commands, file paths, assumptions, risks, verification, and next actions.
-4. Switch back to fuller prose when nuance or correctness requires it.
-5. Stay terse until the user exits lean mode.
+1. Detect a lean-mode trigger, explicit request, or an available operator profile
+   with `Communication density: lean`.
+2. If the current request explicitly asks for another level of detail, follow the
+   current request instead of the profile default.
+3. Compress routine response text.
+4. Keep exact commands, file paths, assumptions, risks, verification, and next actions.
+5. Switch back to fuller prose when nuance or correctness requires it.
+6. Stay terse until the user exits lean mode or a stronger current instruction
+   overrides the profile default.
 
 ## Style
 

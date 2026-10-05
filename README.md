@@ -36,6 +36,11 @@ When the right route is not obvious, start with `ceremony-budget`: a short
 pre-flight that chooses the smallest workflow that still buys back enough
 attention and safety.
 
+If you want recurring personal defaults, `operator-profile` is an optional setup
+skill for ceremony, autonomy, verification depth, communication density, and
+ambiguity handling. It is not a workflow stage, and its preferences cannot weaken
+task contracts, repository rules, permissions, or required proof.
+
 ## Try it in 60 seconds
 
 Clone the repo:
@@ -127,6 +132,10 @@ not part of the absolute starter path.
 `ceremony-budget` is also intentionally outside the absolute starter path. It is
 an optional router that helps choose whether the starter set is even warranted.
 
+`operator-profile` is setup-only and intentionally outside workflow bundles. Use
+it when you want the same installed skills to honor recurring preferences without
+forking their contracts. See [Operator Profile](docs/operator-profile.md).
+
 For project-scoped installs, templates, and the raw Python installers, see
 [Claude Code installation](docs/claude-code-installation.md) and
 [Codex installation](docs/codex-installation.md).
@@ -182,6 +191,7 @@ Use the smallest route that fits.
 | Resume in a fresh session | `handoff` |
 | Diagnose repeated agent loops | `diagnose-loop` |
 | Capture bugs cleanly | `bug-capture` |
+| Set recurring operator defaults | `operator-profile` |
 
 ## Why this exists
 

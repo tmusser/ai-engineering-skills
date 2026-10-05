@@ -8,6 +8,10 @@ of process.
 `ceremony-budget` is optional. It is a router, not a required starter artifact.
 Use it when the right bundle is not obvious.
 
+`operator-profile` is optional setup, not a workflow stage. It is intentionally
+excluded from the bundles below: run it when you want recurring operator defaults,
+then persist its compact profile in an existing instruction surface if desired.
+
 All examples below use user-level installs. For project-scoped installs, replace
 `--claude-user` with `--claude-project /path/to/project`, or `--codex-user`
 with `--codex-project /path/to/project`. See the

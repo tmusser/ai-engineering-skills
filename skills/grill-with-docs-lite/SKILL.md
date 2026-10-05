@@ -29,6 +29,7 @@ Use a fuller domain-model or architecture workflow instead when the work require
 - Existing notes or docs
 - Relevant repo files
 - `CONTEXT.md` if present
+- Optional operator profile `Ambiguity handling`
 
 ## Evidence classes
 
@@ -88,7 +89,7 @@ Prioritize tensions that affect public behavior, compatibility, security, permis
 9. Build a **tension map** for evidence-backed tradeoffs that could change the contract even when no literal contradiction exists.
 10. Answer from docs or code when the repository can settle the point; do not ask the user to repeat discoverable facts.
 11. Prioritize unresolved decisions by consequence: contradictions first, then high-impact tensions, then lower-risk ambiguity. Prefer one question that resolves several downstream uncertainties.
-12. Ask only questions whose answers can materially change the eventual spec. Default question budget: at most 3.
+12. Ask only questions whose answers can materially change the eventual spec. Default question budget: at most 3. If an operator profile says `Ambiguity handling: safe-reversible-assumptions`, carry reversible low-risk assumptions instead of interrupting, but still ask when ambiguity can change scope, correctness, compatibility, permissions, safety, data semantics, or irreversible behavior. `ask-material` keeps the normal material-question behavior.
 13. When asking, use the anatomy **evidence -> contradiction, tension, or absence -> options -> consequence -> decision**. Make the cost of each meaningful option visible rather than asking a generic discovery question.
 14. Carry an `ASSUMPTION` only when it is reversible and low-risk. If it changes public behavior, schema, permissions, security, data semantics, compatibility, or the verification target, treat it as a `DECISION` or `UNKNOWN` instead.
 15. Groom the resolved material into spec ingredients: objective candidate, acceptance signals, boundaries, compatibility constraints, verification anchors, primary failure-mode candidate, invalid-if candidates, and resolved tradeoff posture.

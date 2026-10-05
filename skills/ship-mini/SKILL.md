@@ -43,6 +43,7 @@ Do not create `SHIP.md` when no material activation risk exists.
 - Rollback / disable path
 - Owner notification
 - Stop conditions
+- Optional operator profile `Autonomy boundary`
 
 ## Workflow
 
@@ -52,11 +53,16 @@ Do not create `SHIP.md` when no material activation risk exists.
    - `PRESENT` — one or more material activation risks exist. Continue.
 3. Name the exact activation surface: what will run, write, send, publish, trigger, access, or mutate, and in which environment.
 4. Record allowed and forbidden actions, permission/data boundaries, destructive operations, and required human gates.
-5. Confirm the smallest practical dry-run or staged activation path when one exists.
-6. Confirm rollback or disable path before irreversible or shared-state effects are enabled.
-7. Confirm audit logging, owner notification, and stop conditions when unattended or externally visible effects are possible.
-8. Resolve any `REVIEW_REQUIRED` verification item that affects activation safety. A functional `FAIL` cannot be shipped.
-9. Create or update `SHIP.md` with the activation decision and only the operational evidence needed for `GO` / `NO-GO`.
+5. If an operator profile is available, apply its `Autonomy boundary` as an
+   additional ceiling. `propose-only` or `human-gate-side-effects` may require an
+   earlier human gate. `bounded-execution` does not grant activation permission;
+   it only means the profile itself adds no stricter gate inside already-authorized
+   bounded work.
+6. Confirm the smallest practical dry-run or staged activation path when one exists.
+7. Confirm rollback or disable path before irreversible or shared-state effects are enabled.
+8. Confirm audit logging, owner notification, and stop conditions when unattended or externally visible effects are possible.
+9. Resolve any `REVIEW_REQUIRED` verification item that affects activation safety. A functional `FAIL` cannot be shipped.
+10. Create or update `SHIP.md` with the activation decision and only the operational evidence needed for `GO` / `NO-GO`.
 
 Do not rerun tests, builds, lint, data-quality checks, or model validation unless activation changed the environment or inputs in a way that invalidates the existing verification evidence.
 
@@ -65,6 +71,7 @@ Do not rerun tests, builds, lint, data-quality checks, or model validation unles
 Status: GO | NO-GO
 
 - `GO` only when verification is trustworthy for the activated state and every material activation boundary is explicit enough to operate safely.
+- An operator profile may make the activation gate stricter, but it cannot authorize a side effect, permission, or deployment that the task and runtime did not already allow.
 - `NO-GO` when a required approval, permission boundary, data boundary, rollback path, audit path, owner notification, or stop condition is unresolved.
 - `NO-GO` when verification is `FAIL`.
 - `REVIEW_REQUIRED` verification may proceed only after a human explicitly resolves or accepts the item and it does not hide a functional failure.
