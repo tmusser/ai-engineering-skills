@@ -25,12 +25,14 @@ class OperatorProfileContractTests(unittest.TestCase):
         lean = self.read("skills/lean-mode/SKILL.md")
         verify = self.read("skills/verify-contract/SKILL.md")
         ship = self.read("skills/ship-mini/SKILL.md")
+        grill = self.read("skills/grill-with-docs-lite/SKILL.md")
 
         self.assertIn("Operator profile is a tie-breaker, not a risk override.", ceremony)
         self.assertIn("Communication density", lean)
         self.assertIn("Verification depth", verify)
         self.assertIn("Autonomy boundary", ship)
         self.assertIn("does not grant activation permission", ship)
+        self.assertIn("Ambiguity handling: safe-reversible-assumptions", grill)
 
 
 if __name__ == "__main__":
