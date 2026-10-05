@@ -51,6 +51,7 @@ REQUIRED_FILES = [
     "tests/test_installers.py",
     "tests/test_verify_gate.py",
     "tests/test_context_hydration.py",
+    "tests/test_operator_profile_contract.py",
     "tests/snapshots/install_sh_help.txt",
     "tests/snapshots/install_claude_user_dry_run_only_mini_spec.txt",
     "tests/snapshots/install_codex_user_dry_run_only_mini_spec.txt",
@@ -70,6 +71,7 @@ REQUIRED_DOCS = [
     "docs/loop-governance.md",
     "docs/recipes.md",
     "docs/context-hydration.md",
+    "docs/operator-profile.md",
 ]
 
 REQUIRED_SCRIPTS = [
@@ -84,11 +86,13 @@ REQUIRED_SCRIPTS = [
 ]
 
 REQUIRED_SKILLS = [
+    "operator-profile",
     "ceremony-budget",
     "grill-with-docs-lite",
     "constitution-lite",
     "lean-mode",
     "context-check",
+    "operator-profile",
     "mini-spec",
     "checklist-mini",
     "thin-plan",
@@ -388,6 +392,7 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("tests/test_installers.py", errors)
     check_python_compiles("tests/test_context_hydration.py", errors)
     check_python_compiles("tests/test_verify_gate.py", errors)
+    check_python_compiles("tests/test_operator_profile_contract.py", errors)
 
 
 def check_shell_scripts(errors: list[str]) -> None:
