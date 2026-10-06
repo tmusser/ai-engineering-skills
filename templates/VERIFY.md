@@ -100,7 +100,7 @@ exists, malformed or contradictory records require review._
       "status": "PASS",
       "evidence": "_TBD_",
       "recorded_at": "_TBD_",
-      "commit": "_TBD_",
+      "commit": null,
       "acceptance_criterion": "_TBD_",
       "remaining_uncertainty": "_TBD_"
     }
