@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added schema-v1 machine-readable verification evidence embedded in `VERIFY.md`, with deterministic validation for check identity, command/exit status, evidence source, result, and provenance.
+- Updated PR evidence rendering to prefer valid structured verification records while preserving legacy command-evidence compatibility when the structured section is absent.
+
 - Added optional `operator-profile` setup for recurring ceremony, autonomy,
   verification, communication, and ambiguity defaults without creating a new
   mandatory artifact or weakening task/repository authority.
