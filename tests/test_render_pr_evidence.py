@@ -207,6 +207,66 @@ _Write the observable contract._
         self.assertIn("Not established: acceptance criteria are missing", markdown)
         self.assertNotIn("Describe the smallest useful objective", markdown)
 
+    def test_structured_evidence_is_preferred_for_rendering(self) -> None:
+        verify = """# Verify
+
+## Verify gate
+
+Status: PASS
+
+## Structured verification evidence
+
+```json
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "check": "unit-tests",
+      "command": "python -m unittest tests.test_export",
+      "exit_code": 0,
+      "evidence_source": "command",
+      "status": "PASS",
+      "evidence": "4 tests passed",
+      "recorded_at": "2026-10-06T10:00:00Z",
+      "commit": "abc123",
+      "acceptance_criterion": "schema and empty-result behavior",
+      "remaining_uncertainty": "none"
+    }
+  ]
+}
+```
+
+## Command evidence
+
+- Command: legacy command should not render
+- Exit code: 0
+- Interpretation: legacy fallback
+"""
+        markdown = RENDERER.render_markdown(
+            self.artifact("SPEC.md", SPEC_TEXT),
+            self.artifact("VERIFY.md", verify),
+            self.artifact("HANDOFF.md", None),
+            RENDERER.RuntimeCheck("PASS", []),
+            None,
+            "main",
+        )
+
+        self.assertIn("**unit-tests** [command] — PASS", markdown)
+        self.assertIn("4 tests passed", markdown)
+        self.assertIn("Provenance: recorded 2026-10-06T10:00:00Z, commit abc123", markdown)
+        self.assertNotIn("legacy command should not render", markdown)
+
+    def test_invalid_structured_evidence_does_not_fall_back_to_prose(self) -> None:
+        verify = VERIFY_PASS + """
+## Structured verification evidence
+
+```json
+{"schema_version": 1, "checks": [
+```
+"""
+        records = RENDERER.command_evidence(self.artifact("VERIFY.md", verify))
+        self.assertEqual(records, [])
+
     def test_output_cannot_overwrite_an_input_artifact(self) -> None:
         handoff = self.artifact("HANDOFF.md", None)
         error = RENDERER.output_path_error(
