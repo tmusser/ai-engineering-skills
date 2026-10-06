@@ -12,6 +12,12 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from verification_evidence import parse_structured_evidence
+
 
 STATUS_PASS = "PASS"
 STATUS_FAIL = "FAIL"
@@ -481,6 +487,49 @@ def check_compatibility_probes(spec_text: str | None, verify_text: str | None) -
     )
 
 
+def check_structured_verification_evidence(verify_text: str | None) -> Check | None:
+    """Validate the optional machine-readable verification evidence contract."""
+    if verify_text is None:
+        return None
+    parsed = parse_structured_evidence(verify_text)
+    if not parsed.present:
+        return None
+    if parsed.errors:
+        return Check(
+            name="structured-evidence",
+            status=STATUS_REVIEW,
+            details="; ".join(parsed.errors),
+        )
+
+    failed = [
+        str(record.get("check"))
+        for record in parsed.checks
+        if record.get("status") == STATUS_FAIL
+    ]
+    review = [
+        str(record.get("check"))
+        for record in parsed.checks
+        if record.get("status") == STATUS_REVIEW
+    ]
+    if failed:
+        return Check(
+            name="structured-evidence",
+            status=STATUS_FAIL,
+            details="structured verification evidence reports FAIL: " + ", ".join(failed),
+        )
+    if review:
+        return Check(
+            name="structured-evidence",
+            status=STATUS_REVIEW,
+            details="structured verification evidence requires review: " + ", ".join(review),
+        )
+    return Check(
+        name="structured-evidence",
+        status=STATUS_PASS,
+        details=f"{len(parsed.checks)} structured verification check(s) validated.",
+    )
+
+
 def check_verification_freshness(verify_path: Path, verify_text: str | None) -> Check | None:
     """Check stamped verification freshness without breaking unstamped legacy artifacts."""
     if verify_text is None:
@@ -621,6 +670,14 @@ def evaluate(args: argparse.Namespace) -> Result:
             else:
                 checks.append(Check(name="verify", status=STATUS_FAIL, details="verify gate status FAIL."))
                 failures.append("VERIFY.md status is FAIL")
+
+    structured_evidence_check = check_structured_verification_evidence(verify_text)
+    if structured_evidence_check is not None:
+        checks.append(structured_evidence_check)
+        if structured_evidence_check.status == STATUS_FAIL:
+            failures.append(structured_evidence_check.details)
+        elif structured_evidence_check.status == STATUS_REVIEW:
+            review_required.append(structured_evidence_check.details)
 
     compatibility_check = check_compatibility_probes(spec_text, verify_text)
     if compatibility_check is not None:
