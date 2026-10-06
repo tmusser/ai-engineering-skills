@@ -702,6 +702,137 @@ class VerifyGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("Compatibility: PASS", result.stdout)
 
+    def test_structured_verification_evidence_passes(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - CLI output
+
+                    ## Invalid if
+
+                    - CLI output changes unexpectedly
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Structured verification evidence
+
+                    ```json
+                    {
+                      "schema_version": 1,
+                      "checks": [
+                        {
+                          "check": "unit-tests",
+                          "command": "python -m unittest",
+                          "exit_code": 0,
+                          "evidence_source": "command",
+                          "status": "PASS",
+                          "evidence": "12 tests passed",
+                          "recorded_at": "2026-10-06T10:00:00Z",
+                          "commit": "abc123"
+                        }
+                      ]
+                    }
+                    ```
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: PASS"))
+        self.assertIn("Structured-evidence: PASS", result.stdout)
+
+    def test_malformed_structured_evidence_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - CLI output
+
+                    ## Invalid if
+
+                    - CLI output changes unexpectedly
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Structured verification evidence
+
+                    ```json
+                    {"schema_version": 1, "checks": [
+                    ```
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "structured evidence JSON is invalid")
+        self.assertIn("Structured-evidence: REVIEW_REQUIRED", result.stdout)
+
+    def test_structured_evidence_explicit_fail_fails_gate(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - CLI output
+
+                    ## Invalid if
+
+                    - CLI output changes unexpectedly
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Structured verification evidence
+
+                    ```json
+                    {
+                      "schema_version": 1,
+                      "checks": [
+                        {
+                          "check": "cli-smoke",
+                          "command": "python -m app --help",
+                          "exit_code": 1,
+                          "evidence_source": "command",
+                          "status": "FAIL",
+                          "evidence": "command failed",
+                          "commit": "abc123"
+                        }
+                      ]
+                    }
+                    ```
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: FAIL"))
+        self.assertIn("structured verification evidence reports FAIL: cli-smoke", result.stdout)
+
     def test_stale_stamped_verification_requires_review(self) -> None:
         _, repo, base = self.make_repo(
             {
