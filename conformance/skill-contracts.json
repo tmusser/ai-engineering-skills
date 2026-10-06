@@ -96,7 +96,12 @@
         "Compatibility probe evidence:",
         "The Probe ID must match the pre-change baseline in SPEC.md",
         "Do not rewrite the baseline after implementation",
-        "Operator-profile `Verification depth` never lowers this floor."
+        "Operator-profile `Verification depth` never lowers this floor.",
+        "Structured verification evidence:",
+        "schema version 1",
+        "`evidence_source`",
+        "at least one of `recorded_at` or `commit`",
+        "Legacy artifacts without the section remain compatible."
       ]
     },
     "workspace-checkpoint": {

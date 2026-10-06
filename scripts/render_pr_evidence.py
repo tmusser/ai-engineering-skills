@@ -12,6 +12,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from verification_evidence import parse_structured_evidence
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SPEC = Path("SPEC.md")
@@ -303,8 +309,40 @@ def overall_status(
 def command_evidence(verify: Artifact) -> list[dict[str, str]]:
     if not verify.present or verify.text is None:
         return []
+
+    structured = parse_structured_evidence(verify.text)
+    if structured.present:
+        if structured.errors:
+            return []
+        records: list[dict[str, str]] = []
+        for raw in structured.checks:
+            record = {
+                "_structured": "true",
+                "check": normalize(str(raw.get("check", "check"))),
+                "evidence source": normalize(str(raw.get("evidence_source", "unknown"))),
+                "status": normalize(str(raw.get("status", "unknown"))),
+                "evidence": normalize(str(raw.get("evidence", "not recorded"))),
+            }
+            if raw.get("command") is not None:
+                record["command"] = normalize(str(raw["command"]))
+            if raw.get("exit_code") is not None:
+                record["exit code"] = str(raw["exit_code"])
+            if raw.get("acceptance_criterion"):
+                record["acceptance criterion covered"] = normalize(
+                    str(raw["acceptance_criterion"])
+                )
+            if raw.get("remaining_uncertainty") is not None:
+                uncertainty = normalize(str(raw["remaining_uncertainty"]))
+                record["remaining uncertainty"] = uncertainty or "none"
+            if raw.get("recorded_at"):
+                record["recorded at"] = normalize(str(raw["recorded_at"]))
+            if raw.get("commit"):
+                record["commit"] = normalize(str(raw["commit"]))
+            records.append(record)
+        return records
+
     block = section(verify.text, "Command evidence")
-    records: list[dict[str, str]] = []
+    records = []
     current: dict[str, str] | None = None
     for line in block.splitlines():
         match = FIELD_RE.match(line)
@@ -399,6 +437,38 @@ def render_markdown(
     if not records:
         lines.append("- Not established: no complete command evidence was recorded.")
     for record in records:
+        if record.get("_structured") == "true":
+            check_name = record.get("check", "check")
+            source = record.get("evidence source", "unknown")
+            status = record.get("status", "unknown")
+            evidence = record.get("evidence", "not recorded")
+            command = record.get("command")
+            exit_code = record.get("exit code")
+            summary = f"- **{check_name}** [{source}] — {status}"
+            if command is not None:
+                summary += f"; `{command}`"
+            if exit_code is not None:
+                summary += f" exit `{exit_code}`"
+            summary += f"; {evidence}"
+            lines.append(summary)
+            criterion = record.get("acceptance criterion covered")
+            if criterion:
+                lines.append(f"  - Criterion: {criterion}")
+            provenance = ", ".join(
+                part
+                for part in (
+                    f"recorded {record['recorded at']}" if record.get("recorded at") else "",
+                    f"commit {record['commit']}" if record.get("commit") else "",
+                )
+                if part
+            )
+            if provenance:
+                lines.append(f"  - Provenance: {provenance}")
+            uncertainty = record.get("remaining uncertainty")
+            if uncertainty:
+                lines.append(f"  - Remaining uncertainty: {uncertainty}")
+            continue
+
         command = record.get("command", "not recorded")
         exit_code = record.get("exit code", "not recorded")
         interpretation = record.get("interpretation", "not recorded")

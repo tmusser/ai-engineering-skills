@@ -32,21 +32,28 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 2. Record commands run as short evidence entries with command, exit code, relevant
    output, interpretation, acceptance criterion covered, and remaining uncertainty.
    Keep each entry concise and auditable.
-3. When `SCOPE.md` and `scripts/scope_gate.py` are available, run:
+3. For new verification records, maintain a machine-readable `Structured
+   verification evidence` JSON block alongside the human-readable evidence. Use
+   schema version 1 and one record per meaningful check with:
+   `check`, `command`, `exit_code`, `evidence_source`, `status`,
+   `evidence`, plus at least one of `recorded_at` or `commit`. Use `null`
+   for command fields when evidence is manual or artifact-backed. Keep evidence
+   short; do not copy raw logs or secrets into the JSON block.
+4. When `SCOPE.md` and `scripts/scope_gate.py` are available, run:
 
    ```bash
    python scripts/scope_gate.py --base <frozen-base>
    ```
 
    Record its status and relevant violations or review triggers. A scope-gate `FAIL` prevents PASS. `REVIEW_REQUIRED` also prevents PASS until the named review is resolved.
-4. If SPEC.md marks the compatibility probe gate `REQUIRED`, rerun every named
+5. If SPEC.md marks the compatibility probe gate `REQUIRED`, rerun every named
    probe after implementation and record matching post-change evidence under the
    same Probe ID. Missing or mismatched probe evidence requires review; an
    explicit failed post-change probe prevents PASS.
-5. If `scripts/verify_gate.py` is available, run it before marking verification complete.
+6. If `scripts/verify_gate.py` is available, run it before marking verification complete.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
-6. Before recording `PASS`, add or refresh the verification freshness anchors and
+7. Before recording `PASS`, add or refresh the verification freshness anchors and
    stamp the repository snapshot:
 
    ```text
@@ -64,23 +71,23 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    verification artifact does not immediately invalidate it. Any later source,
    test, fixture, dependency, or other repository-state change makes the stamped
    evidence stale until affected verification is rerun and stamped again.
-7. List changed files.
-8. Run the spec ceiling check against the implemented behavior and diff.
-9. Note working directory / environment assumptions if relevant.
-10. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
-11. Note what was **not** tested and remaining risks.
-12. If an operator profile provides `Verification depth`, use it only to size
+8. List changed files.
+9. Run the spec ceiling check against the implemented behavior and diff.
+10. Note working directory / environment assumptions if relevant.
+11. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
+12. Note what was **not** tested and remaining risks.
+13. If an operator profile provides `Verification depth`, use it only to size
     optional proof beyond the required contract: `targeted` stops at required
     evidence, `standard` adds cheap relevant regression proof, and `expanded`
     allows additional adjacent high-value checks when low-cost. Required gates,
     compatibility probes, and named risks remain mandatory in every mode.
-13. Name the next safest task.
+14. Name the next safest task.
 
 ## Verify gate
 
 Status: PASS | FAIL | REVIEW_REQUIRED
 
-- PASS only when contract probes pass, every REQUIRED compatibility probe has matching post-change PASS evidence, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
+- PASS only when contract probes pass, structured verification evidence is valid when present, every REQUIRED compatibility probe has matching post-change PASS evidence, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
 - FAIL when behavior or contract probes fail, a required post-change compatibility probe fails, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
 - REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, stamped verification is stale, the scope gate requires review, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
@@ -88,6 +95,20 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 - If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
   or FAIL depending on whether the behavior contract failed.
 - Do not treat loop activity as success merely because the final output looks plausible.
+
+Structured verification evidence:
+
+- Schema version: `1`
+- Required fields per check: `check`, `command`, `exit_code`,
+  `evidence_source`, `status`, `evidence`
+- Provenance: at least one of `recorded_at` or `commit`
+- Evidence sources: `command | artifact | manual | inferred`
+- Status: `PASS | FAIL | REVIEW_REQUIRED`
+
+Once the section exists, malformed JSON, duplicate check IDs, unknown fields,
+placeholder evidence, missing provenance, or a PASS command with a nonzero exit
+code prevents PASS. An explicit structured `FAIL` is a verification failure.
+Legacy artifacts without the section remain compatible.
 
 Contract probes:
 
@@ -168,7 +189,7 @@ Review required because:
 
 ## Outputs
 
-- VERIFY.md entry with evidence
+- VERIFY.md entry with human-readable and machine-readable evidence
 - Verify gate status
 - Matched compatibility probe evidence when the spec requires it
 - Scope-gate status when a persisted scope exists
@@ -217,6 +238,8 @@ Next: Add scheduling wrapper
 ## Anti-patterns
 
 - "Looks good" without evidence.
+- Adding machine-readable fields that contradict the human-readable result.
+- Copying full logs, secrets, or noisy tool output into structured evidence.
 - Hiding failed commands.
 - Marking PASS after a scope-gate failure or unresolved review trigger.
 - Editing code after verification and leaving the old PASS evidence stamped as current.

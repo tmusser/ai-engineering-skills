@@ -47,9 +47,11 @@ REQUIRED_FILES = [
     "scripts/run_runnable_examples.py",
     "scripts/run_negative_examples.py",
     "scripts/verify_gate.py",
+    "scripts/verification_evidence.py",
     "scripts/validate_repo.py",
     "tests/test_installers.py",
     "tests/test_verify_gate.py",
+    "tests/test_verification_evidence.py",
     "tests/test_context_hydration.py",
     "tests/test_operator_profile_contract.py",
     "tests/snapshots/install_sh_help.txt",
@@ -83,6 +85,7 @@ REQUIRED_SCRIPTS = [
     "scripts/run_runnable_examples.py",
     "scripts/run_negative_examples.py",
     "scripts/verify_gate.py",
+    "scripts/verification_evidence.py",
 ]
 
 REQUIRED_SKILLS = [
@@ -389,9 +392,11 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("scripts/run_runnable_examples.py", errors)
     check_python_compiles("scripts/run_negative_examples.py", errors)
     check_python_compiles("scripts/verify_gate.py", errors)
+    check_python_compiles("scripts/verification_evidence.py", errors)
     check_python_compiles("tests/test_installers.py", errors)
     check_python_compiles("tests/test_context_hydration.py", errors)
     check_python_compiles("tests/test_verify_gate.py", errors)
+    check_python_compiles("tests/test_verification_evidence.py", errors)
     check_python_compiles("tests/test_operator_profile_contract.py", errors)
 
 

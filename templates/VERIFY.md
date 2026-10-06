@@ -82,6 +82,37 @@ Required only if repeated agent iterations occurred or are planned.
 - Compatibility seams: _TBD_
 - Invalid-if constraints: _TBD_
 
+## Structured verification evidence
+
+_New verification runs should keep one machine-readable record per meaningful
+check. Legacy VERIFY.md files without this section remain valid. Once this section
+exists, malformed or contradictory records require review._
+
+```json
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "check": "_TBD_",
+      "command": null,
+      "exit_code": null,
+      "evidence_source": "command",
+      "status": "PASS",
+      "evidence": "_TBD_",
+      "recorded_at": "_TBD_",
+      "commit": null,
+      "acceptance_criterion": "_TBD_",
+      "remaining_uncertainty": "_TBD_"
+    }
+  ]
+}
+```
+
+Required per check: `check`, `command`, `exit_code`, `evidence_source`,
+`status`, and `evidence`, plus at least one provenance anchor:
+`recorded_at` or `commit`. Use `null` for `command` and `exit_code` when
+the evidence source is not a command.
+
 ## Command evidence
 
 Use a short, auditable record for each meaningful command:

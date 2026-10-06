@@ -21,6 +21,7 @@ python scripts/render_pr_evidence.py \
 The command:
 
 - reads `SPEC.md` and `VERIFY.md`;
+- prefers valid schema-v1 structured verification evidence when present, with legacy command-evidence parsing only when the structured section is absent;
 - runs `scripts/verify_gate.py` against the supplied base, including opt-in compatibility probe matching and verification freshness when those contracts are present;
 - checks `HANDOFF.md` with the bundled freshness guard when the file exists;
 - writes a review-oriented Markdown summary;
@@ -57,7 +58,7 @@ The renderer produces these sections:
 
 - evidence state;
 - objective, acceptance criteria, and explicit non-goals;
-- command evidence and remaining uncertainty;
+- structured verification checks (or legacy command evidence) and remaining uncertainty;
 - deterministic and artifact-recorded diff guards;
 - unresolved risk;
 - continuation state when a handoff is included and fresh.
@@ -77,7 +78,8 @@ Example shape:
 - Add a safe export path.
 
 ### Verification
-- `python -m unittest tests.test_export` — exit `0`; contract tests passed
+- **unit-tests** [command] — PASS; `python -m unittest tests.test_export` exit `0`; 4 tests passed
+  - Provenance: recorded 2026-10-06T10:00:00Z, commit abc123
 ```
 
 The generated block is intended to be pasted into a pull request description or
@@ -91,6 +93,8 @@ The combined state is conservative:
 - a recorded `PASS` without `--base` remains `REVIEW_REQUIRED`;
 - missing `SPEC.md`, `VERIFY.md`, statuses, or command evidence remain explicit;
 - `_TBD_` and equivalent placeholders are never rendered as evidence;
+- once structured verification evidence exists, malformed JSON, invalid schema fields, duplicate check IDs, contradictory PASS command exit codes, or missing provenance produce `REVIEW_REQUIRED`; an explicit structured `FAIL` produces `FAIL`;
+- invalid structured evidence is not silently replaced by legacy prose evidence;
 - required compatibility probes with missing, mismatched, or review-required post-change evidence produce `REVIEW_REQUIRED`, while an explicit failed post-change probe produces `FAIL`;
 - stamped verification whose repository fingerprint no longer matches is stale and produces `REVIEW_REQUIRED`;
 - a stale or uncheckable handoff blocks continuation output and produces
@@ -103,9 +107,7 @@ An existing handoff is checked unless `--no-handoff` intentionally excludes it.
 
 ## Information boundary
 
-The renderer does not print raw command output. It includes the recorded command,
-exit code, interpretation, covered acceptance criterion, and remaining
-uncertainty. This keeps the review block compact and reduces the chance of copying
+The renderer does not print raw command output. For structured evidence it includes the check ID, evidence source, status, command/exit code when present, concise evidence, provenance, covered acceptance criterion, and remaining uncertainty. For legacy artifacts it keeps the older command-evidence rendering. This keeps the review block compact and reduces the chance of copying
 large logs or accidental secrets into a pull request.
 
 The underlying artifacts may still contain sensitive project information. Review
