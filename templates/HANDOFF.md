@@ -128,9 +128,7 @@ Last proof:
 
 - _TBD_
 
-Next verification command:
-
-- _TBD_
+Next verification command: _TBD_
 
 ## Loop state
 
