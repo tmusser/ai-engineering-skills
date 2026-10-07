@@ -51,6 +51,7 @@ REQUIRED_FILES = [
     "scripts/validate_repo.py",
     "tests/test_installers.py",
     "tests/test_verify_gate.py",
+    "tests/test_handoff_resume_trust.py",
     "tests/test_verification_evidence.py",
     "tests/test_context_hydration.py",
     "tests/test_operator_profile_contract.py",
@@ -73,6 +74,7 @@ REQUIRED_DOCS = [
     "docs/loop-governance.md",
     "docs/recipes.md",
     "docs/context-hydration.md",
+    "docs/fresh-session-trust.md",
     "docs/operator-profile.md",
 ]
 
@@ -396,8 +398,10 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("tests/test_installers.py", errors)
     check_python_compiles("tests/test_context_hydration.py", errors)
     check_python_compiles("tests/test_verify_gate.py", errors)
+    check_python_compiles("tests/test_handoff_resume_trust.py", errors)
     check_python_compiles("tests/test_verification_evidence.py", errors)
     check_python_compiles("tests/test_operator_profile_contract.py", errors)
+    check_python_compiles("skills/handoff/scripts/resume_trust.py", errors)
 
 
 def check_shell_scripts(errors: list[str]) -> None:
