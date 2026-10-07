@@ -11,9 +11,10 @@ _Omit this section when SPEC.md has no active contract ID. Otherwise copy the ac
 - Snapshot commit: `_TBD_`
 - Workspace fingerprint: `_TBD_`
 - Stamp after the final non-handoff edit: `python <handoff-skill-dir>/scripts/handoff_freshness.py stamp --handoff HANDOFF.md`
-- Check before trusting this handoff: `python <handoff-skill-dir>/scripts/handoff_freshness.py check --handoff HANDOFF.md`
+- Check snapshot freshness directly: `python <handoff-skill-dir>/scripts/handoff_freshness.py check --handoff HANDOFF.md`
+- Check before a fresh session resumes: `python <handoff-skill-dir>/scripts/resume_trust.py check --handoff HANDOFF.md --verify VERIFY.md`
 
-A `STALE` result means live repository state changed after this handoff was stamped. Re-read live project state and regenerate the handoff before resuming. `REVIEW_REQUIRED` means freshness could not be established and the handoff must not be treated as authoritative without inspection.
+A freshness `STALE` result means live repository state changed after this handoff was stamped. Re-read live project state and regenerate the handoff before resuming. Freshness `PASS` is necessary but not sufficient: the resume-trust gate also checks required file references, live verification status, review-required coherence, exactly one next task, and the next verification command.
 
 ## Resume packet
 
@@ -31,6 +32,8 @@ Read first if present:
 Relevant gotchas:
 
 - _G1, G2 | none_
+
+Required resume files: _TBD_
 
 Resume command:
 
@@ -73,8 +76,8 @@ Active hypothesis:
 
 - Compatibility seams preserved: _TBD_
 - Invalid-if constraints: _TBD_
-- Verify gate status: _TBD_
-- Review-required items: _TBD_
+- Verify gate status: `PASS | FAIL | REVIEW_REQUIRED | NOT_PRESENT`
+- Review-required items: `none | describe exact unresolved items`
 - Next gate command: _TBD_
 
 ## Project goal
