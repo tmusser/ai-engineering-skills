@@ -62,7 +62,7 @@ def gate(status: str, *details: str, changed: tuple[str, ...] = ()):
 
 
 def handoff(status: str, *details: str):
-    def run(root: Path, path: Path):
+    def run(root: Path, path: Path, verify: Path):
         return DOCTOR.RuntimeResult(status, details or ("handoff result",))
 
     return run
@@ -180,7 +180,7 @@ class WorkflowDoctorTests(unittest.TestCase):
         self.assertEqual(result.status, "REVIEW_REQUIRED")
         self.assertIsNone(result.trusted_next_task)
         self.assertNotIn("CLI wrapper", result.next_move)
-        self.assertIn("regenerate HANDOFF.md", result.next_move)
+        self.assertIn("regenerate it", result.next_move)
 
     def test_fresh_handoff_can_supply_the_next_task(self) -> None:
         root = self.make_repo()
