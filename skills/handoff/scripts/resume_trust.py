@@ -132,13 +132,12 @@ def first_field(text: str, *labels: str, allow_none: bool = False) -> str | None
     return None
 
 
-def meaningful_bullets(block: str) -> list[str]:
+def meaningful_top_level_bullets(block: str) -> list[str]:
     values: list[str] = []
     for line in block.splitlines():
-        stripped = line.strip()
-        if not re.match(r"^[-*+]\s+", stripped):
+        if not re.match(r"^[-*+]\s+", line):
             continue
-        value = re.sub(r"^[-*+]\s+", "", stripped).strip()
+        value = re.sub(r"^[-*+]\s+", "", line).strip()
         if meaningful(value):
             values.append(normalize(value))
     return values
@@ -266,7 +265,7 @@ def check_resume_trust(root: Path, handoff_path: str, verify_path: str) -> int:
             "handoff carries review-required items but live verification status is PASS"
         )
 
-    next_tasks = meaningful_bullets(section(handoff_text, "Next recommended task"))
+    next_tasks = meaningful_top_level_bullets(section(handoff_text, "Next recommended task"))
     if len(next_tasks) != 1:
         problems.append(
             f"expected exactly one next recommended task, found {len(next_tasks)}"
