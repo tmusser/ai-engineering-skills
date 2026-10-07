@@ -9,13 +9,13 @@ description: Compress project context into HANDOFF.md with workflow state, analy
 
 Compress context into a launchpad for the next session. A handoff is not a transcript — it is durable state that lets a fresh agent continue safely without the full chat history.
 
-A handoff is also not authoritative merely because the file exists. When Git state is available, establish freshness before trusting an existing `HANDOFF.md`.
+A handoff is also not authoritative merely because the file exists. A fresh session must establish both snapshot freshness and internal resume trust before treating an existing `HANDOFF.md` as current state.
 
 ## When to use
 
 Use at the end of a session, before switching agents, or before pausing work.
 
-When resuming from an existing handoff, apply the freshness check before using its status, next task, verification claims, or analysis checkpoint as current state.
+When resuming from an existing handoff, run the fresh-session trust gate before using its status, next task, verification claims, referenced files, unresolved items, or analysis checkpoint as current state.
 
 ## Inputs
 
@@ -33,6 +33,8 @@ When resuming from an existing handoff, apply the freshness check before using i
 - Changed files, working/failing commands, unverified files
 - Important decisions, open decisions, traps
 - Freshness anchors when Git state is available: snapshot commit + workspace fingerprint
+- Required resume files that must still exist before the next task can start
+- Exact recorded verify-gate status and review-required state expected at resume
 
 ## Freshness rule
 
@@ -54,6 +56,33 @@ and live Git status manually. Any mismatch or unresolved uncertainty is
 `REVIEW_REQUIRED`, not an implicit pass.
 
 A stale or unresolved handoff also invalidates trust in its recorded analysis checkpoint. Reconcile live state first, then re-evaluate whether analysis is `FRESH`, `NOT_NEEDED`, `STALE`, or `REQUIRED` for the one next task.
+
+## Fresh-session trust rule
+
+The bundled `scripts/resume_trust.py` helper composes the freshness check with
+content reconciliation. Run it before a fresh session acts on a handoff:
+
+```bash
+python <handoff-skill-dir>/scripts/resume_trust.py check \
+  --handoff HANDOFF.md \
+  --verify VERIFY.md
+```
+
+A resume-trust `PASS` requires all of the following:
+
+- the underlying handoff freshness check is `PASS`;
+- every path named in `Required resume files` still exists;
+- the handoff's `Verify gate status` matches the live recorded status in
+  `VERIFY.md` (or explicitly says `NOT_PRESENT`);
+- `Review-required items` is coherent with the live verification state;
+- exactly one next recommended task is present;
+- a next verification command is present.
+
+A freshness `PASS` by itself is not enough. The workspace can be unchanged while
+the handoff still contains an incomplete or self-contradictory resume packet.
+`REVIEW_REQUIRED` means reconcile the packet with live artifacts before acting.
+`STALE` means live repository state changed after the snapshot and the handoff
+must be regenerated before resume.
 
 ## Analysis checkpoint rule
 
@@ -86,11 +115,11 @@ owns active defects; `GOTCHAS.md` owns recurring sharp edges.
 ## Workflow
 
 1. Read current artifacts first.
-2. If an existing `HANDOFF.md` will be used for resume, check freshness before trusting it.
+2. If an existing `HANDOFF.md` will be used for resume, run `resume_trust.py check` before trusting it. Do not use freshness alone as the final trust decision.
 3. For the exactly one next task, perform the cheap analysis eligibility check using already-loaded artifacts. Record `FRESH`, `NOT_NEEDED`, `STALE`, or `REQUIRED`; do not invoke full analysis solely to improve the handoff.
 4. Create or update HANDOFF.md starting with a **Resume Packet** block.
 5. Record Workflow State (active modes, phase, loop, next gate, analysis checkpoint, context risk, hypothesis).
-6. Record continuation guardrails when relevant: compatibility seams preserved, invalid-if constraints, verify gate status, review-required items, next gate command.
+6. Record continuation guardrails when relevant: compatibility seams preserved, invalid-if constraints, exact verify gate status, review-required items, next gate command, and `Required resume files` that must exist for the next task.
 7. State the current goal in 1-2 sentences.
 8. List completed slices + verification results.
 9. List changed files with one-line purpose (flag unverified).
@@ -99,7 +128,7 @@ owns active defects; `GOTCHAS.md` owns recurring sharp edges.
 12. If an active gotcha affects the next task, reference its ID and make `GOTCHAS.md` part of the read-first set. When generating a context packet for that continuation, prefer `--require-file GOTCHAS.md` so the dependency is explicit.
 13. Name **exactly one** next recommended task + its verification command.
 14. After the final non-handoff project edit, stamp the freshness anchors with the bundled helper.
-15. Run the helper's `check` command. Only `PASS` should be treated as a fresh handoff when the helper is available.
+15. Run `resume_trust.py check` after stamping. Only `HANDOFF RESUME TRUST: PASS` should be treated as safe to resume when the helper is available.
 16. Keep under 120 lines unless complexity requires more.
 
 **Resume Packet example (place near top):**
@@ -112,6 +141,7 @@ RESUME PACKET
 * Analysis: NOT_NEEDED — direct criterion -> task -> proof; no unresolved implementation choice
 * Branch: main, Commit: abc123, Dirty: no
 * Freshness: PASS, Snapshot: abc123, Workspace: sha256:...
+* Required resume files: SPEC.md, VERIFY.md, src/export.py
 * Gotchas: G1, G3 | none
 * Next task: ...
 * Verification: `python test_mini.py --slice=foo`
@@ -123,6 +153,7 @@ RESUME PACKET
 - HANDOFF.md with Resume Packet + Workflow State
 - Analysis checkpoint for the exactly one next task
 - Freshness anchors when Git state is available
+- Required resume files and reconciled live verification state
 - Optional references to active `GOTCHAS.md` entries that affect continuation
 - Clear next task and verification path
 - Continuation guardrails when relevant
@@ -134,6 +165,7 @@ RESUME PACKET
 - Exactly one next task is named.
 - The next session knows whether analysis is `FRESH`, `NOT_NEEDED`, `STALE`, or `REQUIRED` without paying for a full analysis by default.
 - A stale handoff cannot silently outrank live repository state.
+- A fresh-but-incoherent handoff cannot nominate work until resume trust passes.
 - A recurring sharp edge that matters to future work is not buried only in a one-session handoff.
 
 ## Stop conditions
@@ -142,7 +174,7 @@ RESUME PACKET
 - No important context lives only in memory.
 - Next task and verification command are explicit.
 - Analysis need for the next task is classified without ritual invocation.
-- Freshness is `PASS` when the bundled helper is available; otherwise unresolved freshness is surfaced as `REVIEW_REQUIRED`.
+- Fresh-session resume trust is `PASS` when the bundled helper is available; otherwise unresolved trust is surfaced as `REVIEW_REQUIRED`.
 - Relevant promoted gotchas are referenced without duplicating their full contents.
 
 ## Anti-patterns
@@ -157,5 +189,6 @@ RESUME PACKET
 - No explicit next gate or verification.
 - Treating `HANDOFF.md` as current merely because it exists.
 - Continuing from a `STALE` or `REVIEW_REQUIRED` handoff without reconciling live state.
+- Treating freshness `PASS` as sufficient when required files, verification status, or unresolved items contradict live artifacts.
 - Burying a recurring evidence-backed sharp edge only in `HANDOFF.md`.
 - Creating `GOTCHAS.md` for ordinary bugs, temporary failures, or generic reminders.

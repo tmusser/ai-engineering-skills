@@ -46,13 +46,13 @@ The doctor reports:
 - whether optional `SCOPE.md` contains the canonical scope-freeze boundary;
 - the status recorded in `VERIFY.md`;
 - the result of `scripts/verify_gate.py` when `--base` is supplied;
-- freshness of an existing `HANDOFF.md` through the bundled handoff guard;
+- fresh-session trust for an existing `HANDOFF.md`, including snapshot freshness, required resume files, verification-status reconciliation, unresolved-item coherence, and next-step completeness;
 - changed files reported by the deterministic verify gate;
 - exactly one next move.
 
 `SCOPE.md` and `HANDOFF.md` remain optional. Their absence does not add ceremony or
 downgrade otherwise green evidence. When either artifact exists, the doctor refuses
-to silently trust an incomplete scope or stale continuation state.
+to silently trust an incomplete scope or continuation packet that is stale or internally inconsistent with live state.
 
 ## Status semantics
 
@@ -61,8 +61,8 @@ to silently trust an incomplete scope or stale continuation state.
 - `FAIL` — recorded or deterministic verification reports a functional or contract
   failure.
 - `REVIEW_REQUIRED` — required evidence is missing or incomplete, the deterministic
-  gate was not established, an existing scope is incomplete, a handoff is stale or
-  uncheckable, or Git state cannot be inspected safely.
+  gate was not established, an existing scope is incomplete, a handoff is stale,
+  internally inconsistent, or uncheckable, or Git state cannot be inspected safely.
 
 Exit codes are `0` for `PASS`, `1` for `FAIL`, and `2` for `REVIEW_REQUIRED`.
 
@@ -75,12 +75,13 @@ The next move is selected conservatively:
 3. fix verification failures;
 4. record missing verification evidence;
 5. resolve deterministic or recorded review-required items;
-6. regenerate stale continuation state;
-7. trust a handoff's next task only after freshness returns `PASS`;
+6. reconcile stale or internally inconsistent continuation state;
+7. trust a handoff's next task only after fresh-session resume trust returns `PASS`;
 8. otherwise proceed only with the next user-approved action.
 
-A stale handoff never gets to nominate the next task. A recorded `PASS` never
-outranks a failing or unestablished deterministic gate.
+A stale or incoherent handoff never gets to nominate the next task. A recorded
+`PASS` never outranks a failing or unestablished deterministic gate. See
+[Fresh-session trust](fresh-session-trust.md) for the handoff reconciliation contract.
 
 ## Read-only boundary
 
