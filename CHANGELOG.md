@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added a fresh-session handoff trust gate that composes snapshot freshness with required-file, live verification-state, unresolved-item, and next-step reconciliation before a resumed agent may trust `HANDOFF.md`.
+- Updated `workflow_doctor.py` to trust a handoff's next task only after the new resume-trust gate passes.
+
 - Added schema-v1 machine-readable verification evidence embedded in `VERIFY.md`, with deterministic validation for check identity, command/exit status, evidence source, result, and provenance.
 - Updated PR evidence rendering to prefer valid structured verification records while preserving legacy command-evidence compatibility when the structured section is absent.
 
