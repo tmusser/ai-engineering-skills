@@ -182,6 +182,17 @@ class WorkflowDoctorTests(unittest.TestCase):
         self.assertNotIn("CLI wrapper", result.next_move)
         self.assertIn("regenerate it", result.next_move)
 
+    def test_incoherent_handoff_suppresses_its_next_task(self) -> None:
+        root = self.make_repo()
+        (root / "SPEC.md").write_text(SPEC_READY, encoding="utf-8")
+        (root / "VERIFY.md").write_text(VERIFY_PASS, encoding="utf-8")
+        (root / "HANDOFF.md").write_text(HANDOFF, encoding="utf-8")
+        result = self.diagnose(root, handoff_status="REVIEW_REQUIRED")
+        self.assertEqual(result.status, "REVIEW_REQUIRED")
+        self.assertIsNone(result.trusted_next_task)
+        self.assertNotIn("CLI wrapper", result.next_move)
+        self.assertIn("Reconcile HANDOFF.md", result.next_move)
+
     def test_fresh_handoff_can_supply_the_next_task(self) -> None:
         root = self.make_repo()
         (root / "SPEC.md").write_text(SPEC_READY, encoding="utf-8")
