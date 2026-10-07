@@ -15,7 +15,7 @@ from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 VERIFY_GATE = ROOT / "scripts" / "verify_gate.py"
-HANDOFF_FRESHNESS = ROOT / "skills" / "handoff" / "scripts" / "handoff_freshness.py"
+HANDOFF_RESUME_TRUST = ROOT / "skills" / "handoff" / "scripts" / "resume_trust.py"
 VALID_STATUSES = {"PASS", "FAIL", "REVIEW_REQUIRED"}
 PLACEHOLDERS = {
     "",
@@ -262,17 +262,18 @@ def run_verify_gate(
     return RuntimeResult(status, tuple(details), changed_files)
 
 
-def run_handoff_freshness(
+def run_handoff_resume_trust(
     root: Path,
     handoff: Path,
-    script: Path = HANDOFF_FRESHNESS,
+    verify: Path,
+    script: Path = HANDOFF_RESUME_TRUST,
 ) -> RuntimeResult:
     if not (root / handoff).is_file():
         return RuntimeResult("NOT_PRESENT", ("optional handoff not present",))
     if not script.is_file():
         return RuntimeResult(
             "REVIEW_REQUIRED",
-            (f"handoff freshness guard unavailable: {script}",),
+            (f"handoff resume trust gate unavailable: {script}",),
         )
     result = subprocess.run(
         [
@@ -283,6 +284,8 @@ def run_handoff_freshness(
             str(root),
             "--handoff",
             str(handoff),
+            "--verify",
+            str(verify),
         ],
         cwd=root,
         capture_output=True,
@@ -292,9 +295,9 @@ def run_handoff_freshness(
     output = "\n".join(
         part for part in (result.stdout, result.stderr) if part
     ).strip()
-    if "HANDOFF FRESHNESS: PASS" in output:
+    if "HANDOFF RESUME TRUST: PASS" in output:
         status = "PASS"
-    elif "HANDOFF FRESHNESS: STALE" in output:
+    elif "HANDOFF RESUME TRUST: STALE" in output:
         status = "STALE"
     else:
         status = "REVIEW_REQUIRED"
@@ -302,7 +305,7 @@ def run_handoff_freshness(
         normalize(line.lstrip("- "))
         for line in output.splitlines()[1:]
         if meaningful(line)
-    ) or ("handoff freshness result recorded",)
+    ) or ("handoff resume trust result recorded",)
     return RuntimeResult(status, details)
 
 
@@ -370,8 +373,8 @@ def choose_next_move(
         )
     if handoff.status in {"STALE", "REVIEW_REQUIRED"}:
         return (
-            "Re-read live repository state and regenerate HANDOFF.md before "
-            "resuming from it."
+            "Reconcile HANDOFF.md with live repository and verification state, "
+            "then regenerate it before resuming from it."
         )
     if trusted_next_task:
         return f"Continue with the fresh handoff task: {trusted_next_task}"
@@ -414,7 +417,7 @@ def diagnose(
         [Path, str | None, Path, Path],
         RuntimeResult,
     ] = run_verify_gate,
-    handoff_runner: Callable[[Path, Path], RuntimeResult] = run_handoff_freshness,
+    handoff_runner: Callable[[Path, Path, Path], RuntimeResult] = run_handoff_resume_trust,
 ) -> Diagnosis:
     spec_text = read_text(root, spec_path)
     scope_text = read_text(root, scope_path)
@@ -434,7 +437,7 @@ def diagnose(
         )
     else:
         gate = verify_runner(root, base, spec_path, verify_path)
-    handoff = handoff_runner(root, handoff_path)
+    handoff = handoff_runner(root, handoff_path, verify_path)
     repository = repository_state(root)
 
     trusted_next_task: str | None = None
