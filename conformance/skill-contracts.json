@@ -132,9 +132,13 @@
         "Verification:",
         "No important context lives only in memory",
         "A stale handoff cannot silently outrank live repository state.",
-        "Only `PASS` should be treated as a fresh handoff",
         "GOTCHAS.md",
-        "Promote recurring evidence-backed traps"
+        "Promote recurring evidence-backed traps",
+        "## Fresh-session trust rule",
+        "resume_trust.py check",
+        "A freshness `PASS` by itself is not enough.",
+        "Required resume files",
+        "A fresh-but-incoherent handoff cannot nominate work until resume trust passes."
       ]
     },
     "operator-profile": {
