@@ -35,6 +35,7 @@ make it a required workflow stage.
 | Load only the relevant workflow guidance | [Context isolation](context-isolation.md) · [Route steering](context-route-steering.md) |
 | Build a context packet | [Context hydration](context-hydration.md) |
 | Decide what should survive a session | [Persistence horizons](context-persistence-horizons.md) |
+| Trust a handoff in a fresh session | [Fresh-session trust](fresh-session-trust.md) |
 | Recover from repeated loops | [Loop governance](loop-governance.md) |
 | Run an isolated worktree task | [Worktree agent run](worktree-agent-run.md) |
 | Bound a scheduled or delegated worker | [Agent-worker safety](agent-worker-safety.md) |
