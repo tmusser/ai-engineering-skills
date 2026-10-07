@@ -12,8 +12,8 @@ routes:
 
   resume_handoff:
     label: Resume / handoff
-    keywords: handoff, resume, fresh context, resume packet, continuation
-    files: HANDOFF.md, CONTEXT.md, templates/HANDOFF.md, skills/handoff/SKILL.md, docs/recipes.md, docs/context-persistence-horizons.md
+    keywords: handoff, resume, fresh context, resume packet, continuation, resume trust, fresh-session trust
+    files: HANDOFF.md, CONTEXT.md, templates/HANDOFF.md, skills/handoff/SKILL.md, skills/handoff/scripts/handoff_freshness.py, skills/handoff/scripts/resume_trust.py, docs/fresh-session-trust.md, docs/recipes.md, docs/context-persistence-horizons.md
 
   gotchas:
     label: Gotchas / sharp edges
