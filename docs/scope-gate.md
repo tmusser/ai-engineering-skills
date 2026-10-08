@@ -71,6 +71,11 @@ use `Max files changed` when a task legitimately spans several areas.
 The scope artifact itself is excluded from its own write boundary so creating or
 updating `SCOPE.md` does not self-fail the gate.
 
+`Max files changed` here is a hard scope rule: exceeding it is `FAIL`. For a
+softer expected-patch-size tripwire that also covers added lines, use the optional
+[SPEC implementation diff budget](diff-budget.md). Its overruns become
+`REVIEW_REQUIRED` in `verify_gate.py` rather than scope failure.
+
 Recognized review triggers include:
 
 - `tests changed`
