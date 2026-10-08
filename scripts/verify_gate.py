@@ -62,6 +62,28 @@ VERIFY_STATUS_RE = re.compile(r"(?im)^\s*status\s*:\s*(PASS|FAIL|REVIEW_REQUIRED
 COMPAT_REQUIREMENT_RE = re.compile(
     r"(?im)^\s*compatibility\s+probe\s+requirement\s*:\s*(REQUIRED|NOT_APPLICABLE)\s*$"
 )
+DIFF_BUDGET_REQUIREMENT_RE = re.compile(
+    r"(?im)^\s*diff\s+budget\s+requirement\s*:\s*(ENFORCED|NOT_APPLICABLE)\s*$"
+)
+DIFF_BUDGET_FIELD_RE = re.compile(
+    r"^\s*[-*+]?\s*(?P<label>Max changed files|Max added lines)\s*:\s*(?P<value>\d+)\s*$",
+    re.IGNORECASE,
+)
+DEFAULT_WORKFLOW_ARTIFACT_NAMES = {
+    "SPEC.md",
+    "SCOPE.md",
+    "VERIFY.md",
+    "HANDOFF.md",
+    "PLAN.md",
+    "TODO.md",
+    "ANALYZE.md",
+    "BUGS.md",
+    "DECISIONS.md",
+    "SHIP.md",
+    "CONTEXT.md",
+    "STAKEHOLDER_ASKS.md",
+    "GOTCHAS.md",
+}
 FIELD_RE = re.compile(
     r"^\s*[-*+]\s*(?P<label>[^:]+):\s*(?P<value>.*?)\s*$",
     re.IGNORECASE,
@@ -302,6 +324,180 @@ def git_changed_files(base: str) -> tuple[list[ChangedFile], str | None]:
         changed_files.append(ChangedFile(status="A", path=path))
 
     return changed_files, None
+
+
+def budget_excluded_path(path: str, spec_path: Path, verify_path: Path) -> bool:
+    """Return True for workflow-control artifacts excluded from implementation budgets."""
+    normalized = PurePosixPath(path.replace("\\", "/"))
+    explicit = {
+        PurePosixPath(spec_path.as_posix()),
+        PurePosixPath(verify_path.as_posix()),
+    }
+    return normalized in explicit or normalized.name in DEFAULT_WORKFLOW_ARTIFACT_NAMES
+
+
+def implementation_changes(
+    changed_files: list[ChangedFile],
+    spec_path: Path,
+    verify_path: Path,
+) -> list[ChangedFile]:
+    """Filter workflow-control artifacts out of the implementation diff."""
+    governed: list[ChangedFile] = []
+    for change in changed_files:
+        paths = [change.path]
+        if change.old_path:
+            paths.append(change.old_path)
+        if all(budget_excluded_path(path, spec_path, verify_path) for path in paths):
+            continue
+        governed.append(change)
+    return governed
+
+
+def git_added_lines(
+    base: str,
+    changed_files: list[ChangedFile],
+    spec_path: Path,
+    verify_path: Path,
+) -> tuple[int, list[str], str | None]:
+    """Count added text lines in the implementation diff, including untracked files."""
+    try:
+        result = subprocess.run(
+            ["git", "diff", "--numstat", "--no-renames", base],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        stderr = exc.stderr.strip() if isinstance(exc, subprocess.CalledProcessError) else str(exc)
+        detail = f": {stderr}" if stderr else ""
+        return 0, [], f"unable to inspect diff line counts{detail}"
+
+    additions = 0
+    unmeasurable: list[str] = []
+    tracked_paths: set[str] = set()
+    for line in result.stdout.splitlines():
+        if not line.strip():
+            continue
+        parts = line.split("\t", 2)
+        if len(parts) != 3:
+            return 0, [], "unable to parse git numstat output"
+        added, _deleted, path = parts
+        tracked_paths.add(path)
+        if budget_excluded_path(path, spec_path, verify_path):
+            continue
+        if added == "-":
+            unmeasurable.append(path)
+            continue
+        try:
+            additions += int(added)
+        except ValueError:
+            return 0, [], f"invalid added-line count for {path}: {added}"
+
+    for change in changed_files:
+        if change.status != "A" or change.path in tracked_paths:
+            continue
+        path = change.path
+        if budget_excluded_path(path, spec_path, verify_path):
+            continue
+        target = Path(path)
+        try:
+            payload = target.read_bytes()
+        except OSError as exc:
+            return 0, [], f"unable to read untracked file for line budget: {path}: {exc}"
+        if b"\0" in payload:
+            unmeasurable.append(path)
+            continue
+        additions += len(payload.splitlines())
+
+    return additions, sorted(set(unmeasurable)), None
+
+
+def check_diff_budget(
+    spec_text: str | None,
+    base: str,
+    changed_files: list[ChangedFile],
+    spec_path: Path,
+    verify_path: Path,
+) -> Check | None:
+    """Validate the optional implementation diff budget declared in SPEC.md."""
+    if spec_text is None:
+        return None
+    lines = section_lines(spec_text, ["implementation diff budget", "diff budget"])
+    if not lines:
+        return None
+
+    block = "\n".join(lines)
+    requirement_match = DIFF_BUDGET_REQUIREMENT_RE.search(block)
+    if not requirement_match:
+        return Check(
+            name="diff-budget",
+            status=STATUS_REVIEW,
+            details="diff budget requirement is missing or unresolved.",
+        )
+    if requirement_match.group(1) == "NOT_APPLICABLE":
+        return Check(
+            name="diff-budget",
+            status=STATUS_PASS,
+            details="implementation diff budget explicitly marked NOT_APPLICABLE.",
+        )
+
+    values: dict[str, int] = {}
+    for line in lines:
+        match = DIFF_BUDGET_FIELD_RE.match(line)
+        if not match:
+            continue
+        values[match.group("label").lower()] = int(match.group("value"))
+
+    missing = [
+        label
+        for label in ("max changed files", "max added lines")
+        if label not in values
+    ]
+    if missing:
+        return Check(
+            name="diff-budget",
+            status=STATUS_REVIEW,
+            details="ENFORCED diff budget missing field(s): " + ", ".join(missing),
+        )
+
+    governed = implementation_changes(changed_files, spec_path, verify_path)
+    added_lines, unmeasurable, error = git_added_lines(
+        base,
+        changed_files,
+        spec_path,
+        verify_path,
+    )
+    if error:
+        return Check(name="diff-budget", status=STATUS_REVIEW, details=error)
+    if unmeasurable:
+        return Check(
+            name="diff-budget",
+            status=STATUS_REVIEW,
+            details=(
+                "added-line budget cannot be established for binary/unmeasurable file(s): "
+                + ", ".join(unmeasurable)
+            ),
+        )
+
+    max_files = values["max changed files"]
+    max_lines = values["max added lines"]
+    overruns: list[str] = []
+    if len(governed) > max_files:
+        overruns.append(f"changed files {len(governed)} > {max_files}")
+    if added_lines > max_lines:
+        overruns.append(f"added lines {added_lines} > {max_lines}")
+
+    details = (
+        f"implementation diff: {len(governed)}/{max_files} changed files, "
+        f"{added_lines}/{max_lines} added lines"
+    )
+    if overruns:
+        return Check(
+            name="diff-budget",
+            status=STATUS_REVIEW,
+            details=details + "; budget exceeded: " + ", ".join(overruns),
+        )
+    return Check(name="diff-budget", status=STATUS_PASS, details=details)
 
 
 def parse_verify_status(verify_text: str) -> tuple[str | None, list[str]]:
@@ -701,6 +897,18 @@ def evaluate(args: argparse.Namespace) -> Result:
         changed_file_statuses: list[ChangedFile] = []
     else:
         changed_file_statuses = changed_files
+
+        diff_budget_check = check_diff_budget(
+            spec_text,
+            args.base,
+            changed_file_statuses,
+            spec_path,
+            verify_path,
+        )
+        if diff_budget_check is not None:
+            checks.append(diff_budget_check)
+            if diff_budget_check.status == STATUS_REVIEW:
+                review_required.append(diff_budget_check.details)
 
         def change_paths(change: ChangedFile) -> list[str]:
             paths = [change.path]
