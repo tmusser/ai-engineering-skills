@@ -19,6 +19,7 @@ Immediately before editing files or running state-changing commands.
 - Selected task
 - Current repo state
 - Git base used to judge the implementation diff
+- Optional SPEC implementation diff budget
 
 ## Workflow
 
@@ -27,7 +28,7 @@ Immediately before editing files or running state-changing commands.
 3. Do not use repo-wide catch-all patterns (`*`, `**`, `**/*`) in `Allowed writes`. If the task genuinely spans multiple areas, enumerate the narrowest relevant prefixes and set a changed-file budget.
 4. List **read-only** files/folders.
 5. List **forbidden** paths and operations.
-6. Set max files changed and rename/deletion rules when helpful.
+6. Set max files changed and rename/deletion rules when helpful. If SPEC.md has an enforced implementation diff budget, keep the scope's hard file cap at or below that accepted file budget unless scope is renegotiated before implementation.
 7. List allowed commands.
 8. List compatibility seams and test-integrity triggers before editing.
 9. Define clear stop condition.
@@ -42,6 +43,8 @@ Immediately before editing files or running state-changing commands.
 13. Treat scope-gate `FAIL` as a hard stop: revert the violating write or renegotiate scope before continuing. Treat `REVIEW_REQUIRED` as unresolved review, not implicit permission.
 
 Do not widen `SCOPE.md` after an out-of-scope change merely to make the gate pass. A legitimate scope expansion must be surfaced and agreed before the newly allowed write.
+
+The scope gate's `Max files changed` is a hard write-boundary rule and remains a `FAIL` when exceeded. An optional SPEC implementation diff budget is different: `verify_gate.py` treats file/added-line overruns as `REVIEW_REQUIRED` so a legitimate but unexpectedly large patch can be reconsidered rather than mislabeled as a functional failure.
 
 ## Outputs
 
