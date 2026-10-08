@@ -32,8 +32,8 @@ routes:
 
   scope_control:
     label: Scope control
-    keywords: scope, boundary, freeze, blast radius, unrelated edits
-    files: SPEC.md, skills/scope-freeze/SKILL.md, docs/recipes.md, docs/skill-map.md
+    keywords: scope, boundary, freeze, blast radius, unrelated edits, diff budget, patch size, max changed files, max added lines
+    files: SPEC.md, skills/scope-freeze/SKILL.md, skills/mini-spec/SKILL.md, skills/verify-contract/SKILL.md, docs/diff-budget.md, docs/scope-gate.md, docs/recipes.md, docs/skill-map.md
 
   planning:
     label: Planning
