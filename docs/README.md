@@ -24,6 +24,7 @@ make it a required workflow stage.
 | Find deterministic tool commands | [Unified CLI](unified-cli.md) |
 | Inspect current workflow state | [Workflow doctor](workflow-doctor.md) |
 | Check a specification or frozen write scope | [Spec gate](spec-gate.md) · [Scope gate](scope-gate.md) |
+| Enforce an expected patch-size tripwire | [Diff budget](diff-budget.md) |
 | Check artifact identity or installed-skill drift | [Contract lineage](contract-lineage.md) · [Install drift](skill-install-drift.md) |
 | Prepare evidence for review | [PR evidence summary](pr-evidence-summary.md) |
 | Publish existing evidence in CI | [GitHub Action](github-action.md) · [Step Summary](github-step-summary.md) |
