@@ -18,7 +18,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 ## Inputs
 
 - Task name
-- `SPEC.md` acceptance criteria, non-goals, constraints, and invalid-if rules
+- `SPEC.md` acceptance criteria, non-goals, constraints, invalid-if rules, and optional implementation diff budget
 - Optional persisted `SCOPE.md` plus its frozen Git base
 - Commands run or to run
 - Changed files
@@ -50,7 +50,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    probe after implementation and record matching post-change evidence under the
    same Probe ID. Missing or mismatched probe evidence requires review; an
    explicit failed post-change probe prevents PASS.
-6. If `scripts/verify_gate.py` is available, run it before marking verification complete.
+6. If `scripts/verify_gate.py` is available, run it before marking verification complete. When SPEC.md declares an `ENFORCED` implementation diff budget, inspect the deterministic `diff-budget` result before PASS. Budget overruns are `REVIEW_REQUIRED`, not automatic functional failures.
    If repeated iterations were used, check for a loop contract, budget, ledger,
    revert rule, and stop condition before calling the work done.
 7. Before recording `PASS`, add or refresh the verification freshness anchors and
@@ -87,9 +87,9 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 
 Status: PASS | FAIL | REVIEW_REQUIRED
 
-- PASS only when contract probes pass, structured verification evidence is valid when present, every REQUIRED compatibility probe has matching post-change PASS evidence, the scope gate passes when a persisted scope exists, no diff guard requires review, and no spec ceiling violation is present.
+- PASS only when contract probes pass, structured verification evidence is valid when present, every REQUIRED compatibility probe has matching post-change PASS evidence, the scope gate passes when a persisted scope exists, any enforced implementation diff budget passes, no diff guard requires review, and no spec ceiling violation is present.
 - FAIL when behavior or contract probes fail, a required post-change compatibility probe fails, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
-- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, stamped verification is stale, the scope gate requires review, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, stamped verification is stale, the scope gate requires review, an enforced implementation diff budget is exceeded or unmeasurable, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
 - If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
@@ -156,6 +156,17 @@ Any `yes` above prevents PASS. Use FAIL for a clear contract violation; use
 REVIEW_REQUIRED when the extra behavior may be reasonable but was not authorized by the
 written spec.
 
+Implementation diff budget:
+
+- Requirement: `ENFORCED | NOT_APPLICABLE`
+- Max changed files: from SPEC.md
+- Max added lines: from SPEC.md
+- Workflow-control artifacts do not consume the implementation budget.
+- Exceeding the budget requires review before PASS; it does not by itself prove a
+  functional or contract failure.
+- Do not enlarge the recorded budget after implementation merely to make the
+  gate green.
+
 Diff guards:
 
 - Protected paths touched: yes/no
@@ -193,6 +204,7 @@ Review required because:
 - Verify gate status
 - Matched compatibility probe evidence when the spec requires it
 - Scope-gate status when a persisted scope exists
+- Diff-budget status when SPEC.md opts into enforcement
 - Pass/fail summary + automated/manual/inferred status
 - Spec ceiling result
 - Remaining / untested risks
