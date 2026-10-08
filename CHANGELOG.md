@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added optional SPEC implementation diff budgets for max changed files and max added lines, enforced by `verify_gate.py` as a `REVIEW_REQUIRED` tripwire when a patch grows beyond its accepted size expectation.
+- Excluded workflow-control artifacts from implementation budget counts and documented the distinction between soft diff-budget review and the scope gate's hard changed-file boundary.
+
 - Added a fresh-session handoff trust gate that composes snapshot freshness with required-file, live verification-state, unresolved-item, and next-step reconciliation before a resumed agent may trust `HANDOFF.md`.
 - Updated `workflow_doctor.py` to trust a handoff's next task only after the new resume-trust gate passes.
 

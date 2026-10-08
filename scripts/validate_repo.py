@@ -74,6 +74,7 @@ REQUIRED_DOCS = [
     "docs/loop-governance.md",
     "docs/recipes.md",
     "docs/context-hydration.md",
+    "docs/diff-budget.md",
     "docs/fresh-session-trust.md",
     "docs/operator-profile.md",
 ]

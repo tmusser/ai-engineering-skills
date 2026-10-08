@@ -47,7 +47,10 @@
         "## Compatibility probe gate",
         "Compatibility probe requirement: `REQUIRED | NOT_APPLICABLE`",
         "Capture the baseline before implementation begins",
-        "## Invalid if"
+        "## Invalid if",
+        "## Implementation diff budget",
+        "Diff budget requirement: `ENFORCED | NOT_APPLICABLE`",
+        "Do not reverse-engineer a larger budget"
       ]
     },
     "scope-freeze": {
@@ -57,7 +60,9 @@
         "Invalid if:",
         "Persist the canonical block as `SCOPE.md`",
         "python scripts/scope_gate.py --base",
-        "Do not widen `SCOPE.md` after an out-of-scope change"
+        "Do not widen `SCOPE.md` after an out-of-scope change",
+        "hard write-boundary rule",
+        "file/added-line overruns as `REVIEW_REQUIRED`"
       ]
     },
     "analyze-mini": {
@@ -76,7 +81,9 @@
         "Spec ceiling respected: yes/no",
         "stop and renegotiate or update the spec",
         "Run the scope gate before declaring the slice complete",
-        "A scope-gate `FAIL` blocks completion"
+        "A scope-gate `FAIL` blocks completion",
+        "`ENFORCED` implementation diff budget",
+        "do not edit the budget after the fact"
       ]
     },
     "verify-contract": {
@@ -101,7 +108,10 @@
         "schema version 1",
         "`evidence_source`",
         "at least one of `recorded_at` or `commit`",
-        "Legacy artifacts without the section remain compatible."
+        "Legacy artifacts without the section remain compatible.",
+        "Implementation diff budget:",
+        "Budget overruns are `REVIEW_REQUIRED`",
+        "Workflow-control artifacts do not consume the implementation budget."
       ]
     },
     "workspace-checkpoint": {

@@ -39,6 +39,21 @@ _Write the observable task-specific contract. Point to a reference when it alrea
 
 Acceptance criteria and reference-backed deltas are the required floor. Do not add user-visible behavior, APIs, schema changes, refactors, dependencies, or adjacent cleanup beyond what is necessary to satisfy them. If correctness requires expansion, update or renegotiate the spec before implementing that expansion.
 
+## Implementation diff budget (optional)
+
+Diff budget requirement: ENFORCED | NOT_APPLICABLE
+
+Use ENFORCED only when the accepted slice has a meaningful size expectation.
+Do not invent arbitrary limits merely because the task sounds small.
+
+- Max changed files: _TBD_
+- Max added lines: _TBD_
+
+The deterministic verify gate excludes workflow-control artifacts such as
+`SPEC.md`, `SCOPE.md`, `VERIFY.md`, and `HANDOFF.md` from this
+implementation budget. Exceeding an enforced budget requires review before PASS;
+it is not automatically a functional failure.
+
 ## Loop contract (optional)
 
 _When repeated iterations are expected, define the loop before running it._

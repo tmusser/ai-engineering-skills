@@ -833,6 +833,262 @@ class VerifyGateTests(unittest.TestCase):
         self.assertTrue(result.stdout.startswith("VERIFY GATE: FAIL"))
         self.assertIn("structured verification evidence reports FAIL: cli-smoke", result.stdout)
 
+    def test_enforced_diff_budget_passes_under_limits(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - app.py
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: ENFORCED
+                    - Max changed files: 1
+                    - Max added lines: 3
+
+                    ## Invalid if
+
+                    - implementation expands beyond the accepted slice
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+                "app.py": "VALUE = 1\n",
+            }
+        )
+        write_text(repo / "app.py", "VALUE = 2\nEXTRA = True\n")
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: PASS"))
+        self.assertIn("Diff-budget: PASS", result.stdout)
+        self.assertIn("1/1 changed files", result.stdout)
+
+    def test_diff_budget_changed_file_overrun_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - src/**
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: ENFORCED
+                    - Max changed files: 1
+                    - Max added lines: 20
+
+                    ## Invalid if
+
+                    - implementation expands beyond the accepted slice
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+                "src/app.py": "VALUE = 1\n",
+            }
+        )
+        write_text(repo / "src" / "app.py", "VALUE = 2\n")
+        write_text(repo / "src" / "helper.py", "HELPER = True\n")
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "changed files 2 > 1")
+        self.assertIn("Diff-budget: REVIEW_REQUIRED", result.stdout)
+
+    def test_diff_budget_added_line_overrun_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - app.py
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: ENFORCED
+                    - Max changed files: 2
+                    - Max added lines: 2
+
+                    ## Invalid if
+
+                    - implementation expands beyond the accepted slice
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+                "app.py": "VALUE = 1\n",
+            }
+        )
+        write_text(
+            repo / "app.py",
+            "VALUE = 2\nA = 1\nB = 2\nC = 3\n",
+        )
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "added lines")
+        self.assertIn("Diff-budget: REVIEW_REQUIRED", result.stdout)
+
+    def test_diff_budget_counts_untracked_file_lines(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - src/**
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: ENFORCED
+                    - Max changed files: 1
+                    - Max added lines: 2
+
+                    ## Invalid if
+
+                    - implementation expands beyond the accepted slice
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+            }
+        )
+        write_text(repo / "src" / "new.py", "A = 1\nB = 2\nC = 3\n")
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "added lines 3 > 2")
+
+    def test_workflow_artifacts_do_not_consume_diff_budget(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - app.py
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: ENFORCED
+                    - Max changed files: 1
+                    - Max added lines: 1
+
+                    ## Invalid if
+
+                    - implementation expands beyond the accepted slice
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+                "app.py": "VALUE = 1\n",
+            }
+        )
+        write_text(repo / "app.py", "VALUE = 2\n")
+        with (repo / "VERIFY.md").open("a", encoding="utf-8") as handle:
+            handle.write("\n## Verification\n\n- Note: refreshed evidence\n")
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: PASS"))
+        self.assertIn("implementation diff: 1/1 changed files, 1/1 added lines", result.stdout)
+
+    def test_diff_budget_not_applicable_is_explicit_pass(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - app.py
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: NOT_APPLICABLE
+
+                    ## Invalid if
+
+                    - output shape changes without authorization
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+                "app.py": "VALUE = 1\n",
+            }
+        )
+        write_text(repo / "app.py", "VALUE = 2\n")
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Diff-budget: PASS", result.stdout)
+        self.assertIn("NOT_APPLICABLE", result.stdout)
+
+    def test_enforced_diff_budget_missing_limit_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - app.py
+
+                    ## Implementation diff budget
+
+                    Diff budget requirement: ENFORCED
+                    - Max changed files: 1
+
+                    ## Invalid if
+
+                    - output shape changes without authorization
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+                """,
+                "app.py": "VALUE = 1\n",
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "max added lines")
+        self.assertIn("Diff-budget: REVIEW_REQUIRED", result.stdout)
+
     def test_stale_stamped_verification_requires_review(self) -> None:
         _, repo, base = self.make_repo(
             {
