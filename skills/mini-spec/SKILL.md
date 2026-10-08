@@ -25,6 +25,7 @@ Use when a project or feature is clear enough to define before implementation.
 - Known commands
 - Acceptance criteria or desired behavior
 - Authoritative references when available: existing tests, code, schemas, HTML/mockups, rubrics, external specs, or a source implementation to port
+- An accepted implementation-size expectation when one genuinely exists
 
 ## Reference-first rule
 
@@ -61,9 +62,10 @@ If the user request and an authoritative reference conflict, surface the conflic
     `NOT_APPLICABLE`. For each required probe, record a stable Probe ID, the
     seam, the baseline command, its observed baseline result and evidence, and the expected
     invariant. Capture the baseline before implementation begins.
-15. When applicable, record invalid-if constraints that would make the slice non-viable.
-16. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
-17. If satisfying the task requires behavior outside the ceiling or contradicts an authoritative reference, update or renegotiate the spec before implementing that expansion.
+15. Decide whether an implementation diff budget is meaningful. Use `ENFORCED` only when the accepted slice or explicit scope supports defensible limits for max changed files and max added lines. Use `NOT_APPLICABLE` when no meaningful numeric expectation exists; do not invent arbitrary limits for ceremony.
+16. When applicable, record invalid-if constraints that would make the slice non-viable.
+17. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
+18. If satisfying the task requires behavior outside the ceiling or contradicts an authoritative reference, update or renegotiate the spec before implementing that expansion.
 
 ## Outputs
 
@@ -76,6 +78,7 @@ If the user request and an authoritative reference conflict, surface the conflic
 - Likely failure modes
 - Verification demo
 - Compatibility probe requirement and pre-change baseline evidence when applicable
+- Optional implementation diff budget with explicit `ENFORCED | NOT_APPLICABLE` choice
 - Optional contract identity when traceability buys back safety
 
 ## Compatibility seams to preserve
@@ -107,6 +110,24 @@ a stable ID so verification can match the post-change evidence without guessing.
 Use `NOT_APPLICABLE` instead of inventing a probe for work with no relevant
 public compatibility seam.
 
+## Implementation diff budget
+
+Diff budget requirement: `ENFORCED | NOT_APPLICABLE`
+
+Use `ENFORCED` only when the accepted slice has a meaningful implementation-size
+expectation. Record both:
+
+- Max changed files
+- Max added lines
+
+The budget is a review tripwire, not a correctness proof. Workflow-control
+artifacts do not consume the implementation budget. If the implementation exceeds
+an enforced budget, verification becomes `REVIEW_REQUIRED` until the expansion is
+reviewed and either reduced or explicitly accepted.
+
+Do not reverse-engineer a larger budget from the completed diff merely to make
+verification pass.
+
 ## Invalid if
 
 - breaks a named compatibility seam
@@ -126,6 +147,7 @@ public compatibility seam.
 - The behavioral ceiling is clear enough to distinguish necessary support work from optional extras.
 - Unresolved questions are recorded instead of hidden.
 - Required compatibility probes have a pre-change baseline before implementation starts.
+- An enforced diff budget, when used, was chosen before implementation expansion rather than fitted to the completed patch.
 
 ## Anti-patterns
 
@@ -136,3 +158,4 @@ public compatibility seam.
 - Treating unrequested "helpful" behavior as bonus work instead of scope expansion.
 - Writing vague acceptance criteria that cannot be verified.
 - Assigning contract identifiers to tiny edits merely to create process metadata.
+- Inventing arbitrary file/line budgets or increasing them after the patch grows just to manufacture compliance.
