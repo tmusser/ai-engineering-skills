@@ -42,6 +42,7 @@ python scripts/aes.py verify --help
 python scripts/aes.py evidence --help
 python scripts/aes.py summary --help
 python scripts/aes.py context --help
+python scripts/aes.py eco --help
 python scripts/aes.py install --help
 ```
 
