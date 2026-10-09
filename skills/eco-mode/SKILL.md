@@ -34,11 +34,11 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
 2. Load only the current authority-bearing task sources, relevant file sections,
    and next proof target. Search and expand when a named risk warrants it.
 3. Optionally use existing context hydration for Markdown:
-   \`python scripts/aes.py context "bounded task" --strict > /tmp/eco.md\`.
+   `python scripts/aes.py context "bounded task" --strict > /tmp/eco.md`.
    Inspect the packet status and required-file coverage before relying on it.
 4. Check the actual selected text files before sending them:
-   \`python scripts/aes.py eco /tmp/eco.md\`, or pipe the selected prompt to
-   \`python scripts/aes.py eco -\`. The default combined ceiling is 60,000
+   `python scripts/aes.py eco /tmp/eco.md`, or pipe the selected prompt to
+   `python scripts/aes.py eco -`. The default combined ceiling is 60,000
    bytes; REVIEW_REQUIRED means prune redundancy or explicitly expand.
 5. Execute one slice with existing scope controls and verification. Avoid
    redundant tool-output envelopes and needless refetches. Reuse anchors.
@@ -53,9 +53,9 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
 
 ## Model guidance
 
-- Claude Haiku 5.5 (\`claude-haiku-5-5\`) has lower API pricing for prompts up
+- Claude Haiku 5.5 (`claude-haiku-5-5`) has lower API pricing for prompts up
   to 100k tokens than for prompts above that threshold.
-- GPT-6 Luna (\`gpt-6-luna\`) supports \`reasoning.effort: xhigh\` through the
+- GPT-6 Luna (`gpt-6-luna`) supports `reasoning.effort: xhigh` through the
   Responses API. Deeper reasoning may spend more billed output tokens.
 - Both models support very large contexts; this mode optimizes cost and
   decision saliency, not merely whether a prompt fits in the window.
