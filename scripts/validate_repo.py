@@ -97,6 +97,7 @@ REQUIRED_SKILLS = [
     "grill-with-docs-lite",
     "constitution-lite",
     "lean-mode",
+    "eco-mode",
     "context-check",
     "mini-spec",
     "checklist-mini",

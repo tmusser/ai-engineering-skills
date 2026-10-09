@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added optional `eco-mode` context policy and selected-UTF-8-byte preflight (`aes.py eco`) for inexpensive capable models without weakening verification or claiming token/cost guarantees.
+
 - Added optional SPEC implementation diff budgets for max changed files and max added lines, enforced by `verify_gate.py` as a `REVIEW_REQUIRED` tripwire when a patch grows beyond its accepted size expectation.
 - Excluded workflow-control artifacts from implementation budget counts and documented the distinction between soft diff-budget review and the scope gate's hard changed-file boundary.
 

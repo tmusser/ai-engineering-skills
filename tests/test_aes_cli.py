@@ -37,6 +37,7 @@ class UnifiedCliTests(unittest.TestCase):
             "evidence",
             "summary",
             "context",
+            "eco",
             "install",
         ):
             self.assertIn(name, rendered)
@@ -62,6 +63,7 @@ class UnifiedCliTests(unittest.TestCase):
             "evidence": ["--base", "main", "--no-handoff"],
             "summary": ["--base", "main", "--no-handoff"],
             "context": ["fix", "export", "--budget", "500"],
+            "eco": ["SPEC.md", "--max-bytes", "60000"],
         }
         for name, forwarded in cases.items():
             with self.subTest(name=name), mock.patch.object(

@@ -316,6 +316,10 @@ safety, or trade-offs require more explanation.
 `context-check` is an optional passive guardrail. It watches for drift, compaction
 pressure, and active-mode loss, then recommends the smallest corrective action.
 
+For cost-sensitive work on capable small models, opt into
+[eco-mode](skills/eco-mode/SKILL.md): budget selected context without reducing
+verification. See the [eco guide](docs/eco-mode.md) for usage and limitations.
+
 For scheduled or delegated tool-using runs, see
 [Agent-worker safety](docs/agent-worker-safety.md) before giving a workflow write
 access.
