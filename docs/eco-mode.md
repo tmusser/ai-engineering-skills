@@ -47,7 +47,7 @@ the provider's cheap pricing tier is guaranteed.
 | Model | Relevant detail | Tactic |
 | --- | --- | --- |
 | Claude Haiku 5.5 | 1M context. API prompts up to 100k tokens cost $0.10 input / $0.50 output per million; above 100k cost $0.50 / $2.50. | Keep the full provider-counted input below the price boundary. |
-| GPT-6 Luna | ~1.05M context; \`reasoning.effort: xhigh\` is supported in the Responses API. | Reserve deeper reasoning for bounded tasks that benefit; measure billed output/reasoning. |
+| GPT-6 Luna | ~1.05M context; `reasoning.effort: xhigh` is supported in the Responses API. | Reserve deeper reasoning for bounded tasks that benefit; measure billed output/reasoning. |
 
 Both models have large *capacity*; eco mode targets *economical execution*.
 60k selected bytes is a conservative local ceiling, not a universal safe
