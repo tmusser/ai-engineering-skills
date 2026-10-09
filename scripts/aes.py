@@ -77,6 +77,11 @@ COMMANDS = {
             ROOT / "scripts" / "context_pack.py",
         ),
         Command(
+            "eco",
+            "Check selected context bytes against a local budget.",
+            ROOT / "scripts" / "eco_budget.py",
+        ),
+        Command(
             "install",
             "Install or uninstall skills through the existing install wrapper.",
             ROOT / "install.sh",

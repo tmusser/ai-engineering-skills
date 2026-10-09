@@ -37,6 +37,7 @@ class UnifiedCliTests(unittest.TestCase):
             "evidence",
             "summary",
             "context",
+            "eco",
             "install",
         ):
             self.assertIn(name, rendered)
