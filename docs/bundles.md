@@ -23,10 +23,10 @@ installation guides for updates, backups, and uninstall behavior.
 Install `eco-mode` separately alongside the smallest task bundle. It is a
 context policy, not a mandatory extra workflow gate. See [Eco mode](eco-mode.md).
 
-~~~bash
+```bash
 ./install.sh --claude-user --only eco-mode
 ./install.sh --codex-user --only eco-mode
-~~~
+```
 
 ## Starter
 
