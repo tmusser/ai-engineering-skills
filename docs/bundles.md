@@ -28,6 +28,17 @@ context policy, not a mandatory extra workflow gate. See [Eco mode](eco-mode.md)
 ./install.sh --codex-user --only eco-mode
 ```
 
+## Optional spec falsification
+
+`falsify-spec` is an opt-in adversarial review of a *written* `SPEC.md`,
+not an extra required starter stage. Use it when acceptance might permit a
+plausible wrong implementation. See the [worked example](../examples/spec-falsifier/README.md).
+
+```bash
+./install.sh --claude-user --only falsify-spec
+./install.sh --codex-user --only falsify-spec
+```
+
 ## Starter
 
 Use when you want the smallest safe path for a bounded slice.

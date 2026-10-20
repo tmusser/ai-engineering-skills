@@ -186,6 +186,7 @@ Use the smallest route that fits.
 | ---- | ----------- |
 | Turn a messy feature request into a safe coding task | `grill-with-docs-lite` -> `mini-spec` |
 | Prevent unrelated edits | `scope-freeze` |
+| Find plausible wrong implementations the spec would accept | [`falsify-spec`](skills/falsify-spec/SKILL.md) (optional, before coding) |
 | Implement one vertical slice | `build-one` |
 | Verify before calling done | `test-mini` -> `verify-contract` |
 | Resume in a fresh session | `handoff` |

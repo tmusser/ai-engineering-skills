@@ -80,6 +80,15 @@ Common triggers:
 - the task can drift unless the slice is named first
 - another person may inspect the proof later
 
+## Optional spec falsification (after mini-spec)
+
+When a written spec may allow a plausible wrong implementation, invoke
+`falsify-spec` once before `build-one`. Propose at most three concrete
+counterexamples and a source-backed discriminator for each; keep owner decisions
+explicit. Skip this pass when acceptance is already precise. It is not a
+required addition to the Level 2 route. See the
+[CSV example](../examples/spec-falsifier/README.md).
+
 ## Level 3 — Full guarded workflow
 
 Use for user-facing, scheduled, autonomous, decision-impacting, data-sensitive,
