@@ -4,6 +4,11 @@
 
 The gate validates **auditability**, not product truth. It can establish that a specification contains inspectable boundaries and evidence targets; it cannot prove that the user chose the right requirements.
 
+An optional [`falsify-spec`](../skills/falsify-spec/SKILL.md) pass asks a
+different question: could a plausible wrong implementation still pass the
+written criteria? It offers source-backed spec/test deltas, not a deterministic
+semantic PASS and not another mandatory gate.
+
 ## Why this exists
 
 Downstream scope and verification checks are only as meaningful as the specification they are checked against. A file named `SPEC.md` is not automatically a usable contract.

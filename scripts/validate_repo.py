@@ -100,6 +100,7 @@ REQUIRED_SKILLS = [
     "eco-mode",
     "context-check",
     "mini-spec",
+    "falsify-spec",
     "checklist-mini",
     "thin-plan",
     "scope-freeze",

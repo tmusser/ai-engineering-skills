@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added optional `falsify-spec` pre-build adversarial review for source-backed counterexamples that can pass written acceptance criteria, with a CSV no-match worked example and contract tests. No new mandatory workflow stage or deterministic semantic gate.
+
 - Added optional `eco-mode` context policy and selected-UTF-8-byte preflight (`aes.py eco`) for inexpensive capable models without weakening verification or claiming token/cost guarantees.
 
 - Added optional SPEC implementation diff budgets for max changed files and max added lines, enforced by `verify_gate.py` as a `REVIEW_REQUIRED` tripwire when a patch grows beyond its accepted size expectation.
