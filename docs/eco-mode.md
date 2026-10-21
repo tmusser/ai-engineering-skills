@@ -42,6 +42,43 @@ tokenization are outside this local check. Provider-reported input/output tokens
 reasoning usage, caching and cost are the real measurement. PASS does not mean
 the provider's cheap pricing tier is guaranteed.
 
+## Context sufficiency (optional)
+
+A small context can still omit a source needed for the next decision. Opt in to
+explicit requirements when a task has named authoritative inputs or proof targets:
+
+~~~bash
+python scripts/aes.py eco SPEC.md VERIFY.md \
+  --require-source SPEC.md \
+  --require-source VERIFY.md \
+  --require-proof "python -m pytest tests/test_export.py"
+~~~
+
+For an existing generated Markdown context packet, use its *actual filename*
+along with the root containing its source files:
+
+~~~bash
+python scripts/aes.py eco /tmp/eco.md --root /path/to/project \
+  --require-source SPEC.md --require-proof "tests/test_export.py"
+~~~
+
+- `--require-source` is repeatable and accepts normalized repository-relative
+  paths. It requires a directly selected source file or a real excerpt verified
+  against its current source content, line range, and hash. A filename in a
+  metadata table or omitted-candidate list is **not** sufficient.
+- `--require-proof` is repeatable and checks a literal phrase in selected
+  content or a source-verified packet excerpt. Name the intended acceptance
+  or verification anchor yourself; the tool cannot infer which proof matters.
+- `--root` identifies the project for checking source paths and packet
+  freshness (defaults to the working directory).
+- Missing requirements or stale/unsafe packet excerpts return
+  `REVIEW_REQUIRED` (exit 3). Invalid source paths return input error (exit 2).
+  Existing byte-only behavior is unchanged if no requirement flags are used.
+- A PASS proves **textual representation, not semantic sufficiency**.
+  It does not execute a test, judge evidence quality, discover missing
+  requirements, guarantee correct agent behavior, or estimate API costs.
+  If context is inadequate despite a PASS, load more authoritative context.
+
 ## Current model rationale (October 9, 2026)
 
 | Model | Relevant detail | Tactic |
