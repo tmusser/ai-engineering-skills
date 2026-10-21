@@ -26,6 +26,7 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
 - Only the selected relevant code/docs and durable state files
 - Optional provider/model choice outside this skill
 - Local selected-content budget, default 60,000 UTF-8 bytes
+- Optional, explicitly named required source files and literal proof anchors
 
 ## Workflow
 
@@ -40,15 +41,22 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
    `python scripts/aes.py eco /tmp/eco.md`, or pipe the selected prompt to
    `python scripts/aes.py eco -`. The default combined ceiling is 60,000
    bytes; REVIEW_REQUIRED means prune redundancy or explicitly expand.
-5. Execute one slice with existing scope controls and verification. Avoid
+5. For tasks with a named context contract, use the optional sufficiency check:
+   `python scripts/aes.py eco SPEC.md VERIFY.md --require-source SPEC.md`
+   `--require-source VERIFY.md --require-proof "targeted pytest command"`.
+   The preflight checks actual selected files or source-verified context-packet
+   excerpts. Metadata mentions alone do not establish representation. If a
+   requirement is missing, `REVIEW_REQUIRED` means add the minimum necessary
+   source or escalate; do not silently waive it.
+6. Execute one slice with existing scope controls and verification. Avoid
    redundant tool-output envelopes and needless refetches. Reuse anchors.
-6. Preserve required instructions, exact file paths, uncertainties, acceptance
+7. Preserve required instructions, exact file paths, uncertainties, acceptance
    criteria, failed tests, compatibility checks, and verification evidence.
    Never abbreviate a failing proof into apparent success.
-7. On scope drift, missing evidence, or budget pressure, retrieve the smallest
+8. On scope drift, missing evidence, or budget pressure, retrieve the smallest
    missing authoritative source. Use a trusted handoff into a fresh context,
    or switch to a more capable model when required. Never silently truncate.
-8. Stop after required proof. Measure actual provider token usage and spend
+9. Stop after required proof. Measure actual provider token usage and spend
    where available; the byte checker cannot estimate billed usage.
 
 ## Model guidance
@@ -66,6 +74,13 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
 
 No extra ledger by default. On an explicit status request, output only the
 selected sources, preflight verdict, preserved proof target, and next action.
+
+Sufficiency checks are opt-in. Source representation means the complete source
+was selected as a file, or a packet contains source-verified excerpts; it does
+not prove that the right sections were selected. Proof targets are **literal
+text anchors**, not test execution, semantic correctness, or a guarantee of
+completeness. Packet WARN/FAIL, stale excerpts, missing sources, and missing
+anchors require review. Never trust metadata-only source mentions.
 
 The preflight's PASS applies to **selected UTF-8 bytes only**, not full runtime
 history, tool schemas, provider tokens, or pricing. It never removes context

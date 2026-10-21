@@ -24,7 +24,7 @@ Available commands:
 | `evidence` | `scripts/render_pr_evidence.py` | Render workflow artifacts into PR-ready evidence. |
 | `summary` | `scripts/render_github_step_summary.py` | Publish workflow doctor and PR evidence output to GitHub Step Summary. |
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
-| `eco` | `scripts/eco_budget.py` | Check selected UTF-8 bytes (not provider tokens). |
+| `eco` | `scripts/eco_budget.py` | Budget selected bytes; optionally require named sources and literal proof anchors. |
 | `install` | `install.sh` | Install or uninstall skills through the existing wrapper. |
 
 Arguments after the command are forwarded unchanged.

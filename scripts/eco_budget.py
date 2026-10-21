@@ -8,6 +8,8 @@ import json
 import sys
 from pathlib import Path
 
+from context_sufficiency import check_sufficiency, safe_source
+
 DEFAULT_MAX_BYTES = 60_000
 
 
@@ -16,12 +18,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("paths", nargs="+", help="UTF-8 files; use '-' once for stdin")
     parser.add_argument("--max-bytes", type=int, default=DEFAULT_MAX_BYTES)
     parser.add_argument("--format", choices=("text", "json"), default="text")
+    parser.add_argument("--root", type=Path, default=Path.cwd(), help="Repository root for source checks")
+    parser.add_argument("--require-source", action="append", default=[], metavar="PATH",
+                        help="Require this repository-relative source in selected input (repeatable)")
+    parser.add_argument("--require-proof", action="append", default=[], metavar="TEXT",
+                        help="Require this literal proof/acceptance anchor in selected input (repeatable)")
     return parser.parse_args(argv)
 
 
-def measure(paths: list[str]) -> tuple[list[dict[str, object]], int]:
+def measure(paths: list[str]) -> tuple[list[dict[str, object]], int, list[tuple[str, str]]]:
     entries: list[dict[str, object]] = []
     total = 0
+    payloads: list[tuple[str, str]] = []
     seen_stdin = False
     for name in paths:
         if name == "-":
@@ -40,13 +48,14 @@ def measure(paths: list[str]) -> tuple[list[dict[str, object]], int]:
                 raise ValueError(f"cannot read {name}: {exc}") from exc
             label = name
         try:
-            data.decode("utf-8")
+            text = data.decode("utf-8")
         except UnicodeDecodeError as exc:
             raise ValueError(f"not UTF-8: {label}") from exc
         size = len(data)
         total += size
         entries.append({"path": label, "bytes": size})
-    return entries, total
+        payloads.append((label, text))
+    return entries, total, payloads
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -55,11 +64,21 @@ def main(argv: list[str] | None = None) -> int:
         print("error: --max-bytes must be positive", file=sys.stderr)
         return 2
     try:
-        entries, total = measure(args.paths)
+        entries, total, payloads = measure(args.paths)
+        if any(not anchor for anchor in args.require_proof):
+            raise ValueError("--require-proof must not be empty")
+        for name in args.require_source:
+            safe_source(args.root, name)
+        sufficiency = (check_sufficiency(payloads, args.root, args.require_source, args.require_proof)
+                       if args.require_source or args.require_proof else None)
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
-    status = "PASS" if total <= args.max_bytes else "REVIEW_REQUIRED"
+    incomplete = sufficiency is not None and (
+        any(item["status"] != "represented" for key in ("sources", "proofs") for item in sufficiency[key])
+        or bool(sufficiency["warnings"])
+    )
+    status = "PASS" if total <= args.max_bytes and not incomplete else "REVIEW_REQUIRED"
     result = {
         "status": status,
         "selected_bytes": total,
@@ -68,13 +87,21 @@ def main(argv: list[str] | None = None) -> int:
         "inputs": entries,
         "scope": "selected UTF-8 payload only, not model tokens or full request",
     }
+    if sufficiency is not None:
+        result["sufficiency"] = sufficiency
     if args.format == "json":
         print(json.dumps(result, sort_keys=True))
     else:
         print(f"ECO {status}: {total}/{args.max_bytes} selected UTF-8 bytes")
         for entry in entries:
             print(f"- {entry['path']}: {entry['bytes']} bytes")
-        print("System/tool/history context and provider token/cost usage unmeasured.")
+        if sufficiency is not None:
+            for item in [*sufficiency["sources"], *sufficiency["proofs"]]:
+                label = item.get("source", item.get("proof"))
+                print(f"- {item['status']}: {label}")
+            for warning in sufficiency["warnings"]:
+                print(f"- REVIEW_REQUIRED: {warning}")
+        print("Selected content and literal anchors only; semantic sufficiency and provider cost unmeasured.")
     return 0 if status == "PASS" else 3
 
 
