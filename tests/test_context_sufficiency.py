@@ -42,12 +42,12 @@ class ContextSufficiencyTests(unittest.TestCase):
         rows = source_text.splitlines()
         digest = "sha256:" + hashlib.sha256(source_text.encode()).hexdigest()
         body = (
-            f"### \`{source}\` 1-{len(rows)}\n\n"
+            f"### `{source}` 1-{len(rows)}\n\n"
             "- Source role: required\n"
             f"- Content hash: {digest}\n\n"
-            "\`\`\`md\n"
+            "```md\n"
             + (source_text.replace("header-only", "data-only") if tamper else source_text)
-            + "\n\`\`\`\n"
+            + "\n```\n"
         )
         if metadata_only:
             body = ""
