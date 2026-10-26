@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from context_sufficiency import check_sufficiency, safe_source
+from context_sections import check_headings
 
 DEFAULT_MAX_BYTES = 60_000
 
@@ -23,6 +24,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Require this repository-relative source in selected input (repeatable)")
     parser.add_argument("--require-proof", action="append", default=[], metavar="TEXT",
                         help="Require this literal proof/acceptance anchor in selected input (repeatable)")
+    parser.add_argument("--require-heading", action="append", default=[], metavar="FILE::Heading",
+                        help="Require a full Markdown section in selected context (repeatable)")
     return parser.parse_args(argv)
 
 
@@ -70,12 +73,16 @@ def main(argv: list[str] | None = None) -> int:
         for name in args.require_source:
             safe_source(args.root, name)
         sufficiency = (check_sufficiency(payloads, args.root, args.require_source, args.require_proof)
-                       if args.require_source or args.require_proof else None)
+                       if args.require_source or args.require_proof or args.require_heading else None)
+        if args.require_heading:
+            sufficiency["headings"] = check_headings(payloads, args.root, args.require_heading)
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
     incomplete = sufficiency is not None and (
-        any(item["status"] != "represented" for key in ("sources", "proofs") for item in sufficiency[key])
+        any(item["status"] != "represented"
+            for key in ("sources", "proofs", "headings")
+            for item in sufficiency.get(key, []))
         or bool(sufficiency["warnings"])
     )
     status = "PASS" if total <= args.max_bytes and not incomplete else "REVIEW_REQUIRED"
@@ -96,8 +103,8 @@ def main(argv: list[str] | None = None) -> int:
         for entry in entries:
             print(f"- {entry['path']}: {entry['bytes']} bytes")
         if sufficiency is not None:
-            for item in [*sufficiency["sources"], *sufficiency["proofs"]]:
-                label = item.get("source", item.get("proof"))
+            for item in [*sufficiency["sources"], *sufficiency["proofs"], *sufficiency.get("headings", [])]:
+                label = item.get("requirement", item.get("source", item.get("proof")))
                 print(f"- {item['status']}: {label}")
             for warning in sufficiency["warnings"]:
                 print(f"- REVIEW_REQUIRED: {warning}")
