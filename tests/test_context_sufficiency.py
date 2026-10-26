@@ -134,8 +134,28 @@ class ContextSufficiencyTests(unittest.TestCase):
         self.assertEqual(code, 3)
         self.assertEqual(report["sufficiency"]["sources"][0]["status"], "represented")
 
+    def test_valid_missing_source_requires_review_not_input_error(self) -> None:
+        code, report = self.run_eco(
+            str(self.root / "SPEC.md"),
+            "--require-source", "missing.md",
+        )
+        self.assertEqual(code, 3)
+        self.assertEqual(report["status"], "REVIEW_REQUIRED")
+        self.assertEqual(
+            report["sufficiency"]["sources"],
+            [{"source": "missing.md", "status": "missing"}],
+        )
+
+    def test_existing_directory_is_invalid_not_missing(self) -> None:
+        (self.root / "a-directory").mkdir()
+        code, report = self.run_eco(
+            str(self.root / "SPEC.md"),
+            "--require-source", "a-directory",
+        )
+        self.assertEqual(code, 2)
+
     def test_invalid_requirements_fail_closed(self) -> None:
-        for source in ("../outside.md", "/tmp/thing", "missing.md", "a//b.md"):
+        for source in ("../outside.md", "/tmp/thing", "a//b.md"):
             with self.subTest(source=source):
                 code, report = self.run_eco(str(self.root / "SPEC.md"),
                                             "--require-source", source)
