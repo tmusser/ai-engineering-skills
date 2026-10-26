@@ -50,8 +50,11 @@ class SectionAwareContextTests(unittest.TestCase):
     def make_packet(self, start: int, end: int, *, status: str = "PASS",
                     tamper: bool = False, fence: str = "````") -> Path:
         lines = SPEC.splitlines()
-        chunk = "\n".join(lines[start - 1:end])
-        digest = "sha256:" + hashlib.sha256(chunk.encode("utf-8")).hexdigest()
+        source_chunk = "\n".join(lines[start - 1:end])
+        # The hydrator hashes the full source range, then strips trailing
+        # whitespace when rendering the excerpt inside its Markdown fence.
+        digest = "sha256:" + hashlib.sha256(source_chunk.encode("utf-8")).hexdigest()
+        chunk = source_chunk.rstrip()
         if tamper:
             chunk = chunk.replace("header-only", "data-only")
         packet = self.root / "packet.md"
