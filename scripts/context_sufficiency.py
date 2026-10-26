@@ -28,7 +28,10 @@ def safe_source(root: Path, name: str) -> Path:
     path = (resolved_root / name).resolve()
     if not path.is_relative_to(resolved_root):
         raise ValueError(f"required source escapes repository root: {name}")
-    if not path.is_file():
+    # An absent but well-formed required source is a coverage gap, not a bad
+    # argument. Let check_sufficiency report it as missing (exit 3); reject
+    # present non-files, such as directories, as invalid input (exit 2).
+    if path.exists() and not path.is_file():
         raise ValueError(f"required source is not a regular file: {name}")
     return path
 
