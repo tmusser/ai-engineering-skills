@@ -79,6 +79,35 @@ python scripts/aes.py eco /tmp/eco.md --root /path/to/project \
   requirements, guarantee correct agent behavior, or estimate API costs.
   If context is inadequate despite a PASS, load more authoritative context.
 
+## Section-aware sufficiency (optional)
+
+A verified excerpt from `SPEC.md` can show the objective while omitting the
+acceptance criteria. Requiring the source file alone does **not** establish
+that the governing section is present.
+
+Use the repeatable `--require-heading FILE::Heading` check to require the
+entire named Markdown section (including nested subheadings):
+
+~~~bash
+python scripts/aes.py eco /tmp/eco.md --root /path/to/project \
+  --require-heading "SPEC.md::Acceptance criteria" \
+  --require-heading "SPEC.md::Invalid if"
+~~~
+
+A directly selected whole source satisfies its existing unique heading.
+For a generated context packet, one current-source-verified excerpt must
+contain the **complete** ATX heading section. Source metadata, a heading
+title alone, and partial or stale excerpts are not sufficient.
+
+Missing, partial, or ambiguous headings produce `REVIEW_REQUIRED` (exit 3);
+malformed `FILE::Heading` requirements and unsafe paths are input errors (2).
+A PASS means the named section was represented, not that it is adequate,
+correct, or sufficient for the agent's task. Choose governing headings
+explicitly; the tool cannot infer relevance.
+
+This option composes with `--require-source`, `--require-proof`, and
+the existing byte ceiling; without it, prior behavior is unchanged.
+
 ## Current model rationale (October 9, 2026)
 
 | Model | Relevant detail | Tactic |

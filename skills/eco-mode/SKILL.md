@@ -47,7 +47,9 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
    The preflight checks actual selected files or source-verified context-packet
    excerpts. Metadata mentions alone do not establish representation. If a
    requirement is missing, `REVIEW_REQUIRED` means add the minimum necessary
-   source or escalate; do not silently waive it.
+   source or escalate; do not silently waive it. When a particular section
+   governs the next action, add `--require-heading "SPEC.md::Acceptance criteria"`
+   so a metadata mention or unrelated excerpt cannot stand in for the section.
 6. Execute one slice with existing scope controls and verification. Avoid
    redundant tool-output envelopes and needless refetches. Reuse anchors.
 7. Preserve required instructions, exact file paths, uncertainties, acceptance

@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added optional `--require-heading FILE::Heading` to eco-mode for source-verified, full-section Markdown coverage without expanding default context loading.
+
 - Added opt-in context sufficiency checks to `aes.py eco`: explicit required source paths and literal proof anchors, validated from selected files or current-source-matched context-packet excerpts. Missing or stale material requires review; byte-only behavior remains unchanged.
 
 - Added optional `falsify-spec` pre-build adversarial review for source-backed counterexamples that can pass written acceptance criteria, with a CSV no-match worked example and contract tests. No new mandatory workflow stage or deterministic semantic gate.
