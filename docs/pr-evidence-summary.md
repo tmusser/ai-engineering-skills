@@ -52,12 +52,64 @@ changing that file would invalidate the just-checked handoff snapshot. Write the
 summary outside the repository, print it to standard output, or use `--no-handoff`
 when continuation state is intentionally excluded.
 
+## Optional acceptance-to-evidence coverage
+
+Tag every acceptance criterion with a stable ID to opt into coverage checks:
+
+```markdown
+## Acceptance criteria
+
+- AC-1: CSV export preserves the original columns.
+- AC-2: Zero matches produce a header-only CSV.
+```
+
+In schema-v1 structured verification evidence, record the single matching ID
+in each check's `acceptance_criterion` field. Each check links to one ID; use
+separate checks for independently verified criteria.
+
+```json
+{
+  "check": "empty-result-test",
+  "command": "python -m pytest tests/test_export.py",
+  "exit_code": 0,
+  "evidence_source": "command",
+  "status": "PASS",
+  "evidence": "Header-only output observed",
+  "recorded_at": "2026-10-27T12:00:00Z",
+  "acceptance_criterion": "AC-2"
+}
+```
+
+When IDs are present, the PR renderer shows a criterion/check/coverage table.
+A missing link, duplicate ID, mixed numbered and unnumbered criteria, invalid
+structured evidence, inferred-only evidence, or an unknown ID downgrades its
+summary to `REVIEW_REQUIRED`. Explicit linked `FAIL` stays FAIL.
+Legacy unnumbered specs are unchanged, including their exit codes.
+
+The same deterministic coverage check is available independently:
+
+```bash
+python scripts/acceptance_coverage.py --spec SPEC.md --verify VERIFY.md
+python scripts/acceptance_coverage.py --format json
+```
+
+Exit codes: `0` = PASS / NOT_APPLICABLE, `3` = REVIEW_REQUIRED,
+`1` = FAIL, `2` = unreadable inputs. The standalone command does not
+execute tests or invoke the Git diff-aware verification gate.
+
+**Claim boundary:** LINKED means valid recorded evidence *claims* coverage.
+It does not prove the test ran, its assertions were correct, the right behavior
+was specified, or its result remains fresh. Existing verification/freshness gates
+retain those responsibilities. No extra mandatory stage or second evidence
+schema is introduced.
+
 ## Output contract
 
 The renderer produces these sections:
 
 - evidence state;
 - objective, acceptance criteria, and explicit non-goals;
+- optional acceptance-to-evidence matrix for SPEC criteria tagged with `AC-*` IDs;
 - structured verification checks (or legacy command evidence) and remaining uncertainty;
 - deterministic and artifact-recorded diff guards;
 - unresolved risk;
@@ -90,6 +142,7 @@ review comment. The script does not call GitHub or modify source artifacts.
 The combined state is conservative:
 
 - any recorded or deterministic `FAIL` produces `FAIL`;
+- explicit criterion IDs activate coverage; unlinked criteria require review, and linked failing checks prevent PASS;
 - a recorded `PASS` without `--base` remains `REVIEW_REQUIRED`;
 - missing `SPEC.md`, `VERIFY.md`, statuses, or command evidence remain explicit;
 - `_TBD_` and equivalent placeholders are never rendered as evidence;

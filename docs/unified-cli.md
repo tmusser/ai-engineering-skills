@@ -21,7 +21,7 @@ Available commands:
 | `lineage` | `scripts/check_contract_lineage.py` | Check optional contract identity across durable workflow artifacts. |
 | `drift` | `scripts/check_skill_install.py` | Check installed Claude/Codex skills against their install snapshot and this repo. |
 | `verify` | `scripts/verify_gate.py` | Run the deterministic verification gate. |
-| `evidence` | `scripts/render_pr_evidence.py` | Render workflow artifacts into PR-ready evidence. |
+| `evidence` | `scripts/render_pr_evidence.py` | Render workflow artifacts and optional AC-ID evidence coverage into PR-ready Markdown. |
 | `summary` | `scripts/render_github_step_summary.py` | Publish workflow doctor and PR evidence output to GitHub Step Summary. |
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
 | `eco` | `scripts/eco_budget.py` | Budget selected bytes; optionally require sources, proof anchors, and full Markdown sections. |

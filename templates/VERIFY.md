@@ -111,7 +111,10 @@ exists, malformed or contradictory records require review._
 Required per check: `check`, `command`, `exit_code`, `evidence_source`,
 `status`, and `evidence`, plus at least one provenance anchor:
 `recorded_at` or `commit`. Use `null` for `command` and `exit_code` when
-the evidence source is not a command.
+the evidence source is not a command. When the SPEC uses explicit `AC-1`,
+`AC-2` criterion IDs, record a single exact ID in `acceptance_criterion`
+for every linked check. The optional coverage report identifies missing links;
+a link is not a correctness claim.
 
 ## Command evidence
 

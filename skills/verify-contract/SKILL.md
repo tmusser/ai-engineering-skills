@@ -38,7 +38,11 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    `check`, `command`, `exit_code`, `evidence_source`, `status`,
    `evidence`, plus at least one of `recorded_at` or `commit`. Use `null`
    for command fields when evidence is manual or artifact-backed. Keep evidence
-   short; do not copy raw logs or secrets into the JSON block.
+   short; do not copy raw logs or secrets into the JSON block. When SPEC
+   explicitly labels every acceptance criterion `AC-1`, `AC-2`, etc., set
+   the matching single `acceptance_criterion` ID in each supporting check.
+   The optional PR coverage summary reports gaps; linking evidence does not
+   prove semantic correctness.
 4. When `SCOPE.md` and `scripts/scope_gate.py` are available, run:
 
    ```bash
