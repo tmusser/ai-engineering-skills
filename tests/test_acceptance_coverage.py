@@ -10,6 +10,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = ROOT / "scripts"
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 PATH = ROOT / "scripts" / "acceptance_coverage.py"
 RENDER_PATH = ROOT / "scripts" / "render_pr_evidence.py"
 
