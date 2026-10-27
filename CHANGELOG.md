@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added optional acceptance-to-evidence coverage for ID-tagged SPEC acceptance criteria, with a read-only CLI, explicit criterion/check coverage matrix in PR summaries, and compatibility for legacy unnumbered specs.
+
 - Added optional `--require-heading FILE::Heading` to eco-mode for source-verified, full-section Markdown coverage without expanding default context loading.
 
 - Added opt-in context sufficiency checks to `aes.py eco`: explicit required source paths and literal proof anchors, validated from selected files or current-source-matched context-packet excerpts. Missing or stale material requires review; byte-only behavior remains unchanged.

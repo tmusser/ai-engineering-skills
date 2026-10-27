@@ -27,7 +27,7 @@ If references conflict with the request, record the conflict under Open question
 
 ## Acceptance criteria
 
-_Write the observable task-specific contract. Point to a reference when it already encodes the behavior precisely._
+_Write the observable task-specific contract. Point to a reference when it already encodes the behavior precisely. Optionally label every criterion `AC-1: ...`, `AC-2: ...` for evidence coverage; never mix labeled and unlabeled criteria._
 
 - _TBD_
 

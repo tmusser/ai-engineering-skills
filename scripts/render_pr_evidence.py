@@ -17,6 +17,7 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from verification_evidence import parse_structured_evidence
+from acceptance_coverage import Result as CoverageResult, evaluate as evaluate_coverage
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -295,8 +296,11 @@ def overall_status(
     recorded: str,
     gate: RuntimeCheck,
     handoff: RuntimeCheck | None,
+    coverage: CoverageResult | None = None,
 ) -> str:
     statuses = [recorded, gate.status]
+    if coverage is not None and coverage.active:
+        statuses.append(coverage.status)
     if handoff is not None:
         statuses.append(handoff.status)
     if "FAIL" in statuses:
@@ -383,7 +387,8 @@ def render_markdown(
     base: str | None,
 ) -> str:
     recorded = recorded_verify_status(verify)
-    overall = overall_status(recorded, gate, freshness)
+    coverage = evaluate_coverage(spec.text or "", verify.text or "")
+    overall = overall_status(recorded, gate, freshness, coverage)
     lines = [
         "## PR Evidence Summary",
         "",
@@ -397,6 +402,8 @@ def render_markdown(
         f"- Deterministic verify gate: **{gate.status}**"
         + (f" against `{base}`" if base else " (not run)"),
     ]
+    if coverage.active:
+        lines.append(f"- Acceptance coverage: **{coverage.status}**")
     if freshness is None:
         lines.append("- Handoff freshness: not included")
     else:
@@ -431,6 +438,26 @@ def render_markdown(
         "Not established: acceptance criteria are missing or incomplete.",
     )
     append_list(lines, "Explicit non-goals", non_goals, "None recorded.")
+
+    if coverage.active:
+        lines.extend([
+            "### Acceptance-to-evidence coverage",
+            "",
+            "> LINKED means a valid structured record claims to cover the criterion;",
+            "> it does not prove the implementation or test is correct.",
+            "",
+            "| Criterion | Acceptance requirement | Recorded checks | Coverage |",
+            "| --- | --- | --- | --- |",
+        ])
+        for row in coverage.rows:
+            requirement = row.description.replace("|", "\\|").replace("\n", " ")
+            names = ", ".join(row.checks).replace("|", "\\|") or "None"
+            lines.append(f"| {row.criterion} | {requirement} | {names} | {row.status} |")
+        lines.append("")
+        for warning in coverage.warnings:
+            lines.append(f"- Review: {warning}")
+        if coverage.warnings:
+            lines.append("")
 
     lines.append("### Verification")
     records = command_evidence(verify)
@@ -515,6 +542,12 @@ def render_markdown(
     if remaining:
         risks.append(remaining)
     risks.extend(gate.details)
+    if coverage.active:
+        risks.extend(coverage.warnings)
+        risks.extend(
+            f"{row.criterion}: {row.status.lower()} evidence coverage"
+            for row in coverage.rows if row.status != "LINKED"
+        )
     if freshness is not None and freshness.status != "PASS":
         risks.extend(freshness.details)
     if overall == "PASS" and not risks:
@@ -634,7 +667,8 @@ def main(argv: list[str] | None = None) -> int:
         args.output.write_text(markdown, encoding="utf-8")
     else:
         print(markdown, end="")
-    status = overall_status(recorded_verify_status(verify), gate, freshness)
+    coverage = evaluate_coverage(spec.text or "", verify.text or "")
+    status = overall_status(recorded_verify_status(verify), gate, freshness, coverage)
     return 0 if status == "PASS" else 1
 
 
