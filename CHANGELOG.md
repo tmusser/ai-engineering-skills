@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added a stable `REVIEW_REQUIRED` reason taxonomy with machine-readable `code`, `category`, and `details` while preserving the existing human-readable review messages and top-level gate severity.
+- Propagated deterministic review reason codes through PR evidence summaries and workflow doctor output, with `UNCLASSIFIED_REVIEW` preserving future unknown review states instead of dropping them.
+
 - Added optional acceptance-to-evidence coverage for ID-tagged SPEC acceptance criteria, with a read-only CLI, explicit criterion/check coverage matrix in PR summaries, and compatibility for legacy unnumbered specs.
 
 - Added optional `--require-heading FILE::Heading` to eco-mode for source-verified, full-section Markdown coverage without expanding default context loading.
