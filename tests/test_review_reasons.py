@@ -30,6 +30,8 @@ class ReviewReasonTaxonomyTests(unittest.TestCase):
             "compatibility probes are REQUIRED but no baseline probe is recorded.": "COMPATIBILITY_UNCERTAIN",
             "verification is stale because repository state changed after the verified snapshot.": "VERIFICATION_STALE",
             "verification freshness guard unavailable: helper.py": "VERIFICATION_FRESHNESS_UNESTABLISHED",
+            "verification freshness: missing or unstamped Snapshot commit": "VERIFICATION_FRESHNESS_UNESTABLISHED",
+            "structured verification evidence invalid: check[0].evidence must be a non-placeholder string": "STRUCTURED_EVIDENCE_INVALID",
             "ENFORCED diff budget missing field(s): max added lines": "DIFF_BUDGET_INCOMPLETE",
             "added-line budget cannot be established for binary/unmeasurable file(s): image.png": "DIFF_BUDGET_UNMEASURABLE",
             "implementation diff: 5/3 changed files, 140/120 added lines; budget exceeded: changed files 5 > 3": "DIFF_BUDGET_EXCEEDED",
