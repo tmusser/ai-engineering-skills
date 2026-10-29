@@ -124,6 +124,24 @@ class RenderPrEvidenceTests(unittest.TestCase):
         )
         self.assertIn("deterministic verify gate not run", markdown)
 
+    def test_review_reason_codes_are_rendered_when_available(self) -> None:
+        gate = RENDERER.RuntimeCheck(
+            "REVIEW_REQUIRED",
+            ["tests changed: tests/test_export.py"],
+            review_reason_codes=("TESTS_CHANGED",),
+        )
+        markdown = RENDERER.render_markdown(
+            self.artifact("SPEC.md", SPEC_TEXT),
+            self.artifact("VERIFY.md", VERIFY_PASS),
+            self.artifact("HANDOFF.md", None),
+            gate,
+            None,
+            "main",
+        )
+
+        self.assertIn("Review reason codes: `TESTS_CHANGED`", markdown)
+        self.assertIn("tests changed: tests/test_export.py", markdown)
+
     def test_missing_artifacts_stay_explicitly_unestablished(self) -> None:
         markdown = RENDERER.render_markdown(
             self.artifact("SPEC.md", None),
