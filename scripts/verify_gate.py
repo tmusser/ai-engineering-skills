@@ -696,7 +696,7 @@ def check_structured_verification_evidence(verify_text: str | None) -> Check | N
         return Check(
             name="structured-evidence",
             status=STATUS_REVIEW,
-            details="; ".join(parsed.errors),
+            details="structured verification evidence invalid: " + "; ".join(parsed.errors),
         )
 
     failed = [
@@ -779,7 +779,11 @@ def check_verification_freshness(verify_path: Path, verify_text: str | None) -> 
         (line.lstrip("- ") for line in output.splitlines()[1:] if line.strip()),
         "freshness could not be established",
     )
-    return Check(name="freshness", status=STATUS_REVIEW, details=detail)
+    return Check(
+        name="freshness",
+        status=STATUS_REVIEW,
+        details=f"verification freshness: {detail}",
+    )
 
 
 def evaluate(args: argparse.Namespace) -> Result:
