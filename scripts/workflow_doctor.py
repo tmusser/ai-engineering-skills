@@ -48,6 +48,7 @@ class Diagnosis:
     next_move: str
     trusted_next_task: str | None
     changed_files: tuple[str, ...]
+    review_reason_codes: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,7 @@ class RuntimeResult:
     status: str
     details: tuple[str, ...]
     changed_files: tuple[str, ...] = ()
+    review_reason_codes: tuple[str, ...] = ()
 
 
 def normalize(value: str) -> str:
@@ -259,7 +261,21 @@ def run_verify_gate(
         if isinstance(changed, list)
         else ()
     )
-    return RuntimeResult(status, tuple(details), changed_files)
+    raw_reasons = payload.get("review_reasons", [])
+    reason_codes: list[str] = []
+    if isinstance(raw_reasons, list):
+        for item in raw_reasons:
+            if not isinstance(item, dict):
+                continue
+            code = normalize(str(item.get("code", "")))
+            if code:
+                reason_codes.append(code)
+    return RuntimeResult(
+        status,
+        tuple(details),
+        changed_files,
+        tuple(reason_codes),
+    )
 
 
 def run_handoff_resume_trust(
@@ -474,6 +490,7 @@ def diagnose(
         next_move,
         trusted_next_task,
         gate.changed_files,
+        gate.review_reason_codes,
     )
 
 
@@ -483,6 +500,10 @@ def emit_text(result: Diagnosis) -> None:
         print(f"{check.name}: {check.status}")
         for detail in check.details:
             print(f"- {detail}")
+    if result.review_reason_codes:
+        print("REVIEW REASON CODES:")
+        for code in result.review_reason_codes:
+            print(f"- {code}")
     if result.changed_files:
         print("CHANGED FILES:")
         for path in result.changed_files:
@@ -504,6 +525,7 @@ def emit_json(result: Diagnosis) -> None:
                     for check in result.checks
                 ],
                 "changed_files": list(result.changed_files),
+                "review_reason_codes": list(result.review_reason_codes),
                 "trusted_next_task": result.trusted_next_task,
                 "next_move": result.next_move,
             },

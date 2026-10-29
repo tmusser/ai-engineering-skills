@@ -22,7 +22,7 @@ The command:
 
 - reads `SPEC.md` and `VERIFY.md`;
 - prefers valid schema-v1 structured verification evidence when present, with legacy command-evidence parsing only when the structured section is absent;
-- runs `scripts/verify_gate.py` against the supplied base, including opt-in compatibility probe matching and verification freshness when those contracts are present;
+- runs `scripts/verify_gate.py` against the supplied base, including opt-in compatibility probe matching, verification freshness, and stable REVIEW_REQUIRED reason codes when those contracts are present;
 - checks `HANDOFF.md` with the bundled freshness guard when the file exists;
 - writes a review-oriented Markdown summary;
 - exits nonzero unless the combined evidence state is `PASS`.
@@ -107,7 +107,7 @@ schema is introduced.
 
 The renderer produces these sections:
 
-- evidence state;
+- evidence state, including deterministic review reason codes when present;
 - objective, acceptance criteria, and explicit non-goals;
 - optional acceptance-to-evidence matrix for SPEC criteria tagged with `AC-*` IDs;
 - structured verification checks (or legacy command evidence) and remaining uncertainty;
@@ -149,11 +149,13 @@ The combined state is conservative:
 - once structured verification evidence exists, malformed JSON, invalid schema fields, duplicate check IDs, contradictory PASS command exit codes, or missing provenance produce `REVIEW_REQUIRED`; an explicit structured `FAIL` produces `FAIL`;
 - invalid structured evidence is not silently replaced by legacy prose evidence;
 - required compatibility probes with missing, mismatched, or review-required post-change evidence produce `REVIEW_REQUIRED`, while an explicit failed post-change probe produces `FAIL`;
-- stamped verification whose repository fingerprint no longer matches is stale and produces `REVIEW_REQUIRED`;
+- stamped verification whose repository fingerprint no longer matches is stale and produces `REVIEW_REQUIRED` with a stable reason code;
 - a stale or uncheckable handoff blocks continuation output and produces
   `REVIEW_REQUIRED`;
 - only recorded `PASS` plus deterministic `PASS`, and fresh included continuation
   state, can produce overall `PASS`.
+
+When the deterministic verify gate requires review, the renderer surfaces its stable reason codes (for example `VERIFICATION_STALE`, `TESTS_CHANGED`, or `DIFF_BUDGET_EXCEEDED`) while retaining the original prose reason. See [REVIEW_REQUIRED reason taxonomy](review-required-taxonomy.md).
 
 A missing handoff does not downgrade verification because handoff is optional.
 An existing handoff is checked unless `--no-handoff` intentionally excludes it.

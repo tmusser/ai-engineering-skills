@@ -95,10 +95,36 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 - FAIL when behavior or contract probes fail, a required post-change compatibility probe fails, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
 - REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, stamped verification is stale, the scope gate requires review, an enforced implementation diff budget is exceeded or unmeasurable, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
+- When the deterministic verify gate supplies review reason codes, preserve them as routing metadata. Codes explain why review is required; they do not change top-level severity.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
 - If loop budget, ledger, revert rule, or stop condition was violated, use REVIEW_REQUIRED
   or FAIL depending on whether the behavior contract failed.
 - Do not treat loop activity as success merely because the final output looks plausible.
+
+Review-required reason taxonomy:
+
+When `scripts/verify_gate.py` returns `REVIEW_REQUIRED`, it also emits stable
+machine-readable `review_reasons` with `code`, `category`, and `details`.
+Keep the existing human-readable reason text. Use the code for routing, not as a
+replacement status.
+
+Common codes include:
+
+- `SPEC_MISSING` / `SPEC_INCOMPLETE`
+- `VERIFY_REVIEW_REQUESTED`
+- `STRUCTURED_EVIDENCE_INVALID`
+- `COMPATIBILITY_UNCERTAIN`
+- `VERIFICATION_STALE` / `VERIFICATION_FRESHNESS_UNESTABLISHED`
+- `DIFF_BUDGET_INCOMPLETE` / `DIFF_BUDGET_UNMEASURABLE` /
+  `DIFF_BUDGET_EXCEEDED`
+- `PROTECTED_PATH_CHANGED`
+- `TESTS_CHANGED`
+- `FIXTURE_DATA_CHANGED`
+- `DEPENDENCIES_CHANGED`
+- `UNCLASSIFIED_REVIEW` for a review state not yet assigned a dedicated code
+
+Do not invent a different severity from a reason code. A `TESTS_CHANGED` review
+is still `REVIEW_REQUIRED`; a failed compatibility probe remains `FAIL`.
 
 Structured verification evidence:
 
@@ -206,6 +232,7 @@ Review required because:
 
 - VERIFY.md entry with human-readable and machine-readable evidence
 - Verify gate status
+- Deterministic review reason codes when the verify gate requires review
 - Matched compatibility probe evidence when the spec requires it
 - Scope-gate status when a persisted scope exists
 - Diff-budget status when SPEC.md opts into enforcement

@@ -48,6 +48,7 @@ The doctor reports:
 - the result of `scripts/verify_gate.py` when `--base` is supplied;
 - fresh-session trust for an existing `HANDOFF.md`, including snapshot freshness, required resume files, verification-status reconciliation, unresolved-item coherence, and next-step completeness;
 - changed files reported by the deterministic verify gate;
+- deterministic REVIEW_REQUIRED reason codes when the verify gate emits them;
 - exactly one next move.
 
 `SCOPE.md` and `HANDOFF.md` remain optional. Their absence does not add ceremony or
@@ -78,6 +79,8 @@ The next move is selected conservatively:
 6. reconcile stale or internally inconsistent continuation state;
 7. trust a handoff's next task only after fresh-session resume trust returns `PASS`;
 8. otherwise proceed only with the next user-approved action.
+
+When the verify gate requires review, the doctor forwards stable reason codes such as `VERIFICATION_STALE`, `TESTS_CHANGED`, or `DIFF_BUDGET_EXCEEDED` so downstream tooling can route the blocker without reparsing prose. The codes do not change gate severity. See [REVIEW_REQUIRED reason taxonomy](review-required-taxonomy.md).
 
 A stale or incoherent handoff never gets to nominate the next task. A recorded
 `PASS` never outranks a failing or unestablished deterministic gate. See

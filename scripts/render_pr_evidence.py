@@ -50,6 +50,7 @@ class RuntimeCheck:
     details: list[str]
     changed_files: tuple[str, ...] = ()
     checks: tuple[str, ...] = ()
+    review_reason_codes: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -242,11 +243,21 @@ def run_verify_gate(base: str | None, spec: Path, verify: Path) -> RuntimeCheck:
             check_status = normalize(str(item.get("status", "unknown")))
             check_details = normalize(str(item.get("details", "not recorded")))
             checks.append(f"{name}: {check_status} — {check_details}")
+    raw_reasons = payload.get("review_reasons", [])
+    review_reason_codes: list[str] = []
+    if isinstance(raw_reasons, list):
+        for item in raw_reasons:
+            if not isinstance(item, dict):
+                continue
+            code = normalize(str(item.get("code", "")))
+            if code:
+                review_reason_codes.append(code)
     return RuntimeCheck(
         status=status,
         details=details,
         changed_files=changed_files,
         checks=tuple(checks),
+        review_reason_codes=tuple(review_reason_codes),
     )
 
 
@@ -404,6 +415,9 @@ def render_markdown(
     ]
     if coverage.active:
         lines.append(f"- Acceptance coverage: **{coverage.status}**")
+    if gate.review_reason_codes:
+        codes = ", ".join(f"`{code}`" for code in gate.review_reason_codes)
+        lines.append(f"- Review reason codes: {codes}")
     if freshness is None:
         lines.append("- Handoff freshness: not included")
     else:

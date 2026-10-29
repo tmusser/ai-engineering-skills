@@ -17,6 +17,7 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from verification_evidence import parse_structured_evidence
+from review_reasons import ReviewReason, classify_review_reasons
 
 
 STATUS_PASS = "PASS"
@@ -120,6 +121,7 @@ class Result:
     checks: list[Check]
     failures: list[str]
     review_required: list[str]
+    review_reasons: list[ReviewReason]
     changed_files: list[str]
     changed_file_statuses: list[ChangedFile]
     exit_code_policy: str
@@ -694,7 +696,7 @@ def check_structured_verification_evidence(verify_text: str | None) -> Check | N
         return Check(
             name="structured-evidence",
             status=STATUS_REVIEW,
-            details="; ".join(parsed.errors),
+            details="structured verification evidence invalid: " + "; ".join(parsed.errors),
         )
 
     failed = [
@@ -777,7 +779,11 @@ def check_verification_freshness(verify_path: Path, verify_text: str | None) -> 
         (line.lstrip("- ") for line in output.splitlines()[1:] if line.strip()),
         "freshness could not be established",
     )
-    return Check(name="freshness", status=STATUS_REVIEW, details=detail)
+    return Check(
+        name="freshness",
+        status=STATUS_REVIEW,
+        details=f"verification freshness: {detail}",
+    )
 
 
 def evaluate(args: argparse.Namespace) -> Result:
@@ -995,6 +1001,7 @@ def evaluate(args: argparse.Namespace) -> Result:
         checks=checks,
         failures=failures,
         review_required=review_required,
+        review_reasons=classify_review_reasons(review_required),
         changed_files=[change.path for change in changed_file_statuses],
         changed_file_statuses=changed_file_statuses,
         exit_code_policy=exit_code_policy,
@@ -1026,6 +1033,9 @@ def emit_text(result: Result) -> None:
         print("Review required:")
         for reason in result.review_required:
             print(f"- {reason}")
+        print("Review reason codes:")
+        for reason in result.review_reasons:
+            print(f"- [{reason.code}] {reason.category}: {reason.details}")
 
 
 def emit_json(result: Result) -> None:
@@ -1035,6 +1045,7 @@ def emit_json(result: Result) -> None:
         "checks": [check.__dict__ for check in result.checks],
         "failures": result.failures,
         "review_required": result.review_required,
+        "review_reasons": [reason.__dict__ for reason in result.review_reasons],
         "changed_files": result.changed_files,
         "changed_file_statuses": [change.__dict__ for change in result.changed_file_statuses],
         "exit_code_policy": result.exit_code_policy,

@@ -456,6 +456,8 @@ class VerifyGateTests(unittest.TestCase):
         result = self.run_gate(repo, base)
         self.assert_review_required(result, "tests changed")
         self.assertIn("dependencies changed", result.stdout)
+        self.assertIn("[TESTS_CHANGED]", result.stdout)
+        self.assertIn("[DEPENDENCIES_CHANGED]", result.stdout)
         self.assertIn("- A tests/test_app.py", result.stdout)
         self.assertIn("- D requirements.txt", result.stdout)
 
@@ -528,12 +530,15 @@ class VerifyGateTests(unittest.TestCase):
                 "checks",
                 "failures",
                 "review_required",
+                "review_reasons",
                 "changed_files",
                 "changed_file_statuses",
                 "exit_code_policy",
             },
         )
         self.assertEqual(payload["status"], "REVIEW_REQUIRED")
+        self.assertEqual(payload["review_reasons"][0]["code"], "TESTS_CHANGED")
+        self.assertEqual(payload["review_reasons"][0]["category"], "change_control")
         self.assertEqual(payload["changed_file_statuses"][0]["status"], "A")
         self.assertEqual(payload["changed_file_statuses"][0]["path"], "tests/test_app.py")
 
@@ -907,6 +912,7 @@ class VerifyGateTests(unittest.TestCase):
         result = self.run_gate(repo, base)
         self.assert_review_required(result, "changed files 2 > 1")
         self.assertIn("Diff-budget: REVIEW_REQUIRED", result.stdout)
+        self.assertIn("[DIFF_BUDGET_EXCEEDED]", result.stdout)
 
     def test_diff_budget_added_line_overrun_requires_review(self) -> None:
         _, repo, base = self.make_repo(
@@ -1138,6 +1144,7 @@ class VerifyGateTests(unittest.TestCase):
         result = self.run_gate(repo, base)
         self.assert_review_required(result, "verification is stale")
         self.assertIn("Freshness: REVIEW_REQUIRED", result.stdout)
+        self.assertIn("[VERIFICATION_STALE]", result.stdout)
 
     def test_strict_review_exits_nonzero(self) -> None:
         _, repo, base = self.make_repo(
