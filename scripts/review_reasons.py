@@ -60,6 +60,7 @@ RULES: tuple[tuple[str, str, tuple[str, ...]], ...] = (
         "freshness",
         (
             "verification freshness guard unavailable",
+            "verification freshness:",
             "freshness could not be established",
             "missing snapshot commit",
             "missing workspace fingerprint",
@@ -114,8 +115,9 @@ RULES: tuple[tuple[str, str, tuple[str, ...]], ...] = (
 
 def classify_review_reason(details: str) -> ReviewReason:
     """Classify one review message without changing the underlying decision."""
+    lowered = details.lower()
     for code, category, needles in RULES:
-        if any(needle in details for needle in needles):
+        if any(needle.lower() in lowered for needle in needles):
             return ReviewReason(code=code, category=category, details=details)
     return ReviewReason(
         code="UNCLASSIFIED_REVIEW",
