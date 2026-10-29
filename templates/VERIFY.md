@@ -15,6 +15,8 @@ Status: PASS | FAIL | REVIEW_REQUIRED
 - REVIEW_REQUIRED when behavior passes but evidence integrity is questionable.
 - REVIEW_REQUIRED is not the same as functional failure.
 
+When `scripts/verify_gate.py` returns review reason codes, keep them with the review evidence. Codes classify the reason for review; they do not change `PASS | FAIL | REVIEW_REQUIRED` severity. Do not invent a code to override the gate. See `docs/review-required-taxonomy.md`.
+
 If `scripts/verify_gate.py` is available, run it with an explicit `--base` before marking verification complete.
 If repeated iterations occurred without a loop contract, mark verification
 `REVIEW_REQUIRED`.
@@ -59,6 +61,10 @@ This is a lightweight workflow check, not a secret scanner or a replacement for
 permissions, secret scanning, or runtime controls.
 
 Review required because:
+
+- _TBD_
+
+Deterministic review reason codes (when emitted by verify gate):
 
 - _TBD_
 
