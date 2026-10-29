@@ -27,8 +27,8 @@ routes:
 
   verification:
     label: Verification
-    keywords: verify, verification, evidence, review required, review_required, review reason, reason code, review taxonomy
-    files: VERIFY.md, SPEC.md, templates/VERIFY.md, skills/verify-contract/SKILL.md, skills/test-mini/SKILL.md, scripts/review_reasons.py, docs/review-required-taxonomy.md
+    keywords: verify, verification, evidence, review required, review_required, review reason, reason code, review taxonomy, artifact consistency, cross consistency, contradictory artifacts
+    files: VERIFY.md, SPEC.md, SCOPE.md, HANDOFF.md, templates/VERIFY.md, skills/verify-contract/SKILL.md, skills/test-mini/SKILL.md, scripts/review_reasons.py, scripts/check_artifact_consistency.py, docs/review-required-taxonomy.md, docs/artifact-consistency.md
 
   scope_control:
     label: Scope control
