@@ -54,10 +54,8 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    probe after implementation and record matching post-change evidence under the
    same Probe ID. Missing or mismatched probe evidence requires review; an
    explicit failed post-change probe prevents PASS.
-6. If `scripts/verify_gate.py` is available, run it before marking verification complete. When SPEC.md declares an `ENFORCED` implementation diff budget, inspect the deterministic `diff-budget` result before PASS. Budget overruns are `REVIEW_REQUIRED`, not automatic functional failures.
+6. If `scripts/verify_gate.py` is available, run it before marking verification complete. When SPEC.md declares an `ENFORCED` implementation diff budget, inspect the deterministic `diff-budget` result before PASS. Budget overruns are `REVIEW_REQUIRED`, not automatic functional failures. If repeated iterations were used, check for a loop contract, budget, ledger, revert rule, and stop condition before calling the work done.
 7. When multiple durable workflow artifacts are present and `scripts/check_artifact_consistency.py` is available, run the cross-consistency linter before final PASS. It composes existing lineage, acceptance-coverage, and compatibility contracts plus SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF consistency seams. Do not invoke it merely to require absent optional artifacts.
-   If repeated iterations were used, check for a loop contract, budget, ledger,
-   revert rule, and stop condition before calling the work done.
 8. Before recording `PASS`, add or refresh the verification freshness anchors and
    stamp the repository snapshot:
 
