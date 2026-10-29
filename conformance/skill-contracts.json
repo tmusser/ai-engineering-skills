@@ -115,7 +115,9 @@
         "Review-required reason taxonomy:",
         "`review_reasons`",
         "Codes explain why review is required; they do not change top-level severity.",
-        "`UNCLASSIFIED_REVIEW`"
+        "`UNCLASSIFIED_REVIEW`",
+        "scripts/check_artifact_consistency.py",
+        "Do not invoke it merely to require absent optional artifacts."
       ]
     },
     "workspace-checkpoint": {

@@ -52,6 +52,11 @@ COMMANDS = {
             ROOT / "scripts" / "check_contract_lineage.py",
         ),
         Command(
+            "consistency",
+            "Check durable workflow artifacts for cross-artifact contradictions.",
+            ROOT / "scripts" / "check_artifact_consistency.py",
+        ),
+        Command(
             "drift",
             "Check installed Claude or Codex skills against their install snapshot and this repo.",
             ROOT / "scripts" / "check_skill_install.py",

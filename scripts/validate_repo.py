@@ -49,12 +49,14 @@ REQUIRED_FILES = [
     "scripts/verify_gate.py",
     "scripts/verification_evidence.py",
     "scripts/review_reasons.py",
+    "scripts/check_artifact_consistency.py",
     "scripts/validate_repo.py",
     "tests/test_installers.py",
     "tests/test_verify_gate.py",
     "tests/test_handoff_resume_trust.py",
     "tests/test_verification_evidence.py",
     "tests/test_review_reasons.py",
+    "tests/test_artifact_consistency.py",
     "tests/test_context_hydration.py",
     "tests/test_operator_profile_contract.py",
     "tests/snapshots/install_sh_help.txt",
@@ -80,6 +82,7 @@ REQUIRED_DOCS = [
     "docs/fresh-session-trust.md",
     "docs/operator-profile.md",
     "docs/review-required-taxonomy.md",
+    "docs/artifact-consistency.md",
 ]
 
 REQUIRED_SCRIPTS = [
@@ -93,6 +96,7 @@ REQUIRED_SCRIPTS = [
     "scripts/verify_gate.py",
     "scripts/verification_evidence.py",
     "scripts/review_reasons.py",
+    "scripts/check_artifact_consistency.py",
 ]
 
 REQUIRED_SKILLS = [
@@ -403,12 +407,14 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("scripts/verify_gate.py", errors)
     check_python_compiles("scripts/verification_evidence.py", errors)
     check_python_compiles("scripts/review_reasons.py", errors)
+    check_python_compiles("scripts/check_artifact_consistency.py", errors)
     check_python_compiles("tests/test_installers.py", errors)
     check_python_compiles("tests/test_context_hydration.py", errors)
     check_python_compiles("tests/test_verify_gate.py", errors)
     check_python_compiles("tests/test_handoff_resume_trust.py", errors)
     check_python_compiles("tests/test_verification_evidence.py", errors)
     check_python_compiles("tests/test_review_reasons.py", errors)
+    check_python_compiles("tests/test_artifact_consistency.py", errors)
     check_python_compiles("tests/test_operator_profile_contract.py", errors)
     check_python_compiles("skills/handoff/scripts/resume_trust.py", errors)
 

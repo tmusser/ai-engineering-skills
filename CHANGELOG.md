@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added a read-only artifact cross-consistency linter that composes existing contract-lineage, acceptance-coverage, and compatibility checks and catches remaining SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF contradictions without rerunning the live implementation diff.
+- Added `aes consistency` as the unified CLI entry point and documented PASS/FAIL/REVIEW_REQUIRED semantics with legacy optional-artifact compatibility.
+
 - Added a stable `REVIEW_REQUIRED` reason taxonomy with machine-readable `code`, `category`, and `details` while preserving the existing human-readable review messages and top-level gate severity.
 - Propagated deterministic review reason codes through PR evidence summaries and workflow doctor output, with `UNCLASSIFIED_REVIEW` preserving future unknown review states instead of dropping them.
 

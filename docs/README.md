@@ -27,6 +27,7 @@ make it a required workflow stage.
 | Challenge a spec's acceptance criteria before coding | [Spec falsifier example](../examples/spec-falsifier/README.md) |
 | Enforce an expected patch-size tripwire | [Diff budget](diff-budget.md) |
 | Check artifact identity or installed-skill drift | [Contract lineage](contract-lineage.md) · [Install drift](skill-install-drift.md) |
+| Check durable artifacts for contradictions | [Artifact consistency](artifact-consistency.md) |
 | Prepare evidence for review | [PR evidence summary](pr-evidence-summary.md) |
 | Understand why a gate requires review | [REVIEW_REQUIRED taxonomy](review-required-taxonomy.md) |
 | Publish existing evidence in CI | [GitHub Action](github-action.md) · [Step Summary](github-step-summary.md) |
