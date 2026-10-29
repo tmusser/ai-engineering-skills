@@ -54,9 +54,19 @@ HANDOFF = """# Handoff
 """
 
 
-def gate(status: str, *details: str, changed: tuple[str, ...] = ()):
+def gate(
+    status: str,
+    *details: str,
+    changed: tuple[str, ...] = (),
+    review_codes: tuple[str, ...] = (),
+):
     def run(root: Path, base: str | None, spec: Path, verify: Path):
-        return DOCTOR.RuntimeResult(status, details or ("gate result",), changed)
+        return DOCTOR.RuntimeResult(
+            status,
+            details or ("gate result",),
+            changed,
+            review_codes,
+        )
 
     return run
 
@@ -170,6 +180,23 @@ class WorkflowDoctorTests(unittest.TestCase):
         result = self.diagnose(root, gate_status="REVIEW_REQUIRED")
         self.assertEqual(result.status, "REVIEW_REQUIRED")
         self.assertIn("deterministic verify gate", result.next_move)
+
+    def test_review_reason_codes_are_forwarded_from_verify_gate(self) -> None:
+        root = self.make_repo()
+        (root / "SPEC.md").write_text(SPEC_READY, encoding="utf-8")
+        (root / "VERIFY.md").write_text(VERIFY_PASS, encoding="utf-8")
+        result = DOCTOR.diagnose(
+            root,
+            base="HEAD",
+            verify_runner=gate(
+                "REVIEW_REQUIRED",
+                "tests changed: tests/test_export.py",
+                review_codes=("TESTS_CHANGED",),
+            ),
+            handoff_runner=handoff("NOT_PRESENT"),
+        )
+        self.assertEqual(result.status, "REVIEW_REQUIRED")
+        self.assertEqual(result.review_reason_codes, ("TESTS_CHANGED",))
 
     def test_stale_handoff_suppresses_its_next_task(self) -> None:
         root = self.make_repo()
