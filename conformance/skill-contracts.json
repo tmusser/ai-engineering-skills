@@ -111,7 +111,11 @@
         "Legacy artifacts without the section remain compatible.",
         "Implementation diff budget:",
         "Budget overruns are `REVIEW_REQUIRED`",
-        "Workflow-control artifacts do not consume the implementation budget."
+        "Workflow-control artifacts do not consume the implementation budget.",
+        "Review-required reason taxonomy:",
+        "`review_reasons`",
+        "Codes explain why review is required; they do not change top-level severity.",
+        "`UNCLASSIFIED_REVIEW`"
       ]
     },
     "workspace-checkpoint": {
