@@ -51,6 +51,14 @@ class TestSensitivityTests(unittest.TestCase):
         self.assertFalse(result.active)
         self.assertEqual(result.status, "NOT_APPLICABLE")
 
+    def test_optional_template_heading_is_supported(self) -> None:
+        spec = SPEC_REQUIRED.replace(
+            "## Test sensitivity gate",
+            "## Test sensitivity gate (optional)",
+        )
+        result = SENSITIVITY.evaluate(spec, VERIFY_KILLED)
+        self.assertEqual(result.status, "PASS")
+
     def test_explicit_not_applicable_is_compatible(self) -> None:
         spec = """# Spec
 
