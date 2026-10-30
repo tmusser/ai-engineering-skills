@@ -154,6 +154,7 @@ this is not a request for broad mutation testing.
 
 Use NOT_APPLICABLE when targeted fault injection would not buy meaningful
 confidence for this slice.
+
 ## Invalid if
 
 - breaks a named compatibility seam
