@@ -18,6 +18,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from verification_evidence import parse_structured_evidence
 from review_reasons import ReviewReason, classify_review_reasons
+from test_sensitivity import evaluate as evaluate_test_sensitivity
 
 
 STATUS_PASS = "PASS"
@@ -888,6 +889,27 @@ def evaluate(args: argparse.Namespace) -> Result:
             failures.append(compatibility_check.details)
         elif compatibility_check.status == STATUS_REVIEW:
             review_required.append(compatibility_check.details)
+
+    sensitivity_result = evaluate_test_sensitivity(spec_text, verify_text)
+    if sensitivity_result.active:
+        if sensitivity_result.status == STATUS_PASS:
+            sensitivity_check = Check(
+                name="test-sensitivity",
+                status=STATUS_PASS,
+                details=(
+                    f"{len(sensitivity_result.records)} required sensitivity "
+                    "probe(s) killed and restored."
+                ),
+            )
+        else:
+            detail = "; ".join(sensitivity_result.review_required)
+            sensitivity_check = Check(
+                name="test-sensitivity",
+                status=STATUS_REVIEW,
+                details="test sensitivity: " + detail,
+            )
+            review_required.append(sensitivity_check.details)
+        checks.append(sensitivity_check)
 
     freshness_check = check_verification_freshness(verify_path, verify_text)
     if freshness_check is not None:
