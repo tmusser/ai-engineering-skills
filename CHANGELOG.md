@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added an opt-in test-sensitivity fault-injection contract that proves a targeted deterministic test fails for the expected protected-behavior reason under one reversible fault and returns to PASS after restoration.
+- Added `aes sensitivity`, verify-gate enforcement, artifact-consistency composition, and dedicated review reason codes for surviving or unestablished sensitivity evidence without turning mutation testing into a mandatory workflow stage.
+
 - Added a read-only artifact cross-consistency linter that composes existing contract-lineage, acceptance-coverage, and compatibility checks and catches remaining SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF contradictions without rerunning the live implementation diff.
 - Added `aes consistency` as the unified CLI entry point and documented PASS/FAIL/REVIEW_REQUIRED semantics with legacy optional-artifact compatibility.
 
