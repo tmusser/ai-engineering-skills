@@ -139,6 +139,21 @@ the baseline before implementation begins.
 
 Use NOT_APPLICABLE when no relevant compatibility seam is exposed by the slice.
 
+## Test sensitivity gate (optional)
+
+Test sensitivity requirement: REQUIRED | NOT_APPLICABLE
+
+Use REQUIRED when this slice adds or changes a high-value deterministic test and
+a false positive would materially weaken verification. Keep the pass targeted;
+this is not a request for broad mutation testing.
+
+- Sensitivity ID: _TBD_
+  - Protected behavior: _TBD_
+  - Test command: _TBD_
+  - Fault model: _TBD_
+
+Use NOT_APPLICABLE when targeted fault injection would not buy meaningful
+confidence for this slice.
 ## Invalid if
 
 - breaks a named compatibility seam
