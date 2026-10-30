@@ -707,6 +707,104 @@ class VerifyGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("Compatibility: PASS", result.stdout)
 
+    def test_required_test_sensitivity_passes_with_killed_fault(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - export output
+
+                    ## Test sensitivity gate
+
+                    Test sensitivity requirement: REQUIRED
+
+                    - Sensitivity ID: empty-export
+                      - Protected behavior: empty results return header-only CSV
+                      - Test command: python -m pytest tests/test_export.py -k empty
+                      - Fault model: emit one body row
+
+                    ## Invalid if
+
+                    - empty export emits a body row
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Test sensitivity evidence
+
+                    - Sensitivity ID: empty-export
+                      - Fault injected: empty branch emits one body row
+                      - Mutated command: python -m pytest tests/test_export.py -k empty
+                      - Mutated exit code: 1
+                      - Expected failure observed: yes
+                      - Failure evidence: assertion expected header-only output
+                      - Restored exit code: 0
+                      - Restoration evidence: targeted test passes after restoration
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: PASS"))
+        self.assertIn("Test-sensitivity: PASS", result.stdout)
+
+    def test_surviving_fault_requires_review_with_reason_code(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - export output
+
+                    ## Test sensitivity gate
+
+                    Test sensitivity requirement: REQUIRED
+
+                    - Sensitivity ID: empty-export
+                      - Protected behavior: empty results return header-only CSV
+                      - Test command: python -m pytest tests/test_export.py -k empty
+                      - Fault model: emit one body row
+
+                    ## Invalid if
+
+                    - empty export emits a body row
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Test sensitivity evidence
+
+                    - Sensitivity ID: empty-export
+                      - Fault injected: empty branch emits one body row
+                      - Mutated command: python -m pytest tests/test_export.py -k empty
+                      - Mutated exit code: 0
+                      - Expected failure observed: yes
+                      - Failure evidence: no protected-behavior assertion fired
+                      - Restored exit code: 0
+                      - Restoration evidence: targeted test passes after restoration
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "injected fault survived the targeted test")
+        self.assertIn("Test-sensitivity: REVIEW_REQUIRED", result.stdout)
+        self.assertIn("[TEST_SENSITIVITY_SURVIVED]", result.stdout)
+
     def test_structured_verification_evidence_passes(self) -> None:
         _, repo, base = self.make_repo(
             {
