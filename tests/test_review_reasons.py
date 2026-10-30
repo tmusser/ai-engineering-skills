@@ -39,6 +39,8 @@ class ReviewReasonTaxonomyTests(unittest.TestCase):
             "tests changed: tests/test_app.py": "TESTS_CHANGED",
             "fixture/data changed: data/sample.csv": "FIXTURE_DATA_CHANGED",
             "dependencies changed: pyproject.toml": "DEPENDENCIES_CHANGED",
+            "test sensitivity: empty-export injected fault survived the targeted test": "TEST_SENSITIVITY_SURVIVED",
+            "test sensitivity: empty-export missing test-sensitivity evidence": "TEST_SENSITIVITY_UNESTABLISHED",
         }
         for details, expected in cases.items():
             with self.subTest(details=details):
