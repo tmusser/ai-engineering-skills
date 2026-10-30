@@ -48,7 +48,8 @@ interpretations:
   `HANDOFF.md`;
 - optional AC-ID acceptance-to-evidence coverage from `SPEC.md` to `VERIFY.md`;
 - optional compatibility-probe baseline/evidence matching from `SPEC.md` to
-  `VERIFY.md`.
+  `VERIFY.md`;
+- optional test-sensitivity fault-injection evidence from `SPEC.md` to `VERIFY.md`.
 
 Those tools remain the source of truth for their own contracts.
 
@@ -147,6 +148,7 @@ This linter does **not** replace:
 - `scope_gate.py` for enforcing the live Git diff;
 - `verify_gate.py` for deterministic verification and diff guards;
 - `acceptance_coverage.py` for detailed AC-ID coverage;
+- `test_sensitivity.py` for targeted fault-injection evidence;
 - `check_contract_lineage.py` for contract-generation identity;
 - `resume_trust.py` for fresh-session handoff trust;
 - `workflow_doctor.py` for selecting the safest next move.
