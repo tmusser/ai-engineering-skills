@@ -91,6 +91,19 @@ RULES: tuple[tuple[str, str, tuple[str, ...]], ...] = (
         ("budget exceeded:",),
     ),
     (
+        "TEST_SENSITIVITY_SURVIVED",
+        "test_integrity",
+        (
+            "injected fault survived the targeted test",
+            "test failed, but not for the expected protected behavior",
+        ),
+    ),
+    (
+        "TEST_SENSITIVITY_UNESTABLISHED",
+        "test_integrity",
+        ("test sensitivity:",),
+    ),
+    (
         "PROTECTED_PATH_CHANGED",
         "change_control",
         ("protected path touched:",),

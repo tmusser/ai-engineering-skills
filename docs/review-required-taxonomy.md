@@ -60,6 +60,8 @@ stable `code` for routing and retain `details` for humans.
 | `TESTS_CHANGED` | change_control | Test files changed and require integrity review. |
 | `FIXTURE_DATA_CHANGED` | change_control | Fixture or source-data files changed and require review. |
 | `DEPENDENCIES_CHANGED` | dependency | Dependency declarations or lockfiles changed. |
+| `TEST_SENSITIVITY_SURVIVED` | test_integrity | A declared fault survived the targeted test or failed for the wrong reason. |
+| `TEST_SENSITIVITY_UNESTABLISHED` | test_integrity | Required test-sensitivity evidence is missing or incomplete. |
 | `UNCLASSIFIED_REVIEW` | other | A future/unknown review reason was preserved but has no dedicated code yet. |
 
 `UNCLASSIFIED_REVIEW` is intentional fail-visible behavior. New review states

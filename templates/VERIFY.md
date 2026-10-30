@@ -42,6 +42,25 @@ Repeat this block for every baseline Probe ID._
 Missing, duplicate, undeclared, or incomplete required probe evidence prevents
 PASS. An explicit failed post-change probe means the compatibility seam regressed.
 
+Test sensitivity evidence:
+
+_Required only when SPEC says `Test sensitivity requirement: REQUIRED`. Repeat
+this block for every declared Sensitivity ID._
+
+- Sensitivity ID: _TBD_
+  - Fault injected: _TBD_
+  - Mutated command: _TBD_
+  - Mutated exit code: _TBD_
+  - Expected failure observed: yes/no
+  - Failure evidence: _TBD_
+  - Restored exit code: _TBD_
+  - Restoration evidence: _TBD_
+
+A killed fault requires the exact declared targeted command to exit nonzero for
+the expected protected-behavior failure, followed by exit 0 after restoration.
+A surviving fault, wrong failure mode, missing restoration proof, or mismatched
+command prevents PASS and requires review.
+
 Diff guards:
 
 - Protected paths touched: yes/no

@@ -250,6 +250,30 @@ class ArtifactConsistencyTests(unittest.TestCase):
         self.assertEqual(compatibility.status, "REVIEW_REQUIRED")
         self.assertIn("missing post-change evidence", compatibility.details[0])
 
+    def test_required_test_sensitivity_is_composed(self) -> None:
+        spec = SPEC_BASE + """
+
+## Test sensitivity gate
+
+Test sensitivity requirement: REQUIRED
+
+- Sensitivity ID: empty-export
+  - Protected behavior: empty results are header-only
+  - Test command: python -m pytest tests/test_export.py -k empty
+  - Fault model: emit one body row
+"""
+        root = self.make_repo(
+            {
+                "SPEC.md": spec,
+                "VERIFY.md": VERIFY.replace("Scope gate: PASS\n", ""),
+            }
+        )
+        result = LINTER.evaluate(root)
+        self.assertEqual(result.status, "REVIEW_REQUIRED")
+        sensitivity = self.check(result, "test-sensitivity")
+        self.assertEqual(sensitivity.status, "REVIEW_REQUIRED")
+        self.assertIn("missing test-sensitivity evidence", "\n".join(sensitivity.details))
+
     def test_legacy_artifacts_without_optional_contracts_stay_compatible(self) -> None:
         root = self.make_repo(
             {

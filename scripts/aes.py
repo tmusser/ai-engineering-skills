@@ -57,6 +57,11 @@ COMMANDS = {
             ROOT / "scripts" / "check_artifact_consistency.py",
         ),
         Command(
+            "sensitivity",
+            "Validate optional test fault-injection sensitivity evidence.",
+            ROOT / "scripts" / "test_sensitivity.py",
+        ),
+        Command(
             "drift",
             "Check installed Claude or Codex skills against their install snapshot and this repo.",
             ROOT / "scripts" / "check_skill_install.py",

@@ -117,7 +117,12 @@
         "Codes explain why review is required; they do not change top-level severity.",
         "`UNCLASSIFIED_REVIEW`",
         "scripts/check_artifact_consistency.py",
-        "Do not invoke it merely to require absent optional artifacts."
+        "Do not invoke it merely to require absent optional artifacts.",
+        "Test sensitivity evidence:",
+        "Test sensitivity requirement: REQUIRED",
+        "TEST_SENSITIVITY_UNESTABLISHED",
+        "TEST_SENSITIVITY_SURVIVED",
+        "A generic syntax/import/setup crash does not count as killing the fault."
       ]
     },
     "workspace-checkpoint": {
@@ -176,6 +181,15 @@
         "Communication density",
         "current request instead of the profile default",
         "must never suppress risk, uncertainty"
+      ]
+    },
+    "test-mini": {
+      "required_substrings": [
+        "## Test sensitivity pass",
+        "Expected failure observed",
+        "disposable worktree, scratch copy, or exact reversible local edit",
+        "A surviving fault is `REVIEW_REQUIRED`",
+        "Do not broaden this into a mutation-testing campaign"
       ]
     }
   }
