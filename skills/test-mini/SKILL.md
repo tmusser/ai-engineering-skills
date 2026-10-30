@@ -52,8 +52,8 @@ For each declared Sensitivity ID:
    - concise failure evidence is recorded.
 6. Restore the implementation exactly.
 7. Rerun the same targeted test command and require exit code 0.
-8. Record the fault, mutated exit code, expected-failure confirmation, concise
-   failure evidence, restored exit code, and restoration evidence in VERIFY.md.
+8. Record the fault, mutated exit code, `Expected failure observed: yes/no`,
+   concise failure evidence, restored exit code, and restoration evidence in VERIFY.md.
 
 A surviving fault is `REVIEW_REQUIRED`: the test may be too weak, the fault model
 may be poor, or the protected behavior may not be exercised. It is not
@@ -61,6 +61,7 @@ automatically a functional failure in the implementation.
 
 Do not broaden this into a mutation-testing campaign unless the user explicitly
 asks for one.
+
 ## Test integrity
 
 Prefer adding tests over changing existing tests.
