@@ -60,6 +60,7 @@ A killed fault requires the exact declared targeted command to exit nonzero for
 the expected protected-behavior failure, followed by exit 0 after restoration.
 A surviving fault, wrong failure mode, missing restoration proof, or mismatched
 command prevents PASS and requires review.
+
 Diff guards:
 
 - Protected paths touched: yes/no
