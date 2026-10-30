@@ -179,6 +179,7 @@ A generic syntax/import/setup crash does not count as killing the fault. A fault
 that survives, fails for the wrong reason, or cannot be restored cleanly remains
 `REVIEW_REQUIRED`. This check validates evidence; it does not execute mutation
 testing automatically.
+
 Scope adherence:
 
 - Scope gate: PASS | FAIL | REVIEW_REQUIRED | NOT_APPLICABLE
