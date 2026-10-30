@@ -152,7 +152,8 @@ def evaluate(spec_text: str | None, verify_text: str | None) -> Result:
     if spec_text is None:
         return Result(False, STATUS_NA, (), ())
 
-    gate_lines = section_lines(spec_text, ("test sensitivity gate",))
+    gate_headings = ("test sensitivity gate", "test sensitivity gate optional")
+    gate_lines = section_lines(spec_text, gate_headings)
     if not gate_lines:
         return Result(False, STATUS_NA, (), ())
 
@@ -169,7 +170,7 @@ def evaluate(spec_text: str | None, verify_text: str | None) -> Result:
         return Result(False, STATUS_NA, (), ())
 
     problems: list[str] = []
-    spec_records = parse_records(spec_text, ("test sensitivity gate",))
+    spec_records = parse_records(spec_text, gate_headings)
     if not spec_records:
         return Result(
             True,
