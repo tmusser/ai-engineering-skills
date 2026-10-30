@@ -18,6 +18,7 @@ from acceptance_coverage import evaluate as evaluate_acceptance_coverage
 from check_contract_lineage import evaluate as evaluate_contract_lineage
 from scope_gate import parse_scope
 from verify_gate import check_compatibility_probes
+from test_sensitivity import evaluate as evaluate_test_sensitivity
 
 
 STATUS_PASS = "PASS"
@@ -200,6 +201,24 @@ def check_compatibility(spec_text: str | None, verify_text: str | None) -> Check
             ("SPEC does not opt into the compatibility probe contract.",),
         )
     return Check("compatibility-evidence", result.status, (result.details,))
+
+
+def check_test_sensitivity(spec_text: str | None, verify_text: str | None) -> Check:
+    """Compose the optional SPEC-to-VERIFY test-sensitivity contract."""
+    result = evaluate_test_sensitivity(spec_text, verify_text)
+    if not result.active:
+        return Check(
+            "test-sensitivity",
+            STATUS_NA,
+            ("SPEC does not opt into the test-sensitivity contract.",),
+        )
+    if result.status == STATUS_PASS:
+        return Check(
+            "test-sensitivity",
+            STATUS_PASS,
+            (f"{len(result.records)} required sensitivity probe(s) killed and restored.",),
+        )
+    return Check("test-sensitivity", STATUS_REVIEW, result.review_required)
 
 
 def spec_diff_budget(spec_text: str | None) -> tuple[str, int | None]:
@@ -416,6 +435,7 @@ def evaluate(
         check_lineage(root, spec_path, plan_path, verify_path, handoff_path),
         check_acceptance_coverage(spec_text, verify_text),
         check_compatibility(spec_text, verify_text),
+        check_test_sensitivity(spec_text, verify_text),
         check_spec_scope_budget(spec_text, scope_text),
         check_scope_verify(scope_text, verify_text),
         check_verify_handoff(verify_text, handoff_text),
