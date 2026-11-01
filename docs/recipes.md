@@ -116,6 +116,7 @@ Rules:
   unproven intended delta.
 
 See [Baseline → Change → Proof](change-proof.md).
+
 ## Level 3 — Full guarded workflow
 
 Use for user-facing, scheduled, autonomous, decision-impacting, data-sensitive,
