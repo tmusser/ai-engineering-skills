@@ -131,6 +131,7 @@ do not rewrite the baseline evidence to make the completed change easier to prov
 The post-change proof must rerun the same command. Use compatibility probes for
 behavior that must remain unchanged; use change proof for behavior intended to
 change.
+
 ## Implementation diff budget
 
 Diff budget requirement: `ENFORCED | NOT_APPLICABLE`
