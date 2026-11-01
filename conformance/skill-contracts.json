@@ -50,7 +50,10 @@
         "## Invalid if",
         "## Implementation diff budget",
         "Diff budget requirement: `ENFORCED | NOT_APPLICABLE`",
-        "Do not reverse-engineer a larger budget"
+        "Do not reverse-engineer a larger budget",
+        "## Change proof gate",
+        "Change proof requirement: `REQUIRED | NOT_APPLICABLE`",
+        "do not rewrite the baseline evidence"
       ]
     },
     "scope-freeze": {
@@ -83,7 +86,10 @@
         "Run the scope gate before declaring the slice complete",
         "A scope-gate `FAIL` blocks completion",
         "`ENFORCED` implementation diff budget",
-        "do not edit the budget after the fact"
+        "do not edit the budget after the fact",
+        "Change proof requirement: REQUIRED",
+        "baseline command/evidence as immutable",
+        "reconstructing the before state after the fact"
       ]
     },
     "verify-contract": {
@@ -122,7 +128,11 @@
         "Test sensitivity requirement: REQUIRED",
         "TEST_SENSITIVITY_UNESTABLISHED",
         "TEST_SENSITIVITY_SURVIVED",
-        "A generic syntax/import/setup crash does not count as killing the fault."
+        "A generic syntax/import/setup crash does not count as killing the fault.",
+        "Change proof evidence:",
+        "baseline commit must match the verification base",
+        "CHANGE_PROOF_UNESTABLISHED",
+        "Do not rewrite the baseline after implementation"
       ]
     },
     "workspace-checkpoint": {
