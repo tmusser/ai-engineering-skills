@@ -157,6 +157,7 @@ before implementation begins.
 Use a stable probe command that can run before and after the change. Pair this
 with the compatibility probe gate when other seams must remain unchanged.
 Use NOT_APPLICABLE when a before/after proof would not add meaningful evidence.
+
 ## Test sensitivity gate (optional)
 
 Test sensitivity requirement: REQUIRED | NOT_APPLICABLE
