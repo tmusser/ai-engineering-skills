@@ -91,6 +91,11 @@ RULES: tuple[tuple[str, str, tuple[str, ...]], ...] = (
         ("budget exceeded:",),
     ),
     (
+        "CHANGE_PROOF_UNESTABLISHED",
+        "evidence",
+        ("change proof:",),
+    ),
+    (
         "TEST_SENSITIVITY_SURVIVED",
         "test_integrity",
         (

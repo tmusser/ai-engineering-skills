@@ -50,6 +50,7 @@ REQUIRED_FILES = [
     "scripts/verification_evidence.py",
     "scripts/review_reasons.py",
     "scripts/check_artifact_consistency.py",
+    "scripts/change_proof.py",
     "scripts/test_sensitivity.py",
     "scripts/validate_repo.py",
     "tests/test_installers.py",
@@ -58,6 +59,7 @@ REQUIRED_FILES = [
     "tests/test_verification_evidence.py",
     "tests/test_review_reasons.py",
     "tests/test_artifact_consistency.py",
+    "tests/test_change_proof.py",
     "tests/test_test_sensitivity.py",
     "tests/test_context_hydration.py",
     "tests/test_operator_profile_contract.py",
@@ -85,6 +87,7 @@ REQUIRED_DOCS = [
     "docs/operator-profile.md",
     "docs/review-required-taxonomy.md",
     "docs/artifact-consistency.md",
+    "docs/change-proof.md",
     "docs/test-sensitivity.md",
 ]
 
@@ -100,6 +103,7 @@ REQUIRED_SCRIPTS = [
     "scripts/verification_evidence.py",
     "scripts/review_reasons.py",
     "scripts/check_artifact_consistency.py",
+    "scripts/change_proof.py",
     "scripts/test_sensitivity.py",
 ]
 
@@ -412,6 +416,7 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("scripts/verification_evidence.py", errors)
     check_python_compiles("scripts/review_reasons.py", errors)
     check_python_compiles("scripts/check_artifact_consistency.py", errors)
+    check_python_compiles("scripts/change_proof.py", errors)
     check_python_compiles("scripts/test_sensitivity.py", errors)
     check_python_compiles("tests/test_installers.py", errors)
     check_python_compiles("tests/test_context_hydration.py", errors)
@@ -420,6 +425,7 @@ def check_python_scripts(errors: list[str]) -> None:
     check_python_compiles("tests/test_verification_evidence.py", errors)
     check_python_compiles("tests/test_review_reasons.py", errors)
     check_python_compiles("tests/test_artifact_consistency.py", errors)
+    check_python_compiles("tests/test_change_proof.py", errors)
     check_python_compiles("tests/test_test_sensitivity.py", errors)
     check_python_compiles("tests/test_operator_profile_contract.py", errors)
     check_python_compiles("skills/handoff/scripts/resume_trust.py", errors)

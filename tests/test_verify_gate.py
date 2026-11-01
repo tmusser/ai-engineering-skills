@@ -707,6 +707,161 @@ class VerifyGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("Compatibility: PASS", result.stdout)
 
+    def test_required_change_proof_passes_against_verification_base(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - export output
+
+                    ## Change proof gate
+
+                    Change proof requirement: REQUIRED
+
+                    - Change ID: export-empty
+                      - Baseline commit: BASE_COMMIT
+                      - Baseline command: python -m pytest tests/test_export.py -k empty
+                      - Baseline exit code: 1
+                      - Baseline evidence: regression test fails before the fix
+                      - Expected delta: targeted regression test becomes passing
+
+                    ## Invalid if
+
+                    - regression remains unfixed
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Change proof evidence
+
+                    - Change ID: export-empty
+                      - Proof command: python -m pytest tests/test_export.py -k empty
+                      - Proof exit code: 0
+                      - Delta result: PASS
+                      - Proof evidence: targeted regression test now passes
+                """,
+            }
+        )
+        spec_path = repo / "SPEC.md"
+        write_text(
+            spec_path,
+            spec_path.read_text(encoding="utf-8").replace("BASE_COMMIT", base),
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: PASS"))
+        self.assertIn("Change-proof: PASS", result.stdout)
+
+    def test_explicit_failed_change_proof_fails_verify_gate(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - export output
+
+                    ## Change proof gate
+
+                    Change proof requirement: REQUIRED
+
+                    - Change ID: export-empty
+                      - Baseline commit: BASE_COMMIT
+                      - Baseline command: python -m pytest tests/test_export.py -k empty
+                      - Baseline exit code: 1
+                      - Baseline evidence: regression test fails before the fix
+                      - Expected delta: targeted regression test becomes passing
+
+                    ## Invalid if
+
+                    - regression remains unfixed
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Change proof evidence
+
+                    - Change ID: export-empty
+                      - Proof command: python -m pytest tests/test_export.py -k empty
+                      - Proof exit code: 1
+                      - Delta result: FAIL
+                      - Proof evidence: regression test still fails
+                """,
+            }
+        )
+        spec_path = repo / "SPEC.md"
+        write_text(
+            spec_path,
+            spec_path.read_text(encoding="utf-8").replace("BASE_COMMIT", base),
+        )
+
+        result = self.run_gate(repo, base)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(result.stdout.startswith("VERIFY GATE: FAIL"))
+        self.assertIn("Change-proof: FAIL", result.stdout)
+        self.assertIn("expected delta was not proven", result.stdout)
+
+    def test_change_proof_baseline_mismatch_requires_review(self) -> None:
+        _, repo, base = self.make_repo(
+            {
+                "SPEC.md": """
+                    # Spec
+
+                    ## Compatibility seams to preserve
+
+                    - export output
+
+                    ## Change proof gate
+
+                    Change proof requirement: REQUIRED
+
+                    - Change ID: export-empty
+                      - Baseline commit: deadbee
+                      - Baseline command: python -m pytest tests/test_export.py -k empty
+                      - Baseline exit code: 1
+                      - Baseline evidence: regression test fails before the fix
+                      - Expected delta: targeted regression test becomes passing
+
+                    ## Invalid if
+
+                    - regression remains unfixed
+                """,
+                "VERIFY.md": """
+                    # Verify
+
+                    ## Verify gate
+
+                    Status: PASS
+
+                    ## Change proof evidence
+
+                    - Change ID: export-empty
+                      - Proof command: python -m pytest tests/test_export.py -k empty
+                      - Proof exit code: 0
+                      - Delta result: PASS
+                      - Proof evidence: targeted regression test now passes
+                """,
+            }
+        )
+
+        result = self.run_gate(repo, base)
+        self.assert_review_required(result, "does not match verification base")
+        self.assertIn("Change-proof: REVIEW_REQUIRED", result.stdout)
+        self.assertIn("[CHANGE_PROOF_UNESTABLISHED]", result.stdout)
+
     def test_required_test_sensitivity_passes_with_killed_fault(self) -> None:
         _, repo, base = self.make_repo(
             {

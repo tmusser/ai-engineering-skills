@@ -18,7 +18,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 ## Inputs
 
 - Task name
-- `SPEC.md` acceptance criteria, non-goals, constraints, invalid-if rules, optional implementation diff budget, and optional test-sensitivity contract
+- `SPEC.md` acceptance criteria, non-goals, constraints, invalid-if rules, optional implementation diff budget, optional change-proof contract, and optional test-sensitivity contract
 - Optional persisted `SCOPE.md` plus its frozen Git base
 - Commands run or to run
 - Changed files
@@ -54,10 +54,11 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    probe after implementation and record matching post-change evidence under the
    same Probe ID. Missing or mismatched probe evidence requires review; an
    explicit failed post-change probe prevents PASS.
-6. If SPEC.md marks `Test sensitivity requirement: REQUIRED`, perform the narrow fault-injection pass from `test-mini`: run the exact declared targeted test against one reversible fault, confirm the expected protected-behavior failure, restore the implementation, and prove the same test returns to PASS. Record the matching Sensitivity ID evidence in VERIFY.md. A surviving fault or wrong failure mode requires review; it is not automatically a functional failure.
-7. If `scripts/verify_gate.py` is available, run it before marking verification complete. When SPEC.md declares an `ENFORCED` implementation diff budget, inspect the deterministic `diff-budget` result before PASS. Budget overruns are `REVIEW_REQUIRED`, not automatic functional failures. If repeated iterations were used, check for a loop contract, budget, ledger, revert rule, and stop condition before calling the work done.
-8. When multiple durable workflow artifacts are present and `scripts/check_artifact_consistency.py` is available, run the cross-consistency linter before final PASS. It composes existing lineage, acceptance-coverage, and compatibility contracts plus SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF consistency seams. Do not invoke it merely to require absent optional artifacts.
-9. Before recording `PASS`, add or refresh the verification freshness anchors and
+6. If SPEC.md marks `Change proof requirement: REQUIRED`, rerun every declared baseline probe using the exact same command, record proof exit code/evidence, and classify `Delta result` as `PASS | FAIL | REVIEW_REQUIRED`. The baseline commit must match the verification base. Missing or mismatched evidence requires review; an explicit `FAIL` means the intended change was not proven.
+7. If SPEC.md marks `Test sensitivity requirement: REQUIRED`, perform the narrow fault-injection pass from `test-mini`: run the exact declared targeted test against one reversible fault, confirm the expected protected-behavior failure, restore the implementation, and prove the same test returns to PASS. Record the matching Sensitivity ID evidence in VERIFY.md. A surviving fault or wrong failure mode requires review; it is not automatically a functional failure.
+8. If `scripts/verify_gate.py` is available, run it before marking verification complete. When SPEC.md declares an `ENFORCED` implementation diff budget, inspect the deterministic `diff-budget` result before PASS. Budget overruns are `REVIEW_REQUIRED`, not automatic functional failures. If repeated iterations were used, check for a loop contract, budget, ledger, revert rule, and stop condition before calling the work done.
+9. When multiple durable workflow artifacts are present and `scripts/check_artifact_consistency.py` is available, run the cross-consistency linter before final PASS. It composes existing lineage, acceptance-coverage, compatibility, change-proof, and test-sensitivity contracts plus SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF consistency seams. Do not invoke it merely to require absent optional artifacts.
+10. Before recording `PASS`, add or refresh the verification freshness anchors and
    stamp the repository snapshot:
 
    ```text
@@ -75,25 +76,25 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
    verification artifact does not immediately invalidate it. Any later source,
    test, fixture, dependency, or other repository-state change makes the stamped
    evidence stale until affected verification is rerun and stamped again.
-10. List changed files.
-11. Run the spec ceiling check against the implemented behavior and diff.
-12. Note working directory / environment assumptions if relevant.
-13. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
-14. Note what was **not** tested and remaining risks.
-15. If an operator profile provides `Verification depth`, use it only to size
+11. List changed files.
+12. Run the spec ceiling check against the implemented behavior and diff.
+13. Note working directory / environment assumptions if relevant.
+14. Link artifacts/screenshots if relevant (supporting evidence only; automated checks preferred).
+15. Note what was **not** tested and remaining risks.
+16. If an operator profile provides `Verification depth`, use it only to size
     optional proof beyond the required contract: `targeted` stops at required
     evidence, `standard` adds cheap relevant regression proof, and `expanded`
     allows additional adjacent high-value checks when low-cost. Required gates,
     compatibility probes, and named risks remain mandatory in every mode.
-16. Name the next safest task.
+17. Name the next safest task.
 
 ## Verify gate
 
 Status: PASS | FAIL | REVIEW_REQUIRED
 
-- PASS only when contract probes pass, structured verification evidence is valid when present, every REQUIRED compatibility probe has matching post-change PASS evidence, every REQUIRED test-sensitivity probe has killed-and-restored evidence, the scope gate passes when a persisted scope exists, any enforced implementation diff budget passes, active durable artifacts are cross-consistent when that linter applies, no diff guard requires review, and no spec ceiling violation is present.
-- FAIL when behavior or contract probes fail, a required post-change compatibility probe fails, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
-- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, required test-sensitivity evidence is missing or a declared fault survives the targeted test, stamped verification is stale, the scope gate requires review, active durable artifacts contradict one another without a clear functional failure, an enforced implementation diff budget is exceeded or unmeasurable, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
+- PASS only when contract probes pass, structured verification evidence is valid when present, every REQUIRED compatibility probe has matching post-change PASS evidence, every REQUIRED change proof establishes the intended delta, every REQUIRED test-sensitivity probe has killed-and-restored evidence, the scope gate passes when a persisted scope exists, any enforced implementation diff budget passes, active durable artifacts are cross-consistent when that linter applies, no diff guard requires review, and no spec ceiling violation is present.
+- FAIL when behavior or contract probes fail, a required change proof explicitly reports the intended delta was not proven, a required post-change compatibility probe fails, the scope gate fails, or an explicit non-goal / invalid-if rule was violated.
+- REVIEW_REQUIRED when behavior passes but evidence integrity is questionable, required change-proof evidence is missing or does not match the verification base, required test-sensitivity evidence is missing or a declared fault survives the targeted test, stamped verification is stale, the scope gate requires review, active durable artifacts contradict one another without a clear functional failure, an enforced implementation diff budget is exceeded or unmeasurable, or plausible extra behavior exceeds the written acceptance criteria and intent is ambiguous.
 - REVIEW_REQUIRED is not the same as functional failure.
 - When the deterministic verify gate supplies review reason codes, preserve them as routing metadata. Codes explain why review is required; they do not change top-level severity.
 - If repeated iterations occurred without a loop contract, use REVIEW_REQUIRED.
@@ -121,6 +122,7 @@ Common codes include:
 - `TESTS_CHANGED`
 - `FIXTURE_DATA_CHANGED`
 - `DEPENDENCIES_CHANGED`
+- `CHANGE_PROOF_UNESTABLISHED`
 - `TEST_SENSITIVITY_UNESTABLISHED` / `TEST_SENSITIVITY_SURVIVED`
 - `UNCLASSIFIED_REVIEW` for a review state not yet assigned a dedicated code
 
@@ -162,6 +164,26 @@ for every baseline Probe ID:
 The Probe ID must match the pre-change baseline in SPEC.md. Missing, duplicate,
 undeclared, or incomplete probe evidence prevents PASS. An explicit `FAIL`
 means the compatibility seam regressed. Do not rewrite the baseline after implementation to make a changed behavior look compatible.
+
+Change proof evidence:
+
+When SPEC says `Change proof requirement: REQUIRED`, VERIFY.md must carry one
+matching Change ID block for each recorded baseline:
+
+- Change ID: _TBD_
+  - Proof command: _TBD_
+  - Proof exit code: _TBD_
+  - Delta result: PASS | FAIL | REVIEW_REQUIRED
+  - Proof evidence: _TBD_
+
+The proof command must exactly match the baseline command, and the recorded
+baseline commit must match the verification base. `PASS` requires proof exit
+code 0. Missing or mismatched evidence is `REVIEW_REQUIRED`; explicit `FAIL`
+means the intended behavioral delta was not established.
+
+Do not rewrite the baseline after implementation to manufacture a clean
+before/after comparison. Use the compatibility probe gate separately for seams
+that are expected to remain unchanged.
 
 Test sensitivity evidence:
 
@@ -252,6 +274,7 @@ Review required because:
 - Verify gate status
 - Deterministic review reason codes when the verify gate requires review
 - Matched compatibility probe evidence when the spec requires it
+- Baseline-to-post-change proof evidence when the spec requires it
 - Test-sensitivity fault-injection evidence when the spec requires it
 - Scope-gate status when a persisted scope exists
 - Diff-budget status when SPEC.md opts into enforcement
@@ -306,6 +329,7 @@ Next: Add scheduling wrapper
 - Marking PASS after a scope-gate failure or unresolved review trigger.
 - Editing code after verification and leaving the old PASS evidence stamped as current.
 - Recording compatibility expectations only after implementation, when the baseline can no longer constrain the change.
+- Recording or rewriting a change-proof baseline after implementation, when the before state can no longer constrain the proof.
 - Rewriting `SCOPE.md` after implementation to retroactively authorize the diff.
 - Calling extra behavior harmless because tests still pass.
 - Using screenshots as primary evidence for non-visual tasks.

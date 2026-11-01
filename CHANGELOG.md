@@ -6,6 +6,9 @@
 
 ### Added
 
+- Added an opt-in baseline → change → proof contract for intentional behavior changes, with pre-change commit/command/evidence captured before implementation and exact-command post-change proof.
+- Added `aes change-proof`, verify-gate enforcement, artifact-consistency composition, and workflow guidance that keeps change-proof baselines immutable after implementation begins while preserving compatibility probes for unchanged seams.
+
 - Added an opt-in test-sensitivity fault-injection contract that proves a targeted deterministic test fails for the expected protected-behavior reason under one reversible fault and returns to PASS after restoration.
 - Added `aes sensitivity`, verify-gate enforcement, artifact-consistency composition, and dedicated review reason codes for surviving or unestablished sensitivity evidence without turning mutation testing into a mandatory workflow stage.
 

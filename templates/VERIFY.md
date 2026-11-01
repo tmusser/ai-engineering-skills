@@ -42,6 +42,21 @@ Repeat this block for every baseline Probe ID._
 Missing, duplicate, undeclared, or incomplete required probe evidence prevents
 PASS. An explicit failed post-change probe means the compatibility seam regressed.
 
+Change proof evidence:
+
+_Required only when SPEC says `Change proof requirement: REQUIRED`. Repeat this
+block for every declared Change ID._
+
+- Change ID: _TBD_
+  - Proof command: _TBD_
+  - Proof exit code: _TBD_
+  - Delta result: PASS | FAIL | REVIEW_REQUIRED
+  - Proof evidence: _TBD_
+
+The proof command must match the pre-change baseline command. A PASS result
+requires proof exit code 0. Missing or mismatched proof requires review; an
+explicit FAIL means the intended delta was not established.
+
 Test sensitivity evidence:
 
 _Required only when SPEC says `Test sensitivity requirement: REQUIRED`. Repeat

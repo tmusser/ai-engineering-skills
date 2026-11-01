@@ -20,6 +20,7 @@ Available commands:
 | `loop` | `scripts/loop_gate.py` | Check recorded retry limits; distinguish CONTINUE, VERIFY, and STOP. |
 | `lineage` | `scripts/check_contract_lineage.py` | Check optional contract identity across durable workflow artifacts. |
 | `consistency` | `scripts/check_artifact_consistency.py` | Check durable workflow artifacts for cross-artifact contradictions. |
+| `change-proof` | `scripts/change_proof.py` | Validate optional baseline-to-post-change proof evidence. |
 | `sensitivity` | `scripts/test_sensitivity.py` | Validate optional targeted fault-injection test-sensitivity evidence. |
 | `drift` | `scripts/check_skill_install.py` | Check installed Claude/Codex skills against their install snapshot and this repo. |
 | `verify` | `scripts/verify_gate.py` | Run the deterministic verification gate. |
@@ -40,6 +41,7 @@ python scripts/aes.py scope --help
 python scripts/aes.py loop --help
 python scripts/aes.py lineage --help
 python scripts/aes.py consistency --help
+python scripts/aes.py change-proof --help
 python scripts/aes.py sensitivity --help
 python scripts/aes.py drift --help
 python scripts/aes.py verify --help
@@ -86,6 +88,12 @@ Check cross-artifact consistency:
 
 ```bash
 python scripts/aes.py consistency --format json
+```
+
+Validate baseline-to-post-change proof evidence:
+
+```bash
+python scripts/aes.py change-proof --base origin/main --format json
 ```
 
 Validate targeted test sensitivity evidence:
@@ -150,7 +158,7 @@ The only dispatcher-owned error states are command-surface errors:
 
 ## Working-directory behavior
 
-Python-backed commands inherit the caller's working directory. This matters because `doctor`, `spec`, `scope`, `lineage`, `consistency`, `sensitivity`, `drift`, `verify`, `evidence`, and `summary` inspect either the active repository or explicitly selected install target.
+Python-backed commands inherit the caller's working directory. This matters because `doctor`, `spec`, `scope`, `lineage`, `consistency`, `change-proof`, `sensitivity`, `drift`, `verify`, `evidence`, and `summary` inspect either the active repository or explicitly selected install target.
 
 The `install` command runs `install.sh` from the AI Engineering Skills repository root because the existing shell wrapper resolves its installer scripts relative to that root.
 

@@ -19,6 +19,7 @@ if str(SCRIPT_DIR) not in sys.path:
 from verification_evidence import parse_structured_evidence
 from review_reasons import ReviewReason, classify_review_reasons
 from test_sensitivity import evaluate as evaluate_test_sensitivity
+from change_proof import evaluate as evaluate_change_proof, resolve_commit as resolve_change_proof_commit
 
 
 STATUS_PASS = "PASS"
@@ -910,6 +911,54 @@ def evaluate(args: argparse.Namespace) -> Result:
             )
             review_required.append(sensitivity_check.details)
         checks.append(sensitivity_check)
+
+    expected_change_base, change_base_error = resolve_change_proof_commit(Path.cwd(), args.base)
+    if change_base_error:
+        change_result = evaluate_change_proof(spec_text, verify_text)
+        if change_result.active:
+            change_check = Check(
+                name="change-proof",
+                status=STATUS_REVIEW,
+                details="change proof: " + change_base_error,
+            )
+            checks.append(change_check)
+            review_required.append(change_check.details)
+    else:
+        change_result = evaluate_change_proof(
+            spec_text,
+            verify_text,
+            expected_base_commit=expected_change_base,
+        )
+        if change_result.active:
+            if change_result.status == STATUS_FAIL:
+                detail = "; ".join(change_result.failures)
+                change_check = Check(
+                    name="change-proof",
+                    status=STATUS_FAIL,
+                    details="change proof failed: " + detail,
+                )
+                checks.append(change_check)
+                failures.append(change_check.details)
+            elif change_result.status == STATUS_REVIEW:
+                detail = "; ".join(change_result.review_required)
+                change_check = Check(
+                    name="change-proof",
+                    status=STATUS_REVIEW,
+                    details="change proof: " + detail,
+                )
+                checks.append(change_check)
+                review_required.append(change_check.details)
+            else:
+                checks.append(
+                    Check(
+                        name="change-proof",
+                        status=STATUS_PASS,
+                        details=(
+                            f"{len(change_result.records)} required change "
+                            "proof(s) established."
+                        ),
+                    )
+                )
 
     freshness_check = check_verification_freshness(verify_path, verify_text)
     if freshness_check is not None:

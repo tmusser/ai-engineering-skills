@@ -57,6 +57,11 @@ COMMANDS = {
             ROOT / "scripts" / "check_artifact_consistency.py",
         ),
         Command(
+            "change-proof",
+            "Validate optional baseline-to-post-change proof evidence.",
+            ROOT / "scripts" / "change_proof.py",
+        ),
+        Command(
             "sensitivity",
             "Validate optional test fault-injection sensitivity evidence.",
             ROOT / "scripts" / "test_sensitivity.py",

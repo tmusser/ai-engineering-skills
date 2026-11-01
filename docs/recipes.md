@@ -89,6 +89,33 @@ explicit. Skip this pass when acceptance is already precise. It is not a
 required addition to the Level 2 route. See the
 [CSV example](../examples/spec-falsifier/README.md).
 
+## Baseline → change → proof
+
+Use this optional pattern when the task intentionally changes observable
+behavior and the before state materially strengthens the proof.
+
+```text
+mini-spec
+→ capture baseline commit + stable probe + observed before state
+→ build-one
+→ rerun the same probe
+→ verify-contract
+```
+
+Typical examples: a bugfix whose regression test currently fails, an output
+change with a stable comparison command, or a migration where one named behavior
+should move from old to new while compatibility probes protect everything else.
+
+Rules:
+
+- capture the baseline before the first implementation write;
+- never rewrite the baseline after seeing the completed change;
+- use the exact same probe command before and after;
+- use compatibility probes for seams that must stay unchanged;
+- use test sensitivity separately when the risk is a weak test rather than an
+  unproven intended delta.
+
+See [Baseline → Change → Proof](change-proof.md).
 ## Level 3 — Full guarded workflow
 
 Use for user-facing, scheduled, autonomous, decision-impacting, data-sensitive,
