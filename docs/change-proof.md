@@ -123,4 +123,7 @@ A change-proof PASS establishes that the declared stable probe moved from the
 recorded baseline state to a post-change PASS consistent with the written
 expected delta. It does not prove all behavior changed correctly, that every
 regression risk was covered, or that unrelated compatibility seams were
-preserved.
+preserved. Matching the baseline commit anchors the claimed before state to the
+verification base, but it cannot prove when the observation was actually
+recorded. Use repository history or stronger external provenance when capture
+timing itself matters.
