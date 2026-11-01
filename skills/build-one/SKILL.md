@@ -36,21 +36,23 @@ Use after a task is selected and scope is frozen.
 5. If full analysis returns `BLOCKED`, stop before implementation and resolve the contradiction or decision.
 6. Confirm the spec ceiling: each intended behavior change must satisfy an acceptance criterion or be necessary support for one. Explicit non-goals remain out of scope.
 7. If the implementation needs behavior outside that ceiling, stop and renegotiate or update the spec before making that expansion.
-8. If SPEC.md has an `ENFORCED` implementation diff budget, treat it as an early warning boundary while building. Do not knowingly grow past the declared file/added-line limits without surfacing the expansion; do not edit the budget after the fact merely to fit the patch.
-9. Make the minimum useful change.
-10. Run relevant verification.
-11. Run the scope gate before declaring the slice complete when `SCOPE.md` and the helper exist:
+8. If SPEC.md has `Change proof requirement: REQUIRED`, confirm every declared baseline was captured before the first implementation write and against the frozen base. Treat the baseline command/evidence as immutable during the build; if it was missed or is wrong, stop and review rather than reconstructing the before state after the fact.
+9. If SPEC.md has an `ENFORCED` implementation diff budget, treat it as an early warning boundary while building. Do not knowingly grow past the declared file/added-line limits without surfacing the expansion; do not edit the budget after the fact merely to fit the patch.
+10. Make the minimum useful change.
+11. Run relevant verification.
+12. Run the scope gate before declaring the slice complete when `SCOPE.md` and the helper exist:
 
     ```bash
     python scripts/scope_gate.py --base <frozen-base>
     ```
 
     A scope-gate `FAIL` blocks completion and requires a revert or pre-write scope renegotiation. `REVIEW_REQUIRED` must be surfaced and resolved; it is not permission to continue silently.
-12. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
+13. Update `VERIFY.md` or `HANDOFF.md` with a compact build note:
     - Selected slice
     - Files touched
     - Why each file was touched
     - Compatibility seams preserved
+    - Change proof: `PASS | FAIL | REVIEW_REQUIRED | NOT_APPLICABLE`
     - Analysis checkpoint: `FRESH | NOT_NEEDED`
     - Scope gate: `PASS | FAIL | REVIEW_REQUIRED`
     - Diff budget: `PASS | REVIEW_REQUIRED | NOT_APPLICABLE`
@@ -59,9 +61,9 @@ Use after a task is selected and scope is frozen.
     - Tests changed: yes/no
     - Verification run
     - Stop reason
-13. Update task status.
-14. Stop after one task.
-15. Summarize changed files and result.
+14. Update task status.
+15. Stop after one task.
+16. Summarize changed files and result.
 
 ## Outputs
 
@@ -78,6 +80,7 @@ Use after a task is selected and scope is frozen.
 - The task needs a scope or spec change.
 - Scope gate returns `FAIL` or unresolved `REVIEW_REQUIRED`.
 - The implementation exceeds an enforced diff budget and the expansion has not been reviewed.
+- A required change-proof baseline was not captured before implementation or no longer matches the frozen base.
 - Analysis is `REQUIRED`, `STALE`, or `BLOCKED` and must be resolved before editing.
 - Verification fails and diagnosis is needed.
 - A useful adjacent improvement is discovered but is not required by the current acceptance criteria.
@@ -92,4 +95,5 @@ Use after a task is selected and scope is frozen.
 - Refactoring unrelated code.
 - Adding "helpful" behavior beyond the acceptance criteria because it is nearby or easy.
 - Enlarging a declared diff budget after implementation grows instead of reviewing the expansion.
+- Reconstructing or editing a change-proof baseline after implementation to make the delta look cleaner.
 - Treating partial infrastructure as a completed slice.
