@@ -139,6 +139,24 @@ the baseline before implementation begins.
 
 Use NOT_APPLICABLE when no relevant compatibility seam is exposed by the slice.
 
+## Change proof gate (optional)
+
+Change proof requirement: REQUIRED | NOT_APPLICABLE
+
+Use REQUIRED when the slice intentionally changes an observable behavior and a
+before/after comparison will materially strengthen proof. Capture the baseline
+before implementation begins.
+
+- Change ID: _TBD_
+  - Baseline commit: _TBD_
+  - Baseline command: _TBD_
+  - Baseline exit code: _TBD_
+  - Baseline evidence: _TBD_
+  - Expected delta: _TBD_
+
+Use a stable probe command that can run before and after the change. Pair this
+with the compatibility probe gate when other seams must remain unchanged.
+Use NOT_APPLICABLE when a before/after proof would not add meaningful evidence.
 ## Test sensitivity gate (optional)
 
 Test sensitivity requirement: REQUIRED | NOT_APPLICABLE
