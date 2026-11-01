@@ -250,6 +250,63 @@ class ArtifactConsistencyTests(unittest.TestCase):
         self.assertEqual(compatibility.status, "REVIEW_REQUIRED")
         self.assertIn("missing post-change evidence", compatibility.details[0])
 
+    def test_required_change_proof_is_composed(self) -> None:
+        spec = SPEC_BASE + """
+
+## Change proof gate
+
+Change proof requirement: REQUIRED
+
+- Change ID: export-empty
+  - Baseline commit: abcdef1
+  - Baseline command: python -m pytest tests/test_export.py -k empty
+  - Baseline exit code: 1
+  - Baseline evidence: regression test fails before the fix
+  - Expected delta: regression test becomes passing
+"""
+        root = self.make_repo(
+            {
+                "SPEC.md": spec,
+                "VERIFY.md": VERIFY.replace("Scope gate: PASS\n", ""),
+            }
+        )
+        result = LINTER.evaluate(root)
+        self.assertEqual(result.status, "REVIEW_REQUIRED")
+        proof = self.check(result, "change-proof")
+        self.assertEqual(proof.status, "REVIEW_REQUIRED")
+        self.assertIn("missing change-proof evidence", "\n".join(proof.details))
+
+    def test_explicit_failed_change_proof_is_consistency_fail(self) -> None:
+        spec = SPEC_BASE + """
+
+## Change proof gate
+
+Change proof requirement: REQUIRED
+
+- Change ID: export-empty
+  - Baseline commit: abcdef1
+  - Baseline command: python -m pytest tests/test_export.py -k empty
+  - Baseline exit code: 1
+  - Baseline evidence: regression test fails before the fix
+  - Expected delta: regression test becomes passing
+"""
+        verify = VERIFY.replace("Scope gate: PASS\n", "") + """
+
+## Change proof evidence
+
+- Change ID: export-empty
+  - Proof command: python -m pytest tests/test_export.py -k empty
+  - Proof exit code: 1
+  - Delta result: FAIL
+  - Proof evidence: regression test still fails
+"""
+        root = self.make_repo({"SPEC.md": spec, "VERIFY.md": verify})
+        result = LINTER.evaluate(root)
+        self.assertEqual(result.status, "FAIL")
+        proof = self.check(result, "change-proof")
+        self.assertEqual(proof.status, "FAIL")
+        self.assertIn("expected delta was not proven", "\n".join(proof.details))
+
     def test_required_test_sensitivity_is_composed(self) -> None:
         spec = SPEC_BASE + """
 
