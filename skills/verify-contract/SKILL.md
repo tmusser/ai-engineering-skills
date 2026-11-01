@@ -57,7 +57,7 @@ After implementation, tests, bug fixes, data runs, or smoke checks.
 6. If SPEC.md marks `Change proof requirement: REQUIRED`, rerun every declared baseline probe using the exact same command, record proof exit code/evidence, and classify `Delta result` as `PASS | FAIL | REVIEW_REQUIRED`. The baseline commit must match the verification base. Missing or mismatched evidence requires review; an explicit `FAIL` means the intended change was not proven.
 7. If SPEC.md marks `Test sensitivity requirement: REQUIRED`, perform the narrow fault-injection pass from `test-mini`: run the exact declared targeted test against one reversible fault, confirm the expected protected-behavior failure, restore the implementation, and prove the same test returns to PASS. Record the matching Sensitivity ID evidence in VERIFY.md. A surviving fault or wrong failure mode requires review; it is not automatically a functional failure.
 8. If `scripts/verify_gate.py` is available, run it before marking verification complete. When SPEC.md declares an `ENFORCED` implementation diff budget, inspect the deterministic `diff-budget` result before PASS. Budget overruns are `REVIEW_REQUIRED`, not automatic functional failures. If repeated iterations were used, check for a loop contract, budget, ledger, revert rule, and stop condition before calling the work done.
-9. When multiple durable workflow artifacts are present and `scripts/check_artifact_consistency.py` is available, run the cross-consistency linter before final PASS. It composes existing lineage, acceptance-coverage, and compatibility contracts plus SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF consistency seams. Do not invoke it merely to require absent optional artifacts.
+9. When multiple durable workflow artifacts are present and `scripts/check_artifact_consistency.py` is available, run the cross-consistency linter before final PASS. It composes existing lineage, acceptance-coverage, compatibility, change-proof, and test-sensitivity contracts plus SPEC↔SCOPE, SCOPE↔VERIFY, and VERIFY↔HANDOFF consistency seams. Do not invoke it merely to require absent optional artifacts.
 10. Before recording `PASS`, add or refresh the verification freshness anchors and
    stamp the repository snapshot:
 
@@ -184,6 +184,7 @@ means the intended behavioral delta was not established.
 Do not rewrite the baseline after implementation to manufacture a clean
 before/after comparison. Use the compatibility probe gate separately for seams
 that are expected to remain unchanged.
+
 Test sensitivity evidence:
 
 When SPEC says `Test sensitivity requirement: REQUIRED`, VERIFY.md must carry
