@@ -62,10 +62,11 @@ If the user request and an authoritative reference conflict, surface the conflic
     `NOT_APPLICABLE`. For each required probe, record a stable Probe ID, the
     seam, the baseline command, its observed baseline result and evidence, and the expected
     invariant. Capture the baseline before implementation begins.
-15. Decide whether an implementation diff budget is meaningful. Use `ENFORCED` only when the accepted slice or explicit scope supports defensible limits for max changed files and max added lines. Use `NOT_APPLICABLE` when no meaningful numeric expectation exists; do not invent arbitrary limits for ceremony.
-16. When applicable, record invalid-if constraints that would make the slice non-viable.
-17. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
-18. If satisfying the task requires behavior outside the ceiling or contradicts an authoritative reference, update or renegotiate the spec before implementing that expansion.
+15. When the slice intentionally changes an observable behavior, decide whether a before/after change proof materially improves verification. Use `REQUIRED` only when a stable probe can be run before and after implementation. Record a Change ID, baseline commit, exact baseline command, baseline exit code/evidence, and expected delta before implementation begins. Otherwise use `NOT_APPLICABLE`.
+16. Decide whether an implementation diff budget is meaningful. Use `ENFORCED` only when the accepted slice or explicit scope supports defensible limits for max changed files and max added lines. Use `NOT_APPLICABLE` when no meaningful numeric expectation exists; do not invent arbitrary limits for ceremony.
+17. When applicable, record invalid-if constraints that would make the slice non-viable.
+18. For delegated, autonomous, multi-session, or replanned work, optionally record a contract ID, parent ID, base commit, issue time, and replan reason.
+19. If satisfying the task requires behavior outside the ceiling or contradicts an authoritative reference, update or renegotiate the spec before implementing that expansion.
 
 ## Outputs
 
@@ -78,6 +79,7 @@ If the user request and an authoritative reference conflict, surface the conflic
 - Likely failure modes
 - Verification demo
 - Compatibility probe requirement and pre-change baseline evidence when applicable
+- Optional change-proof requirement with before-state evidence and expected delta
 - Optional implementation diff budget with explicit `ENFORCED | NOT_APPLICABLE` choice
 - Optional contract identity when traceability buys back safety
 
@@ -110,6 +112,25 @@ a stable ID so verification can match the post-change evidence without guessing.
 Use `NOT_APPLICABLE` instead of inventing a probe for work with no relevant
 public compatibility seam.
 
+## Change proof gate
+
+Change proof requirement: `REQUIRED | NOT_APPLICABLE`
+
+Use `REQUIRED` when this slice intentionally changes an observable behavior and
+a stable probe can show the before state and the intended after state.
+
+- Change ID: _TBD_
+  - Baseline commit: _TBD_
+  - Baseline command: _TBD_
+  - Baseline exit code: _TBD_
+  - Baseline evidence: _TBD_
+  - Expected delta: _TBD_
+
+Capture the baseline before implementation begins. Once implementation starts,
+do not rewrite the baseline evidence to make the completed change easier to prove.
+The post-change proof must rerun the same command. Use compatibility probes for
+behavior that must remain unchanged; use change proof for behavior intended to
+change.
 ## Implementation diff budget
 
 Diff budget requirement: `ENFORCED | NOT_APPLICABLE`
@@ -147,6 +168,7 @@ verification pass.
 - The behavioral ceiling is clear enough to distinguish necessary support work from optional extras.
 - Unresolved questions are recorded instead of hidden.
 - Required compatibility probes have a pre-change baseline before implementation starts.
+- Required change proofs have baseline commit, command, observed evidence, and expected delta recorded before implementation starts.
 - An enforced diff budget, when used, was chosen before implementation expansion rather than fitted to the completed patch.
 
 ## Anti-patterns
@@ -159,3 +181,4 @@ verification pass.
 - Writing vague acceptance criteria that cannot be verified.
 - Assigning contract identifiers to tiny edits merely to create process metadata.
 - Inventing arbitrary file/line budgets or increasing them after the patch grows just to manufacture compliance.
+- Capturing or rewriting change-proof baseline evidence after implementation to manufacture a clean before/after story.
