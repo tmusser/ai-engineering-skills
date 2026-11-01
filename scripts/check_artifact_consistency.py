@@ -19,6 +19,7 @@ from check_contract_lineage import evaluate as evaluate_contract_lineage
 from scope_gate import parse_scope
 from verify_gate import check_compatibility_probes
 from test_sensitivity import evaluate as evaluate_test_sensitivity
+from change_proof import evaluate as evaluate_change_proof
 
 
 STATUS_PASS = "PASS"
@@ -219,6 +220,26 @@ def check_test_sensitivity(spec_text: str | None, verify_text: str | None) -> Ch
             (f"{len(result.records)} required sensitivity probe(s) killed and restored.",),
         )
     return Check("test-sensitivity", STATUS_REVIEW, result.review_required)
+
+
+def check_change_proof(spec_text: str | None, verify_text: str | None) -> Check:
+    """Compose the optional SPEC-to-VERIFY baseline change-proof contract."""
+    result = evaluate_change_proof(spec_text, verify_text)
+    if not result.active:
+        return Check(
+            "change-proof",
+            STATUS_NA,
+            ("SPEC does not opt into the change-proof contract.",),
+        )
+    if result.status == STATUS_FAIL:
+        return Check("change-proof", STATUS_FAIL, result.failures)
+    if result.status == STATUS_REVIEW:
+        return Check("change-proof", STATUS_REVIEW, result.review_required)
+    return Check(
+        "change-proof",
+        STATUS_PASS,
+        (f"{len(result.records)} required change proof(s) established.",),
+    )
 
 
 def spec_diff_budget(spec_text: str | None) -> tuple[str, int | None]:
@@ -436,6 +457,7 @@ def evaluate(
         check_acceptance_coverage(spec_text, verify_text),
         check_compatibility(spec_text, verify_text),
         check_test_sensitivity(spec_text, verify_text),
+        check_change_proof(spec_text, verify_text),
         check_spec_scope_budget(spec_text, scope_text),
         check_scope_verify(scope_text, verify_text),
         check_verify_handoff(verify_text, handoff_text),
