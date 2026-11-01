@@ -41,6 +41,7 @@ class ReviewReasonTaxonomyTests(unittest.TestCase):
             "dependencies changed: pyproject.toml": "DEPENDENCIES_CHANGED",
             "test sensitivity: empty-export injected fault survived the targeted test": "TEST_SENSITIVITY_SURVIVED",
             "test sensitivity: empty-export missing test-sensitivity evidence": "TEST_SENSITIVITY_UNESTABLISHED",
+            "change proof: export-empty baseline commit abc1234 does not match verification base def5678": "CHANGE_PROOF_UNESTABLISHED",
         }
         for details, expected in cases.items():
             with self.subTest(details=details):
