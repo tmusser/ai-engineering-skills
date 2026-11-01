@@ -56,6 +56,7 @@ block for every declared Change ID._
 The proof command must match the pre-change baseline command. A PASS result
 requires proof exit code 0. Missing or mismatched proof requires review; an
 explicit FAIL means the intended delta was not established.
+
 Test sensitivity evidence:
 
 _Required only when SPEC says `Test sensitivity requirement: REQUIRED`. Repeat
