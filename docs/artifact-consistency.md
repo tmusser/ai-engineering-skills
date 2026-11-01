@@ -49,6 +49,7 @@ interpretations:
 - optional AC-ID acceptance-to-evidence coverage from `SPEC.md` to `VERIFY.md`;
 - optional compatibility-probe baseline/evidence matching from `SPEC.md` to
   `VERIFY.md`;
+- optional baseline-to-post-change proof from `SPEC.md` to `VERIFY.md`;
 - optional test-sensitivity fault-injection evidence from `SPEC.md` to `VERIFY.md`.
 
 Those tools remain the source of truth for their own contracts.
@@ -123,13 +124,14 @@ contract, such as:
 
 - an active contract ID mismatch;
 - acceptance evidence explicitly reporting `FAIL`;
-- a required compatibility probe explicitly failing.
+- a required compatibility probe explicitly failing;
+- a required change proof explicitly reporting that the intended delta was not proven.
 
 ### REVIEW_REQUIRED
 
 Used when consistency cannot be established safely, for example:
 
-- an active coverage or compatibility relationship is incomplete;
+- an active coverage, compatibility, or change-proof relationship is incomplete;
 - SPEC and SCOPE file budgets disagree;
 - VERIFY and SCOPE disagree about whether the scope gate applies;
 - HANDOFF verification state disagrees with VERIFY.
@@ -148,6 +150,7 @@ This linter does **not** replace:
 - `scope_gate.py` for enforcing the live Git diff;
 - `verify_gate.py` for deterministic verification and diff guards;
 - `acceptance_coverage.py` for detailed AC-ID coverage;
+- `change_proof.py` for baseline-to-post-change proof;
 - `test_sensitivity.py` for targeted fault-injection evidence;
 - `check_contract_lineage.py` for contract-generation identity;
 - `resume_trust.py` for fresh-session handoff trust;
