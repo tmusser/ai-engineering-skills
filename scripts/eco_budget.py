@@ -10,6 +10,7 @@ from pathlib import Path
 
 from context_sufficiency import check_sufficiency, safe_source
 from context_sections import check_headings
+from context_manifest import load_manifest
 
 DEFAULT_MAX_BYTES = 60_000
 
@@ -26,6 +27,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="Require this literal proof/acceptance anchor in selected input (repeatable)")
     parser.add_argument("--require-heading", action="append", default=[], metavar="FILE::Heading",
                         help="Require a full Markdown section in selected context (repeatable)")
+    parser.add_argument("--manifest", type=Path, help="Use a reviewed, SPEC-pinned context manifest")
     return parser.parse_args(argv)
 
 
@@ -68,6 +70,15 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     try:
         entries, total, payloads = measure(args.paths)
+        manifest_warnings: list[str] = []
+        if args.manifest:
+            if any(label != "<stdin>" and Path(label).resolve() == args.manifest.resolve()
+                   for label, _ in payloads):
+                raise ValueError("--manifest must not be included as selected context")
+            manifest, manifest_warnings = load_manifest(args.manifest, args.root)
+            args.require_source = list(dict.fromkeys([*args.require_source, *manifest["required_sources"]]))
+            args.require_heading = list(dict.fromkeys([*args.require_heading, *manifest["required_headings"]]))
+            args.require_proof = list(dict.fromkeys([*args.require_proof, *manifest["required_proofs"]]))
         if any(not anchor for anchor in args.require_proof):
             raise ValueError("--require-proof must not be empty")
         for name in args.require_source:
@@ -75,7 +86,17 @@ def main(argv: list[str] | None = None) -> int:
         sufficiency = (check_sufficiency(payloads, args.root, args.require_source, args.require_proof)
                        if args.require_source or args.require_proof or args.require_heading else None)
         if args.require_heading:
-            sufficiency["headings"] = check_headings(payloads, args.root, args.require_heading)
+            # A pending/stale proposal cannot pass even if the selected context
+            # happens to contain the named sections. Avoid reading a removed SPEC.
+            if not manifest_warnings:
+                sufficiency["headings"] = check_headings(payloads, args.root, args.require_heading)
+            else:
+                sufficiency["headings"] = [
+                    {"requirement": value, "status": "missing", "detail": "manifest needs review"}
+                    for value in args.require_heading
+                ]
+        if sufficiency is not None:
+            sufficiency["warnings"].extend(manifest_warnings)
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
