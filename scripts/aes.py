@@ -97,6 +97,11 @@ COMMANDS = {
             ROOT / "scripts" / "eco_budget.py",
         ),
         Command(
+            "manifest",
+            "Propose a reviewable SPEC-backed context manifest.",
+            ROOT / "scripts" / "context_manifest.py",
+        ),
+        Command(
             "install",
             "Install or uninstall skills through the existing install wrapper.",
             ROOT / "install.sh",

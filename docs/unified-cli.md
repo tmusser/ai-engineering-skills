@@ -28,6 +28,7 @@ Available commands:
 | `summary` | `scripts/render_github_step_summary.py` | Publish workflow doctor and PR evidence output to GitHub Step Summary. |
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
 | `eco` | `scripts/eco_budget.py` | Budget selected bytes; optionally require sources, proof anchors, and full Markdown sections. |
+| `manifest` | `scripts/context_manifest.py` | Propose a reviewable SPEC-backed coverage manifest. |
 | `install` | `install.sh` | Install or uninstall skills through the existing wrapper. |
 
 Arguments after the command are forwarded unchanged.
@@ -49,6 +50,7 @@ python scripts/aes.py evidence --help
 python scripts/aes.py summary --help
 python scripts/aes.py context --help
 python scripts/aes.py eco --help
+python scripts/aes.py manifest --help
 python scripts/aes.py install --help
 ```
 
