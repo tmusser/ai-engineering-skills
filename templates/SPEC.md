@@ -25,6 +25,8 @@ _Point to the richest existing source of truth. Do not paraphrase it line by lin
 
 If references conflict with the request, record the conflict under Open questions before implementation.
 
+For an optional context coverage manifest, put simple repository-relative file paths in the Reference column. URLs, symbols, external artifacts, and ambiguous references require explicit operator review; the manifest proposer does not guess their local equivalent.
+
 ## Acceptance criteria
 
 _Write the observable task-specific contract. Point to a reference when it already encodes the behavior precisely. Optionally label every criterion `AC-1: ...`, `AC-2: ...` for evidence coverage; never mix labeled and unlabeled criteria._

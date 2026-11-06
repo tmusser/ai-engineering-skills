@@ -108,6 +108,48 @@ explicitly; the tool cannot infer relevance.
 This option composes with `--require-source`, `--require-proof`, and
 the existing byte ceiling; without it, prior behavior is unchanged.
 
+## Context coverage manifest (optional)
+
+For a SPEC with authoritative file references, explicit acceptance headings,
+and named test/verify commands, generate a **proposal** rather than manually
+typing repeated `--require-source`, `--require-heading`, and `--require-proof`
+flags:
+
+~~~bash
+python scripts/aes.py manifest --spec SPEC.md --output /tmp/coverage.json
+~~~
+
+The proposal includes a SHA-256 fingerprint of the source SPEC and starts with
+`"approved": false`. Inspect the requirements and any `unresolved` entries.
+Only plain repository-relative file paths from the `Authoritative references`
+table are proposed as sources; unknown paths, URLs, symbols, and ambiguous
+references stay unresolved. Acceptance criteria and Invalid if headings are
+added only when present. The `Test:` and `Verify:` lines under `Commands`
+become **literal proof anchors** (not executed tests). The output does not
+discover arbitrary dependencies or synthesize new requirements.
+
+After reviewing the proposal, resolve the ambiguous references manually,
+adjust the required arrays as needed, and explicitly change `approved` to
+`true`. Run the existing eco preflight with your reviewed manifest:
+
+~~~bash
+python scripts/aes.py eco SPEC.md docs/export-contract.md \
+  --manifest /tmp/coverage.json --format json
+~~~
+
+`--manifest` merges the reviewed requirements with any existing explicit
+requirement flags; it never removes stricter flags. Missing requirements return
+`REVIEW_REQUIRED` (exit 3). Unapproved proposals, unresolved references, and
+a changed SPEC fingerprint also return `REVIEW_REQUIRED`; invalid JSON,
+unknown schema fields, unsafe source paths, and malformed lists are input
+errors (exit 2). The selected source files or validated context-packet excerpts
+still must satisfy the underlying sufficiency checks and byte limit.
+
+Do not pass the manifest itself as selected context, and do not treat its
+`approved` flag as evidence that every requirement was discovered. Approval
+is an explicit operator decision, not authorization to execute commands.
+The check does not estimate provider token costs or verify test results.
+
 ## Current model rationale (October 9, 2026)
 
 | Model | Relevant detail | Tactic |

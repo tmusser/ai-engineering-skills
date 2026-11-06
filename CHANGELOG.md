@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added opt-in, review-before-use context coverage manifests proposed from explicit SPEC references and test/verify anchors; approved manifests integrate with eco-mode source, heading, proof and staleness checks without changing default routes.
+
 - Added an opt-in baseline → change → proof contract for intentional behavior changes, with pre-change commit/command/evidence captured before implementation and exact-command post-change proof.
 - Added `aes change-proof`, verify-gate enforcement, artifact-consistency composition, and workflow guidance that keeps change-proof baselines immutable after implementation begins while preserving compatibility probes for unchanged seams.
 
