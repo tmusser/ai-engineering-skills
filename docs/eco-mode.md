@@ -150,6 +150,49 @@ Do not pass the manifest itself as selected context, and do not treat its
 is an explicit operator decision, not authorization to execute commands.
 The check does not estimate provider token costs or verify test results.
 
+## Recorded proof anchors (optional)
+
+The default `--require-proof` only confirms that a literal command appears
+in selected context. A TODO or note saying "not executed" can satisfy that
+textual requirement. To require **recorded command evidence** instead, use:
+
+~~~bash
+python scripts/aes.py eco SPEC.md VERIFY.md \
+  --proof-mode recorded \
+  --require-proof "python -m pytest tests/test_export.py"
+~~~
+
+Or use `--proof-mode recorded` alongside an already approved
+`--manifest /tmp/coverage.json` whose `required_proofs` list contains
+exact command strings. There is no manifest schema change.
+
+Recorded mode requires a **current-source-matched `VERIFY.md`** in selected
+context, either as a directly selected file or a hash/range-verified excerpt
+containing the complete structured evidence section. To use another
+repository-relative verification artifact, supply
+`--verification-source artifacts/VERIFY.md`.
+
+For each `--require-proof`, the check requires an **exact** command match
+in a valid schema-v1 `Structured verification evidence` JSON block, with:
+
+- `evidence_source: command`, `status: PASS`, and `exit_code: 0`;
+- a non-placeholder evidence description and a recorded timestamp or commit
+  provenance, as already required by the existing evidence schema;
+- no conflicting failing, inferred, or invalid record for that exact command.
+
+Loose mentions, unverified stdin, other file copies, legacy prose, malformed
+JSON, stale context-packet excerpts, and conflicting statuses cannot satisfy
+the recorded mode. Such omissions yield `REVIEW_REQUIRED` (exit 3);
+unsafe source paths or a recorded mode with no proof anchors are input errors
+(exit 2). Byte budgets, source/heading checks, and manifest approval/freshness
+rules still apply. The default `literal` mode is unchanged.
+
+**Claim boundary:** a recorded PASS is **not** independent execution
+attestation, a freshness guarantee for the Git workspace, or evidence that
+the test assertions are adequate. It means a valid, source-verified artifact
+**records** a passing command. Use the existing verification-freshness and
+verify gates when stronger evidence is necessary.
+
 ## Current model rationale (October 9, 2026)
 
 | Model | Relevant detail | Tactic |
