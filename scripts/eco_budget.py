@@ -11,6 +11,7 @@ from pathlib import Path
 from context_sufficiency import check_sufficiency, safe_source
 from context_sections import check_headings
 from context_manifest import load_manifest
+from context_proof_provenance import check_recorded_proofs
 
 DEFAULT_MAX_BYTES = 60_000
 
@@ -28,6 +29,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--require-heading", action="append", default=[], metavar="FILE::Heading",
                         help="Require a full Markdown section in selected context (repeatable)")
     parser.add_argument("--manifest", type=Path, help="Use a reviewed, SPEC-pinned context manifest")
+    parser.add_argument("--proof-mode", choices=("literal", "recorded"), default="literal",
+                        help="Literal presence (default), or exact recorded PASS command evidence")
+    parser.add_argument("--verification-source", default="VERIFY.md", metavar="PATH",
+                        help="Repository-relative authoritative verification file (recorded mode)")
     return parser.parse_args(argv)
 
 
@@ -81,10 +86,21 @@ def main(argv: list[str] | None = None) -> int:
             args.require_proof = list(dict.fromkeys([*args.require_proof, *manifest["required_proofs"]]))
         if any(not anchor for anchor in args.require_proof):
             raise ValueError("--require-proof must not be empty")
+        if args.proof_mode == "recorded" and not args.require_proof:
+            raise ValueError("--proof-mode recorded requires --require-proof or manifest proof anchors")
         for name in args.require_source:
             safe_source(args.root, name)
-        sufficiency = (check_sufficiency(payloads, args.root, args.require_source, args.require_proof)
+        literal_proofs = args.require_proof if args.proof_mode == "literal" else []
+        sufficiency = (check_sufficiency(payloads, args.root, args.require_source, literal_proofs)
                        if args.require_source or args.require_proof or args.require_heading else None)
+        if args.proof_mode == "recorded":
+            proofs, proof_warnings = check_recorded_proofs(
+                payloads, args.root, args.verification_source, args.require_proof
+            )
+            sufficiency["proofs"] = proofs
+            sufficiency["warnings"].extend(proof_warnings)
+            sufficiency["proof_mode"] = "recorded"
+            sufficiency["verification_source"] = args.verification_source
         if args.require_heading:
             # A pending/stale proposal cannot pass even if the selected context
             # happens to contain the named sections. Avoid reading a removed SPEC.
@@ -126,10 +142,17 @@ def main(argv: list[str] | None = None) -> int:
         if sufficiency is not None:
             for item in [*sufficiency["sources"], *sufficiency["proofs"], *sufficiency.get("headings", [])]:
                 label = item.get("requirement", item.get("source", item.get("proof")))
-                print(f"- {item['status']}: {label}")
+                if sufficiency.get("proof_mode") == "recorded" and item.get("proof"):
+                    checks = ", ".join(item.get("checks", [])) or "none"
+                    print(f"- {item['status']}: {label} (recorded checks: {checks})")
+                else:
+                    print(f"- {item['status']}: {label}")
             for warning in sufficiency["warnings"]:
                 print(f"- REVIEW_REQUIRED: {warning}")
-        print("Selected content and literal anchors only; semantic sufficiency and provider cost unmeasured.")
+        if sufficiency is not None and sufficiency.get("proof_mode") == "recorded":
+            print("Recorded proof reflects source-verified VERIFY claims; execution, freshness, and correctness unverified.")
+        else:
+            print("Selected content and literal anchors only; semantic sufficiency and provider cost unmeasured.")
     return 0 if status == "PASS" else 3
 
 
