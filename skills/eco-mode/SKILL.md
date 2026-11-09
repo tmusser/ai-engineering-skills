@@ -50,6 +50,10 @@ or tasks whose required evidence cannot fit. Escalate when necessary.
    source or escalate; do not silently waive it. When a particular section
    governs the next action, add `--require-heading "SPEC.md::Acceptance criteria"`
    so a metadata mention or unrelated excerpt cannot stand in for the section.
+   If the operator needs recorded verification evidence rather than a named
+   test target, opt into `--proof-mode recorded` with a selected `VERIFY.md`.
+   It matches exact command-backed PASS records with provenance, but does not
+   independently run tests or validate current Git workspace freshness.
 6. Execute one slice with existing scope controls and verification. Avoid
    redundant tool-output envelopes and needless refetches. Reuse anchors.
 7. Preserve required instructions, exact file paths, uncertainties, acceptance
@@ -81,8 +85,10 @@ Sufficiency checks are opt-in. Source representation means the complete source
 was selected as a file, or a packet contains source-verified excerpts; it does
 not prove that the right sections were selected. Proof targets are **literal
 text anchors**, not test execution, semantic correctness, or a guarantee of
-completeness. Packet WARN/FAIL, stale excerpts, missing sources, and missing
-anchors require review. Never trust metadata-only source mentions.
+completeness. An optional recorded-proof mode checks matching schema-v1 PASS
+command records selected from the live verification source, but cannot attest
+execution or semantic adequacy. Packet WARN/FAIL, stale excerpts, missing
+sources, and missing anchors require review. Never trust metadata-only mentions.
 
 The preflight's PASS applies to **selected UTF-8 bytes only**, not full runtime
 history, tool schemas, provider tokens, or pricing. It never removes context

@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added optional `aes eco --proof-mode recorded` to require exact, source-verified structured PASS command records for proof anchors instead of mere text mentions; preserves literal default mode and existing manifest schema.
+
 - Added opt-in, review-before-use context coverage manifests proposed from explicit SPEC references and test/verify anchors; approved manifests integrate with eco-mode source, heading, proof and staleness checks without changing default routes.
 
 - Added an opt-in baseline → change → proof contract for intentional behavior changes, with pre-change commit/command/evidence captured before implementation and exact-command post-change proof.
