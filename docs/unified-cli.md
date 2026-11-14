@@ -60,9 +60,9 @@ python scripts/aes.py install --help
 
 Review an optional durable decision ledger without editing it:
 
-~~~bash
+```bash
 python scripts/aes.py decisions --decisions DECISIONS.md --format json
-~~~
+```
 
 Inspect a task before continuing:
 
