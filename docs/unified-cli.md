@@ -29,6 +29,7 @@ Available commands:
 | `context` | `scripts/context_pack.py` | Generate an integrity-aware context packet. |
 | `eco` | `scripts/eco_budget.py` | Budget selected bytes; optionally require sources, proof anchors, and full Markdown sections. |
 | `manifest` | `scripts/context_manifest.py` | Propose a reviewable SPEC-backed coverage manifest. |
+| `decisions` | `scripts/check_decision_ledger.py` | Check optional decision history and supersession integrity. |
 | `install` | `install.sh` | Install or uninstall skills through the existing wrapper. |
 
 Arguments after the command are forwarded unchanged.
@@ -51,10 +52,17 @@ python scripts/aes.py summary --help
 python scripts/aes.py context --help
 python scripts/aes.py eco --help
 python scripts/aes.py manifest --help
+python scripts/aes.py decisions --help
 python scripts/aes.py install --help
 ```
 
 ## Examples
+
+Review an optional durable decision ledger without editing it:
+
+~~~bash
+python scripts/aes.py decisions --decisions DECISIONS.md --format json
+~~~
 
 Inspect a task before continuing:
 

@@ -21,6 +21,7 @@ A freshness `STALE` result means live repository state changed after this handof
 Read first if present:
 
 - `HANDOFF.md`
+- `DECISIONS.md` when active, durable decisions govern the next task
 - `GOTCHAS.md` when referenced below or relevant to the next task
 - `CONTEXT.md`
 - `SPEC.md`
@@ -96,7 +97,8 @@ Facts:
 
 Decisions:
 
-- D1: _TBD_
+- D1: _TBD_ (link to the active DECISIONS.md entry when one exists; do not
+  copy its full rationale or treat superseded decisions as current)
 
 Assumptions:
 

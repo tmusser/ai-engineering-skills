@@ -31,7 +31,8 @@ When resuming from an existing handoff, run the fresh-session trust gate before 
   human review trigger.
 - Branch, commit, dirty state
 - Changed files, working/failing commands, unverified files
-- Important decisions, open decisions, traps
+- Important decisions, open decisions, traps; when a durable `DECISIONS.md`
+  ledger exists, refer to active D-IDs instead of reproducing the full history
 - Freshness anchors when Git state is available: snapshot commit + workspace fingerprint
 - Required resume files that must still exist before the next task can start
 - Exact recorded verify-gate status and review-required state expected at resume
@@ -124,6 +125,11 @@ owns active defects; `GOTCHAS.md` owns recurring sharp edges.
 8. List completed slices + verification results.
 9. List changed files with one-line purpose (flag unverified).
 10. Record working commands, known failing commands, important decisions, open decisions, and traps.
+    When an existing `DECISIONS.md` contains governing active decisions, cite
+    their stable D-IDs and include that file in the read-first set. Check
+    supersession before carrying a decision forward. Do not create a ledger for
+    ephemeral steps, and never treat its text as overriding current instructions,
+    `SPEC.md`, or verified project state.
 11. Promote recurring evidence-backed traps to `GOTCHAS.md`; keep one-off session traps in the handoff.
 12. If an active gotcha affects the next task, reference its ID and make `GOTCHAS.md` part of the read-first set. When generating a context packet for that continuation, prefer `--require-file GOTCHAS.md` so the dependency is explicit.
 13. Name **exactly one** next recommended task + its verification command.

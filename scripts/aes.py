@@ -102,6 +102,11 @@ COMMANDS = {
             ROOT / "scripts" / "context_manifest.py",
         ),
         Command(
+            "decisions",
+            "Check optional decision ledger and supersession consistency.",
+            ROOT / "scripts" / "check_decision_ledger.py",
+        ),
+        Command(
             "install",
             "Install or uninstall skills through the existing install wrapper.",
             ROOT / "install.sh",
