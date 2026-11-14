@@ -6,6 +6,8 @@
 
 ### Added
 
+- Refined optional `DECISIONS.md` into an append-only, authority-backed decision ledger with stable IDs, explicit tradeoffs, revisit triggers, and supersession; added read-only `aes decisions` validation and handoff references without requiring a ledger for routine work.
+
 - Added optional `aes eco --proof-mode recorded` to require exact, source-verified structured PASS command records for proof anchors instead of mere text mentions; preserves literal default mode and existing manifest schema.
 
 - Added opt-in, review-before-use context coverage manifests proposed from explicit SPEC references and test/verify anchors; approved manifests integrate with eco-mode source, heading, proof and staleness checks without changing default routes.

@@ -33,6 +33,9 @@ Task state is the layer this repository owns.
 - `SPEC.md` records the current contract and invalidators.
 - `PLAN.md` records an optional implementation shape.
 - `VERIFY.md` records auditable evidence and remaining uncertainty.
+- Optional `DECISIONS.md` records consequential choices with stable IDs,
+  authority references, tradeoffs, and supersession history. It is not a
+  replacement for the live specification.
 - `HANDOFF.md` records the resume packet when another session must continue.
 
 Current task artifacts outrank remembered summaries when they disagree. A fresh
