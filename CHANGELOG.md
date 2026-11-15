@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added a no-API-key failure-to-proof showcase with an intentionally under-tested CSV export, an evidence-coverage `REVIEW_REQUIRED` result for the missing acceptance criterion, a repaired implementation and targeted test, one-command JSON/text runner, and regression coverage.
+
 - Refined optional `DECISIONS.md` into an append-only, authority-backed decision ledger with stable IDs, explicit tradeoffs, revisit triggers, and supersession; added read-only `aes decisions` validation and handoff references without requiring a ledger for routine work.
 
 - Added optional `aes eco --proof-mode recorded` to require exact, source-verified structured PASS command records for proof anchors instead of mere text mentions; preserves literal default mode and existing manifest schema.

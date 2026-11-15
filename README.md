@@ -213,6 +213,8 @@ templates preserve state, and verification records make claims auditable. See
 
 ## Evidence
 
+**Reproduce a failure in under two minutes:** the [Failure-to-Proof showcase](examples/failure-to-proof/README.md) runs a CSV exporter whose normal test passes despite a broken empty-result contract. The acceptance-to-evidence gate flags missing `AC-2` proof; a repaired version adds a regression test and passes both. Run `python examples/failure-to-proof/run_demo.py` locally with no API keys or model calls. This is a deterministic fixture, **not** an agent success-rate benchmark.
+
 **Proof artifact:** this repo is evaluated by
 [`agent-workflow-bench`](https://github.com/tmusser/agent-workflow-bench), a small
 standalone benchmark for agent skills, verification artifacts, and fresh-session
