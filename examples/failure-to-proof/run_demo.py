@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shlex
 import subprocess
@@ -36,6 +37,7 @@ TESTS = (
 def invoke(arguments: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         arguments, cwd=cwd, text=True, capture_output=True, check=False,
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
     )
 
 
