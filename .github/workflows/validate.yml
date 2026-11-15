@@ -63,6 +63,9 @@ jobs:
       - name: Run negative example suites
         run: python scripts/run_negative_examples.py
 
+      - name: Reproduce failure-to-proof showcase
+        run: python examples/failure-to-proof/run_demo.py --format json
+
       - name: Run Claude Code dry-run smoke check
         run: |
           tmp_home="$(mktemp -d)"

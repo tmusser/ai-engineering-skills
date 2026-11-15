@@ -50,6 +50,8 @@ make it a required workflow stage.
 
 ## Examples and evidence
 
+* [Failure-to-Proof showcase](../examples/failure-to-proof/README.md): one-command, no-provider demo showing a passing but incomplete suite, an unverified acceptance criterion, and the corrected regression proof.
+
 * [Small dashboard](../examples/small-dashboard-poc.md),
   [ML model](../examples/ml-model-poc.md), and
   [agent worker](../examples/agent-worker-poc.md): concrete workflow artifacts.
