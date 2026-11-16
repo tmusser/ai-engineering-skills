@@ -41,6 +41,7 @@ make it a required workflow stage.
 | ---- | ----- |
 | Load only the relevant workflow guidance | [Context isolation](context-isolation.md) · [Route steering](context-route-steering.md) |
 | Build a context packet | [Context hydration](context-hydration.md) |
+| Find which files matter before loading them | [File-purpose ledger](file-ledger.md) |
 | Budget context for inexpensive models | [Eco mode and sufficiency checks](eco-mode.md#context-sufficiency-optional) |
 | Decide what should survive a session | [Persistence horizons](context-persistence-horizons.md) |
 | Trust a handoff in a fresh session | [Fresh-session trust](fresh-session-trust.md) |

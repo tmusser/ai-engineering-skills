@@ -37,6 +37,10 @@ Task state is the layer this repository owns.
   authority references, tradeoffs, and supersession history. It is not a
   replacement for the live specification.
 - `HANDOFF.md` records the resume packet when another session must continue.
+- An optional [file-purpose ledger](file-ledger.md) is navigation metadata:
+  paths, reviewed purpose labels, use-when hints and source hashes. Read a small
+  set of matching live sources rather than copying a whole file inventory into
+  the handoff. It is not authoritative task state.
 
 Current task artifacts outrank remembered summaries when they disagree. A fresh
 session should be able to resume from these files without replaying the full chat.

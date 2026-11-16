@@ -30,6 +30,7 @@ Available commands:
 | `eco` | `scripts/eco_budget.py` | Budget selected bytes; optionally require sources, proof anchors, and full Markdown sections. |
 | `manifest` | `scripts/context_manifest.py` | Propose a reviewable SPEC-backed coverage manifest. |
 | `decisions` | `scripts/check_decision_ledger.py` | Check optional decision history and supersession integrity. |
+| `files` | `scripts/file_ledger.py` | Propose and query a reviewed file-purpose navigation ledger. |
 | `install` | `install.sh` | Install or uninstall skills through the existing wrapper. |
 
 Arguments after the command are forwarded unchanged.
@@ -53,6 +54,7 @@ python scripts/aes.py context --help
 python scripts/aes.py eco --help
 python scripts/aes.py manifest --help
 python scripts/aes.py decisions --help
+python scripts/aes.py files --help
 python scripts/aes.py install --help
 ```
 

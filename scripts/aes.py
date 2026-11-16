@@ -107,6 +107,11 @@ COMMANDS = {
             ROOT / "scripts" / "check_decision_ledger.py",
         ),
         Command(
+            "files",
+            "Propose or query an optional reviewed file-purpose ledger.",
+            ROOT / "scripts" / "file_ledger.py",
+        ),
+        Command(
             "install",
             "Install or uninstall skills through the existing install wrapper.",
             ROOT / "install.sh",

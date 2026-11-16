@@ -169,6 +169,10 @@ bounded and resumable while those controls handle execution safety.
 
 ![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
 
+## Optional file-purpose ledger
+
+For large repos or repeated fresh-session resumes, use the [file-purpose ledger](docs/file-ledger.md) to find which code, tests, and task artifacts govern the next task. The reviewed index returns a handful of **file paths and reasons to read them**, not their contents; current source files and the handoff trust gate remain authoritative. This complements the existing Markdown section index and is never a required workflow stage.
+
 ## Durable artifacts
 
 | Artifact     | What it means                              |
