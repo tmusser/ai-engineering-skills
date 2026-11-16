@@ -36,6 +36,11 @@ Relevant gotchas:
 
 Required resume files: _TBD_
 
+Optional file navigation: If the project maintains an approved
+`.ai-context/file-ledger.json`, run `python scripts/aes.py files query
+"next task keywords" --limit 5` **after** the fresh-session trust gate.
+This lookup is advisory and does not replace the required resume files.
+
 Resume command:
 
 - _TBD_

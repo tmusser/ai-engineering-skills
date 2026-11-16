@@ -8,6 +8,11 @@ This is not token magic. The packet is only as good as the local index, route ma
 and source authority behind it. Keep the underlying docs available when the task
 changes shape.
 
+The optional [file-purpose ledger](file-ledger.md) is complementary: it indexes
+reviewed *why/when-to-read* hints for code, tests and documents and returns
+only matching paths. This Markdown section index stores line ranges and hashes
+for selected source excerpts. Neither tool replaces the other or grants authority.
+
 ## When to use
 
 - The task is specific, but the repo docs are bigger than the agent context you want

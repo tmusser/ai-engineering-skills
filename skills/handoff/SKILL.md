@@ -85,6 +85,24 @@ the handoff still contains an incomplete or self-contradictory resume packet.
 `STALE` means live repository state changed after the snapshot and the handoff
 must be regenerated before resume.
 
+## Optional file-purpose lookup before expansion
+
+If a project maintains an **approved** `.ai-context/file-ledger.json`, a fresh
+session may query it *after* resume trust, before reading additional project
+sources:
+
+```bash
+python scripts/aes.py files query "next task keywords" --limit 5
+```
+
+The query returns path, purpose, use-when hints, related paths, and a per-file
+freshness status; it never loads file contents. Read only the necessary live
+files, following task authority and the handoff's explicit required-file set.
+Treat `REVIEW_REQUIRED` (stale, unapproved, missing, or no match) as a prompt
+for ordinary source discovery, not permission to rely on cached descriptions.
+Do not create a ledger just to complete a handoff, do not paste its full
+contents into the resume packet, and do not turn this into another trust gate.
+
 ## Analysis checkpoint rule
 
 A handoff should tell the next session whether `analyze-mini` is actually needed; it should not run analysis as a completion ritual.
