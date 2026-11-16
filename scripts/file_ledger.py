@@ -231,6 +231,10 @@ def evaluate(root: Path, data: dict, query: str | None, limit: int) -> dict:
     warnings: list[str] = []
     if not data["approved"]:
         warnings.append("ledger is unapproved; review purpose and use_when, then set approved=true")
+    # Approval covers the entire inventory. A narrow query must not disguise
+    # a partially curated ledger as fully reviewed.
+    for entry in data["entries"]:
+        warnings.extend(content_issues(entry))
     if query is None:
         rows = data["entries"]
     else:
@@ -246,10 +250,11 @@ def evaluate(root: Path, data: dict, query: str | None, limit: int) -> dict:
     matches = []
     for row in rows:
         state = freshness(root, row)
-        issues = content_issues(row)
         if state != "CURRENT":
             warnings.append(f"{row['path']}: {state}; recheck source and refresh ledger")
-        warnings.extend(issues)
+        for reference in row["related"]:
+            if not source_path(root, reference, require_file=False).is_file():
+                warnings.append(f"{row['path']}: related path missing: {reference}")
         matches.append({
             "path": row["path"], "kind": row["kind"], "purpose": row["purpose"],
             "use_when": row["use_when"], "related": row["related"],
@@ -292,11 +297,14 @@ def cli(argv: list[str] | None = None) -> int:
             output = args.output if args.output is not None else ledger
             if not output.is_absolute():
                 output = root / output
-            if output.exists():
+            if output.exists() or output.is_symlink():
                 raise ValueError(f"refusing to overwrite existing proposal: {output}")
+            if any(parent.is_symlink() for parent in output.parents):
+                raise ValueError(f"proposal output traverses symlink: {output}")
             result = propose(root, args.path, args.tracked, source)
             output.parent.mkdir(parents=True, exist_ok=True)
-            output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            with output.open("x", encoding="utf-8") as handle:
+                handle.write(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
             report = {"status": "PROPOSED", "output": str(output), "files": len(result["entries"]),
                       "approved": False}
         else:
