@@ -147,7 +147,7 @@ def read_ledger(path: Path, root: Path) -> dict:
         if raw in seen:
             raise ValueError(f"duplicate file ledger path: {raw}")
         seen.add(raw)
-        if row["kind"] not in KINDS:
+        if not isinstance(row["kind"], str) or row["kind"] not in KINDS:
             raise ValueError(f"unknown file kind: {raw}")
         purpose = row["purpose"]
         if not isinstance(purpose, str) or len(purpose) > 500:
