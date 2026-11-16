@@ -136,6 +136,34 @@ class FileLedgerTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 3)
         self.assertTrue(any("not reviewed" in warning for warning in result["warnings"]))
 
+    def test_global_approval_requires_all_entries_even_for_narrow_lookup(self) -> None:
+        data = self.approve()
+        other = next(row for row in data["entries"] if row["path"] == "tests/test_export.py")
+        other["use_when"] = []
+        self.ledger.write_text(json.dumps(data), encoding="utf-8")
+        proc, report = self.cmd("query", "empty", "results", "--limit", "1")
+        self.assertEqual(proc.returncode, 3, report)
+        self.assertTrue(any("tests/test_export.py: use_when tags not reviewed" in warning
+                            for warning in report["warnings"]))
+
+    def test_missing_related_file_requires_review(self) -> None:
+        data = self.approve()
+        source = next(row for row in data["entries"] if row["path"] == "src/export.py")
+        source["related"] = ["tests/missing_export.py"]
+        self.ledger.write_text(json.dumps(data), encoding="utf-8")
+        proc, report = self.cmd("query", "empty", "results")
+        self.assertEqual(proc.returncode, 3, report)
+        self.assertIn("related path missing", str(report["warnings"]))
+
+    def test_symlink_output_cannot_escape_or_be_overwritten(self) -> None:
+        with tempfile.TemporaryDirectory() as outside:
+            external = Path(outside) / "captured.json"
+            self.ledger.parent.mkdir()
+            self.ledger.symlink_to(external)
+            proc, _ = self.cmd("propose", "--path", "SPEC.md")
+            self.assertEqual(proc.returncode, 2)
+            self.assertFalse(external.exists())
+
     def test_missing_matches_or_noninformative_query_do_not_fake_success(self) -> None:
         self.approve()
         missing, report = self.cmd("query", "quantum", "database")
