@@ -31,6 +31,7 @@ Available commands:
 | `manifest` | `scripts/context_manifest.py` | Propose a reviewable SPEC-backed coverage manifest. |
 | `decisions` | `scripts/check_decision_ledger.py` | Check optional decision history and supersession integrity. |
 | `files` | `scripts/file_ledger.py` | Propose and query a reviewed file-purpose navigation ledger. |
+| `data` | `scripts/data_freeze.py` | Freeze, check and diff explicit data and calculation context. |
 | `install` | `install.sh` | Install or uninstall skills through the existing wrapper. |
 
 Arguments after the command are forwarded unchanged.

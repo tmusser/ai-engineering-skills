@@ -6,6 +6,15 @@ Contract ID: _TBD_
 
 _Omit this section when SPEC.md has no active contract ID. Otherwise copy the active SPEC contract ID exactly._
 
+## Data freeze (optional)
+
+_Use only when retaining exact analysis inputs is appropriate. Otherwise omit._
+
+- Snapshot location and stamp: _TBD_
+- Data source, population, denominator, time window and exclusions: _TBD_
+- Captured calculation code, parameters and environment: _TBD_
+- Integrity check, reproduction command/result and remaining gaps: _TBD_
+
 ## Verify gate
 
 Status: PASS | FAIL | REVIEW_REQUIRED

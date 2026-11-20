@@ -44,6 +44,7 @@ class UnifiedCliTests(unittest.TestCase):
             "manifest",
             "decisions",
             "files",
+            "data",
             "install",
         ):
             self.assertIn(name, rendered)
@@ -76,6 +77,7 @@ class UnifiedCliTests(unittest.TestCase):
             "manifest": ["--spec", "SPEC.md", "--output", "/tmp/manifest.json"],
             "decisions": ["--decisions", "DECISIONS.md", "--format", "json"],
             "files": ["query", "csv", "export", "--limit", "3"],
+            "data": ["check", "/tmp/lift-snapshot"],
         }
         for name, forwarded in cases.items():
             with self.subTest(name=name), mock.patch.object(

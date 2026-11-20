@@ -103,6 +103,15 @@ for ordinary source discovery, not permission to rely on cached descriptions.
 Do not create a ledger just to complete a handoff, do not paste its full
 contents into the resume packet, and do not turn this into another trust gate.
 
+## Optional preserved analysis inputs
+
+When continuation depends on a data freeze, carry its location, stamp, required
+access and next reproduction command. Check snapshot integrity before using it,
+then read the captured calculation context and live task contract. Record data or
+recipe changes by creating and comparing a new snapshot. Use a separate working
+copy for reproduction. Retain data only when appropriate; a stamp does not prove
+metric validity or that the analysis was rerun.
+
 ## Analysis checkpoint rule
 
 A handoff should tell the next session whether `analyze-mini` is actually needed; it should not run analysis as a completion ritual.

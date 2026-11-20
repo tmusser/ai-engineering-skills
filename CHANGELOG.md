@@ -6,6 +6,8 @@
 
 ### Added
 
+- Added optional `aes data freeze|check|diff` for preserved input bytes, calculation context, provenance stamps and bounded snapshot diffs.
+
 - Added optional reviewed file-purpose navigation ledger (`aes files propose|query|check`) with curated use-when hints, bounded path-only lookup, per-source hashes, stale-entry review, and resume guidance; complements rather than replaces the Markdown section index.
 - Added a no-API-key failure-to-proof showcase with an intentionally under-tested CSV export, an evidence-coverage `REVIEW_REQUIRED` result for the missing acceptance criterion, a repaired implementation and targeted test, one-command JSON/text runner, and regression coverage.
 
