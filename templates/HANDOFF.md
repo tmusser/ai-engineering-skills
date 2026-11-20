@@ -36,6 +36,9 @@ Relevant gotchas:
 
 Required resume files: _TBD_
 
+Optional data freeze: Snapshot location, stamp, required access and next
+reproduction command when continuation depends on preserved analysis inputs.
+
 Optional file navigation: If the project maintains an approved
 `.ai-context/file-ledger.json`, run `python scripts/aes.py files query
 "next task keywords" --limit 5` **after** the fresh-session trust gate.

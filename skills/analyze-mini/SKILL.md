@@ -70,9 +70,10 @@ If all answers are no, use `NOT_NEEDED`. Do not perform a broader repo scan just
 3. Map acceptance criterion -> selected task -> verification evidence.
 4. Check non-goals, spec ceiling, compatibility seams, and scope-freeze boundaries for contradictions.
 5. Check decisions and assumptions that can materially change implementation shape.
-6. Separate contradictions from unknowns; do not invent certainty to make the artifacts agree.
-7. Make an implementation readiness call: `READY` or `BLOCKED`.
-8. Emit a compact checkpoint:
+6. For a consequential calculation using mutable data, consider an optional data freeze when retention is appropriate. Preserve the exact extract plus relevant code, parameters, metric definitions and environment references. Record the snapshot location and stamp with calculation evidence; compare a new snapshot when inputs or analysis change. If `scripts/aes.py` is available, use `data freeze|check|diff`. A byte stamp alone does not establish data quality or reproducibility.
+7. Separate contradictions from unknowns; do not invent certainty to make the artifacts agree.
+8. Make an implementation readiness call: `READY` or `BLOCKED`.
+9. Emit a compact checkpoint:
 
 ```text
 ANALYSIS CHECKPOINT

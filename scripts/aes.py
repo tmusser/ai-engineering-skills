@@ -112,6 +112,11 @@ COMMANDS = {
             ROOT / "scripts" / "file_ledger.py",
         ),
         Command(
+            "data",
+            "Freeze explicit data and analysis context; check and diff snapshots.",
+            ROOT / "scripts" / "data_freeze.py",
+        ),
+        Command(
             "install",
             "Install or uninstall skills through the existing install wrapper.",
             ROOT / "install.sh",
