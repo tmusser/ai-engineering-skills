@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 set -eu
 
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
 print_help() {
   cat <<'EOF'
 Usage:
@@ -29,6 +31,8 @@ Options:
   --codex-user               Install Codex skills to ~/.agents/skills/.
   --codex-project PATH       Install Codex skills to PATH/.agents/skills/.
   --help                     Show this help message.
+
+Value options also accept --flag=value. Choose at most one target flag.
 
 Default:
   ./install.sh is the same as ./install.sh --claude-user.
@@ -89,8 +93,25 @@ run_installer() {
   "$@"
 }
 
+require_value() {
+  case "${2:-}" in
+    ''|-*) echo "error: $1 requires a non-empty value (not an option)" >&2; exit 1 ;;
+  esac
+}
+
+select_target() {
+  if [ -n "$TARGET_FLAG" ]; then
+    echo "error: conflicting target flags: $TARGET_FLAG and $1 (choose one)" >&2
+    exit 1
+  fi
+  TARGET_FLAG="$1"
+  INSTALLER="$2"
+  TARGET="$3"
+}
+
 INSTALLER=claude
 TARGET=user
+TARGET_FLAG=
 PROJECT_PATH=
 DRY_RUN=0
 BACKUP=0
@@ -116,43 +137,34 @@ while [ "$#" -gt 0 ]; do
     --include-templates)
       INCLUDE_TEMPLATES=1
       ;;
-    --only)
-      shift
-      if [ "$#" -eq 0 ]; then
-        echo "error: --only requires a comma-separated skill list" >&2
-        exit 1
-      fi
-      ONLY="$1"
+    --only|--only=*)
+      case "$1" in
+        *=*) ONLY="${1#*=}" ;;
+        *) require_value --only "${2:-}"; shift; ONLY="$1" ;;
+      esac
+      require_value --only "$ONLY"
       ;;
     --claude-user)
-      INSTALLER=claude
-      TARGET=user
-      PROJECT_PATH=
+      select_target --claude-user claude user
       ;;
-    --claude-project)
-      INSTALLER=claude
-      TARGET=project
-      shift
-      if [ "$#" -eq 0 ]; then
-        echo "error: --claude-project requires a project path" >&2
-        exit 1
-      fi
-      PROJECT_PATH="$1"
+    --claude-project|--claude-project=*)
+      select_target --claude-project claude project
+      case "$1" in
+        *=*) PROJECT_PATH="${1#*=}" ;;
+        *) require_value --claude-project "${2:-}"; shift; PROJECT_PATH="$1" ;;
+      esac
+      require_value --claude-project "$PROJECT_PATH"
       ;;
     --codex-user)
-      INSTALLER=codex
-      TARGET=user
-      PROJECT_PATH=
+      select_target --codex-user codex user
       ;;
-    --codex-project)
-      INSTALLER=codex
-      TARGET=project
-      shift
-      if [ "$#" -eq 0 ]; then
-        echo "error: --codex-project requires a project path" >&2
-        exit 1
-      fi
-      PROJECT_PATH="$1"
+    --codex-project|--codex-project=*)
+      select_target --codex-project codex project
+      case "$1" in
+        *=*) PROJECT_PATH="${1#*=}" ;;
+        *) require_value --codex-project "${2:-}"; shift; PROJECT_PATH="$1" ;;
+      esac
+      require_value --codex-project "$PROJECT_PATH"
       ;;
     --help|-h)
       print_help
@@ -169,15 +181,15 @@ done
 
 case "$INSTALLER:$TARGET" in
   claude:user)
-    run_installer scripts/install_claude_code.py user
+    run_installer "$SCRIPT_DIR/scripts/install_claude_code.py" user
     ;;
   claude:project)
-    run_installer scripts/install_claude_code.py project "$PROJECT_PATH"
+    run_installer "$SCRIPT_DIR/scripts/install_claude_code.py" project "$PROJECT_PATH"
     ;;
   codex:user)
-    run_installer scripts/install_codex.py user
+    run_installer "$SCRIPT_DIR/scripts/install_codex.py" user
     ;;
   codex:project)
-    run_installer scripts/install_codex.py project "$PROJECT_PATH"
+    run_installer "$SCRIPT_DIR/scripts/install_codex.py" project "$PROJECT_PATH"
     ;;
 esac
