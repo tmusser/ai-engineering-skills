@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Made the install wrapper independent of the caller's working directory, accepted equals-form value flags, and rejected missing values and multiple target flags.
+- Simplified starter onboarding, documented a PowerShell install path, pinned the Action example to an immutable commit, and clarified the constitution authority wording without changing its meaning.
+
 ### Added
 
 - Added optional `aes data freeze|check|diff` for preserved input bytes, calculation context, provenance stamps and bounded snapshot diffs.
