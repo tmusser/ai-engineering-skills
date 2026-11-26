@@ -32,22 +32,24 @@ for selected source excerpts. Neither tool replaces the other or grants authorit
 
 ## Workflow
 
+Use `python3` in the commands below (or `python` on Windows).
+
 1. Build or refresh the local Markdown index:
 
    ```bash
-   python scripts/build_context_index.py
+   python3 scripts/build_context_index.py
    ```
 
 2. Generate a packet for the current task:
 
    ```bash
-   python scripts/context_pack.py "resume and verify this bug fix"
+   python3 scripts/context_pack.py "resume and verify this bug fix"
    ```
 
 3. Require an authoritative project file when the task depends on it:
 
    ```bash
-   python scripts/context_pack.py \
+   python3 scripts/context_pack.py \
      "prepare a project-specific response" \
      --require-file PROJECT_DOCTRINE.md \
      --strict
