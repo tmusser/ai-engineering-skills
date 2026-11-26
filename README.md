@@ -32,15 +32,6 @@ mini-spec -> scope-freeze -> build-one -> verify-contract -> handoff
 That loop helps agents stop wandering, prove what changed, and leave enough state
 for the next session to continue safely.
 
-When the right route is not obvious, start with `ceremony-budget`: a short
-pre-flight that chooses the smallest workflow that still buys back enough
-attention and safety.
-
-If you want recurring personal defaults, `operator-profile` is an optional setup
-skill for ceremony, autonomy, verification depth, communication density, and
-ambiguity handling. It is not a workflow stage, and its preferences cannot weaken
-task contracts, repository rules, permissions, or required proof.
-
 ## Try it in 60 seconds
 
 Clone the repo:
@@ -64,6 +55,12 @@ Codex CLI:
 ./install.sh --codex-user --only mini-spec,scope-freeze,build-one,verify-contract,handoff
 ```
 
+Windows PowerShell (Claude Code, from the clone; use `python` on Windows):
+
+```powershell
+python scripts/install_claude_code.py --target user --only "mini-spec,scope-freeze,build-one,verify-contract,handoff"
+```
+
 Prompt to give an agent for a durable slice:
 
 ```text
@@ -71,24 +68,8 @@ Use mini-spec, scope-freeze, build-one, and verify-contract for this bug fix.
 Add handoff only if another session must continue.
 ```
 
-If you want the agent to choose a route, install the optional router first
-(from this clone, using your chosen target):
-
-```bash
-./install.sh --claude-user --only ceremony-budget
-# For Codex CLI, use --codex-user instead of --claude-user.
-```
-
-Then ask:
-
-```text
-Use ceremony-budget first, then run only the smallest safe route.
-```
-
 A durable route can leave a `SPEC.md` or equivalent contract, a verification
 record, and a `HANDOFF.md` when continuation state is actually needed.
-
-Use `test-mini` as an optional add-on when the slice needs focused deterministic tests.
 
 ## Use in GitHub Actions
 
@@ -103,7 +84,8 @@ into the consuming repository:
 
 - name: Publish AI Engineering Skills evidence
   if: always()
-  uses: tmusser/ai-engineering-skills@main
+  # Pin a release tag or full commit SHA; this commit includes the reusable Action.
+  uses: tmusser/ai-engineering-skills@0d955d169c4c311a7b25d08977fa15e433beceae
   with:
     base: ${{ github.event.pull_request.base.sha }}
 ```
@@ -126,6 +108,16 @@ without running enforcement gates implicitly. See
 The starter set controls which skills are available. It does not require invoking
 all five for every task.
 
+For project-scoped installs, templates, and the raw Python installers, see
+[Claude Code installation](docs/claude-code-installation.md) and
+[Codex installation](docs/codex-installation.md).
+
+Those docs cover `scripts/install_claude_code.py`, `scripts/install_codex.py`,
+`AI_ENGINEERING_SKILLS_VERSION.json`, `--dry-run`, `--backup`, `--force`, `--only`,
+`--uninstall`, and `--include-templates`.
+
+## Optional layers
+
 `thin-plan` is recommended when a slice needs more shape, but it is intentionally
 not part of the absolute starter path.
 
@@ -136,13 +128,25 @@ an optional router that helps choose whether the starter set is even warranted.
 it when you want the same installed skills to honor recurring preferences without
 forking their contracts. See [Operator Profile](docs/operator-profile.md).
 
-For project-scoped installs, templates, and the raw Python installers, see
-[Claude Code installation](docs/claude-code-installation.md) and
-[Codex installation](docs/codex-installation.md).
+If you want the agent to choose a route, install the optional router first
+(from this clone, using your chosen target):
 
-Those docs cover `scripts/install_claude_code.py`, `scripts/install_codex.py`,
-`AI_ENGINEERING_SKILLS_VERSION.json`, `--dry-run`, `--backup`, `--force`, `--only`,
-`--uninstall`, and `--include-templates`.
+```bash
+./install.sh --claude-user --only ceremony-budget
+# For Codex CLI, use --codex-user instead of --claude-user.
+```
+
+Then ask:
+
+```text
+Use ceremony-budget first, then run only the smallest safe route.
+```
+
+Use `test-mini` as an optional add-on when the slice needs focused deterministic tests.
+
+### Optional file-purpose ledger
+
+For large repos or repeated fresh-session resumes, use the [file-purpose ledger](docs/file-ledger.md) to find which code, tests, and task artifacts govern the next task. The reviewed index returns a handful of **file paths and reasons to read them**, not their contents; current source files and the handoff trust gate remain authoritative. This complements the existing Markdown section index and is never a required workflow stage.
 
 ## Agent support
 
@@ -168,10 +172,6 @@ permissions, or runtime isolation. It is a workflow layer that helps agents stay
 bounded and resumable while those controls handle execution safety.
 
 ![Durable working memory workflow for AI coding agents](assets/durable_working_memory.png)
-
-## Optional file-purpose ledger
-
-For large repos or repeated fresh-session resumes, use the [file-purpose ledger](docs/file-ledger.md) to find which code, tests, and task artifacts govern the next task. The reviewed index returns a handful of **file paths and reasons to read them**, not their contents; current source files and the handoff trust gate remain authoritative. This complements the existing Markdown section index and is never a required workflow stage.
 
 ## Durable artifacts
 
@@ -217,7 +217,7 @@ templates preserve state, and verification records make claims auditable. See
 
 ## Evidence
 
-**Reproduce a failure in under two minutes:** the [Failure-to-Proof showcase](examples/failure-to-proof/README.md) runs a CSV exporter whose normal test passes despite a broken empty-result contract. The acceptance-to-evidence gate flags missing `AC-2` proof; a repaired version adds a regression test and passes both. Run `python examples/failure-to-proof/run_demo.py` locally with no API keys or model calls. This is a deterministic fixture, **not** an agent success-rate benchmark.
+**Reproduce a failure in under two minutes:** the [Failure-to-Proof showcase](examples/failure-to-proof/README.md) runs a CSV exporter whose normal test passes despite a broken empty-result contract. The acceptance-to-evidence gate flags missing `AC-2` proof; a repaired version adds a regression test and passes both. Run `python3 examples/failure-to-proof/run_demo.py` locally with no API keys or model calls. This is a deterministic fixture, **not** an agent success-rate benchmark.
 
 **Proof artifact:** this repo is evaluated by
 [`agent-workflow-bench`](https://github.com/tmusser/agent-workflow-bench), a small
@@ -408,9 +408,9 @@ The clone also includes deterministic checks and evidence tools, accessible
 through one dispatcher:
 
 ```bash
-python scripts/aes.py --help
-python scripts/aes.py doctor --help
-python scripts/aes.py verify --help
+python3 scripts/aes.py --help
+python3 scripts/aes.py doctor --help
+python3 scripts/aes.py verify --help
 ```
 
 See the [CLI reference](docs/unified-cli.md) for commands, exit-code contracts,
