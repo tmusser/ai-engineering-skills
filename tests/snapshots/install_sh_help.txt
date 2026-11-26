@@ -25,5 +25,7 @@ Options:
   --codex-project PATH       Install Codex skills to PATH/.agents/skills/.
   --help                     Show this help message.
 
+Value options also accept --flag=value. Choose at most one target flag.
+
 Default:
   ./install.sh is the same as ./install.sh --claude-user.
