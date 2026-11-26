@@ -50,8 +50,9 @@ style, a temporary implementation constraint, or one task's acceptance criteria.
 
 ### Authority boundary
 
-`CONSTITUTION.md` is a workflow artifact. It does not override system instructions,
-organization policy, platform permissions, sandboxing, or runtime safety controls.
+`CONSTITUTION.md` is a workflow artifact that operates strictly within system
+instructions, organization policy, platform permissions, sandboxing, and runtime
+safety controls.
 It also does not grant an agent permission merely because an action is absent from
 the constitution.
 
