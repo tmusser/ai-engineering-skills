@@ -125,8 +125,10 @@ not part of the absolute starter path.
 an optional router that helps choose whether the starter set is even warranted.
 
 `operator-profile` is setup-only and intentionally outside workflow bundles. Use
-it when you want the same installed skills to honor recurring preferences without
-forking their contracts. See [Operator Profile](docs/operator-profile.md).
+it for recurring defaults around ceremony, autonomy, verification depth,
+communication density, and ambiguity handling. These preferences cannot weaken
+task contracts, repository rules, permissions, or required proof. See
+[Operator Profile](docs/operator-profile.md).
 
 If you want the agent to choose a route, install the optional router first
 (from this clone, using your chosen target):
